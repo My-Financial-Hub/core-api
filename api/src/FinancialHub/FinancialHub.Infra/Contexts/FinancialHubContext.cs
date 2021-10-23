@@ -1,4 +1,4 @@
-﻿using FinancialHub.Domain.Models;
+﻿using FinancialHub.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics.CodeAnalysis;
 
@@ -15,12 +15,6 @@ namespace FinancialHub.Infra.Contexts
             base.OnConfiguring(optionsBuilder);
         }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<AccountModel>();
-            base.OnModelCreating(modelBuilder);
-        }
-
-        public DbSet<AccountModel> Accounts { get; set;}
+        public DbSet<AccountEntity> Accounts { get; set;}
     }
 }

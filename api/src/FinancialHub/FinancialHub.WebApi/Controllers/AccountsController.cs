@@ -1,8 +1,9 @@
-﻿using System;
-using System.Threading.Tasks;
-using FinancialHub.Infra.Contexts;
+﻿using FinancialHub.Domain.Interfaces.Services;
+using FinancialHub.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace FinancialHub.WebApi.Controllers
 {
@@ -11,26 +12,28 @@ namespace FinancialHub.WebApi.Controllers
     [Produces("application/json")]
     public class AccountsController : Controller
     {
-        private readonly ILogger logger;
-        private readonly FinancialHubContext dbContext;
-        public AccountsController(FinancialHubContext dbContext/*,ILogger logger*/)
+        private readonly IAccountsService service;
+
+        public AccountsController(IAccountsService service)
         {
-            //this.logger = logger;
-            this.dbContext = dbContext;
+            this.service = service;
         }
 
-        /// <summary>
-        /// Basic endpoint for tests
-        /// </summary>
-        /// <returns>Returns the current date time</returns>
         [HttpGet]
-        [Route("metadata")]
-        [ProducesDefaultResponseType(typeof(DateTimeOffset))]
+        [Obsolete("Will be changed to /me endpoint")]
+        [ProducesDefaultResponseType(typeof(ICollection<AccountModel>))]
         [ProducesErrorResponseType(typeof(Exception))]
-        [Obsolete("Will be removed in the next commit")]
-        public async Task<IActionResult> GetMetadataAsync()
+        public async Task<IActionResult> GetMyAccounts()
         {
-            return Ok(DateTimeOffset.Now);
+            try
+            {
+                var response = await service.GetAccountsByUserAsync("mock");
+                return Ok(response);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e);
+            }
         }
     }
 }

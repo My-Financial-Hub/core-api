@@ -1,4 +1,5 @@
 using FinancialHub.Infra.Contexts;
+using FinancialHub.WebApi.Extensions.Configurations;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -27,14 +28,15 @@ namespace FinancialHub.WebApi
                     provider.UseSqlServer(Configuration.GetConnectionString("default"));
                 }
             );
+
             //services.AddLogging();
-            services.AddControllers();
-            services.AddApiVersioning(config =>
-            {
-                config.DefaultApiVersion = new ApiVersion(1, 0);
-                config.AssumeDefaultVersionWhenUnspecified = true;
-                config.ReportApiVersions = true;
-            });
+
+            services.AddRepositories();
+            services.AddServices();
+            services.AddApiConfigurations();
+            services.AddAutoMapper(typeof(FinancialHubAutoMapperProfile));
+
+            //services.AddHealthCheck();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "FinancialHub WebApi", Version = "v1" });
