@@ -6,6 +6,12 @@ namespace FinancialHub.Domain.Interfaces.Services
 {
     public interface IAccountsService 
     {
-        Task<ICollection<AccountModel>> GetAccountsByUserAsync(string userId);
+        Task<ICollection<AccountModel>> GetAllByUserAsync(string userId);
+
+        Task<AccountModel> CreateAsync(AccountModel account);
+
+        Task<AccountModel> UpdateAsync(string id,AccountModel account);
+
+        Task<int> DeleteAsync(string id);
     }
 }

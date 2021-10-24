@@ -6,7 +6,7 @@ namespace FinancialHub.Domain.Entities
     public abstract class BaseEntity
     {
         [Column("id")]
-        public Guid Id { get; set; }
+        public Guid? Id { get; set; }
         [Column("creation_time")]
         public DateTimeOffset? CreationTime { get; set; }
         [Column("update_time")]

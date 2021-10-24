@@ -1,15 +1,15 @@
-﻿using FinancialHub.Domain.Entities;
-using FinancialHub.Domain.Interfaces.Repositories;
-using FinancialHub.Infra.Contexts;
-using System;
+﻿using System;
 using System.Linq;
-using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using FinancialHub.Infra.Contexts;
 using Microsoft.EntityFrameworkCore;
+using FinancialHub.Domain.Entities;
+using FinancialHub.Domain.Interfaces.Repositories;
 
 namespace FinancialHub.Infra.Repositories
 {
-    public abstract class BaseRepository<T> :
+    public class BaseRepository<T> :
         IBaseRepository<T>
         where T : BaseEntity
     {
@@ -21,6 +21,7 @@ namespace FinancialHub.Infra.Repositories
 
         public async Task<T> CreateAsync(T obj)
         {
+            obj.Id = null;
             var res = await context.AddAsync(obj);
             await context.SaveChangesAsync();
             return res.Entity;
