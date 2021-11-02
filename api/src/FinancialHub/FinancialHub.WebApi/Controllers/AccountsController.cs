@@ -1,9 +1,9 @@
 ﻿using FinancialHub.Domain.Interfaces.Services;
 using System.Collections.Generic;
 using FinancialHub.Domain.Models;
-using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 using System;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 
 namespace FinancialHub.WebApi.Controllers
 {
@@ -21,7 +21,7 @@ namespace FinancialHub.WebApi.Controllers
         }
 
         /// <summary>
-        /// Get all accounts of the syste, (will be changed to only one user)
+        /// Get all accounts of the system (will be changed to only one user)
         /// </summary>
         [HttpGet]
         [ProducesResponseType(typeof(ICollection<AccountModel>), 200)]
@@ -57,6 +57,11 @@ namespace FinancialHub.WebApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Updates an existing account on database
+        /// </summary>
+        /// <param name="id">id of the account</param>
+        /// <param name="account">account changes</param>
         [HttpPut("{id}")]
         [ProducesResponseType(typeof(ICollection<AccountModel>), 200)]
         public async Task<IActionResult> UpdateAccount(string id,AccountModel account)
@@ -72,6 +77,10 @@ namespace FinancialHub.WebApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Deletes an existing account on database
+        /// </summary>
+        /// <param name="id">id of the account</param>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAccount(string id)
         {
