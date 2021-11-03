@@ -39,7 +39,7 @@ namespace FinancialHub.WebApi
             //services.AddHealthCheck();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "FinancialHub WebApi", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Financial Hub WebApi", Version = "v1" });
             });
         }
 
