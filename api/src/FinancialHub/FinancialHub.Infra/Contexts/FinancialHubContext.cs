@@ -16,5 +16,6 @@ namespace FinancialHub.Infra.Contexts
         }
 
         public DbSet<AccountEntity> Accounts { get; set;}
+        public DbSet<CategoryEntity> Categories { get; set; }
     }
 }
