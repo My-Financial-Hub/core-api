@@ -9,7 +9,7 @@ namespace FinancialHub.Infra.NUnitTests.Repositories.Base
     {
         #region Create
         [Test]
-        [TestCase(TestName = "Create New Item", Category = "Create")]
+        [TestCase(TestName = "Create new Item", Category = "Create")]
         public async Task CreateAsync_ValidItem_AddsOneRow()
         {
             var item = this.GenerateObject();
@@ -21,10 +21,12 @@ namespace FinancialHub.Infra.NUnitTests.Repositories.Base
             Assert.IsNotNull(createdItem.CreationTime);
             Assert.IsNotNull(createdItem.UpdateTime);
             Assert.IsInstanceOf<T>(createdItem);
+
+            Assert.IsNotEmpty(context.Set<T>().Local);
         }
 
         [Test]
-        [TestCase(TestName = "Create New Item With Id", Category = "Create")]
+        [TestCase(TestName = "Create new Item with id", Category = "Create")]
         public async Task CreateAsync_ValidItemWithId_AddsOneRow()
         {
             var id = Guid.NewGuid();
@@ -37,13 +39,16 @@ namespace FinancialHub.Infra.NUnitTests.Repositories.Base
             Assert.IsNotNull(createdItem.CreationTime);
             Assert.IsNotNull(createdItem.UpdateTime);
             Assert.IsInstanceOf<T>(createdItem);
+
+            Assert.IsNotEmpty(context.Set<T>().Local);
         }
 
         [Test]
-        [TestCase(TestName = "Create Null Item", Category = "Create")]
+        [TestCase(TestName = "Create null Item", Category = "Create")]
         public async Task CreateAsync_NullItem_ThrowsNullReferenceException()
         {
             Assert.ThrowsAsync<NullReferenceException>(async () => await this.repository.CreateAsync(null));
+            Assert.IsEmpty(context.Set<T>().Local);
         }
         #endregion
     }

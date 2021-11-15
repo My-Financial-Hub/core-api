@@ -10,7 +10,7 @@ namespace FinancialHub.Infra.NUnitTests.Repositories.Base
     {
         #region Update
         [Test]
-        [TestCase(TestName = "Update Existing Item", Category = "Update")]
+        [TestCase(TestName = "Update existing Item", Category = "Update")]
         public async Task UpdateAsync_ExistingItem_UpdatesItem()
         {
             var item = this.GenerateObject();
@@ -39,7 +39,7 @@ namespace FinancialHub.Infra.NUnitTests.Repositories.Base
         }
 
         [Test]
-        [TestCase(TestName = "Update Null Item", Category = "Update")]
+        [TestCase(TestName = "Update null Item", Category = "Update")]
         public async Task UpdateAsync_NullItem_ThrowsNullReferenceException()
         {
             Assert.ThrowsAsync<NullReferenceException>(async () => await this.repository.UpdateAsync(null));
