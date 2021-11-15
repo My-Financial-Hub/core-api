@@ -44,7 +44,7 @@ namespace FinancialHub.WebApi.Controllers
         /// <param name="account">Account to be created</param>
         [HttpPost]
         [ProducesResponseType(typeof(ICollection<AccountModel>),200)]
-        public async Task<IActionResult> CreateAccount(AccountModel account)
+        public async Task<IActionResult> CreateAccount([FromBody] AccountModel account)
         {
             try
             {
@@ -64,7 +64,7 @@ namespace FinancialHub.WebApi.Controllers
         /// <param name="account">account changes</param>
         [HttpPut("{id}")]
         [ProducesResponseType(typeof(ICollection<AccountModel>), 200)]
-        public async Task<IActionResult> UpdateAccount(string id,AccountModel account)
+        public async Task<IActionResult> UpdateAccount([FromRoute]string id, [FromBody] AccountModel account)
         {
             try
             {
@@ -82,7 +82,7 @@ namespace FinancialHub.WebApi.Controllers
         /// </summary>
         /// <param name="id">id of the account</param>
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAccount(string id)
+        public async Task<IActionResult> DeleteAccount([FromRoute] string id)
         {
             try
             {

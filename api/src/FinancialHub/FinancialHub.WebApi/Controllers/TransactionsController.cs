@@ -44,7 +44,7 @@ namespace FinancialHub.WebApi.Controllers
         /// Creates an transaction on database (will be changed to only one user)
         /// </summary>
         /// <param name="category">Transaction to be created</param>
-        public async Task<IActionResult> CreateTransaction(TransactionModel transaction)
+        public async Task<IActionResult> CreateTransaction([FromBody] TransactionModel transaction)
         {
             try
             {
@@ -64,7 +64,7 @@ namespace FinancialHub.WebApi.Controllers
         /// </summary>
         /// <param name="id">id of the transaction</param>
         /// <param name="transaction">transaction changes</param>
-        public async Task<IActionResult> UpdateTransaction(string id, TransactionModel transaction)
+        public async Task<IActionResult> UpdateTransaction([FromRoute] string id, [FromBody] TransactionModel transaction)
         {
             try
             {
@@ -82,7 +82,7 @@ namespace FinancialHub.WebApi.Controllers
         /// Deletes an existing transaction on database
         /// </summary>
         /// <param name="id">id of the transaction</param>
-        public async Task<IActionResult> DeleteTransaction(string id)
+        public async Task<IActionResult> DeleteTransaction([FromRoute] string id)
         {
             try
             {
