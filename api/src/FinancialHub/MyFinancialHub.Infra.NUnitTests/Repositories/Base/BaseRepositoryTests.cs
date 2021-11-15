@@ -38,7 +38,18 @@ namespace FinancialHub.Infra.NUnitTests.Repositories.Base
             await this.context.SaveChangesAsync();
         }
 
-        protected abstract ICollection<T> GenerateData(int min = 1,int max = 100, params object[] props);
+        protected virtual ICollection<T> GenerateData(int min = 1,int max = 100, params object[] props)
+        {
+            var count = random.Next(min, max);
+            var data = new T[count];
+
+            for (int i = 0; i < count; i++)
+            {
+                data[i] = this.GenerateObject(Guid.NewGuid(), props);
+            }
+
+            return data;
+        }
 
         protected abstract T GenerateObject(Guid? id = null, params object[] props);
     }

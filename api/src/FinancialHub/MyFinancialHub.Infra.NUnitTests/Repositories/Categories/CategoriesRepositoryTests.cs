@@ -16,19 +16,6 @@ namespace FinancialHub.Infra.NUnitTests.Repositories.Categories
             this.repository = new CategoriesRepository(this.context);
         }
 
-        protected override ICollection<CategoryEntity> GenerateData(int min = 1, int max = 100, params object[] props)
-        {
-            var count = random.Next(min, max);
-            var accounts = new CategoryEntity[count];
-
-            for (int i = 0; i < count; i++)
-            {
-                accounts[i] = this.GenerateObject(Guid.NewGuid(), props);
-            }
-
-            return accounts;
-        }
-
         protected override CategoryEntity GenerateObject(Guid? id = null, params object[] props)
         {
             var active = random.Next(0, 1);

@@ -16,19 +16,6 @@ namespace FinancialHub.Infra.NUnitTests.Repositories.Accounts
             this.repository = new AccountsRepository(this.context);
         }
 
-        protected override ICollection<AccountEntity> GenerateData(int min = 1, int max = 100, params object[] props)
-        {
-            var count = random.Next(min,max);
-            var accounts = new AccountEntity[count];
-
-            for (int i = 0; i < count; i++)
-            {
-                accounts[i] = this.GenerateObject(Guid.NewGuid(), props);
-            }
-
-            return accounts;
-        }
-
         protected override AccountEntity GenerateObject(Guid? id = null, params object[] props)
         {
             var active = random.Next(0,1);

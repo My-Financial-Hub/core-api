@@ -40,7 +40,7 @@ namespace FinancialHub.Infra.NUnitTests.Repositories.Base
         }
 
         [Test]
-        [TestCase(TestName = "Create Null Item With Id", Category = "Create")]
+        [TestCase(TestName = "Create Null Item", Category = "Create")]
         public async Task CreateAsync_NullItem_ThrowsNullReferenceException()
         {
             Assert.ThrowsAsync<NullReferenceException>(async () => await this.repository.CreateAsync(null));
