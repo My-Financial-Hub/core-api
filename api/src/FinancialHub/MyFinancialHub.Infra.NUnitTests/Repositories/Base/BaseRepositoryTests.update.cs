@@ -1,4 +1,5 @@
 ﻿using FinancialHub.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
 using System;
 using System.Threading.Tasks;
@@ -29,18 +30,12 @@ namespace FinancialHub.Infra.NUnitTests.Repositories.Base
 
         [Test]
         [TestCase(TestName = "Update non existing Item", Category = "Update")]
-        public async Task UpdateAsync_NonExistingItem_DoesNotUpdate()
+        public async Task UpdateAsync_NonExistingItem_ThrowsDbUpdateConcurrencyException()
         {
             var id = Guid.NewGuid();
             var item = this.GenerateObject(id);
 
-            var createdItem = await this.repository.CreateAsync(item);
-
-            Assert.IsNotNull(createdItem);
-            Assert.AreNotEqual(id, createdItem.Id);
-            Assert.IsNotNull(createdItem.CreationTime);
-            Assert.IsNotNull(createdItem.UpdateTime);
-            Assert.IsInstanceOf<T>(createdItem);
+            Assert.ThrowsAsync<DbUpdateConcurrencyException>(async () => await this.repository.UpdateAsync(item));
         }
 
         [Test]
