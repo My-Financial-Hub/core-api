@@ -10,6 +10,7 @@ namespace FinancialHub.WebApi
         {
             CreateMap<AccountEntity,AccountModel>().ReverseMap();
             CreateMap<CategoryEntity,CategoryModel>().ReverseMap();
+            CreateMap<TransactionEntity, TransactionModel>().ReverseMap();
         }
     }
 }
