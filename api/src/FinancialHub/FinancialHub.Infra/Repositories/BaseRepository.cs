@@ -13,13 +13,13 @@ namespace FinancialHub.Infra.Repositories
         IBaseRepository<T>
         where T : BaseEntity
     {
-        private readonly FinancialHubContext context;
+        protected readonly FinancialHubContext context;
         public BaseRepository(FinancialHubContext context)
         {
             this.context = context;
         }
 
-        public async Task<T> CreateAsync(T obj)
+        public virtual async Task<T> CreateAsync(T obj)
         {
             obj.Id = null;
             var res = await context.AddAsync(obj);
@@ -27,7 +27,7 @@ namespace FinancialHub.Infra.Repositories
             return res.Entity;
         }
 
-        public async Task<int> DeleteAsync(string id)
+        public virtual async Task<int> DeleteAsync(string id)
         {
             var entity = context.Set<T>().FirstOrDefault(x => x.Id.ToString() == id);
 
@@ -42,7 +42,7 @@ namespace FinancialHub.Infra.Repositories
             }
         }
 
-        public async Task<T> UpdateAsync(T obj)
+        public virtual async Task<T> UpdateAsync(T obj)
         {
             obj.UpdateTime = DateTimeOffset.Now;
             var res = context.Set<T>().Update(obj);
@@ -50,17 +50,17 @@ namespace FinancialHub.Infra.Repositories
             return res.Entity;
         }
 
-        public async Task<ICollection<T>> GetAllAsync()
+        public virtual async Task<ICollection<T>> GetAllAsync()
         {
             return await context.Set<T>().ToListAsync();
         }
 
-        public async Task<ICollection<T>> GetAsync(Func<T, bool> predicate)
+        public virtual async Task<ICollection<T>> GetAsync(Func<T, bool> predicate)
         {
             return context.Set<T>().Where(predicate).ToList();
         }
 
-        public async Task<T> GetByIdAsync(string id)
+        public virtual async Task<T> GetByIdAsync(string id)
         {
             return await context.Set<T>().FirstOrDefaultAsync(x => x.Id.ToString() == id);
         }
