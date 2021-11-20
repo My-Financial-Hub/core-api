@@ -15,7 +15,24 @@ namespace FinancialHub.Infra.Contexts
             base.OnConfiguring(optionsBuilder);
         }
 
-        public DbSet<AccountEntity> Accounts { get; set;}
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<TransactionEntity>(table =>
+            {
+                table.HasOne(x => x.Account)
+                    .WithMany(x => x.Transactions)
+                    .HasForeignKey(x => x.AccountId)
+                    .IsRequired(true);
+
+                table.HasOne(x => x.Category)
+                    .WithMany(x => x.Transactions)
+                    .HasForeignKey(x => x.CategoryId)
+                    .IsRequired(true);
+            });
+            base.OnModelCreating(modelBuilder);
+        }
+
+        public DbSet<AccountEntity> Accounts { get; set; }
         public DbSet<TransactionEntity> Transactions { get; set; }
         public DbSet<CategoryEntity> Categories { get; set; }
     }
