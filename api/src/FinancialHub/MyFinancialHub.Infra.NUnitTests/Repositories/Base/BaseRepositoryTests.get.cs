@@ -12,7 +12,7 @@ namespace FinancialHub.Infra.NUnitTests.Repositories.Base
         #region Get All
         [Test]
         [TestCase(TestName = "Get All Items without data",Category = "Get")]
-        public async Task GetAllAsync_NoData_ReturnsEmpty()
+        public virtual async Task GetAllAsync_NoData_ReturnsEmpty()
         {
             var list = await this.repository.GetAllAsync();
 
@@ -22,7 +22,7 @@ namespace FinancialHub.Infra.NUnitTests.Repositories.Base
 
         [Test]
         [TestCase(TestName = "Get All Items with data", Category = "Get")]
-        public async Task GetAllAsync_Data_ReturnsItems()
+        public virtual async Task GetAllAsync_Data_ReturnsItems()
         {
             var items = this.GenerateData();
             await this.InsertData(items);
@@ -38,7 +38,7 @@ namespace FinancialHub.Infra.NUnitTests.Repositories.Base
         #region Get
         [Test]
         [TestCase(TestName = "Get Items with no filter", Category = "Get")]
-        public async Task GetAsync_NoFilter_ReturnsAllItems()
+        public virtual async Task GetAsync_NoFilter_ReturnsAllItems()
         {
             var items = this.GenerateData();
             await this.InsertData(items);
@@ -52,7 +52,7 @@ namespace FinancialHub.Infra.NUnitTests.Repositories.Base
 
         [Test]
         [TestCase(TestName = "Get Items not setting filter", Category = "Get")]
-        public async Task GetAsync_NullFilter_ThrowsArgumentNullException()
+        public virtual async Task GetAsync_NullFilter_ThrowsArgumentNullException()
         {
             var items = this.GenerateData();
             await this.InsertData(items);
@@ -62,7 +62,7 @@ namespace FinancialHub.Infra.NUnitTests.Repositories.Base
 
         [Test]
         [TestCase(TestName = "Get Items filtering", Category = "Get")]
-        public async Task GetAsync_Filter_ReturnsFilteredItems()
+        public virtual async Task GetAsync_Filter_ReturnsFilteredItems()
         {
             var items = this.GenerateData(10,100);
             await this.InsertData(items);
@@ -80,7 +80,7 @@ namespace FinancialHub.Infra.NUnitTests.Repositories.Base
 
         [Test]
         [TestCase(TestName = "Get Items with wrong filter", Category = "Get")]
-        public async Task GetAsync_WrongFilter_ReturnsEmpty()
+        public virtual async Task GetAsync_WrongFilter_ReturnsEmpty()
         {
             var items = this.GenerateData(10, 100);
             await this.InsertData(items);
@@ -97,7 +97,7 @@ namespace FinancialHub.Infra.NUnitTests.Repositories.Base
         #region Get By Id
         [Test]
         [TestCase(TestName = "Get By Id with empty id", Category = "Get")]
-        public async Task GetByIdAsync_EmptyId_ReturnsNull()
+        public virtual async Task GetByIdAsync_EmptyId_ReturnsNull()
         {
             var items = this.GenerateData();
             await this.InsertData(items);
@@ -109,7 +109,7 @@ namespace FinancialHub.Infra.NUnitTests.Repositories.Base
 
         [Test]
         [TestCase(TestName = "Get By Id with existing id", Category = "Get")]
-        public async Task GetByIdAsync_ExistingId_ReturnsItem()
+        public virtual async Task GetByIdAsync_ExistingId_ReturnsItem()
         {
             var items = this.GenerateData();
             await this.InsertData(items);
@@ -125,7 +125,7 @@ namespace FinancialHub.Infra.NUnitTests.Repositories.Base
 
         [Test]
         [TestCase(TestName = "Get By Id with non-existing id", Category = "Get")]
-        public async Task GetByIdAsync_NonExistingId_ReturnsNull()
+        public virtual async Task GetByIdAsync_NonExistingId_ReturnsNull()
         {
             var items = this.GenerateData();
             await this.InsertData(items);

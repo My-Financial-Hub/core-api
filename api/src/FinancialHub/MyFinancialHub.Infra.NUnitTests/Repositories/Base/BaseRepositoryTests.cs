@@ -39,13 +39,15 @@ namespace FinancialHub.Infra.NUnitTests.Repositories.Base
             await this.context.Set<Y>().AddRangeAsync(items);
             await this.context.SaveChangesAsync();
         }
-        #endregion
 
-        protected virtual async Task InsertData(ICollection<T> items)
+        protected virtual async Task InsertData<Y>(Y item)
+             where Y : BaseEntity
         {
-            await this.context.Set<T>().AddRangeAsync(items);
+            await this.context.Set<Y>().AddAsync(item);
             await this.context.SaveChangesAsync();
         }
+
+        #endregion
 
         protected virtual ICollection<T> GenerateData(int min = 1,int max = 100, params object[] props)
         {

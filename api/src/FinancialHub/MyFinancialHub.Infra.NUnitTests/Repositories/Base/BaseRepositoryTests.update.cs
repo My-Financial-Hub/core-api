@@ -11,7 +11,7 @@ namespace FinancialHub.Infra.NUnitTests.Repositories.Base
         #region Update
         [Test]
         [TestCase(TestName = "Update existing Item", Category = "Update")]
-        public async Task UpdateAsync_ExistingItem_UpdatesItem()
+        public virtual async Task UpdateAsync_ExistingItem_UpdatesItem()
         {
             var item = this.GenerateObject();
             await this.InsertData(new T[1] { item });
@@ -30,7 +30,7 @@ namespace FinancialHub.Infra.NUnitTests.Repositories.Base
 
         [Test]
         [TestCase(TestName = "Update non existing Item", Category = "Update")]
-        public async Task UpdateAsync_NonExistingItem_ThrowsDbUpdateConcurrencyException()
+        public virtual async Task UpdateAsync_NonExistingItem_ThrowsDbUpdateConcurrencyException()
         {
             var id = Guid.NewGuid();
             var item = this.GenerateObject(id);
@@ -40,7 +40,7 @@ namespace FinancialHub.Infra.NUnitTests.Repositories.Base
 
         [Test]
         [TestCase(TestName = "Update null Item", Category = "Update")]
-        public async Task UpdateAsync_NullItem_ThrowsNullReferenceException()
+        public virtual async Task UpdateAsync_NullItem_ThrowsNullReferenceException()
         {
             Assert.ThrowsAsync<NullReferenceException>(async () => await this.repository.UpdateAsync(null));
         }

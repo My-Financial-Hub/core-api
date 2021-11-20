@@ -11,7 +11,7 @@ namespace FinancialHub.Infra.NUnitTests.Repositories.Base
         #region Delete
         [Test]
         [TestCase(TestName = "Delete existing Item",Category = "Delete")]
-        public async Task DeleteAsync_ExistingItem_AffectsOneRow()
+        public virtual async Task DeleteAsync_ExistingItem_AffectsOneRow()
         {
             var items = this.GenerateData();
             await this.InsertData(items);
@@ -22,7 +22,7 @@ namespace FinancialHub.Infra.NUnitTests.Repositories.Base
 
         [Test]
         [TestCase(TestName = "Delete non existing Item",Category = "Delete")]
-        public async Task DeleteAsync_NonExistingItem_AffectsNothing()
+        public virtual async Task DeleteAsync_NonExistingItem_AffectsNothing()
         {
             var items = this.GenerateData();
             await this.InsertData(items);
@@ -33,7 +33,7 @@ namespace FinancialHub.Infra.NUnitTests.Repositories.Base
 
         [Test]
         [TestCase(TestName = "Delete null id Item", Category = "Delete")]
-        public async Task DeleteAsync_NullId_AffectsNothing()
+        public virtual async Task DeleteAsync_NullId_AffectsNothing()
         {
             var items = this.GenerateData();
             await this.InsertData(items);
