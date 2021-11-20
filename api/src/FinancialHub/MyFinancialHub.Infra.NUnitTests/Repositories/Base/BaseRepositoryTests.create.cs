@@ -21,9 +21,9 @@ namespace FinancialHub.Infra.NUnitTests.Repositories.Base
         #region Create
         [Test]
         [TestCase(TestName = "Create new Item", Category = "Create")]
-        public virtual async Task CreateAsync_ValidItem_AddsOneRow()
+        public virtual async Task CreateAsync_ValidItem_AddsOneRow(T item = null)
         {
-            var item = this.GenerateObject();
+            item ??= this.GenerateObject();
 
             var createdItem = await this.repository.CreateAsync(item);
 
@@ -32,10 +32,10 @@ namespace FinancialHub.Infra.NUnitTests.Repositories.Base
 
         [Test]
         [TestCase(TestName = "Create new Item with id", Category = "Create")]
-        public virtual async Task CreateAsync_ValidItemWithId_AddsOneRow()
+        public virtual async Task CreateAsync_ValidItemWithId_AddsOneRow(T item = null)
         {
             var id = Guid.NewGuid();
-            var item = this.GenerateObject(id);
+            item ??= this.GenerateObject(id);
 
             var createdItem = await this.repository.CreateAsync(item);
 
@@ -46,10 +46,10 @@ namespace FinancialHub.Infra.NUnitTests.Repositories.Base
 
         [Test]
         [TestCase(TestName = "Create existing item", Category = "Create")]
-        public virtual async Task CreateAsync_ExistingItemWith_AddsOneRow()
+        public virtual async Task CreateAsync_ExistingItemWith_AddsOneRow(T item = null)//TODO: verify result
         {
             var id = Guid.NewGuid();
-            var item = this.GenerateObject(id);
+            item ??= this.GenerateObject(id);
 
             await this.InsertData(item);
 
