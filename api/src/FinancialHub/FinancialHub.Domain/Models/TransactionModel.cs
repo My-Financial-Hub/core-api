@@ -1,5 +1,4 @@
-﻿using FinancialHub.Domain.Entities;
-using FinancialHub.Domain.Enums;
+﻿using FinancialHub.Domain.Enums;
 using FinancialHub.Domain.Model;
 using System;
 
@@ -14,10 +13,10 @@ namespace FinancialHub.Domain.Models
         public DateTimeOffset? FinishDate { get; set; }
 
         public Guid AccountId { get; set; }
-        public AccountEntity Account { get; set; }
+        public AccountModel Account { get; set; }
 
         public Guid CategoryId { get; set; }
-        public CategoryEntity Category { get; set; }
+        public CategoryModel Category { get; set; }
 
         public bool IsActive { get; set; }
 

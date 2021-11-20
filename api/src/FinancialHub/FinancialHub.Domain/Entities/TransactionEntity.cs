@@ -21,6 +21,7 @@ namespace FinancialHub.Domain.Entities
         public AccountEntity Account { get; set; }
 
         [Column("category_id")]
+        [ForeignKey("category_id")]
         public Guid CategoryId { get; set; }
         public CategoryEntity Category { get; set; }
 

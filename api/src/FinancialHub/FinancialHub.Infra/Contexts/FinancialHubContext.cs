@@ -10,11 +10,6 @@ namespace FinancialHub.Infra.Contexts
         {
         }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            base.OnConfiguring(optionsBuilder);
-        }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<TransactionEntity>(table =>
@@ -22,12 +17,16 @@ namespace FinancialHub.Infra.Contexts
                 table.HasOne(x => x.Account)
                     .WithMany(x => x.Transactions)
                     .HasForeignKey(x => x.AccountId)
-                    .IsRequired(true);
+                    .HasPrincipalKey(x => x.Id)
+                    .IsRequired(true)
+                    .OnDelete(DeleteBehavior.Cascade);
 
                 table.HasOne(x => x.Category)
                     .WithMany(x => x.Transactions)
                     .HasForeignKey(x => x.CategoryId)
-                    .IsRequired(true);
+                    .HasPrincipalKey(x => x.Id)
+                    .IsRequired(true)
+                    .OnDelete(DeleteBehavior.Cascade);
             });
             base.OnModelCreating(modelBuilder);
         }
