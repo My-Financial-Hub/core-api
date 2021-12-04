@@ -1,6 +1,7 @@
 ﻿using FinancialHub.Domain.Entities;
 using FinancialHub.Domain.Interfaces.Repositories;
 using FinancialHub.Infra.Contexts;
+using System;
 using System.Threading.Tasks;
 
 namespace FinancialHub.Infra.Repositories
@@ -13,13 +14,15 @@ namespace FinancialHub.Infra.Repositories
 
         public override async Task<TransactionEntity> CreateAsync(TransactionEntity obj)
         {
+            #warning This is not good practice
+            if(obj == null)
+            {
+                throw new ArgumentNullException(nameof(obj));
+            }
             obj.Id = null;
             obj.Category = null;
             obj.Account = null;
-
-            var res = await context.Transactions.AddAsync(obj);
-            await context.SaveChangesAsync();
-            return res.Entity;
+            return await base.CreateAsync(obj);
         }
     }
 }

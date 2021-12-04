@@ -8,6 +8,7 @@ namespace FinancialHub.Domain.Entities
     {
         [Column("description")]
         public string Description { get; set; }
+
         [Column("amount")]
         public double Amount { get; set; }
 

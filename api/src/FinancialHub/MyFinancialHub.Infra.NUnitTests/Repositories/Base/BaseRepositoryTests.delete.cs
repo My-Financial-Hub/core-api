@@ -16,8 +16,9 @@ namespace FinancialHub.Infra.NUnitTests.Repositories.Base
             var items = this.GenerateData();
             await this.InsertData(items);
 
-            var affectedRows = await this.repository.DeleteAsync(items.First().Id.ToString());
+            var affectedRows = await this.repository.DeleteAsync(items.First().Id.Value);
             Assert.AreEqual(1,affectedRows);
+            Assert.AreEqual(items.Count - 1,context.Set<T>().ToList().Count);
         }
 
         [Test]
@@ -27,19 +28,9 @@ namespace FinancialHub.Infra.NUnitTests.Repositories.Base
             var items = this.GenerateData();
             await this.InsertData(items);
 
-            var affectedRows = await this.repository.DeleteAsync(new Guid().ToString());
+            var affectedRows = await this.repository.DeleteAsync(new Guid());
             Assert.AreEqual(0, affectedRows);
-        }
-
-        [Test]
-        [TestCase(TestName = "Delete null id Item", Category = "Delete")]
-        public virtual async Task DeleteAsync_NullId_AffectsNothing()
-        {
-            var items = this.GenerateData();
-            await this.InsertData(items);
-
-            var affectedRows = await this.repository.DeleteAsync(null);
-            Assert.AreEqual(0, affectedRows);
+            Assert.IsNotEmpty(context.Set<T>().ToList());
         }
         #endregion
     }

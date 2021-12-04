@@ -64,7 +64,7 @@ namespace FinancialHub.WebApi.Controllers
         /// </summary>
         /// <param name="id">id of the category</param>
         /// <param name="category">category changes</param>
-        public async Task<IActionResult> UpdateCategory([FromRoute] string id, [FromBody] CategoryModel category)
+        public async Task<IActionResult> UpdateCategory([FromRoute] Guid id, [FromBody] CategoryModel category)
         {
             try
             {
@@ -82,7 +82,7 @@ namespace FinancialHub.WebApi.Controllers
         /// Deletes an existing category on database
         /// </summary>
         /// <param name="id">id of the category</param>
-        public async Task<IActionResult> DeleteCategory([FromRoute] string id)
+        public async Task<IActionResult> DeleteCategory([FromRoute] Guid id)
         {
             try
             {

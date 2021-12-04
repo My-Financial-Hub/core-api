@@ -6,7 +6,6 @@ namespace FinancialHub.Domain.Entities
     public abstract class BaseEntity
     {
         [Column("id",TypeName = "UNIQUEIDENTIFIER")]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)] 
         public Guid? Id { get; set; }
 
         [Column("creation_time", TypeName = "DATETIMEOFFSET")]

@@ -14,19 +14,21 @@ namespace FinancialHub.Infra.Contexts
         {
             modelBuilder.Entity<TransactionEntity>(table =>
             {
+                table.HasKey(t => t.Id);
+                table.HasIndex(t => t.Id)
+                .IsUnique(true);
+
                 table.HasOne(x => x.Account)
                     .WithMany(x => x.Transactions)
                     .HasForeignKey(x => x.AccountId)
                     .HasPrincipalKey(x => x.Id)
-                    .IsRequired(true)
-                    .OnDelete(DeleteBehavior.Cascade);
+                    .IsRequired(true);
 
                 table.HasOne(x => x.Category)
                     .WithMany(x => x.Transactions)
                     .HasForeignKey(x => x.CategoryId)
                     .HasPrincipalKey(x => x.Id)
-                    .IsRequired(true)
-                    .OnDelete(DeleteBehavior.Cascade);
+                    .IsRequired(true);
             });
             base.OnModelCreating(modelBuilder);
         }

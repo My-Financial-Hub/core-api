@@ -2,6 +2,7 @@
 using NUnit.Framework;
 using System.Threading.Tasks;
 using FinancialHub.Domain.Entities;
+using System.Linq;
 
 namespace FinancialHub.Infra.NUnitTests.Repositories.Base
 {
@@ -15,7 +16,7 @@ namespace FinancialHub.Infra.NUnitTests.Repositories.Base
             Assert.IsNotNull(createdItem.UpdateTime);
             Assert.IsInstanceOf<T>(createdItem);
 
-            Assert.IsNotEmpty(context.Set<T>().Local);
+            Assert.IsNotEmpty(context.Set<T>().ToList());
         }
 
         #region Create
@@ -32,23 +33,9 @@ namespace FinancialHub.Infra.NUnitTests.Repositories.Base
 
         [Test]
         [TestCase(TestName = "Create new Item with id", Category = "Create")]
-        public virtual async Task CreateAsync_ValidItemWithId_AddsOneRow(T item = null)
+        public virtual async Task CreateAsync_ValidItemWithId_AddsOneRowWithTheDifferentId(T item = null)
         {
-            var id = Guid.NewGuid();
-            item ??= this.GenerateObject(id);
-
-            var createdItem = await this.repository.CreateAsync(item);
-
-            this.AssertCreated(createdItem);
-
-            Assert.AreNotEqual(id,createdItem.Id);
-        }
-
-        [Test]
-        [TestCase(TestName = "Create existing item", Category = "Create")]
-        public virtual async Task CreateAsync_ExistingItemWith_AddsOneRow(T item = null)//TODO: verify result
-        {
-            var id = Guid.NewGuid();
+            var id = item == null ? Guid.NewGuid() : item.Id.GetValueOrDefault();
             item ??= this.GenerateObject(id);
 
             await this.InsertData(item);
@@ -57,15 +44,20 @@ namespace FinancialHub.Infra.NUnitTests.Repositories.Base
 
             this.AssertCreated(createdItem);
 
-            Assert.AreNotEqual(id, createdItem.Id);
+            Assert.AreNotEqual(id,createdItem.Id);
+            Assert.AreEqual(2,context.Set<T>().Count());
         }
 
         [Test]
-        [TestCase(TestName = "Create null Item", Category = "Create")]
-        public virtual async Task CreateAsync_NullItem_ThrowsNullReferenceException()
+        [TestCase(TestName = "Create item with existing id", Category = "Create")]
+        public virtual async Task CreateAsync_ValidItemWithExistingId_AddsOneRowWithTheDifferentId(T item = null)
         {
-            Assert.ThrowsAsync<NullReferenceException>(async () => await this.repository.CreateAsync(null));
-            Assert.IsEmpty(context.Set<T>().Local);
+            item ??= this.GenerateObject();
+            item = await this.InsertData(item);
+
+            var result = await this.repository.CreateAsync(item);
+
+            Assert.AreEqual(2,context.Set<T>().Count());
         }
         #endregion
     }

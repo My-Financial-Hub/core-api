@@ -37,13 +37,6 @@ namespace FinancialHub.Infra.NUnitTests.Repositories.Base
 
             Assert.ThrowsAsync<DbUpdateConcurrencyException>(async () => await this.repository.UpdateAsync(item));
         }
-
-        [Test]
-        [TestCase(TestName = "Update null Item", Category = "Update")]
-        public virtual async Task UpdateAsync_NullItem_ThrowsNullReferenceException()
-        {
-            Assert.ThrowsAsync<NullReferenceException>(async () => await this.repository.UpdateAsync(null));
-        }
         #endregion
     }
 }

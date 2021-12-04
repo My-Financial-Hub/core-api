@@ -16,7 +16,7 @@ namespace FinancialHub.Infra.NUnitTests.Repositories.Transactions
             await this.InsertData(entity.Category);
             await this.InsertData(entity);
 
-            var result = await this.repository.DeleteAsync(entity.Id.ToString());
+            var result = await this.repository.DeleteAsync(entity.Id.Value);
 
             Assert.AreEqual(1,result);
 

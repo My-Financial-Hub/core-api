@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using FinancialHub.Domain.Entities;
 using FinancialHub.Infra.NUnitTests.Repositories.Base;
 using FinancialHub.Infra.Repositories;

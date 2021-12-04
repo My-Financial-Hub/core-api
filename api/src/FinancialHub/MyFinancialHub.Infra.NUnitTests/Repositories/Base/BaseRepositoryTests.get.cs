@@ -25,7 +25,7 @@ namespace FinancialHub.Infra.NUnitTests.Repositories.Base
         public virtual async Task GetAllAsync_Data_ReturnsItems()
         {
             var items = this.GenerateData();
-            await this.InsertData(items);
+            items =  await this.InsertData(items);
 
             var list = await this.repository.GetAllAsync();
 
@@ -41,7 +41,7 @@ namespace FinancialHub.Infra.NUnitTests.Repositories.Base
         public virtual async Task GetAsync_NoFilter_ReturnsAllItems()
         {
             var items = this.GenerateData();
-            await this.InsertData(items);
+            items = await this.InsertData(items);
 
             var list = await this.repository.GetAsync((x) => true);
 
@@ -55,7 +55,7 @@ namespace FinancialHub.Infra.NUnitTests.Repositories.Base
         public virtual async Task GetAsync_NullFilter_ThrowsArgumentNullException()
         {
             var items = this.GenerateData();
-            await this.InsertData(items);
+            items = await this.InsertData(items);
 
             Assert.ThrowsAsync(typeof(ArgumentNullException), async () => await this.repository.GetAsync(null));
         }
@@ -65,7 +65,7 @@ namespace FinancialHub.Infra.NUnitTests.Repositories.Base
         public virtual async Task GetAsync_Filter_ReturnsFilteredItems()
         {
             var items = this.GenerateData(10,100);
-            await this.InsertData(items);
+            items = await this.InsertData(items);
 
             var id = items.First().Id;
             Func<T,bool> filter = (x) => x.Id == id;
@@ -83,7 +83,7 @@ namespace FinancialHub.Infra.NUnitTests.Repositories.Base
         public virtual async Task GetAsync_WrongFilter_ReturnsEmpty()
         {
             var items = this.GenerateData(10, 100);
-            await this.InsertData(items);
+            items = await this.InsertData(items);
 
             Func<T, bool> filter = (x) => x.Id == new Guid();
 
@@ -100,9 +100,9 @@ namespace FinancialHub.Infra.NUnitTests.Repositories.Base
         public virtual async Task GetByIdAsync_EmptyId_ReturnsNull()
         {
             var items = this.GenerateData();
-            await this.InsertData(items);
+            items = await this.InsertData(items);
 
-            var item = await this.repository.GetByIdAsync("");
+            var item = await this.repository.GetByIdAsync(Guid.Empty);
 
             Assert.IsNull(item);
         }
@@ -111,12 +111,12 @@ namespace FinancialHub.Infra.NUnitTests.Repositories.Base
         [TestCase(TestName = "Get By Id with existing id", Category = "Get")]
         public virtual async Task GetByIdAsync_ExistingId_ReturnsItem()
         {
-            var items = this.GenerateData();
-            await this.InsertData(items);
+            var items = this.GenerateData(1);
+            items = await this.InsertData(items);
 
             var id = items.First().Id;
 
-            var item = await this.repository.GetByIdAsync(id.ToString());
+            var item = await this.repository.GetByIdAsync(id.Value);
 
             Assert.IsNotNull(item);
             Assert.AreEqual(id,item.Id);
@@ -128,9 +128,9 @@ namespace FinancialHub.Infra.NUnitTests.Repositories.Base
         public virtual async Task GetByIdAsync_NonExistingId_ReturnsNull()
         {
             var items = this.GenerateData();
-            await this.InsertData(items);
+            items = await this.InsertData(items);
 
-            var item = await this.repository.GetByIdAsync(new Guid().ToString());
+            var item = await this.repository.GetByIdAsync(new Guid());
 
             Assert.IsNull(item);
         }

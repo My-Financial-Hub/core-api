@@ -1,4 +1,5 @@
 ﻿using FinancialHub.Domain.Models;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -10,8 +11,8 @@ namespace FinancialHub.Domain.Interfaces.Services
 
         Task<TransactionModel> CreateAsync(TransactionModel account);
 
-        Task<TransactionModel> UpdateAsync(string id, TransactionModel account);
+        Task<TransactionModel> UpdateAsync(Guid id, TransactionModel account);
 
-        Task<int> DeleteAsync(string id);
+        Task<int> DeleteAsync(Guid id);
     }
 }

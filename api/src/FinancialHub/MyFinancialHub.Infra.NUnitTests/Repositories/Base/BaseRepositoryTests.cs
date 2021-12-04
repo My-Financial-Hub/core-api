@@ -6,10 +6,11 @@ using Microsoft.EntityFrameworkCore;
 using FinancialHub.Domain.Interfaces.Repositories;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.Data.Sqlite;
 
 namespace FinancialHub.Infra.NUnitTests.Repositories.Base
 {
-    public abstract partial class BaseRepositoryTests<T> where T: BaseEntity
+    public abstract partial class BaseRepositoryTests<T> where T : BaseEntity
     {
         protected Random random;
 
@@ -19,9 +20,12 @@ namespace FinancialHub.Infra.NUnitTests.Repositories.Base
         [SetUp]
         protected virtual void Setup()
         {
+            var conn = new SqliteConnection("DataSource=:memory:");
+            conn.Open();
             this.context = new FinancialHubContext(
-                new DbContextOptionsBuilder<FinancialHubContext>().UseInMemoryDatabase($"Database_{Guid.NewGuid()}").Options
+                new DbContextOptionsBuilder<FinancialHubContext>().UseSqlite(conn).Options
             );
+            context.Database.EnsureCreated();
 
             this.random = new Random();
         }
@@ -33,23 +37,33 @@ namespace FinancialHub.Infra.NUnitTests.Repositories.Base
         }
 
         #region Generics
-        protected virtual async Task InsertData<Y>(ICollection<Y> items)
+        protected virtual async Task<ICollection<Y>> InsertData<Y>(ICollection<Y> items)
              where Y : BaseEntity
         {
-            await this.context.Set<Y>().AddRangeAsync(items);
+            var list = new List<Y>();
+            foreach (var item in items)
+            {
+                var entity = await this.context.Set<Y>().AddAsync(item);
+                await this.context.SaveChangesAsync();
+                list.Add(entity.Entity);
+            }
             await this.context.SaveChangesAsync();
+            return list;
         }
 
-        protected virtual async Task InsertData<Y>(Y item)
+        protected virtual async Task<Y> InsertData<Y>(Y item)
              where Y : BaseEntity
         {
-            await this.context.Set<Y>().AddAsync(item);
+            var res = await this.context.Set<Y>().AddAsync(item);
+            item.Id = res.Entity.Id;
             await this.context.SaveChangesAsync();
+
+            return res.Entity;
         }
 
         #endregion
 
-        protected virtual ICollection<T> GenerateData(int min = 1,int max = 100, params object[] props)
+        protected virtual ICollection<T> GenerateData(int min = 1, int max = 100, params object[] props)
         {
             var count = random.Next(min, max);
             var data = new T[count];

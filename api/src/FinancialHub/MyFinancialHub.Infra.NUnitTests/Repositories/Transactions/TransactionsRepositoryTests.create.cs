@@ -1,4 +1,5 @@
 ﻿using FinancialHub.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
 using System;
 using System.Linq;
@@ -24,16 +25,33 @@ namespace FinancialHub.Infra.NUnitTests.Repositories.Transactions
         {
             var entity = this.GenerateObject();
 
-            await this.InsertData(entity.Category);
-            await this.InsertData(entity.Account);
+            entity.Category = await this.InsertData(entity.Category);
+            entity.Account = await this.InsertData(entity.Account);
 
             await base.CreateAsync_ValidItem_AddsOneRow(entity);
+        }
+
+        [Test]
+        [TestCase(TestName = "Create item with existing id", Category = "Create")]
+        public override async Task CreateAsync_ValidItemWithExistingId_AddsOneRowWithTheDifferentId(TransactionEntity item = null)
+        {
+            var entity = this.GenerateObject();
+
+            entity.Category = await this.InsertData(entity.Category);
+            entity.CategoryId = entity.Category.Id.GetValueOrDefault();
+
+            entity.Account = await this.InsertData(entity.Account);
+            entity.AccountId = entity.Account.Id.GetValueOrDefault();
+
+            await base.CreateAsync_ValidItemWithExistingId_AddsOneRowWithTheDifferentId(entity);
         }
 
         [Test]
         [TestCase(TestName = "Create new Transaction without Updates/Creates Account or Category", Category = "Create")]
         public async Task CreateAsync_ValidItemWithNestChild_DoesNotUpdateNestChild()
         {
+            #warning this test is too complex
+
             /***** ARRANGE *****/
             var entity = this.GenerateObject();
 
@@ -57,8 +75,8 @@ namespace FinancialHub.Infra.NUnitTests.Repositories.Transactions
             this.AssertCreated(result);
 
             //SHOULD NOT CREATE ACCOUNTS OR CATEGORIES
-            Assert.AreEqual(1,this.context.Accounts.Local.Count);
-            Assert.AreEqual(1,this.context.Categories.Local.Count);
+            Assert.AreEqual(1,this.context.Accounts.Count());
+            Assert.AreEqual(1,this.context.Categories.Count());
 
             var account = this.context.Accounts.FirstOrDefault(x => x.Id == entity.AccountId);
             var category = this.context.Categories.FirstOrDefault(x => x.Id == entity.CategoryId);
@@ -74,39 +92,41 @@ namespace FinancialHub.Infra.NUnitTests.Repositories.Transactions
 
         [Test]
         [TestCase(TestName = "Create new Transaction with invalid Account", Category = "Create")]
-        public async Task CreateAsync_InvalidAccountId_Throws()
+        public async Task CreateAsync_InvalidAccountId_ThrowsDbUpdateException()
         {
             var entity = this.GenerateObject();
 
             await this.InsertData(this.GenerateAccount());
-            await this.InsertData(entity.Category);
 
-            var result = await this.repository.CreateAsync(entity);
+            entity.Category = await this.InsertData(entity.Category);
+            entity.CategoryId = entity.Category.Id.GetValueOrDefault();
 
-            Assert.IsEmpty(this.context.Transactions.Local);
-            Assert.AreEqual(1, this.context.Accounts.Local.Count);
-            Assert.AreEqual(1, this.context.Categories.Local.Count);
+            Assert.ThrowsAsync<DbUpdateException>(async () => await this.repository.CreateAsync(entity));
+
+            Assert.IsEmpty(this.context.Transactions);
+            Assert.AreEqual(1, this.context.Accounts.Count());
+            Assert.AreEqual(1, this.context.Categories.Count());
         }
 
         [Test]
         [TestCase(TestName = "Create new Transaction with invalid Category", Category = "Create")]
-        public async Task CreateAsync_InvalidCategoryId_Throws()
+        public async Task CreateAsync_InvalidCategoryId_ThrowsDbUpdateException()
         {
             var entity = this.GenerateObject();
 
             await this.InsertData(entity.Account);
             await this.InsertData(this.GenerateCategory());
 
-            var result = await this.repository.CreateAsync(entity);
+            Assert.ThrowsAsync<DbUpdateException>(async () => await this.repository.CreateAsync(entity));
 
-            Assert.IsEmpty(this.context.Transactions.Local);
-            Assert.AreEqual(1, this.context.Accounts.Local.Count);
-            Assert.AreEqual(1, this.context.Categories.Local.Count);
+            Assert.IsEmpty(this.context.Transactions);
+            Assert.AreEqual(1, this.context.Accounts.Count());
+            Assert.AreEqual(1, this.context.Categories.Count());
         }
 
         [Test]
         [TestCase(TestName = "Create new Transaction with no Account", Category = "Create")]
-        public async Task CreateAsync_NoAccount_Throws()
+        public async Task CreateAsync_NoAccount_ThrowsDbUpdateException()
         {
             var entity = this.GenerateObject();
 
@@ -114,14 +134,14 @@ namespace FinancialHub.Infra.NUnitTests.Repositories.Transactions
 
             entity.Account = null;
 
-            var result = await this.repository.CreateAsync(entity);
+            Assert.ThrowsAsync<DbUpdateException>(async () => await this.repository.CreateAsync(entity));
 
-            Assert.IsEmpty(this.context.Transactions.Local);
+            Assert.IsEmpty(this.context.Transactions.ToList());
         }
 
         [Test]
         [TestCase(TestName = "Create new Transaction with no Category", Category = "Create")]
-        public async Task CreateAsync_NoCategory_Throws()
+        public async Task CreateAsync_NoCategory_ThrowsDbUpdateException()
         {
             var entity = this.GenerateObject();
 
@@ -129,9 +149,9 @@ namespace FinancialHub.Infra.NUnitTests.Repositories.Transactions
 
             entity.Category = null;
 
-            var result = await this.repository.CreateAsync(entity);
+            Assert.ThrowsAsync<DbUpdateException>(async () => await this.repository.CreateAsync(entity));
 
-            Assert.IsNotEmpty(this.context.Transactions.Local);//TODO: fix
+            Assert.IsEmpty(this.context.Transactions.ToList());
         }
     }
 }

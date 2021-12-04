@@ -64,7 +64,7 @@ namespace FinancialHub.WebApi.Controllers
         /// </summary>
         /// <param name="id">id of the transaction</param>
         /// <param name="transaction">transaction changes</param>
-        public async Task<IActionResult> UpdateTransaction([FromRoute] string id, [FromBody] TransactionModel transaction)
+        public async Task<IActionResult> UpdateTransaction([FromRoute] Guid id, [FromBody] TransactionModel transaction)
         {
             try
             {
@@ -78,11 +78,12 @@ namespace FinancialHub.WebApi.Controllers
         }
 
         [HttpDelete("{id}")]
+        [ProducesResponseType(204)]
         /// <summary>
         /// Deletes an existing transaction on database
         /// </summary>
         /// <param name="id">id of the transaction</param>
-        public async Task<IActionResult> DeleteTransaction([FromRoute] string id)
+        public async Task<IActionResult> DeleteTransaction([FromRoute] Guid id)
         {
             try
             {
