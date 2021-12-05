@@ -19,7 +19,7 @@ namespace FinancialHub.Infra.Repositories
             {
                 throw new ArgumentNullException(nameof(obj));
             }
-            obj.Id = null;
+
             obj.Category = null;
             obj.Account = null;
             return await base.CreateAsync(obj);

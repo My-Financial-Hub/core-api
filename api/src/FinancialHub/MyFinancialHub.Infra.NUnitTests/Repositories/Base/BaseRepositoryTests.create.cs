@@ -1,8 +1,8 @@
 ﻿using System;
+using System.Linq;
 using NUnit.Framework;
 using System.Threading.Tasks;
 using FinancialHub.Domain.Entities;
-using System.Linq;
 
 namespace FinancialHub.Infra.NUnitTests.Repositories.Base
 {
@@ -38,25 +38,28 @@ namespace FinancialHub.Infra.NUnitTests.Repositories.Base
             var id = item == null ? Guid.NewGuid() : item.Id.GetValueOrDefault();
             item ??= this.GenerateObject(id);
 
-            await this.InsertData(item);
-
             var createdItem = await this.repository.CreateAsync(item);
 
             this.AssertCreated(createdItem);
 
             Assert.AreNotEqual(id,createdItem.Id);
-            Assert.AreEqual(2,context.Set<T>().Count());
+            Assert.IsNotEmpty(context.Set<T>());
         }
 
         [Test]
         [TestCase(TestName = "Create item with existing id", Category = "Create")]
         public virtual async Task CreateAsync_ValidItemWithExistingId_AddsOneRowWithTheDifferentId(T item = null)
         {
-            item ??= this.GenerateObject();
-            item = await this.InsertData(item);
+            var id = item == null ? Guid.NewGuid() : item.Id.GetValueOrDefault();
+
+            item ??= this.GenerateObject(id);
+            await this.InsertData(item);
+
+            item ??= this.GenerateObject(id);
 
             var result = await this.repository.CreateAsync(item);
 
+            this.AssertCreated(result);
             Assert.AreEqual(2,context.Set<T>().Count());
         }
         #endregion

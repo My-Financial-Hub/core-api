@@ -17,14 +17,23 @@ namespace FinancialHub.Infra.NUnitTests.Repositories.Base
         protected FinancialHubContext context;
         protected IBaseRepository<T> repository;
 
-        [SetUp]
-        protected virtual void Setup()
+        protected FinancialHubContext GetContext()
         {
             var conn = new SqliteConnection("DataSource=:memory:");
             conn.Open();
-            this.context = new FinancialHubContext(
-                new DbContextOptionsBuilder<FinancialHubContext>().UseSqlite(conn).Options
+
+            var cfg = new DbContextOptionsBuilder<FinancialHubContext>().UseSqlite(conn);
+            cfg.EnableSensitiveDataLogging(true);
+
+            return new FinancialHubContext(
+                cfg.Options
             );
+        }
+
+        [SetUp]
+        protected virtual void Setup()
+        {  
+            this.context = this.GetContext();
             context.Database.EnsureCreated();
 
             this.random = new Random();

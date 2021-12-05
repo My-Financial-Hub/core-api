@@ -32,18 +32,49 @@ namespace FinancialHub.Infra.NUnitTests.Repositories.Transactions
         }
 
         [Test]
-        [TestCase(TestName = "Create item with existing id", Category = "Create")]
-        public override async Task CreateAsync_ValidItemWithExistingId_AddsOneRowWithTheDifferentId(TransactionEntity item = null)
+        [TestCase(TestName = "Create new Item with id", Category = "Create")]
+        public async override Task CreateAsync_ValidItemWithId_AddsOneRowWithTheDifferentId(TransactionEntity item = null)
         {
             var entity = this.GenerateObject();
 
-            entity.Category = await this.InsertData(entity.Category);
-            entity.CategoryId = entity.Category.Id.GetValueOrDefault();
+            var generatedAccount = this.GenerateAccount(entity.AccountId);
+            var generatedCategory = this.GenerateCategory(entity.CategoryId);
 
-            entity.Account = await this.InsertData(entity.Account);
-            entity.AccountId = entity.Account.Id.GetValueOrDefault();
+            await this.InsertData(generatedAccount);
+            await this.InsertData(generatedCategory);
 
-            await base.CreateAsync_ValidItemWithExistingId_AddsOneRowWithTheDifferentId(entity);
+            await base.CreateAsync_ValidItemWithId_AddsOneRowWithTheDifferentId(entity);
+        }
+
+        [Test]
+        [TestCase(TestName = "Create item with existing id", Category = "Create")]
+        public override async Task CreateAsync_ValidItemWithExistingId_AddsOneRowWithTheDifferentId(TransactionEntity item = null)
+        {
+            var id = Guid.NewGuid();
+            item = this.GenerateObject(id);
+
+            //INSERTS ACCOUNT AND CATEGORY
+            var generatedAccount = this.GenerateAccount(item.AccountId);
+            var generatedCategory = this.GenerateCategory(item.CategoryId);
+
+            await this.InsertData(generatedAccount);
+            await this.InsertData(generatedCategory);
+
+            item.Category = null;
+            item.Account = null;
+            item = await this.InsertData(item);
+
+            var newItem = this.GenerateObject(id);
+            newItem.CategoryId  = generatedCategory.Id.GetValueOrDefault();
+            newItem.AccountId   = generatedAccount.Id.GetValueOrDefault();
+
+            var result = await this.repository.CreateAsync(newItem);
+
+            Assert.AreNotEqual(item.Id,newItem.Id);
+            this.AssertCreated(result);
+            Assert.AreEqual(2, context.Set<TransactionEntity>().Count());
+            Assert.AreEqual(1, context.Categories.Count());
+            Assert.AreEqual(1, context.Accounts.Count());
         }
 
         [Test]
