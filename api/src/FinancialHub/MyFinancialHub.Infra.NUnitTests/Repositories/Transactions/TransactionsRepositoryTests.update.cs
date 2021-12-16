@@ -26,13 +26,16 @@ namespace FinancialHub.Infra.NUnitTests.Repositories.Transactions
             var oldAccountName = entity.Account.Name;
             var oldCategoryName = entity.Category.Name;
 
+            await this.InsertData(entity.Category);
+            await this.InsertData(entity.Account);
+
             entity.Description = Guid.NewGuid().ToString();
             entity.Account.Name = Guid.NewGuid().ToString();
             entity.Category.Name = Guid.NewGuid().ToString();
 
             await this.InsertTransaction(entity);
 
-            var result = await this.repository.CreateAsync(entity);
+            var result = await this.repository.UpdateAsync(entity);
 
             this.AssertCreated(result);
             Assert.AreEqual(result.Description, entity.Description);
