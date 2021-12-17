@@ -41,9 +41,7 @@ namespace FinancialHub.Infra.NUnitTests.Repositories.Base
             var createdItem = await this.repository.CreateAsync(item);
 
             this.AssertCreated(createdItem);
-
             Assert.AreNotEqual(id,createdItem.Id);
-            Assert.IsNotEmpty(context.Set<T>());
         }
 
         [Test]

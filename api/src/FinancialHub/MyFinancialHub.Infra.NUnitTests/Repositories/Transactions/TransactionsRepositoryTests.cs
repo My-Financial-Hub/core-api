@@ -20,6 +20,11 @@ namespace FinancialHub.Infra.NUnitTests.Repositories.Transactions
             return this.generator.GenerateTransaction(id);
         }
 
+        protected TransactionEntity GenerateTransaction(Guid? id = null,Guid? accountId = null, Guid? categoryId = null)
+        {
+            return this.generator.GenerateTransaction(id,accountId,categoryId);
+        }
+
         protected CategoryEntity GenerateCategory(Guid? id = null)
         {
             return this.generator.GenerateCategory(id);

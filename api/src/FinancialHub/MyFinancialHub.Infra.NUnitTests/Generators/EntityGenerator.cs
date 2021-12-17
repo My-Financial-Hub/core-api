@@ -42,10 +42,10 @@ namespace FinancialHub.Infra.NUnitTests.Generators
             return fake.Generate();
         }
 
-        public TransactionEntity GenerateTransaction(Guid? id = null)
+        public TransactionEntity GenerateTransaction(Guid? id = null, Guid? accountId = null, Guid? categoryId = null)
         {
-            var account     = this.GenerateAccount();
-            var category    = this.GenerateCategory();
+            var account     = this.GenerateAccount(accountId);
+            var category    = this.GenerateCategory(categoryId);
 
             var fake = new Faker<TransactionEntity>();
 

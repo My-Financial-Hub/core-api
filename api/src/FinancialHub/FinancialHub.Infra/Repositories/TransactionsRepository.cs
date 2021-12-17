@@ -14,7 +14,7 @@ namespace FinancialHub.Infra.Repositories
 
         public override async Task<TransactionEntity> CreateAsync(TransactionEntity obj)
         {
-            #warning This is not good practice
+            #warning This is not a good practice, remove this later
             if(obj == null)
             {
                 throw new ArgumentNullException(nameof(obj));
@@ -23,6 +23,13 @@ namespace FinancialHub.Infra.Repositories
             obj.Category = null;
             obj.Account = null;
             return await base.CreateAsync(obj);
+        }
+
+        public override async Task<TransactionEntity> UpdateAsync(TransactionEntity obj)
+        {
+            obj.Category = null;
+            obj.Account = null; 
+            return await base.UpdateAsync(obj);
         }
     }
 }

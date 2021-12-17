@@ -73,8 +73,6 @@ namespace FinancialHub.Infra.NUnitTests.Repositories.Transactions
             Assert.AreNotEqual(item.Id,newItem.Id);
             this.AssertCreated(result);
             Assert.AreEqual(2, context.Set<TransactionEntity>().Count());
-            Assert.AreEqual(1, context.Categories.Count());
-            Assert.AreEqual(1, context.Accounts.Count());
         }
 
         [Test]
