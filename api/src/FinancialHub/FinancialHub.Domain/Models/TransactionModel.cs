@@ -9,8 +9,8 @@ namespace FinancialHub.Domain.Models
         public string Description { get; set; }
         public double Amount { get; set; }
 
-        public DateTimeOffset? TargetDate { get; set; }
-        public DateTimeOffset? FinishDate { get; set; }
+        public DateTimeOffset TargetDate { get; set; }
+        public DateTimeOffset FinishDate { get; set; }
 
         public Guid AccountId { get; set; }
         public AccountModel Account { get; set; }

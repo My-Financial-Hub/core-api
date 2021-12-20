@@ -4,13 +4,14 @@ using Microsoft.AspNetCore.Mvc;
 using FinancialHub.Domain.Models;
 using System.Collections.Generic;
 using FinancialHub.Domain.Interfaces.Services;
+using FinancialHub.Domain.Filters;
 
 namespace FinancialHub.WebApi.Controllers
 {
     [ApiController]
     [Route("[controller]")]
     [Produces("application/json")]
-    [ProducesErrorResponseType(typeof(Exception))]
+    [ProducesErrorResponseType(typeof(Exception))]//TODO: custom exceptions
     public class TransactionsController : Controller
     {
         private readonly ITransactionsService service;
@@ -25,11 +26,11 @@ namespace FinancialHub.WebApi.Controllers
         /// <summary>
         /// Get all transaction of the system (will be changed to only one user and added filters)
         /// </summary>
-        public async Task<IActionResult> GetMyTransactions()
+        public async Task<IActionResult> GetMyTransactions([FromQuery] TransactionFilter filter)
         {
             try
             {
-                var response = await service.GetAllByUserAsync("mock");
+                var response = await service.GetAllByUserAsync("mock", filter);
                 return Ok(response);
             }
             catch (Exception e)

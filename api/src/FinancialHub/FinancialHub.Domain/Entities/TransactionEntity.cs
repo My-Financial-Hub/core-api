@@ -13,9 +13,9 @@ namespace FinancialHub.Domain.Entities
         public double Amount { get; set; }
 
         [Column("target_date")]
-        public DateTimeOffset? TargetDate { get; set; }
+        public DateTimeOffset TargetDate { get; set; }
         [Column("finish_date")]
-        public DateTimeOffset? FinishDate { get; set; }
+        public DateTimeOffset FinishDate { get; set; }
 
         [Column("account_id")]
         public Guid AccountId { get; set; }
