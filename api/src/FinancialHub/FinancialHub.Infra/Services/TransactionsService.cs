@@ -1,11 +1,13 @@
 ﻿using AutoMapper;
 using FinancialHub.Domain.Entities;
-using FinancialHub.Domain.Interfaces.Repositories;
-using FinancialHub.Domain.Interfaces.Services;
-using FinancialHub.Domain.Models;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using FinancialHub.Domain.Filters;
+using FinancialHub.Domain.Models;
+using FinancialHub.Domain.Queries;
+using FinancialHub.Domain.Interfaces.Services;
+using FinancialHub.Domain.Interfaces.Repositories;
 
 namespace FinancialHub.Infra.Services
 {
@@ -14,7 +16,7 @@ namespace FinancialHub.Infra.Services
         private readonly IMapper mapper;
         private readonly ITransactionsRepository repository;
 
-        public TransactionsService(IMapper mapper, ITransactionsRepository repository)
+        public TransactionsService(IMapper mapper, ITransactionsRepository repository)//TODO: custom mapper
         {
             this.mapper = mapper;
             this.repository = repository;
@@ -34,9 +36,13 @@ namespace FinancialHub.Infra.Services
             return await this.repository.DeleteAsync(id);
         }
 
-        public async Task<ICollection<TransactionModel>> GetAllByUserAsync(string userId)
+        public async Task<ICollection<TransactionModel>> GetAllByUserAsync(string userId, TransactionFilter filter)
         {
-            var entities = await this.repository.GetAllAsync();
+            var query = mapper.Map<TransactionQuery>(filter);
+            //query.UserId = userId;
+
+            var entities = await this.repository.GetAsync(query.Query());
+
             return mapper.Map<ICollection<TransactionModel>>(entities);
         }
 

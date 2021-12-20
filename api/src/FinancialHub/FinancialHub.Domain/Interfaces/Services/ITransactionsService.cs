@@ -1,13 +1,14 @@
-﻿using FinancialHub.Domain.Models;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using FinancialHub.Domain.Models;
+using FinancialHub.Domain.Filters;
 
 namespace FinancialHub.Domain.Interfaces.Services
 {
     public interface ITransactionsService
     {
-        Task<ICollection<TransactionModel>> GetAllByUserAsync(string userId);
+        Task<ICollection<TransactionModel>> GetAllByUserAsync(string userId, TransactionFilter filter);
 
         Task<TransactionModel> CreateAsync(TransactionModel account);
 
