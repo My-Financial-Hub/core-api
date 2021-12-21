@@ -23,12 +23,14 @@ namespace FinancialHub.Infra.Contexts
                     .HasForeignKey(x => x.AccountId)
                     .HasPrincipalKey(x => x.Id)
                     .IsRequired(true);
+                table.Navigation(t => t.Account).AutoInclude();
 
                 table.HasOne(x => x.Category)
                     .WithMany(x => x.Transactions)
                     .HasForeignKey(x => x.CategoryId)
                     .HasPrincipalKey(x => x.Id)
                     .IsRequired(true);
+                table.Navigation(t => t.Category).AutoInclude();
             });
             base.OnModelCreating(modelBuilder);
         }
