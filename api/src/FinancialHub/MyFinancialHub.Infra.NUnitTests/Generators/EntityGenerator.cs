@@ -1,6 +1,7 @@
 ﻿using Bogus;
 using System;
 using FinancialHub.Domain.Entities;
+using FinancialHub.Domain.Enums;
 
 namespace FinancialHub.Infra.NUnitTests.Generators
 {
@@ -50,11 +51,11 @@ namespace FinancialHub.Infra.NUnitTests.Generators
             var fake = new Faker<TransactionEntity>();
 
             fake.RuleFor(x => x.Id,             fake => id ?? fake.Database.Random.Guid())
-                .RuleFor(x => x.Amount ,        fake => fake.Random.Double(0,10000))
+                .RuleFor(x => x.Amount ,        fake => fake.Random.Decimal(0,10000))
                 .RuleFor(x => x.Description,    fake => fake.Lorem.Sentences(random.Next(1, 5)))
                 .RuleFor(x => x.IsActive,       fake => fake.System.Random.Bool())
-                .RuleFor(x => x.Type,           fake => random.Next(0, 1))  
-                .RuleFor(x => x.Status ,        fake => random.Next(0,4))
+                .RuleFor(x => x.Type,           fake => fake.PickRandom<TransactionType>())  
+                .RuleFor(x => x.Status ,        fake => fake.PickRandom<TransactionStatus>())
                 .RuleFor(x => x.AccountId,      fake => account.Id)
                 .RuleFor(x => x.Account,        fake => account)
                 .RuleFor(x => x.CategoryId,     fake => category.Id)

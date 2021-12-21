@@ -1,4 +1,5 @@
 ﻿using System;
+using FinancialHub.Domain.Enums;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FinancialHub.Domain.Entities
@@ -10,7 +11,7 @@ namespace FinancialHub.Domain.Entities
         public string Description { get; set; }
 
         [Column("amount")]
-        public double Amount { get; set; }
+        public decimal Amount { get; set; }
 
         [Column("target_date")]
         public DateTimeOffset TargetDate { get; set; }
@@ -30,9 +31,8 @@ namespace FinancialHub.Domain.Entities
         public bool IsActive { get; set; }
 
         [Column("status")]
-        public int Status { get; set; }
-        //TODO: use enum
+        public TransactionStatus Status { get; set; }
         [Column("type")]
-        public int Type { get ; set ;}
+        public TransactionType Type { get; set; }
     }
 }

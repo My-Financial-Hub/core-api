@@ -7,7 +7,7 @@ namespace FinancialHub.Domain.Models
     public class TransactionModel : BaseModel
     {
         public string Description { get; set; }
-        public double Amount { get; set; }
+        public decimal Amount { get; set; }
 
         public DateTimeOffset TargetDate { get; set; }
         public DateTimeOffset FinishDate { get; set; }
