@@ -26,7 +26,9 @@ namespace FinancialHub.WebApi.Controllers
         /// <summary>
         /// Get all transaction of the system (will be changed to only one user and added filters)
         /// </summary>
-        public async Task<IActionResult> GetMyTransactions([FromQuery] TransactionFilter filter)
+        public async Task<IActionResult> GetMyTransactions(
+            [FromQuery] TransactionFilter filter
+        )
         {
             try
             {
