@@ -1,4 +1,5 @@
-using FinancialHub.Infra.Contexts;
+using FinancialHub.Infra.Data.Contexts;
+using FinancialHub.Services.Adapters;
 using FinancialHub.WebApi.Extensions.Configurations;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;

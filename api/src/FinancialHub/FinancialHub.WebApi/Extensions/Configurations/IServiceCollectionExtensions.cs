@@ -1,7 +1,8 @@
 ﻿using FinancialHub.Domain.Interfaces.Repositories;
 using FinancialHub.Domain.Interfaces.Services;
-using FinancialHub.Infra.Repositories;
-using FinancialHub.Infra.Services;
+using FinancialHub.Services.Services;
+using FinancialHub.Infra.Data.Repositories;
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 
