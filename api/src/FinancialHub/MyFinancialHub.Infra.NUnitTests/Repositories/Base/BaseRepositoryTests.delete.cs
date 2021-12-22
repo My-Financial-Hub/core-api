@@ -10,36 +10,27 @@ namespace FinancialHub.Infra.NUnitTests.Repositories.Base
     {
         #region Delete
         [Test]
-        [TestCase(TestName = "Delete Existing Item",Category = "Delete")]
-        public async Task DeleteAsync_ExistingItem_AffectsOneRow()
+        [TestCase(TestName = "Delete existing Item",Category = "Delete")]
+        public virtual async Task DeleteAsync_ExistingItem_AffectsOneRow()
         {
             var items = this.GenerateData();
             await this.InsertData(items);
 
-            var affectedRows = await this.repository.DeleteAsync(items.First().Id.ToString());
+            var affectedRows = await this.repository.DeleteAsync(items.First().Id.Value);
             Assert.AreEqual(1,affectedRows);
+            Assert.AreEqual(items.Count - 1,context.Set<T>().ToList().Count);
         }
 
         [Test]
-        [TestCase(TestName = "Delete Non Existing Item",Category = "Delete")]
-        public async Task DeleteAsync_NonExistingItem_AffectsNothing()
+        [TestCase(TestName = "Delete non existing Item",Category = "Delete")]
+        public virtual async Task DeleteAsync_NonExistingItem_AffectsNothing()
         {
             var items = this.GenerateData();
             await this.InsertData(items);
 
-            var affectedRows = await this.repository.DeleteAsync(new Guid().ToString());
+            var affectedRows = await this.repository.DeleteAsync(new Guid());
             Assert.AreEqual(0, affectedRows);
-        }
-
-        [Test]
-        [TestCase(TestName = "Delete Null id Item", Category = "Delete")]
-        public async Task DeleteAsync_NullId_AffectsNothing()
-        {
-            var items = this.GenerateData();
-            await this.InsertData(items);
-
-            var affectedRows = await this.repository.DeleteAsync(null);
-            Assert.AreEqual(0, affectedRows);
+            Assert.IsNotEmpty(context.Set<T>().ToList());
         }
         #endregion
     }

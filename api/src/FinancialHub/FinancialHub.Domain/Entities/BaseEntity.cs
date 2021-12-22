@@ -7,8 +7,10 @@ namespace FinancialHub.Domain.Entities
     {
         [Column("id")]
         public Guid? Id { get; set; }
+
         [Column("creation_time")]
         public DateTimeOffset? CreationTime { get; set; }
+
         [Column("update_time")]
         public DateTimeOffset? UpdateTime { get; set; }
     }

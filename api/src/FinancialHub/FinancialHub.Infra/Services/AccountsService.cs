@@ -23,15 +23,13 @@ namespace FinancialHub.Infra.Services
         public async Task<AccountModel> CreateAsync(AccountModel account)
         {
             var entity = mapper.Map<AccountEntity>(account);
-            entity.CreationTime = DateTimeOffset.Now;
-            entity.UpdateTime   = DateTimeOffset.Now;
 
             entity = await this.repository.CreateAsync(entity);
 
             return mapper.Map<AccountModel>(entity);
         }
 
-        public async Task<int> DeleteAsync(string id)
+        public async Task<int> DeleteAsync(Guid id)
         {
             return await this.repository.DeleteAsync(id);
         }
@@ -42,7 +40,7 @@ namespace FinancialHub.Infra.Services
             return mapper.Map<ICollection<AccountModel>>(entities);
         }
 
-        public async Task<AccountModel> UpdateAsync(string id, AccountModel account)
+        public async Task<AccountModel> UpdateAsync(Guid id, AccountModel account)
         {
             var entity = await this.repository.GetByIdAsync(id);
 
@@ -50,7 +48,7 @@ namespace FinancialHub.Infra.Services
             {
                 throw new NullReferenceException($"Not found account with id {id}");
             }
-            entity.Id = new Guid(id);
+            entity.Id = id;
 
             entity = await this.repository.UpdateAsync(entity);
 
