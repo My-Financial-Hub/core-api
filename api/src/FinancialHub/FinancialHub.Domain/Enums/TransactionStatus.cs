@@ -2,9 +2,9 @@
 {
     public enum TransactionStatus
     {
-        Active = 0,
+        NotCommitted = 0,
         Committed = 1,
-        Aborted = 2,
-        Rollback = 3
+        //Aborted = 2,
+        //Rollback = 3
     }
 }
