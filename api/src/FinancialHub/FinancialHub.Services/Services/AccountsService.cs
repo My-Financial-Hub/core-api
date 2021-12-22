@@ -3,11 +3,8 @@ using FinancialHub.Domain.Entities;
 using FinancialHub.Domain.Interfaces.Repositories;
 using FinancialHub.Domain.Interfaces.Services;
 using FinancialHub.Domain.Models;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
-namespace FinancialHub.Infra.Data.Services
+namespace FinancialHub.Services.Services
 {
     public class AccountsService : IAccountsService
     {
