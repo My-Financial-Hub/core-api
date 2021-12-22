@@ -2,12 +2,12 @@
 using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using FinancialHub.Infra.Contexts;
+using FinancialHub.Infra.Data.Contexts;
 using Microsoft.EntityFrameworkCore;
 using FinancialHub.Domain.Entities;
 using FinancialHub.Domain.Interfaces.Repositories;
 
-namespace FinancialHub.Infra.Repositories
+namespace FinancialHub.Infra.Data.Repositories
 {
     public class BaseRepository<T> :
         IBaseRepository<T>

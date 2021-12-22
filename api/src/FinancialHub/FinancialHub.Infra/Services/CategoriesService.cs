@@ -7,7 +7,7 @@ using FinancialHub.Domain.Entities;
 using FinancialHub.Domain.Interfaces.Services;
 using FinancialHub.Domain.Interfaces.Repositories;
 
-namespace FinancialHub.Infra.Services
+namespace FinancialHub.Infra.Data.Services
 {
     public class CategoriesService : ICategoriesService
     {

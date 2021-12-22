@@ -7,7 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace FinancialHub.Infra.Services
+namespace FinancialHub.Infra.Data.Services
 {
     public class AccountsService : IAccountsService
     {

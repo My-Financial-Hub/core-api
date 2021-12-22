@@ -5,7 +5,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace FinancialHub.Infra.NUnitTests.Repositories.Transactions
+namespace FinancialHub.Infra.Data.NUnitTests.Repositories.Transactions
 {
     public partial class TransactionsRepositoryTests
     {

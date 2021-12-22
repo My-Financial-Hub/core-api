@@ -1,10 +1,10 @@
 ﻿using FinancialHub.Domain.Entities;
 using FinancialHub.Domain.Interfaces.Repositories;
-using FinancialHub.Infra.Contexts;
+using FinancialHub.Infra.Data.Contexts;
 using System;
 using System.Threading.Tasks;
 
-namespace FinancialHub.Infra.Repositories
+namespace FinancialHub.Infra.Data.Repositories
 {
     public class TransactionsRepository : BaseRepository<TransactionEntity>, ITransactionsRepository
     {

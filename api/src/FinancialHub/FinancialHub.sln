@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31624.102
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31912.275
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinancialHub.Domain", "FinancialHub.Domain\FinancialHub.Domain.csproj", "{776EA70E-D7ED-4A92-AB2F-0C7CDE3B5B7A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinancialHub.Infra", "FinancialHub.Infra\FinancialHub.Infra.csproj", "{126F1390-1B86-4ABB-9E49-E77B7857E2F0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinancialHub.Infra.Data", "FinancialHub.Infra\FinancialHub.Infra.Data.csproj", "{126F1390-1B86-4ABB-9E49-E77B7857E2F0}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinancialHub.WebApi", "FinancialHub.WebApi\FinancialHub.WebApi.csproj", "{AF3B4DA6-DFE1-40D5-AD31-29FA59E14634}"
 EndProject

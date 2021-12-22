@@ -1,15 +1,15 @@
 ﻿using System;
 using NUnit.Framework;
-using FinancialHub.Infra.Contexts;
+using FinancialHub.Infra.Data.Contexts;
 using FinancialHub.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using FinancialHub.Domain.Interfaces.Repositories;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Data.Sqlite;
-using FinancialHub.Infra.NUnitTests.Generators;
+using FinancialHub.Infra.Data.NUnitTests.Generators;
 
-namespace FinancialHub.Infra.NUnitTests.Repositories.Base
+namespace FinancialHub.Infra.Data.NUnitTests.Repositories.Base
 {
     public abstract partial class BaseRepositoryTests<T> where T : BaseEntity
     {

@@ -26,7 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\FinancialHub.Infra\FinancialHub.Infra.csproj" />
+    <ProjectReference Include="..\FinancialHub.Infra\FinancialHub.Infra.Data.csproj" />
   </ItemGroup>
 
 </Project>

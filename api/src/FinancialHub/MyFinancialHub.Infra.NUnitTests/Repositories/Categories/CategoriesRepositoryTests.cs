@@ -1,10 +1,10 @@
 ﻿using System;
 using FinancialHub.Domain.Entities;
-using FinancialHub.Infra.NUnitTests.Repositories.Base;
-using FinancialHub.Infra.Repositories;
+using FinancialHub.Infra.Data.NUnitTests.Repositories.Base;
+using FinancialHub.Infra.Data.Repositories;
 using NUnit.Framework;
 
-namespace FinancialHub.Infra.NUnitTests.Repositories.Categories
+namespace FinancialHub.Infra.Data.NUnitTests.Repositories.Categories
 {
     public class CategoriesRepositoryTests : BaseRepositoryTests<CategoryEntity>
     {

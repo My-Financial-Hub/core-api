@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using FinancialHub.Domain.Entities;
 
-namespace FinancialHub.Infra.NUnitTests.Repositories.Base
+namespace FinancialHub.Infra.Data.NUnitTests.Repositories.Base
 {
     public abstract partial class BaseRepositoryTests<T> where T : BaseEntity
     {
