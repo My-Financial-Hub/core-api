@@ -1,20 +1,17 @@
-﻿using System;
-using AutoMapper;
-using System.Threading.Tasks;
-using FinancialHub.Domain.Models;
-using System.Collections.Generic;
+﻿using FinancialHub.Domain.Models;
 using FinancialHub.Domain.Entities;
 using FinancialHub.Domain.Interfaces.Services;
 using FinancialHub.Domain.Interfaces.Repositories;
+using FinancialHub.Domain.Interfaces.Mappers;
 
 namespace FinancialHub.Services.Services
 {
     public class CategoriesService : ICategoriesService
     {
-        private readonly IMapper mapper;
+        private readonly IMapperWrapper mapper;
         private readonly ICategoriesRepository repository;
 
-        public CategoriesService(IMapper mapper, ICategoriesRepository repository)
+        public CategoriesService(IMapperWrapper mapper, ICategoriesRepository repository)
         {
             this.mapper = mapper;
             this.repository = repository;

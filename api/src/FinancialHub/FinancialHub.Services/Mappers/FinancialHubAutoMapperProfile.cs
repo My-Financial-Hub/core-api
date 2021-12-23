@@ -4,7 +4,7 @@ using FinancialHub.Domain.Entities;
 using FinancialHub.Domain.Filters;
 using FinancialHub.Domain.Queries;
 
-namespace FinancialHub.Services.Adapters
+namespace FinancialHub.Services.Mappers
 {
     public class FinancialHubAutoMapperProfile : Profile
     {

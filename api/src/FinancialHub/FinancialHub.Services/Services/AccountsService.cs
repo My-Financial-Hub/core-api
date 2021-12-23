@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using FinancialHub.Domain.Entities;
+using FinancialHub.Domain.Interfaces.Mappers;
 using FinancialHub.Domain.Interfaces.Repositories;
 using FinancialHub.Domain.Interfaces.Services;
 using FinancialHub.Domain.Models;
@@ -8,10 +9,10 @@ namespace FinancialHub.Services.Services
 {
     public class AccountsService : IAccountsService
     {
-        private readonly IMapper mapper;
+        private readonly IMapperWrapper mapper;
         private readonly IAccountsRepository repository;
 
-        public AccountsService(IMapper mapper,IAccountsRepository repository)
+        public AccountsService(IMapperWrapper mapper,IAccountsRepository repository)
         {
             this.mapper = mapper;
             this.repository = repository;

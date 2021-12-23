@@ -1,22 +1,19 @@
-﻿using AutoMapper;
-using FinancialHub.Domain.Entities;
-using System;
-using System.Threading.Tasks;
-using System.Collections.Generic;
+﻿using FinancialHub.Domain.Entities;
 using FinancialHub.Domain.Filters;
 using FinancialHub.Domain.Models;
 using FinancialHub.Domain.Queries;
 using FinancialHub.Domain.Interfaces.Services;
 using FinancialHub.Domain.Interfaces.Repositories;
+using FinancialHub.Domain.Interfaces.Mappers;
 
 namespace FinancialHub.Services.Services
 {
     public class TransactionsService : ITransactionsService
     {
-        private readonly IMapper mapper;
+        private readonly IMapperWrapper mapper;
         private readonly ITransactionsRepository repository;
 
-        public TransactionsService(IMapper mapper, ITransactionsRepository repository)//TODO: custom mapper
+        public TransactionsService(IMapperWrapper mapper, ITransactionsRepository repository)
         {
             this.mapper = mapper;
             this.repository = repository;
