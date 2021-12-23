@@ -17,9 +17,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Generators\" />
-    <Folder Include="Mappers\" />
-    <Folder Include="Services\" />
+    <ProjectReference Include="..\FinancialHub.Domain.NUnitTests\FinancialHub.Domain.NUnitTests.csproj" />
+    <ProjectReference Include="..\FinancialHub.Domain\FinancialHub.Domain.csproj" />
+    <ProjectReference Include="..\FinancialHub.Services\FinancialHub.Services.csproj" />
   </ItemGroup>
 
 </Project>

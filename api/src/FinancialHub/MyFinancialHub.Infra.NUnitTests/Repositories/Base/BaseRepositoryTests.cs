@@ -7,7 +7,7 @@ using FinancialHub.Domain.Interfaces.Repositories;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Data.Sqlite;
-using FinancialHub.Infra.Data.NUnitTests.Generators;
+using FinancialHub.Domain.NUnitTests.Generators;
 
 namespace FinancialHub.Infra.Data.NUnitTests.Repositories.Base
 {
