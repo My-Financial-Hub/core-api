@@ -1,5 +1,6 @@
 ﻿using FinancialHub.Domain.Entities;
 using FinancialHub.Domain.Models;
+using FinancialHub.Domain.Results;
 using Moq;
 using NUnit.Framework;
 using System;
@@ -7,7 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace FinancialHub.Services.NUnitTests.Services
+namespace FinancialHub.Services.NUnitTests.Services.Accounts
 {
     public partial class AccountsServiceTests
     {
@@ -30,8 +31,10 @@ namespace FinancialHub.Services.NUnitTests.Services
 
             var result = await this.service.GetAllByUserAsync(string.Empty);
 
-            Assert.IsInstanceOf<IEnumerable<AccountEntity>>(entitiesMock);
-            Assert.AreEqual(entitiesMock.Count(), result.Count);
+            Assert.IsInstanceOf<ServiceResult<IEnumerable<AccountModel>>>(result);
+            Assert.IsFalse(result.HasError);
+            Assert.AreEqual(entitiesMock.Count(), result.Data.Count());
+
             this.mapperWrapper.Verify(x => x.Map<IEnumerable<AccountModel>>(It.IsAny<IEnumerable<AccountEntity>>()),Times.Once);
             this.repository.Verify(x => x.GetAllAsync(),Times.Once());
         }

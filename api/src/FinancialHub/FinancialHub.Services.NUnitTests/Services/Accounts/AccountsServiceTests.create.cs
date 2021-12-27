@@ -1,16 +1,17 @@
 ﻿using FinancialHub.Domain.Entities;
 using FinancialHub.Domain.Models;
+using FinancialHub.Domain.Results;
 using Moq;
 using NUnit.Framework;
 using System;
 using System.Threading.Tasks;
 
-namespace FinancialHub.Services.NUnitTests.Services
+namespace FinancialHub.Services.NUnitTests.Services.Accounts
 {
     public partial class AccountsServiceTests
     {
         [Test]
-        [TestCase(Description = "Create valid account", Category = "Get")]
+        [TestCase(Description = "Create valid account", Category = "Create")]
         public async Task CreateAsync_ValidAccountModel_ReturnsAccountModel()
         {
             var model = this.modelGenerator.GenerateAccount();
@@ -32,15 +33,16 @@ namespace FinancialHub.Services.NUnitTests.Services
 
             var result = await this.service.CreateAsync(model);
 
-            Assert.IsNotNull(result);
-            Assert.IsInstanceOf<AccountModel>(result);
+            Assert.IsNotNull(result.Data);
+            Assert.IsInstanceOf<ServiceResult<AccountModel>>(result);
+
             this.mapperWrapper.Verify(x => x.Map<AccountModel>(It.IsAny<AccountEntity>()),Times.Once);
             this.repository.Verify(x => x.CreateAsync(It.IsAny<AccountEntity>()), Times.Once);
             this.mapperWrapper.Verify(x => x.Map<AccountEntity>(It.IsAny<AccountModel>()),Times.Once);
         }
 
         [Test]
-        [TestCase(Description = "Create valid account", Category = "Get")]
+        [TestCase(Description = "Create repository exception", Category = "Create")]
         public async Task CreateAsync_RepositoryException_ThrowsException()
         {
             var model = this.modelGenerator.GenerateAccount();
@@ -68,7 +70,5 @@ namespace FinancialHub.Services.NUnitTests.Services
             Assert.IsInstanceOf(exc.GetType(), exception);
             this.repository.Verify(x => x.CreateAsync(It.IsAny<AccountEntity>()), Times.Once());
         }
-        //create valid model
-        //create repository exception
     }
 }

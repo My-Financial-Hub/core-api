@@ -9,7 +9,7 @@ using Moq;
 using NUnit.Framework;
 using System;
 
-namespace FinancialHub.Services.NUnitTests.Services
+namespace FinancialHub.Services.NUnitTests.Services.Accounts
 {
     public partial class AccountsServiceTests
     {
