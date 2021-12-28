@@ -32,7 +32,7 @@ namespace FinancialHub.WebApi.Controllers
         }
 
         [HttpPost]
-        [ProducesResponseType(typeof(ICollection<CategoryModel>), 200)]
+        [ProducesResponseType(typeof(CategoryModel), 200)]
         /// <summary>
         /// Creates an category on database (will be changed to only one user)
         /// </summary>
@@ -44,7 +44,7 @@ namespace FinancialHub.WebApi.Controllers
         }
 
         [HttpPut("{id}")]
-        [ProducesResponseType(typeof(ICollection<CategoryModel>), 200)]
+        [ProducesResponseType(typeof(CategoryModel), 200)]
         /// <summary>
         /// Updates an existing category on database
         /// </summary>
