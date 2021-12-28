@@ -4,6 +4,7 @@ using FinancialHub.Domain.Interfaces.Repositories;
 using FinancialHub.Domain.Interfaces.Services;
 using FinancialHub.Domain.Models;
 using FinancialHub.Domain.Results;
+using FinancialHub.Domain.Results.Errors;
 
 namespace FinancialHub.Services.Services
 {
@@ -56,7 +57,7 @@ namespace FinancialHub.Services.Services
 
             if (entity == null)
             {
-                return new ServiceError(404, $"Not found account with id {id}");
+                return new NotFoundServiceError($"Not found account with id {id}");
             }
 
             entity = this.mapper.Map<AccountEntity>(account);

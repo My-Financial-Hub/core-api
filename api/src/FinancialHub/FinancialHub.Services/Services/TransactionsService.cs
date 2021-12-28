@@ -6,6 +6,7 @@ using FinancialHub.Domain.Interfaces.Services;
 using FinancialHub.Domain.Interfaces.Repositories;
 using FinancialHub.Domain.Interfaces.Mappers;
 using FinancialHub.Domain.Results;
+using FinancialHub.Domain.Results.Errors;
 
 namespace FinancialHub.Services.Services
 {
@@ -51,8 +52,7 @@ namespace FinancialHub.Services.Services
 
             if (entity == null)
             {
-                //TODO: create not found error
-                return new ServiceError(404, $"Not found category with id {id}");
+                return new NotFoundServiceError($"Not found transaction with id {id}");
             }
 
             entity = this.mapper.Map<TransactionEntity>(transaction);

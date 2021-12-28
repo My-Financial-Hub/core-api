@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using FinancialHub.Domain.Results.Errors;
+using System.Collections.Generic;
 
 namespace FinancialHub.Domain.Results
 {
