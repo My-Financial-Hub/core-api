@@ -10,7 +10,6 @@ namespace FinancialHub.WebApi.Controllers
     [ApiController]
     [Route("[controller]")]
     [Produces("application/json")]
-    [ProducesErrorResponseType(typeof(Exception))]
     public class AccountsController : Controller
     {
         private readonly IAccountsService service;
@@ -27,15 +26,8 @@ namespace FinancialHub.WebApi.Controllers
         [ProducesResponseType(typeof(ICollection<AccountModel>), 200)]
         public async Task<IActionResult> GetMyAccounts()
         {
-            try
-            {
-                var response = await service.GetAllByUserAsync("mock");
-                return Ok(response);
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e);
-            }
+            var response = await service.GetAllByUserAsync("mock");
+            return Ok(response.Data);
         }
 
         /// <summary>
@@ -43,18 +35,17 @@ namespace FinancialHub.WebApi.Controllers
         /// </summary>
         /// <param name="account">Account to be created</param>
         [HttpPost]
-        [ProducesResponseType(typeof(ICollection<AccountModel>),200)]
+        [ProducesResponseType(typeof(AccountModel), 200)]
         public async Task<IActionResult> CreateAccount([FromBody] AccountModel account)
         {
-            try
+            var response = await service.CreateAsync(account);
+
+            if (response.HasError)
             {
-                var response = await service.CreateAsync(account);
-                return Ok(response);
+                return StatusCode(response.Error.Code,new{ response.Error.Message });
             }
-            catch (Exception e)
-            {
-                return BadRequest(e);
-            }
+
+            return Ok(response.Data);
         }
 
         /// <summary>
@@ -63,18 +54,17 @@ namespace FinancialHub.WebApi.Controllers
         /// <param name="id">id of the account</param>
         /// <param name="account">account changes</param>
         [HttpPut("{id}")]
-        [ProducesResponseType(typeof(ICollection<AccountModel>), 200)]
+        [ProducesResponseType(typeof(AccountModel), 200)]
         public async Task<IActionResult> UpdateAccount([FromRoute] Guid id, [FromBody] AccountModel account)
         {
-            try
+            var response = await service.UpdateAsync(id, account);
+
+            if (response.HasError)
             {
-                var response = await service.UpdateAsync(id,account);
-                return Ok(response);
+                return StatusCode(response.Error.Code,new{ response.Error.Message });
             }
-            catch (Exception e)
-            {
-                return BadRequest(e);
-            }
+
+            return Ok(response);
         }
 
         /// <summary>
@@ -84,15 +74,8 @@ namespace FinancialHub.WebApi.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAccount([FromRoute] Guid id)
         {
-            try
-            {
-                await service.DeleteAsync(id);
-                return NoContent();
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e);
-            }
+            await service.DeleteAsync(id);
+            return NoContent();
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using FinancialHub.Domain.Models;
+using FinancialHub.Domain.Results;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -7,12 +8,12 @@ namespace FinancialHub.Domain.Interfaces.Services
 {
     public interface ICategoriesService 
     {
-        Task<ICollection<CategoryModel>> GetAllByUserAsync(string userId);
+        Task<ServiceResult<ICollection<CategoryModel>>> GetAllByUserAsync(string userId);
 
-        Task<CategoryModel> CreateAsync(CategoryModel category);
+        Task<ServiceResult<CategoryModel>> CreateAsync(CategoryModel category);
 
-        Task<CategoryModel> UpdateAsync(Guid id, CategoryModel category);
+        Task<ServiceResult<CategoryModel>> UpdateAsync(Guid id, CategoryModel category);
 
-        Task<int> DeleteAsync(Guid id);
+        Task<ServiceResult<int>> DeleteAsync(Guid id);
     }
 }

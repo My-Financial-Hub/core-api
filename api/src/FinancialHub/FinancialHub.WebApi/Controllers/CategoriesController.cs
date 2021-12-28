@@ -27,38 +27,24 @@ namespace FinancialHub.WebApi.Controllers
         /// </summary>
         public async Task<IActionResult> GetMyCategories()
         {
-            try
-            {
-                var response = await service.GetAllByUserAsync("mock");
-                return Ok(response);
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e);
-            }
+            var response = await service.GetAllByUserAsync("mock");
+            return Ok(response.Data);
         }
 
         [HttpPost]
-        [ProducesResponseType(typeof(ICollection<CategoryModel>), 200)]
+        [ProducesResponseType(typeof(CategoryModel), 200)]
         /// <summary>
         /// Creates an category on database (will be changed to only one user)
         /// </summary>
         /// <param name="category">Account to be created</param>
         public async Task<IActionResult> CreateCategory([FromBody] CategoryModel category)
         {
-            try
-            {
-                var response = await service.CreateAsync(category);
-                return Ok(response);
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e);
-            }
+            var response = await service.CreateAsync(category);
+            return Ok(response.Data);
         }
 
         [HttpPut("{id}")]
-        [ProducesResponseType(typeof(ICollection<CategoryModel>), 200)]
+        [ProducesResponseType(typeof(CategoryModel), 200)]
         /// <summary>
         /// Updates an existing category on database
         /// </summary>
@@ -66,15 +52,14 @@ namespace FinancialHub.WebApi.Controllers
         /// <param name="category">category changes</param>
         public async Task<IActionResult> UpdateCategory([FromRoute] Guid id, [FromBody] CategoryModel category)
         {
-            try
+            var response = await service.UpdateAsync(id, category);
+
+            if (response.HasError)
             {
-                var response = await service.UpdateAsync(id, category);
-                return Ok(response);
+                return StatusCode(response.Error.Code, new { response.Error.Message });
             }
-            catch (Exception e)
-            {
-                return BadRequest(e);
-            }
+
+            return Ok(response.Data);
         }
 
         [HttpDelete("{id}")]
@@ -84,15 +69,8 @@ namespace FinancialHub.WebApi.Controllers
         /// <param name="id">id of the category</param>
         public async Task<IActionResult> DeleteCategory([FromRoute] Guid id)
         {
-            try
-            {
-                await service.DeleteAsync(id);
-                return NoContent();
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e);
-            }
+            await service.DeleteAsync(id);
+            return NoContent();
         }
     }
 }

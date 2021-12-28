@@ -20,8 +20,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\FinancialHub.Domain.NUnitTests\FinancialHub.Domain.NUnitTests.csproj" />
     <ProjectReference Include="..\FinancialHub.Domain\FinancialHub.Domain.csproj" />
-    <ProjectReference Include="..\FinancialHub.Infra\FinancialHub.Infra.Data.csproj" />
+    <ProjectReference Include="..\FinancialHub.Infra.Data\FinancialHub.Infra.Data.csproj" />
   </ItemGroup>
 
 </Project>
