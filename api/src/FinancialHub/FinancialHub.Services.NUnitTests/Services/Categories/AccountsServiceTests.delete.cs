@@ -4,13 +4,13 @@ using NUnit.Framework;
 using System;
 using System.Threading.Tasks;
 
-namespace FinancialHub.Services.NUnitTests.Services.Accounts
+namespace FinancialHub.Services.NUnitTests.Services.Categories
 {
-    public partial class AccountsServiceTests
+    public partial class CategoriesServiceTests
     {
         [Test]
-        [TestCase(Description = "Update valid account", Category = "Delete")]
-        public async Task DeleteAsync_RepositorySuccess_ReturnsAccountModel()
+        [TestCase(Description = "Update valid Category", Category = "Delete")]
+        public async Task DeleteAsync_RepositorySuccess_ReturnsCategoryModel()
         {
             var expectedResult = random.Next(1,100);
             var guid = Guid.NewGuid();
