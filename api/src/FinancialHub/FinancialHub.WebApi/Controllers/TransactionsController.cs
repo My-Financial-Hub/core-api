@@ -11,8 +11,7 @@ namespace FinancialHub.WebApi.Controllers
     [ApiController]
     [Route("[controller]")]
     [Produces("application/json")]
-    [ProducesErrorResponseType(typeof(Exception))]//TODO: custom exceptions
-    public class TransactionsController : Controller
+    public class TransactionsController : Controller//TODO: base controller & base responses
     {
         private readonly ITransactionsService service;
 
@@ -30,38 +29,24 @@ namespace FinancialHub.WebApi.Controllers
             [FromQuery] TransactionFilter filter
         )
         {
-            try
-            {
-                var response = await service.GetAllByUserAsync("mock", filter);
-                return Ok(response);
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e);
-            }
+            var response = await service.GetAllByUserAsync("mock", filter);
+            return Ok(response);
         }
 
         [HttpPost]
-        [ProducesResponseType(typeof(ICollection<TransactionModel>), 200)]
+        [ProducesResponseType(typeof(TransactionModel), 200)]
         /// <summary>
         /// Creates an transaction on database (will be changed to only one user)
         /// </summary>
         /// <param name="category">Transaction to be created</param>
         public async Task<IActionResult> CreateTransaction([FromBody] TransactionModel transaction)
         {
-            try
-            {
-                var response = await service.CreateAsync(transaction);
-                return Ok(response);
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e);
-            }
+            var response = await service.CreateAsync(transaction);
+            return Ok(response.Data);
         }
 
         [HttpPut("{id}")]
-        [ProducesResponseType(typeof(ICollection<TransactionModel>), 200)]
+        [ProducesResponseType(typeof(TransactionModel), 200)]
         /// <summary>
         /// Updates an existing transaction on database
         /// </summary>
@@ -69,15 +54,14 @@ namespace FinancialHub.WebApi.Controllers
         /// <param name="transaction">transaction changes</param>
         public async Task<IActionResult> UpdateTransaction([FromRoute] Guid id, [FromBody] TransactionModel transaction)
         {
-            try
+            var response = await service.UpdateAsync(id, transaction);
+
+            if (response.HasError)
             {
-                var response = await service.UpdateAsync(id, transaction);
-                return Ok(response);
+                return StatusCode(response.Error.Code, new { response.Error.Message });
             }
-            catch (Exception e)
-            {
-                return BadRequest(e);
-            }
+
+            return Ok(response.Data);
         }
 
         [HttpDelete("{id}")]
@@ -88,15 +72,8 @@ namespace FinancialHub.WebApi.Controllers
         /// <param name="id">id of the transaction</param>
         public async Task<IActionResult> DeleteTransaction([FromRoute] Guid id)
         {
-            try
-            {
-                await service.DeleteAsync(id);
-                return NoContent();
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e);
-            }
+            await service.DeleteAsync(id);
+            return NoContent();
         }
     }
 }

@@ -5,6 +5,7 @@ using FinancialHub.Domain.Queries;
 using FinancialHub.Domain.Interfaces.Services;
 using FinancialHub.Domain.Interfaces.Repositories;
 using FinancialHub.Domain.Interfaces.Mappers;
+using FinancialHub.Domain.Results;
 
 namespace FinancialHub.Services.Services
 {
@@ -19,7 +20,7 @@ namespace FinancialHub.Services.Services
             this.repository = repository;
         }
 
-        public async Task<TransactionModel> CreateAsync(TransactionModel category)
+        public async Task<ServiceResult<TransactionModel>> CreateAsync(TransactionModel category)
         {
             var entity = mapper.Map<TransactionEntity>(category);
 
@@ -28,30 +29,33 @@ namespace FinancialHub.Services.Services
             return mapper.Map<TransactionModel>(entity);
         }
 
-        public async Task<int> DeleteAsync(Guid id)
+        public async Task<ServiceResult<int>> DeleteAsync(Guid id)
         {
             return await this.repository.DeleteAsync(id);
         }
 
-        public async Task<ICollection<TransactionModel>> GetAllByUserAsync(string userId, TransactionFilter filter)
+        public async Task<ServiceResult<ICollection<TransactionModel>>> GetAllByUserAsync(string userId, TransactionFilter filter)
         {
             var query = mapper.Map<TransactionQuery>(filter);
-            //query.UserId = userId;
 
             var entities = await this.repository.GetAsync(query.Query());
 
-            return mapper.Map<ICollection<TransactionModel>>(entities);
+            var models = mapper.Map<ICollection<TransactionModel>>(entities);
+
+            return models.ToArray();
         }
 
-        public async Task<TransactionModel> UpdateAsync(Guid id, TransactionModel category)
+        public async Task<ServiceResult<TransactionModel>> UpdateAsync(Guid id, TransactionModel transaction)
         {
             var entity = await this.repository.GetByIdAsync(id);
 
             if (entity == null)
             {
-                throw new NullReferenceException($"Not found category with id {id}");
+                //TODO: create not found error
+                return new ServiceError(404, $"Not found category with id {id}");
             }
-            entity.Id = id;
+
+            entity = this.mapper.Map<TransactionEntity>(transaction);
 
             entity = await this.repository.UpdateAsync(entity);
 
