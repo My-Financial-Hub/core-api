@@ -6,7 +6,7 @@ using NUnit.Framework;
 using System;
 using System.Threading.Tasks;
 
-namespace FinancialHub.Services.NUnitTests.Services.Accounts
+namespace FinancialHub.Services.NUnitTests.Services
 {
     public partial class AccountsServiceTests
     {

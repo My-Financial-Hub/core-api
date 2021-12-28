@@ -4,7 +4,7 @@ using FinancialHub.Infra.Data.NUnitTests.Repositories.Base;
 using FinancialHub.Infra.Data.Repositories;
 using NUnit.Framework;
 
-namespace FinancialHub.Infra.Data.NUnitTests.Repositories.Categories
+namespace FinancialHub.Infra.Data.NUnitTests.Repositories
 {
     public class CategoriesRepositoryTests : BaseRepositoryTests<CategoryEntity>
     {

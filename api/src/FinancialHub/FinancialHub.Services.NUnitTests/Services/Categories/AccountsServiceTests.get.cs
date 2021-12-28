@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace FinancialHub.Services.NUnitTests.Services.Categories
+namespace FinancialHub.Services.NUnitTests.Services
 {
     public partial class CategoriesServiceTests
     {
