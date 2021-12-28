@@ -30,7 +30,7 @@ namespace FinancialHub.WebApi.Controllers
         )
         {
             var response = await service.GetAllByUserAsync("mock", filter);
-            return Ok(response);
+            return Ok(response.Data);
         }
 
         [HttpPost]
