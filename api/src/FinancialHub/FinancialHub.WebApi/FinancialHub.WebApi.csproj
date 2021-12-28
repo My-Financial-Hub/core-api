@@ -30,7 +30,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\FinancialHub.Infra\FinancialHub.Infra.Data.csproj" />
+    <ProjectReference Include="..\FinancialHub.Infra.Data\FinancialHub.Infra.Data.csproj" />
     <ProjectReference Include="..\FinancialHub.Services\FinancialHub.Services.csproj" />
   </ItemGroup>
 
