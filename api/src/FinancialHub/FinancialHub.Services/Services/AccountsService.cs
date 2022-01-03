@@ -57,7 +57,7 @@ namespace FinancialHub.Services.Services
 
             if (entity == null)
             {
-                return new NotFoundServiceError($"Not found account with id {id}");
+                return new NotFoundError($"Not found account with id {id}");
             }
 
             entity = this.mapper.Map<AccountEntity>(account);
