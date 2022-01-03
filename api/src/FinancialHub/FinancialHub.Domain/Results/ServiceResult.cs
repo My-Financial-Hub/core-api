@@ -1,5 +1,4 @@
 ﻿using FinancialHub.Domain.Results.Errors;
-using System.Collections.Generic;
 
 namespace FinancialHub.Domain.Results
 {
@@ -7,7 +6,7 @@ namespace FinancialHub.Domain.Results
     {
         public bool HasError => this.Error != null;
         public ServiceError Error { get; protected set; }
-        public T Data { get; set; }
+        public T Data { get; protected set; }
 
         public ServiceResult(T data = default,ServiceError error = null)
         {

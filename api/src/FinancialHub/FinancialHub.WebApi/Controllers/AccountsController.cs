@@ -38,17 +38,28 @@ namespace FinancialHub.WebApi.Controllers
         /// </summary>
         /// <param name="account">Account to be created</param>
         [HttpPost]
-        [ProducesResponseType(typeof(AccountModel), 200)]
+        [ProducesResponseType(typeof(SaveResponse<AccountModel>), 200)]
+        [ProducesResponseType(typeof(ValidationErrorResponse<AccountModel>), 400)]
         public async Task<IActionResult> CreateAccount([FromBody] AccountModel account)
         {
             var response = await service.CreateAsync(account);
 
             if (response.HasError)
             {
-                return StatusCode(response.Error.Code,new{ response.Error.Message });
+                return StatusCode(
+                    response.Error.Code, 
+                    new ValidationErrorResponse<AccountModel>() { 
+                        Error = new ResponseError(response.Error.Code, response.Error.Message) 
+                    }
+                );
             }
 
-            return Ok(response.Data);
+            return Ok(
+                new SaveResponse<AccountModel>()
+                {
+                    Data = response.Data
+                }
+            );
         }
 
         /// <summary>
@@ -64,7 +75,7 @@ namespace FinancialHub.WebApi.Controllers
 
             if (response.HasError)
             {
-                return StatusCode(response.Error.Code,new{ response.Error.Message });
+                return StatusCode(response.Error.Code, new { response.Error.Message });
             }
 
             return Ok(response);
