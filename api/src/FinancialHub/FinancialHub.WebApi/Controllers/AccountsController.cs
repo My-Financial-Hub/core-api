@@ -1,9 +1,9 @@
-﻿using FinancialHub.Domain.Interfaces.Services;
-using System.Collections.Generic;
-using FinancialHub.Domain.Models;
-using System;
+﻿using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using FinancialHub.Domain.Models;
+using FinancialHub.Domain.Responses;
+using FinancialHub.Domain.Interfaces.Services;
 
 namespace FinancialHub.WebApi.Controllers
 {
@@ -23,11 +23,14 @@ namespace FinancialHub.WebApi.Controllers
         /// Get all accounts of the system (will be changed to only one user)
         /// </summary>
         [HttpGet]
-        [ProducesResponseType(typeof(ICollection<AccountModel>), 200)]
+        [ProducesResponseType(typeof(ListResponse<AccountModel>), 200)]
         public async Task<IActionResult> GetMyAccounts()
         {
-            var response = await service.GetAllByUserAsync("mock");
-            return Ok(response.Data);
+            var result = await service.GetAllByUserAsync("mock");
+            return Ok(new ListResponse<AccountModel>()
+            {
+                Data = result.Data
+            });
         }
 
         /// <summary>
