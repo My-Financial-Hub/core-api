@@ -1,5 +1,5 @@
 ﻿using FinancialHub.Domain.Models;
-using FinancialHub.Domain.Responses;
+using FinancialHub.Domain.Responses.Success;
 using FinancialHub.Domain.Results;
 using Microsoft.AspNetCore.Mvc;
 using Moq;

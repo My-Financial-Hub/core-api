@@ -1,4 +1,4 @@
-﻿namespace FinancialHub.Domain.Responses.Base
+﻿namespace FinancialHub.Domain.Responses.Success
 {
     public abstract class BaseResponse<T>
     {
