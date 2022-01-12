@@ -77,7 +77,10 @@ namespace FinancialHub.WebApi.Controllers
 
             if (response.HasError)
             {
-                return StatusCode(response.Error.Code, new { response.Error.Message });
+                return StatusCode(
+                    response.Error.Code,
+                    new ValidationErrorResponse(response.Error.Message)
+                 );
             }
 
             return Ok(
