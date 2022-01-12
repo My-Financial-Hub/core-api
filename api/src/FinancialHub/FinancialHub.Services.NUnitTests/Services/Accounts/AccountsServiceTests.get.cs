@@ -25,17 +25,17 @@ namespace FinancialHub.Services.NUnitTests.Services
                 .Verifiable();
 
             this.mapperWrapper
-                .Setup(x => x.Map<IEnumerable<AccountModel>>(It.IsAny<IEnumerable<AccountEntity>>()))
-                .Returns<IEnumerable<AccountEntity>>((ent) => this.mapper.Map<IEnumerable<AccountModel>>(ent))
+                .Setup(x => x.Map<ICollection<AccountModel>>(It.IsAny<ICollection<AccountEntity>>()))
+                .Returns<ICollection<AccountEntity>>((ent) => this.mapper.Map<ICollection<AccountModel>>(ent))
                 .Verifiable();
 
             var result = await this.service.GetAllByUserAsync(string.Empty);
 
-            Assert.IsInstanceOf<ServiceResult<IEnumerable<AccountModel>>>(result);
+            Assert.IsInstanceOf<ServiceResult<ICollection<AccountModel>>>(result);
             Assert.IsFalse(result.HasError);
             Assert.AreEqual(entitiesMock.Count(), result.Data.Count());
 
-            this.mapperWrapper.Verify(x => x.Map<IEnumerable<AccountModel>>(It.IsAny<IEnumerable<AccountEntity>>()),Times.Once);
+            this.mapperWrapper.Verify(x => x.Map<ICollection<AccountModel>>(It.IsAny<ICollection<AccountEntity>>()),Times.Once);
             this.repository.Verify(x => x.GetAllAsync(),Times.Once());
         }
 

@@ -8,7 +8,7 @@ namespace FinancialHub.Domain.Interfaces.Services
 {
     public interface IAccountsService 
     {
-        Task<ServiceResult<IEnumerable<AccountModel>>> GetAllByUserAsync(string userId);
+        Task<ServiceResult<ICollection<AccountModel>>> GetAllByUserAsync(string userId);
 
         Task<ServiceResult<AccountModel>> GetByIdAsync(Guid id);
 

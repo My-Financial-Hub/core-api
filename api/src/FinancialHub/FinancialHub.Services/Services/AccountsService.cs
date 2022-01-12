@@ -35,7 +35,7 @@ namespace FinancialHub.Services.Services
             return new ServiceResult<int>(count);
         }
 
-        public async Task<ServiceResult<IEnumerable<AccountModel>>> GetAllByUserAsync(string userId)
+        public async Task<ServiceResult<ICollection<AccountModel>>> GetAllByUserAsync(string userId)
         {
             var entities = await this.repository.GetAllAsync();
 

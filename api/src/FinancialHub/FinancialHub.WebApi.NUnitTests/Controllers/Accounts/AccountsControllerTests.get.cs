@@ -18,8 +18,8 @@ namespace FinancialHub.WebApi.NUnitTests.Controllers
             //ServiceResult<IEnumerable<AccountModel>> mockResult
             )
         {
-            var mockResult = new ServiceResult<IEnumerable<AccountModel>>(
-                Enumerable.Repeat(modelGenerator.GenerateAccount(), random.Next(0, 10))
+            var mockResult = new ServiceResult<ICollection<AccountModel>>(
+                Enumerable.Repeat(modelGenerator.GenerateAccount(), random.Next(0, 10)).ToArray()
             );
 
             this.mockService
