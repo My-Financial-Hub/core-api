@@ -44,7 +44,7 @@ namespace FinancialHub.WebApi.Controllers
         /// Creates an category on database (will be changed to only one user)
         /// </summary>
         /// <param name="category">Account to be created</param>
-        public async Task<IActionResult> CreateCategory(CategoryModel category)
+        public async Task<IActionResult> CreateCategory([FromBody] CategoryModel category)
         {
             try
             {
@@ -64,7 +64,7 @@ namespace FinancialHub.WebApi.Controllers
         /// </summary>
         /// <param name="id">id of the category</param>
         /// <param name="category">category changes</param>
-        public async Task<IActionResult> UpdateCategory(string id, CategoryModel category)
+        public async Task<IActionResult> UpdateCategory([FromRoute] Guid id, [FromBody] CategoryModel category)
         {
             try
             {
@@ -82,7 +82,7 @@ namespace FinancialHub.WebApi.Controllers
         /// Deletes an existing category on database
         /// </summary>
         /// <param name="id">id of the category</param>
-        public async Task<IActionResult> DeleteCategory(string id)
+        public async Task<IActionResult> DeleteCategory([FromRoute] Guid id)
         {
             try
             {

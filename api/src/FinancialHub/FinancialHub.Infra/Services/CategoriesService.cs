@@ -23,15 +23,13 @@ namespace FinancialHub.Infra.Services
         public async Task<CategoryModel> CreateAsync(CategoryModel category)
         {
             var entity = mapper.Map<CategoryEntity>(category);
-            entity.CreationTime = DateTimeOffset.Now;
-            entity.UpdateTime = DateTimeOffset.Now;
 
             entity = await this.repository.CreateAsync(entity);
 
             return mapper.Map<CategoryModel>(entity);
         }
 
-        public async Task<int> DeleteAsync(string id)
+        public async Task<int> DeleteAsync(Guid id)
         {
             return await this.repository.DeleteAsync(id);
         }
@@ -42,7 +40,7 @@ namespace FinancialHub.Infra.Services
             return mapper.Map<ICollection<CategoryModel>>(entities);
         }
 
-        public async Task<CategoryModel> UpdateAsync(string id, CategoryModel category)
+        public async Task<CategoryModel> UpdateAsync(Guid id, CategoryModel category)
         {
             var entity = await this.repository.GetByIdAsync(id);
 
@@ -50,7 +48,7 @@ namespace FinancialHub.Infra.Services
             {
                 throw new NullReferenceException($"Not found category with id {id}");
             }
-            entity.Id = new Guid(id);
+            entity.Id = id;
 
             entity = await this.repository.UpdateAsync(entity);
 
