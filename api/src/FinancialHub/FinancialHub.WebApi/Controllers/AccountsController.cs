@@ -15,7 +15,7 @@ namespace FinancialHub.WebApi.Controllers
     {
         private readonly IAccountsService service;
 
-        public AccountsController(IAccountsService service)
+        public AccountsController(IAccountsService service) 
         {
             this.service = service;
         }
@@ -29,10 +29,7 @@ namespace FinancialHub.WebApi.Controllers
         {
             var result = await service.GetAllByUserAsync("mock");
 
-            return Ok(new ListResponse<AccountModel>()
-            {
-                Data = result.Data
-            });
+            return Ok(new ListResponse<AccountModel>(result.Data));
         }
 
         /// <summary>
@@ -44,22 +41,17 @@ namespace FinancialHub.WebApi.Controllers
         [ProducesResponseType(typeof(ValidationErrorResponse), 400)]
         public async Task<IActionResult> CreateAccount([FromBody] AccountModel account)
         {
-            var response = await service.CreateAsync(account);
+            var result = await service.CreateAsync(account);
 
-            if (response.HasError)
+            if (result.HasError)
             {
                 return StatusCode(
-                    response.Error.Code, 
-                    new ValidationErrorResponse(response.Error.Message)
+                    result.Error.Code, 
+                    new ValidationErrorResponse(result.Error.Message)
                  );
             }
 
-            return Ok(
-                new SaveResponse<AccountModel>()
-                {
-                    Data = response.Data
-                }
-            );
+            return Ok( new SaveResponse<AccountModel>(result.Data));
         }
 
         /// <summary>
@@ -83,12 +75,7 @@ namespace FinancialHub.WebApi.Controllers
                  );
             }
 
-            return Ok(
-                new SaveResponse<AccountModel>()
-                {
-                    Data = response.Data
-                }
-            );
+            return Ok(new SaveResponse<AccountModel>(response.Data));
         }
 
         /// <summary>

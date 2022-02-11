@@ -1,11 +1,10 @@
 ﻿using FinancialHub.Domain.Interfaces.Services;
-using FinancialHub.Domain.Models;
-using FinancialHub.Domain.Responses.Errors;
 using FinancialHub.Domain.Responses.Success;
+using FinancialHub.Domain.Responses.Errors;
+using FinancialHub.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
+using System;
 
 namespace FinancialHub.WebApi.Controllers
 {
@@ -30,12 +29,7 @@ namespace FinancialHub.WebApi.Controllers
         {
             var result = await service.GetAllByUserAsync("mock");
 
-            var response = new ListResponse<CategoryModel>()
-            {
-                Data = result.Data
-            };
-
-            return Ok(response);
+            return Ok(new ListResponse<CategoryModel>(result.Data));
         }
 
         /// <summary>
@@ -57,12 +51,7 @@ namespace FinancialHub.WebApi.Controllers
                  );
             }
 
-            return Ok(
-                new SaveResponse<CategoryModel>()
-                {
-                    Data = result.Data
-                }
-            );
+            return Ok(new SaveResponse<CategoryModel>(result.Data));
         }
 
         /// <summary>
@@ -85,12 +74,7 @@ namespace FinancialHub.WebApi.Controllers
                  );
             }
 
-            return Ok(
-                new SaveResponse<CategoryModel>()
-                {
-                    Data = result.Data
-                }
-            );
+            return Ok(new SaveResponse<CategoryModel>(result.Data));
         }
 
         /// <summary>

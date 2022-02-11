@@ -21,4 +21,8 @@
     <ProjectReference Include="..\FinancialHub.WebApi\FinancialHub.WebApi.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Controllers\Categories\" />
+  </ItemGroup>
+
 </Project>

@@ -7,6 +7,9 @@ using FinancialHub.Domain.NUnitTests.Generators;
 
 namespace FinancialHub.WebApi.NUnitTests.Controllers
 {
+    //TODO: create default controller test 
+    //TODO: create integration test for controllers
+
     //TODO: start to use : 
     //https://docs.educationsmediagroup.com/unit-testing-csharp/nunit/parameterized-tests 
     //or
