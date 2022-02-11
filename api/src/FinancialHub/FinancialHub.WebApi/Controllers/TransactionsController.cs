@@ -2,18 +2,17 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using FinancialHub.Domain.Models;
-using System.Collections.Generic;
-using FinancialHub.Domain.Interfaces.Services;
 using FinancialHub.Domain.Filters;
-using FinancialHub.Domain.Responses.Success;
 using FinancialHub.Domain.Responses.Errors;
+using FinancialHub.Domain.Responses.Success;
+using FinancialHub.Domain.Interfaces.Services;
 
 namespace FinancialHub.WebApi.Controllers
 {
     [ApiController]
     [Route("[controller]")]
     [Produces("application/json")]
-    public class TransactionsController : Controller//TODO: base controller & base responses
+    public class TransactionsController : Controller
     {
         private readonly ITransactionsService service;
 
@@ -27,9 +26,7 @@ namespace FinancialHub.WebApi.Controllers
         /// <summary>
         /// Get all transaction of the system (will be changed to only one user and added filters)
         /// </summary>
-        public async Task<IActionResult> GetMyTransactions(
-            [FromQuery] TransactionFilter filter
-        )
+        public async Task<IActionResult> GetMyTransactions([FromQuery] TransactionFilter filter)
         {
             var response = await service.GetAllByUserAsync("mock", filter);
             return Ok(new ListResponse<TransactionModel>(response.Data));
@@ -45,7 +42,6 @@ namespace FinancialHub.WebApi.Controllers
         public async Task<IActionResult> CreateTransaction([FromBody] TransactionModel transaction)
         {
             var result = await service.CreateAsync(transaction);
-
 
             if (result.HasError)
             {
