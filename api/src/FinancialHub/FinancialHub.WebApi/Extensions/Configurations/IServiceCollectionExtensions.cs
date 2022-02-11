@@ -24,12 +24,16 @@ namespace FinancialHub.WebApi.Extensions.Configurations
         public static IServiceCollection AddRepositories(this IServiceCollection services)
         {
             services.AddScoped<IAccountsRepository, AccountsRepository>();
+            services.AddScoped<ICategoriesRepository, CategoriesRepository>();
+            services.AddScoped<ITransactionsRepository, TransactionsRepository>();
             return services;
         }
 
         public static IServiceCollection AddServices(this IServiceCollection services)
         {
             services.AddScoped<IAccountsService, AccountsService>();
+            services.AddScoped<ICategoriesService, CategoriesService>();
+            services.AddScoped<ITransactionsService, TransactionsService>();
             return services;
         }
     }

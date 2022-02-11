@@ -26,7 +26,7 @@ namespace FinancialHub.Domain.Interfaces.Repositories
         /// Deletes an entity from the database
         /// </summary>
         /// <param name="id">Id of the entity to be removed</param>
-        Task<int> DeleteAsync(string id);
+        Task<int> DeleteAsync(Guid id);
         /// <summary>
         /// Get All entities from the database
         /// </summary>
@@ -39,6 +39,6 @@ namespace FinancialHub.Domain.Interfaces.Repositories
         /// Gets an entity by id
         /// </summary>
         /// <param name="id">Id of the choosen entity</param>
-        Task<T> GetByIdAsync(string id);
+        Task<T> GetByIdAsync(Guid id);
     }
 }
