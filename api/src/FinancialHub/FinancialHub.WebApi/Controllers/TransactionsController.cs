@@ -2,16 +2,17 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using FinancialHub.Domain.Models;
-using System.Collections.Generic;
-using FinancialHub.Domain.Interfaces.Services;
 using FinancialHub.Domain.Filters;
+using FinancialHub.Domain.Responses.Errors;
+using FinancialHub.Domain.Responses.Success;
+using FinancialHub.Domain.Interfaces.Services;
 
 namespace FinancialHub.WebApi.Controllers
 {
     [ApiController]
     [Route("[controller]")]
     [Produces("application/json")]
-    public class TransactionsController : Controller//TODO: base controller & base responses
+    public class TransactionsController : Controller
     {
         private readonly ITransactionsService service;
 
@@ -21,32 +22,41 @@ namespace FinancialHub.WebApi.Controllers
         }
 
         [HttpGet]
-        [ProducesResponseType(typeof(ICollection<TransactionModel>), 200)]
+        [ProducesResponseType(typeof(ListResponse<TransactionModel>), 200)]
         /// <summary>
         /// Get all transaction of the system (will be changed to only one user and added filters)
         /// </summary>
-        public async Task<IActionResult> GetMyTransactions(
-            [FromQuery] TransactionFilter filter
-        )
+        public async Task<IActionResult> GetMyTransactions([FromQuery] TransactionFilter filter)
         {
             var response = await service.GetAllByUserAsync("mock", filter);
-            return Ok(response.Data);
+            return Ok(new ListResponse<TransactionModel>(response.Data));
         }
 
         [HttpPost]
-        [ProducesResponseType(typeof(TransactionModel), 200)]
+        [ProducesResponseType(typeof(SaveResponse<TransactionModel>), 200)]
+        [ProducesResponseType(typeof(ValidationErrorResponse), 400)]
         /// <summary>
         /// Creates an transaction on database (will be changed to only one user)
         /// </summary>
         /// <param name="category">Transaction to be created</param>
         public async Task<IActionResult> CreateTransaction([FromBody] TransactionModel transaction)
         {
-            var response = await service.CreateAsync(transaction);
-            return Ok(response.Data);
+            var result = await service.CreateAsync(transaction);
+
+            if (result.HasError)
+            {
+                return StatusCode(
+                    result.Error.Code,
+                    new ValidationErrorResponse(result.Error.Message)
+                 );
+            }
+
+            return Ok(new SaveResponse<TransactionModel>(result.Data));
         }
 
         [HttpPut("{id}")]
-        [ProducesResponseType(typeof(TransactionModel), 200)]
+        [ProducesResponseType(typeof(SaveResponse<TransactionModel>), 200)]
+        [ProducesResponseType(typeof(ValidationErrorResponse), 400)]
         /// <summary>
         /// Updates an existing transaction on database
         /// </summary>
@@ -54,14 +64,18 @@ namespace FinancialHub.WebApi.Controllers
         /// <param name="transaction">transaction changes</param>
         public async Task<IActionResult> UpdateTransaction([FromRoute] Guid id, [FromBody] TransactionModel transaction)
         {
-            var response = await service.UpdateAsync(id, transaction);
+            var result = await service.UpdateAsync(id, transaction);
 
-            if (response.HasError)
+            if (result.HasError)
             {
-                return StatusCode(response.Error.Code, new { response.Error.Message });
+                return StatusCode(
+                    result.Error.Code,
+                    new ValidationErrorResponse(result.Error.Message)
+                 );
             }
 
-            return Ok(response.Data);
+            return Ok(new SaveResponse<TransactionModel>(result.Data));
+
         }
 
         [HttpDelete("{id}")]

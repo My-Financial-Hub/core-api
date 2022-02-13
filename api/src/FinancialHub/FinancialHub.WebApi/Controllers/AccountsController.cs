@@ -1,9 +1,10 @@
-﻿using FinancialHub.Domain.Interfaces.Services;
-using System.Collections.Generic;
-using FinancialHub.Domain.Models;
-using System;
+﻿using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using FinancialHub.Domain.Models;
+using FinancialHub.Domain.Interfaces.Services;
+using FinancialHub.Domain.Responses.Errors;
+using FinancialHub.Domain.Responses.Success;
 
 namespace FinancialHub.WebApi.Controllers
 {
@@ -15,7 +16,7 @@ namespace FinancialHub.WebApi.Controllers
     {
         private readonly IAccountsService service;
 
-        public AccountsController(IAccountsService service)
+        public AccountsController(IAccountsService service) 
         {
             this.service = service;
         }
@@ -24,11 +25,12 @@ namespace FinancialHub.WebApi.Controllers
         /// Get all accounts of the system (will be changed to only one user)
         /// </summary>
         [HttpGet]
-        [ProducesResponseType(typeof(ICollection<AccountModel>), 200)]
+        [ProducesResponseType(typeof(ListResponse<AccountModel>), 200)]
         public async Task<IActionResult> GetMyAccounts()
         {
-            var response = await service.GetAllByUserAsync("mock");
-            return Ok(response.Data);
+            var result = await service.GetAllByUserAsync("mock");
+
+            return Ok(new ListResponse<AccountModel>(result.Data));
         }
 
         /// <summary>
@@ -36,17 +38,21 @@ namespace FinancialHub.WebApi.Controllers
         /// </summary>
         /// <param name="account">Account to be created</param>
         [HttpPost]
-        [ProducesResponseType(typeof(AccountModel), 200)]
+        [ProducesResponseType(typeof(SaveResponse<AccountModel>), 200)]
+        [ProducesResponseType(typeof(ValidationErrorResponse), 400)]
         public async Task<IActionResult> CreateAccount([FromBody] AccountModel account)
         {
-            var response = await service.CreateAsync(account);
+            var result = await service.CreateAsync(account);
 
-            if (response.HasError)
+            if (result.HasError)
             {
-                return StatusCode(response.Error.Code, new { response.Error.Message });
+                return StatusCode(
+                    result.Error.Code, 
+                    new ValidationErrorResponse(result.Error.Message)
+                 );
             }
 
-            return Ok(response.Data);
+            return Ok( new SaveResponse<AccountModel>(result.Data));
         }
 
         /// <summary>
@@ -55,17 +61,22 @@ namespace FinancialHub.WebApi.Controllers
         /// <param name="id">id of the account</param>
         /// <param name="account">account changes</param>
         [HttpPut("{id}")]
-        [ProducesResponseType(typeof(AccountModel), 200)]
+        [ProducesResponseType(typeof(SaveResponse<AccountModel>), 200)]
+        [ProducesResponseType(typeof(NotFoundErrorResponse), 404)]
+        [ProducesResponseType(typeof(ValidationErrorResponse), 400)]
         public async Task<IActionResult> UpdateAccount([FromRoute] Guid id, [FromBody] AccountModel account)
         {
             var response = await service.UpdateAsync(id, account);
 
             if (response.HasError)
             {
-                return StatusCode(response.Error.Code, new { response.Error.Message });
+                return StatusCode(
+                    response.Error.Code,
+                    new ValidationErrorResponse(response.Error.Message)
+                 );
             }
 
-            return Ok(response);
+            return Ok(new SaveResponse<AccountModel>(response.Data));
         }
 
         /// <summary>

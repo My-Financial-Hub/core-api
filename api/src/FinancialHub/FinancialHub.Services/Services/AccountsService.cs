@@ -36,7 +36,7 @@ namespace FinancialHub.Services.Services
             return new ServiceResult<int>(count);
         }
 
-        public async Task<ServiceResult<IEnumerable<AccountModel>>> GetAllByUserAsync(string userId)
+        public async Task<ServiceResult<ICollection<AccountModel>>> GetAllByUserAsync(string userId)
         {
             var entities = await this.repository.GetAllAsync();
 
@@ -58,7 +58,7 @@ namespace FinancialHub.Services.Services
 
             if (entity == null)
             {
-                return new NotFoundServiceError($"Not found account with id {id}");
+                return new NotFoundError($"Not found account with id {id}");
             }
 
             entity = this.mapper.Map<AccountEntity>(account);

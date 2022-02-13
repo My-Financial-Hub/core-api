@@ -48,7 +48,7 @@ namespace FinancialHub.Services.Services
 
             if (entity == null)
             {
-                return new NotFoundServiceError($"Not found category with id {id}");
+                return new NotFoundError($"Not found category with id {id}");
             }
             entity.Id = id;
 
