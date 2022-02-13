@@ -1,4 +1,5 @@
-﻿using FinancialHub.Domain.Entities;
+﻿using AutoMapper;
+using FinancialHub.Domain.Entities;
 using FinancialHub.Domain.Interfaces.Mappers;
 using FinancialHub.Domain.Interfaces.Repositories;
 using FinancialHub.Domain.Interfaces.Services;

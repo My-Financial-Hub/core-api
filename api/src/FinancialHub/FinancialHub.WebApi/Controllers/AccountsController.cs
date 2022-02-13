@@ -11,6 +11,7 @@ namespace FinancialHub.WebApi.Controllers
     [ApiController]
     [Route("[controller]")]
     [Produces("application/json")]
+    [ProducesErrorResponseType(typeof(Exception))]
     public class AccountsController : Controller
     {
         private readonly IAccountsService service;
