@@ -14,7 +14,7 @@ namespace FinancialHub.WebApi.NUnitTests.Controllers
     {
 
         [Test]
-        public async Task GetMyAccounts_ServiceSuccess_ReturnsOk()
+        public async Task GetMyCategories_ServiceSuccess_ReturnsOk()
         {
             var mockResult = new ServiceResult<ICollection<CategoryModel>>(
                 Enumerable.Repeat(modelGenerator.GenerateCategory(), random.Next(0, 10)).ToArray()

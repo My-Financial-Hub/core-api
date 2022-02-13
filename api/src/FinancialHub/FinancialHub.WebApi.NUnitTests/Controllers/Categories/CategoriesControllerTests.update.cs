@@ -14,7 +14,7 @@ namespace FinancialHub.WebApi.NUnitTests.Controllers
     public partial class CategoriesControllerTests
     {
         [Test]
-        public async Task UpdateAccount_Valid_ReturnsOk()
+        public async Task UpdateCategory_Valid_ReturnsOk()
         {
             var body = this.modelGenerator.GenerateCategory();
             var guid = body.Id.GetValueOrDefault();
@@ -39,7 +39,7 @@ namespace FinancialHub.WebApi.NUnitTests.Controllers
         }
 
         [Test]
-        public async Task UpdateAccount_Invalid_ReturnsBadRequest()
+        public async Task UpdateCategory_Invalid_ReturnsBadRequest()
         {
             var errorMessage = $"Invalid thing : {Guid.NewGuid()}";
             var body = this.modelGenerator.GenerateCategory();
