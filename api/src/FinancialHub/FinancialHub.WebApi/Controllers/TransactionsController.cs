@@ -29,8 +29,11 @@ namespace FinancialHub.WebApi.Controllers
             [FromQuery] TransactionFilter filter
         )
         {
-            var response = await service.GetAllByUserAsync("mock", filter);
+            try
+            {
+                var response = await service.GetAllByUserAsync("mock", filter);
             return Ok(response.Data);
+            }
         }
 
         [HttpPost]
@@ -41,8 +44,11 @@ namespace FinancialHub.WebApi.Controllers
         /// <param name="category">Transaction to be created</param>
         public async Task<IActionResult> CreateTransaction([FromBody] TransactionModel transaction)
         {
-            var response = await service.CreateAsync(transaction);
+            try
+            {
+                var response = await service.CreateAsync(transaction);
             return Ok(response.Data);
+            }
         }
 
         [HttpPut("{id}")]
@@ -54,7 +60,9 @@ namespace FinancialHub.WebApi.Controllers
         /// <param name="transaction">transaction changes</param>
         public async Task<IActionResult> UpdateTransaction([FromRoute] Guid id, [FromBody] TransactionModel transaction)
         {
-            var response = await service.UpdateAsync(id, transaction);
+            try
+            {
+                var response = await service.UpdateAsync(id, transaction);
 
             if (response.HasError)
             {
@@ -72,8 +80,15 @@ namespace FinancialHub.WebApi.Controllers
         /// <param name="id">id of the transaction</param>
         public async Task<IActionResult> DeleteTransaction([FromRoute] Guid id)
         {
-            await service.DeleteAsync(id);
-            return NoContent();
+            try
+            {
+                await service.DeleteAsync(id);
+                return NoContent();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e);
+            }
         }
     }
 }
