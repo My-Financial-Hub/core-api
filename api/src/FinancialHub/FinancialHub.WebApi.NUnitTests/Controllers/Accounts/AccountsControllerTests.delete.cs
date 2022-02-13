@@ -14,7 +14,6 @@ namespace FinancialHub.WebApi.NUnitTests.Controllers
 
             var result = response as ObjectResult;
 
-            Assert.AreEqual(204, result?.StatusCode);
             Assert.IsNull(result?.Value);
         }
     }

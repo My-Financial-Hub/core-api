@@ -64,14 +64,18 @@ namespace FinancialHub.WebApi.Controllers
         /// <param name="transaction">transaction changes</param>
         public async Task<IActionResult> UpdateTransaction([FromRoute] Guid id, [FromBody] TransactionModel transaction)
         {
-            var response = await service.UpdateAsync(id, transaction);
+            var result = await service.UpdateAsync(id, transaction);
 
-            if (response.HasError)
+            if (result.HasError)
             {
-                return StatusCode(response.Error.Code, new { response.Error.Message });
+                return StatusCode(
+                    result.Error.Code,
+                    new ValidationErrorResponse(result.Error.Message)
+                 );
             }
 
-            return Ok(response.Data);
+            return Ok(new SaveResponse<TransactionModel>(result.Data));
+
         }
 
         [HttpDelete("{id}")]
