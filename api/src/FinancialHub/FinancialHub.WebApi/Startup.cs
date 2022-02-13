@@ -1,4 +1,4 @@
-using FinancialHub.Infra.Contexts;
+using FinancialHub.Infra.Data.Contexts;
 using FinancialHub.WebApi.Extensions.Configurations;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -33,7 +33,6 @@ namespace FinancialHub.WebApi
             services.AddRepositories();
             services.AddServices();
             services.AddApiConfigurations();
-            services.AddAutoMapper(typeof(FinancialHubAutoMapperProfile));
 
             //services.AddHealthCheck();
             services.AddSwaggerGen(c =>

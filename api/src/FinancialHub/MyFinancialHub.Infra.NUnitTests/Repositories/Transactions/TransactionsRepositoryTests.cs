@@ -1,10 +1,10 @@
 ﻿using FinancialHub.Domain.Entities;
-using FinancialHub.Infra.NUnitTests.Repositories.Base;
-using FinancialHub.Infra.Repositories;
+using FinancialHub.Infra.Data.NUnitTests.Repositories.Base;
+using FinancialHub.Infra.Data.Repositories;
 using NUnit.Framework;
 using System;
 
-namespace FinancialHub.Infra.NUnitTests.Repositories.Transactions
+namespace FinancialHub.Infra.Data.NUnitTests.Repositories.Transactions
 {
     public partial class TransactionsRepositoryTests : BaseRepositoryTests<TransactionEntity>
     {

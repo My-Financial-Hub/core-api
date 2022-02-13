@@ -1,9 +1,13 @@
 ﻿using FinancialHub.Domain.Interfaces.Repositories;
 using FinancialHub.Domain.Interfaces.Services;
-using FinancialHub.Infra.Repositories;
-using FinancialHub.Infra.Services;
+using FinancialHub.Services.Services;
+using FinancialHub.Infra.Data.Repositories;
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
+using FinancialHub.Domain.Interfaces.Mappers;
+using FinancialHub.Services.Mappers;
+using FinancialHub.Domain.Mappers;
 
 namespace FinancialHub.WebApi.Extensions.Configurations
 {
@@ -31,6 +35,9 @@ namespace FinancialHub.WebApi.Extensions.Configurations
 
         public static IServiceCollection AddServices(this IServiceCollection services)
         {
+            services.AddAutoMapper(typeof(FinancialHubAutoMapperProfile));
+            services.AddScoped<IMapperWrapper, FinancialHubMapperWrapper>();
+
             services.AddScoped<IAccountsService, AccountsService>();
             services.AddScoped<ICategoriesService, CategoriesService>();
             services.AddScoped<ITransactionsService, TransactionsService>();

@@ -1,8 +1,8 @@
 ﻿using FinancialHub.Domain.Entities;
 using FinancialHub.Domain.Interfaces.Repositories;
-using FinancialHub.Infra.Contexts;
+using FinancialHub.Infra.Data.Contexts;
 
-namespace FinancialHub.Infra.Repositories
+namespace FinancialHub.Infra.Data.Repositories
 {
     public class CategoriesRepository : BaseRepository<CategoryEntity>, ICategoriesRepository
     {

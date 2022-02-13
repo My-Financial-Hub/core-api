@@ -3,7 +3,7 @@ using System;
 using FinancialHub.Domain.Entities;
 using FinancialHub.Domain.Enums;
 
-namespace FinancialHub.Infra.NUnitTests.Generators
+namespace FinancialHub.Infra.Data.NUnitTests.Generators
 {
     public class EntityGenerator
     {

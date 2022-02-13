@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics.CodeAnalysis;
 
-namespace FinancialHub.Infra.Contexts
+namespace FinancialHub.Infra.Data.Contexts
 {
     public class FinancialHubContext : DbContext
     {
