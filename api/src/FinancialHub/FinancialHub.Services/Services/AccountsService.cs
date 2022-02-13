@@ -4,6 +4,8 @@ using FinancialHub.Domain.Interfaces.Mappers;
 using FinancialHub.Domain.Interfaces.Repositories;
 using FinancialHub.Domain.Interfaces.Services;
 using FinancialHub.Domain.Models;
+using FinancialHub.Domain.Results;
+using FinancialHub.Domain.Results.Errors;
 
 namespace FinancialHub.Services.Services
 {
@@ -18,7 +20,7 @@ namespace FinancialHub.Services.Services
             this.repository = repository;
         }
 
-        public async Task<AccountModel> CreateAsync(AccountModel account)
+        public async Task<ServiceResult<AccountModel>> CreateAsync(AccountModel account)
         {
             var entity = mapper.Map<AccountEntity>(account);
 
@@ -27,26 +29,39 @@ namespace FinancialHub.Services.Services
             return mapper.Map<AccountModel>(entity);
         }
 
-        public async Task<int> DeleteAsync(Guid id)
+        public async Task<ServiceResult<int>> DeleteAsync(Guid id)
         {
-            return await this.repository.DeleteAsync(id);
+            var count = await this.repository.DeleteAsync(id);
+
+            return new ServiceResult<int>(count);
         }
 
-        public async Task<ICollection<AccountModel>> GetAllByUserAsync(string userId)
+        public async Task<ServiceResult<ICollection<AccountModel>>> GetAllByUserAsync(string userId)
         {
             var entities = await this.repository.GetAllAsync();
-            return mapper.Map<ICollection<AccountModel>>(entities);
+
+            var list = this.mapper.Map<ICollection<AccountModel>>(entities);
+
+            return list.ToArray();
         }
 
-        public async Task<AccountModel> UpdateAsync(Guid id, AccountModel account)
+        public async Task<ServiceResult<AccountModel>> GetByIdAsync(Guid id)
         {
             var entity = await this.repository.GetByIdAsync(id);
 
-            if(entity == null)
+            return this.mapper.Map<AccountModel>(entity);
+        }
+
+        public async Task<ServiceResult<AccountModel>> UpdateAsync(Guid id, AccountModel account)
+        {
+            var entity = await this.repository.GetByIdAsync(id);
+
+            if (entity == null)
             {
-                throw new NullReferenceException($"Not found account with id {id}");
+                return new NotFoundError($"Not found account with id {id}");
             }
-            entity.Id = id;
+
+            entity = this.mapper.Map<AccountEntity>(account);
 
             entity = await this.repository.UpdateAsync(entity);
 

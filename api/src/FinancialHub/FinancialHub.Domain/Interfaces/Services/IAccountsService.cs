@@ -2,17 +2,22 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using FinancialHub.Domain.Models;
+using FinancialHub.Domain.Results;
+using System.Collections.Generic;
 
 namespace FinancialHub.Domain.Interfaces.Services
 {
     public interface IAccountsService 
     {
-        Task<ICollection<AccountModel>> GetAllByUserAsync(string userId);
+        Task<ServiceResult<ICollection<AccountModel>>> GetAllByUserAsync(string userId);
 
-        Task<AccountModel> CreateAsync(AccountModel account);
+        Task<ServiceResult<AccountModel>> GetByIdAsync(Guid id);
 
-        Task<AccountModel> UpdateAsync(Guid id,AccountModel account);
+        Task<ServiceResult<AccountModel>> CreateAsync(AccountModel account);
 
-        Task<int> DeleteAsync(Guid id);
+        Task<ServiceResult<AccountModel>> UpdateAsync(Guid id,AccountModel account);
+
+        Task<ServiceResult<int>> DeleteAsync(Guid id);
     }
 }

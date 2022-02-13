@@ -68,6 +68,7 @@ namespace FinancialHub.Domain.Queries
             return (ent) => queries.All(query => query(ent));
         }
 
+        [Obsolete("Not working : no accounts/types/status filters")]
         private Func<TransactionEntity, bool> QueryFunc()
         {
             Func<TransactionEntity, bool> query;
