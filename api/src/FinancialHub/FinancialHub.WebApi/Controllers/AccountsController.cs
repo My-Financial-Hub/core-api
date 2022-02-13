@@ -27,15 +27,8 @@ namespace FinancialHub.WebApi.Controllers
         [ProducesResponseType(typeof(ICollection<AccountModel>), 200)]
         public async Task<IActionResult> GetMyAccounts()
         {
-            try
-            {
-                var response = await service.GetAllByUserAsync("mock");
+            var response = await service.GetAllByUserAsync("mock");
             return Ok(response.Data);
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e);
-            }
         }
 
         /// <summary>
@@ -46,13 +39,11 @@ namespace FinancialHub.WebApi.Controllers
         [ProducesResponseType(typeof(AccountModel), 200)]
         public async Task<IActionResult> CreateAccount([FromBody] AccountModel account)
         {
-            try
-            {
-                var response = await service.CreateAsync(account);
+            var response = await service.CreateAsync(account);
 
             if (response.HasError)
             {
-                return StatusCode(response.Error.Code,new{ response.Error.Message });
+                return StatusCode(response.Error.Code, new { response.Error.Message });
             }
 
             return Ok(response.Data);
@@ -71,7 +62,7 @@ namespace FinancialHub.WebApi.Controllers
 
             if (response.HasError)
             {
-                return StatusCode(response.Error.Code,new{ response.Error.Message });
+                return StatusCode(response.Error.Code, new { response.Error.Message });
             }
 
             return Ok(response);
@@ -84,15 +75,8 @@ namespace FinancialHub.WebApi.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAccount([FromRoute] Guid id)
         {
-            try
-            {
-                await service.DeleteAsync(id);
-                return NoContent();
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e);
-            }
+            await service.DeleteAsync(id);
+            return NoContent();
         }
     }
 }

@@ -27,15 +27,8 @@ namespace FinancialHub.WebApi.Controllers
         /// </summary>
         public async Task<IActionResult> GetMyCategories()
         {
-            try
-            {
-                var response = await service.GetAllByUserAsync("mock");
+            var response = await service.GetAllByUserAsync("mock");
             return Ok(response.Data);
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e);
-            }
         }
 
         [HttpPost]
@@ -46,15 +39,8 @@ namespace FinancialHub.WebApi.Controllers
         /// <param name="category">Account to be created</param>
         public async Task<IActionResult> CreateCategory([FromBody] CategoryModel category)
         {
-            try
-            {
-                var response = await service.CreateAsync(category);
+            var response = await service.CreateAsync(category);
             return Ok(response.Data);
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e);
-            }
         }
 
         [HttpPut("{id}")]
@@ -66,9 +52,7 @@ namespace FinancialHub.WebApi.Controllers
         /// <param name="category">category changes</param>
         public async Task<IActionResult> UpdateCategory([FromRoute] Guid id, [FromBody] CategoryModel category)
         {
-            try
-            {
-                var response = await service.UpdateAsync(id, category);
+            var response = await service.UpdateAsync(id, category);
 
             if (response.HasError)
             {
@@ -85,15 +69,8 @@ namespace FinancialHub.WebApi.Controllers
         /// <param name="id">id of the category</param>
         public async Task<IActionResult> DeleteCategory([FromRoute] Guid id)
         {
-            try
-            {
-                await service.DeleteAsync(id);
-                return NoContent();
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e);
-            }
+            await service.DeleteAsync(id);
+            return NoContent();
         }
     }
 }
