@@ -9,8 +9,9 @@ namespace FinancialHub.Domain.Tests.Builders.Entities
     {
         public BaseEntityBuilder()
         {
-            this.RuleFor(x => x.CreationTime, fake => DateTimeOffset.Now);
-            this.RuleFor(x => x.UpdateTime, fake => DateTimeOffset.Now);
+            this.RuleFor(x => x.Id,             fake => fake.Database.Random.Guid());
+            this.RuleFor(x => x.CreationTime,   fake => DateTimeOffset.Now);
+            this.RuleFor(x => x.UpdateTime,     fake => DateTimeOffset.Now);
         }
 
         public BaseEntityBuilder<T> WithId(Guid id)

@@ -7,7 +7,6 @@ namespace FinancialHub.Domain.Tests.Builders.Entities
     {
         public CategoryEntityBuilder() : base()
         {
-            this.RuleFor(x => x.Id, fake => fake.Database.Random.Guid());
             this.RuleFor(x => x.Name, fake => fake.Finance.Random.Word());
             this.RuleFor(x => x.Description, fake => fake.Lorem.Sentences(5));
             this.RuleFor(x => x.IsActive, fake => fake.System.Random.Bool());
