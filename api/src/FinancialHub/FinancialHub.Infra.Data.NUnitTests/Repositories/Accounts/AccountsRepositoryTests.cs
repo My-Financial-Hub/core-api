@@ -14,11 +14,5 @@ namespace FinancialHub.Infra.Data.NUnitTests.Repositories
             base.Setup();
             this.repository = new AccountsRepository(this.context);
         }
-
-        protected override AccountEntity GenerateObject(Guid? id = null)
-        {
-
-            return this.generator.GenerateAccount(id);
-        }
     }
 }

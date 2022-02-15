@@ -7,14 +7,13 @@ using FinancialHub.Domain.Interfaces.Repositories;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Data.Sqlite;
-using FinancialHub.Domain.NUnitTests.Generators;
+using FinancialHub.Domain.Tests.Builders.Entities;
 
 namespace FinancialHub.Infra.Data.NUnitTests.Repositories.Base
 {
     public abstract partial class BaseRepositoryTests<T> where T : BaseEntity
     {
-        protected Random random;
-        protected EntityGenerator generator;
+        protected BaseEntityBuilder<T> builder;
         protected FinancialHubContext context;
 
         protected IBaseRepository<T> repository;
@@ -37,10 +36,6 @@ namespace FinancialHub.Infra.Data.NUnitTests.Repositories.Base
         {  
             this.context = this.GetContext();
             context.Database.EnsureCreated();
-
-            this.random = new Random();
-
-            this.generator = new EntityGenerator(random);
         }
 
         [TearDown]
@@ -78,17 +73,27 @@ namespace FinancialHub.Infra.Data.NUnitTests.Repositories.Base
 
         protected virtual ICollection<T> GenerateData(int min = 1, int max = 100)
         {
-            var count = random.Next(min, max);
+            var count = new Random().Next(min, max);
             var data = new T[count];
 
             for (int i = 0; i < count; i++)
             {
-                data[i] = this.GenerateObject(Guid.NewGuid());
+                data[i] = this.GenerateObject();
             }
 
             return data;
         }
 
-        protected abstract T GenerateObject(Guid? id = null);
+        protected virtual T GenerateObject(Guid? id = null)
+        {
+            if (id == null)
+            {
+                return this.builder.Generate();
+            }
+            else
+            {
+                return this.builder.WithId(id.Value).Generate();
+            }
+        }
     }
 }

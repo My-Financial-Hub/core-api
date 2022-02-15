@@ -1,5 +1,5 @@
-﻿using System;
-using FinancialHub.Domain.Entities;
+﻿using FinancialHub.Domain.Entities;
+using FinancialHub.Domain.Tests.Builders.Entities;
 using FinancialHub.Infra.Data.NUnitTests.Repositories.Base;
 using FinancialHub.Infra.Data.Repositories;
 using NUnit.Framework;
@@ -13,11 +13,7 @@ namespace FinancialHub.Infra.Data.NUnitTests.Repositories
         {
             base.Setup();
             this.repository = new CategoriesRepository(this.context);
-        }
-
-        protected override CategoryEntity GenerateObject(Guid? id = null)
-        {
-            return this.generator.GenerateCategory(id);
+            this.builder = new CategoryEntityBuilder();
         }
     }
 }

@@ -15,24 +15,19 @@ namespace FinancialHub.Infra.Data.NUnitTests.Repositories
             this.repository = new TransactionsRepository(this.context);
         }
 
-        protected override TransactionEntity GenerateObject(Guid? id = null)
-        {
-            return this.generator.GenerateTransaction(id);
-        }
-
         protected TransactionEntity GenerateTransaction(Guid? id = null,Guid? accountId = null, Guid? categoryId = null)
         {
-            return this.generator.GenerateTransaction(id,accountId,categoryId);
+            return null;//this.builder.GenerateTransaction(id,accountId,categoryId);
         }
 
         protected CategoryEntity GenerateCategory(Guid? id = null)
         {
-            return this.generator.GenerateCategory(id);
+            return null;// return this.builder.GenerateCategory(id);
         }
 
         protected AccountEntity GenerateAccount(Guid? id = null)
         {
-            return this.generator.GenerateAccount(id);
+            return null;//return this.builder.GenerateAccount(id);
         }
     }
 }

@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\FinancialHub.Domain.NUnitTests\FinancialHub.Domain.NUnitTests.csproj" />
+    <ProjectReference Include="..\FinancialHub.Domain.NUnitTests\FinancialHub.Domain.Tests.csproj" />
     <ProjectReference Include="..\FinancialHub.Domain\FinancialHub.Domain.csproj" />
     <ProjectReference Include="..\FinancialHub.Infra.Data\FinancialHub.Infra.Data.csproj" />
   </ItemGroup>

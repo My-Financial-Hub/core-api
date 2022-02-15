@@ -17,13 +17,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinancialHub.Services", "Fi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinancialHub.Services.NUnitTests", "FinancialHub.Services.NUnitTests\FinancialHub.Services.NUnitTests.csproj", "{DD50583D-8D5F-42B8-9225-3BCCCDC8B122}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinancialHub.Domain.NUnitTests", "FinancialHub.Domain.NUnitTests\FinancialHub.Domain.NUnitTests.csproj", "{4AD8BB4F-58F2-4488-BB95-D96CFD78F662}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinancialHub.Domain.Tests", "FinancialHub.Domain.NUnitTests\FinancialHub.Domain.Tests.csproj", "{4AD8BB4F-58F2-4488-BB95-D96CFD78F662}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinancialHub.Infra.Data", "FinancialHub.Infra.Data\FinancialHub.Infra.Data.csproj", "{19E36296-E7CC-4D88-8F72-5B13ABE9A4E3}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinancialHub.Infra.Data.NUnitTests", "FinancialHub.Infra.Data.NUnitTests\FinancialHub.Infra.Data.NUnitTests.csproj", "{5A26CFA8-B077-4C91-BED9-C47339F960A2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinancialHub.WebApi.NUnitTests", "FinancialHub.WebApi.NUnitTests\FinancialHub.WebApi.NUnitTests.csproj", "{40B4BB9F-DD1B-463F-B2D0-9CF804A2089C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinancialHub.WebApi.NUnitTests", "FinancialHub.WebApi.NUnitTests\FinancialHub.WebApi.NUnitTests.csproj", "{40B4BB9F-DD1B-463F-B2D0-9CF804A2089C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
