@@ -56,7 +56,7 @@ namespace FinancialHub.Services.NUnitTests.Services
 
             this.repository
                 .Setup(x => x.GetByIdAsync(model.Id.GetValueOrDefault()))
-                .ReturnsAsync((CategoryEntity)null)
+                .ReturnsAsync(default(CategoryEntity))
                 .Verifiable();
 
             this.repository

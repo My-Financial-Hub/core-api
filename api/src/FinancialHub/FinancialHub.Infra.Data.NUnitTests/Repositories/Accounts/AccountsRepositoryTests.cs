@@ -9,16 +9,12 @@ namespace FinancialHub.Infra.Data.NUnitTests.Repositories
 {
     public class AccountsRepositoryTests : BaseRepositoryTests<AccountEntity>
     {
-        public AccountsRepositoryTests() : base()
-        {
-            this.builder = new AccountEntityBuilder();
-        }
-
         [SetUp]
         protected override void Setup()
         {
             base.Setup();
             this.repository = new AccountsRepository(this.context);
+            this.builder = new AccountEntityBuilder();
         }
     }
 }

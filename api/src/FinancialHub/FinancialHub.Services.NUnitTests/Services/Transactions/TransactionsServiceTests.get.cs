@@ -22,8 +22,8 @@ namespace FinancialHub.Services.NUnitTests.Services
         public async Task GetByUsersAsync_ValidUser_ReturnsTransactions()
         {
             var filter = new TransactionFilter();
-            var entitiesMock = Enumerable.Repeat(this.entityGenerator.GenerateTransaction(),random.Next(10,100));
-            
+            var entitiesMock = this.GenerateTransactions();
+
             this.repository
                 .Setup(x => x.GetAsync(It.IsAny<Func<TransactionEntity,bool>>()))
                 .ReturnsAsync(entitiesMock.ToArray())
@@ -57,7 +57,7 @@ namespace FinancialHub.Services.NUnitTests.Services
         {
             var filter = new TransactionFilter();
 
-            var entitiesMock = Enumerable.Repeat(this.entityGenerator.GenerateTransaction(), random.Next(10, 100));
+            var entitiesMock = this.GenerateTransactions();
             var exc = new Exception("mock");
 
             this.mapperWrapper

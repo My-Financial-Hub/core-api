@@ -1,20 +1,23 @@
 ﻿using AutoMapper;
+using FinancialHub.Domain.Entities;
 using FinancialHub.Domain.Interfaces.Mappers;
 using FinancialHub.Domain.Interfaces.Repositories;
 using FinancialHub.Domain.Interfaces.Services;
 using FinancialHub.Domain.NUnitTests.Generators;
+using FinancialHub.Domain.Tests.Builders.Entities;
 using FinancialHub.Services.Mappers;
 using FinancialHub.Services.Services;
 using Moq;
 using NUnit.Framework;
 using System;
+using System.Collections.Generic;
 
 namespace FinancialHub.Services.NUnitTests.Services
 {
     public partial class TransactionsServiceTests
     {
         protected Random random;
-        protected EntityGenerator entityGenerator; 
+        protected TransactionEntityBuilder transactionBuilder; 
         protected ModelGenerator modelGenerator; 
         
         private ITransactionsService service;
@@ -44,8 +47,13 @@ namespace FinancialHub.Services.NUnitTests.Services
 
             this.random = new Random();
 
-            this.entityGenerator = new EntityGenerator(random);
+            this.transactionBuilder = new TransactionEntityBuilder();
             this.modelGenerator = new ModelGenerator(random);
+        }
+
+        public ICollection<TransactionEntity> GenerateTransactions()
+        {
+            return this.transactionBuilder.Generate(random.Next(5, 10));
         }
     }
 }
