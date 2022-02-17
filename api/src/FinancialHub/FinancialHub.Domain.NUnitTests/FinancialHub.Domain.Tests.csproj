@@ -19,8 +19,4 @@
     <ProjectReference Include="..\FinancialHub.Domain\FinancialHub.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Builders\Models\" />
-  </ItemGroup>
-
 </Project>

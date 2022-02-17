@@ -3,8 +3,8 @@ using FinancialHub.Domain.Entities;
 using FinancialHub.Domain.Interfaces.Mappers;
 using FinancialHub.Domain.Interfaces.Repositories;
 using FinancialHub.Domain.Interfaces.Services;
-using FinancialHub.Domain.NUnitTests.Generators;
 using FinancialHub.Domain.Tests.Builders.Entities;
+using FinancialHub.Domain.Tests.Builders.Models;
 using FinancialHub.Services.Mappers;
 using FinancialHub.Services.Services;
 using Moq;
@@ -18,7 +18,7 @@ namespace FinancialHub.Services.NUnitTests.Services
     {
         protected Random random;
         protected CategoryEntityBuilder categoryBuilder; 
-        protected ModelGenerator modelGenerator; 
+        protected CategoryModelBuilder categoryModelBuilder; 
         
         private ICategoriesService service;
 
@@ -48,7 +48,7 @@ namespace FinancialHub.Services.NUnitTests.Services
             this.random = new Random();
 
             this.categoryBuilder = new CategoryEntityBuilder();
-            this.modelGenerator = new ModelGenerator(random);
+            this.categoryModelBuilder = new CategoryModelBuilder();
         }
 
         private ICollection<CategoryEntity> CreateCategories()

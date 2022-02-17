@@ -9,7 +9,7 @@ namespace FinancialHub.WebApi.NUnitTests.Controllers
         [Test]
         public async Task DeleteMyAccounts_ServiceSuccess_ReturnsNoContent()
         {
-            var mock = this.modelGenerator.GenerateAccount();
+            var mock = this.accountModelBuilder.Generate();
             var response = await this.controller.DeleteAccount(mock.Id.GetValueOrDefault());
 
             var result = response as ObjectResult;

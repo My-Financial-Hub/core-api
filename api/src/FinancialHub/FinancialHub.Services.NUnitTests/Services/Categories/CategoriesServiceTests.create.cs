@@ -14,7 +14,7 @@ namespace FinancialHub.Services.NUnitTests.Services
         [TestCase(Description = "Create valid Category", Category = "Create")]
         public async Task CreateAsync_ValidCategoryModel_ReturnsCategoryModel()
         {
-            var model = this.modelGenerator.GenerateCategory();
+            var model = this.categoryModelBuilder.Generate();
 
             this.repository
                 .Setup(x => x.CreateAsync(It.IsAny<CategoryEntity>()))
@@ -43,9 +43,9 @@ namespace FinancialHub.Services.NUnitTests.Services
 
         [Test]
         [TestCase(Description = "Create repository exception", Category = "Create")]
-        public async Task CreateAsync_RepositoryException_ThrowsException()
+        public void CreateAsync_RepositoryException_ThrowsException()
         {
-            var model = this.modelGenerator.GenerateCategory();
+            var model = this.categoryModelBuilder.Generate();
             var exc = new Exception("mock");
 
             this.repository

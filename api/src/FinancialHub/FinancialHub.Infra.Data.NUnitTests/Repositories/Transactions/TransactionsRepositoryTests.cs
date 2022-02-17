@@ -21,7 +21,7 @@ namespace FinancialHub.Infra.Data.NUnitTests.Repositories
             this.accountEntityBuilder = new AccountEntityBuilder();
             this.categoryEntityBuilder = new CategoryEntityBuilder();
 
-            this.builder = new TransactionEntityBuilder(accountEntityBuilder, categoryEntityBuilder);
+            this.builder = new TransactionEntityBuilder();
         }
 
         protected TransactionEntity GenerateTransaction(Guid? id = null,Guid? accountId = null, Guid? categoryId = null)
@@ -31,10 +31,21 @@ namespace FinancialHub.Infra.Data.NUnitTests.Repositories
 
             var build = (TransactionEntityBuilder)this.builder;
 
-            return build
-                .WithAccount(account)
-                .WithCategory(category)
-                .Generate();
+            if (id == null)
+            {
+                return build
+                    .WithAccount(account)
+                    .WithCategory(category)
+                    .Generate();
+            }
+            else
+            {
+                return build
+                    .WithAccount(account)
+                    .WithCategory(category)
+                    .WithId(id.Value)
+                    .Generate();
+            }
         }
 
         protected CategoryEntity GenerateCategory(Guid? id = null)

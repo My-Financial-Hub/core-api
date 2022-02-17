@@ -16,7 +16,7 @@ namespace FinancialHub.WebApi.NUnitTests.Controllers
         [Test]
         public async Task CreateAccount_Valid_ReturnsOk()
         {
-            var body = this.modelGenerator.GenerateAccount();
+            var body = this.accountModelBuilder.Generate();
             var mockResult = new ServiceResult<AccountModel>(body);
 
             this.mockService
@@ -41,7 +41,7 @@ namespace FinancialHub.WebApi.NUnitTests.Controllers
         public async Task CreateAccount_Invalid_ReturnsBadRequest()
         {
             var errorMessage = $"Invalid thing : {Guid.NewGuid()}";
-            var body = this.modelGenerator.GenerateAccount();
+            var body = this.accountModelBuilder.Generate();
 
             var mockResult = new ServiceResult<AccountModel>(body, new InvalidDataError(errorMessage));
 

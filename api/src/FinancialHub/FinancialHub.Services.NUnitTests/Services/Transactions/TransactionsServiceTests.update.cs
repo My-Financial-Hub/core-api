@@ -14,7 +14,7 @@ namespace FinancialHub.Services.NUnitTests.Services
         [TestCase(Description = "Update valid Transaction", Category = "Update")]
         public async Task UpdateAsync_ValidTransactionModel_ReturnsTransactionModel()
         {
-            var model = this.modelGenerator.GenerateTransaction();
+            var model = this.transactionModelBuilder.Generate();
 
             this.repository
                 .Setup(x => x.GetByIdAsync(model.Id.GetValueOrDefault()))
@@ -52,11 +52,11 @@ namespace FinancialHub.Services.NUnitTests.Services
         [TestCase(Description = "Update non existing Transaction", Category = "Update")]
         public async Task UpdateAsync_NonExistingTransactionId_ReturnsResultError()
         {
-            var model = this.modelGenerator.GenerateTransaction();
+            var model = this.transactionModelBuilder.Generate();
 
             this.repository
                 .Setup(x => x.GetByIdAsync(model.Id.GetValueOrDefault()))
-                .ReturnsAsync((TransactionEntity)null)
+                .ReturnsAsync(default(TransactionEntity))
                 .Verifiable();
 
             this.repository
@@ -75,9 +75,9 @@ namespace FinancialHub.Services.NUnitTests.Services
 
         [Test]
         [TestCase(Description = "Update repository exception", Category = "Update")]
-        public async Task UpdateAsync_RepositoryException_ThrowsException()
+        public void UpdateAsync_RepositoryException_ThrowsException()
         {
-            var model = this.modelGenerator.GenerateTransaction();
+            var model = this.transactionModelBuilder.Generate();
             var exc = new Exception("mock");
 
             this.repository

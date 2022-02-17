@@ -42,7 +42,7 @@ namespace FinancialHub.Services.NUnitTests.Services
 
         [Test]
         [TestCase(Description = "Get by user repository exception", Category = "Get")]
-        public async Task GetByUsersAsync_RepositoryException_ThrowsException()
+        public void GetByUsersAsync_RepositoryException_ThrowsException()
         {
             var entitiesMock = this.CreateCategories();
 
