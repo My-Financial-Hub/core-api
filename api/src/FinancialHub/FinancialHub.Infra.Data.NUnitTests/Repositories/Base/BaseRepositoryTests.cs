@@ -11,7 +11,7 @@ using FinancialHub.Infra.Data.Contexts;
 
 namespace FinancialHub.Infra.Data.NUnitTests.Repositories.Base
 {
-    public abstract partial class BaseRepositoryTests<T> : IDisposable
+    public abstract partial class BaseRepositoryTests<T>
         where T : BaseEntity
     {
         protected BaseEntityBuilder<T> builder;
@@ -33,15 +33,6 @@ namespace FinancialHub.Infra.Data.NUnitTests.Repositories.Base
         }
 
         #region lifeCycle
-        public BaseRepositoryTests()
-        {
-
-        }
-
-        public void Dispose()
-        {
-        }
-
         [SetUp]
         protected virtual void Setup()
         {
