@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 
 namespace FinancialHub.WebApi.NUnitTests.Controllers
 {
@@ -9,7 +9,7 @@ namespace FinancialHub.WebApi.NUnitTests.Controllers
         [Test]
         public async Task DeleteMyCategories_ServiceSuccess_ReturnsNoContent()
         {
-            var mock = this.modelGenerator.GenerateAccount();
+            var mock = this.categoryModelBuilder.Generate();
             var response = await this.controller.DeleteCategory(mock.Id.GetValueOrDefault());
 
             var result = response as ObjectResult;

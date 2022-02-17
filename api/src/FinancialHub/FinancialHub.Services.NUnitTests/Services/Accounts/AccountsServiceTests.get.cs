@@ -17,8 +17,8 @@ namespace FinancialHub.Services.NUnitTests.Services
         [TestCase(Description = "Get by user sucess return",Category = "Get")]
         public async Task GetByUsersAsync_ValidUser_ReturnsAccounts()
         {
-            var entitiesMock = Enumerable.Repeat(this.entityGenerator.GenerateAccount(),random.Next(10,100));
-            
+            var entitiesMock = this.GenerateAccounts();
+
             this.repository
                 .Setup(x => x.GetAllAsync())
                 .ReturnsAsync(entitiesMock.ToArray())
@@ -42,9 +42,10 @@ namespace FinancialHub.Services.NUnitTests.Services
 
         [Test]
         [TestCase(Description = "Get by user repository exception", Category = "Get")]
-        public async Task GetByUsersAsync_RepositoryException_ThrowsException()
+        public void GetByUsersAsync_RepositoryException_ThrowsException()
         {
-            var entitiesMock = Enumerable.Repeat(this.entityGenerator.GenerateAccount(), random.Next(10, 100));
+            var entitiesMock = this.GenerateAccounts();
+
             var exc = new Exception("mock");
             this.repository
                 .Setup(x => x.GetAllAsync())

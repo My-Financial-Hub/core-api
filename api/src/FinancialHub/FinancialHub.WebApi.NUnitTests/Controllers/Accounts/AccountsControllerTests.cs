@@ -1,9 +1,9 @@
 ﻿using Moq;
-using System;
 using NUnit.Framework;
 using FinancialHub.WebApi.Controllers;
 using FinancialHub.Domain.Interfaces.Services;
-using FinancialHub.Domain.NUnitTests.Generators;
+using FinancialHub.Domain.Tests.Builders.Models;
+using System;
 
 namespace FinancialHub.WebApi.NUnitTests.Controllers
 {
@@ -17,7 +17,8 @@ namespace FinancialHub.WebApi.NUnitTests.Controllers
     public partial class AccountsControllerTests
     {
         private Random random;
-        private ModelGenerator modelGenerator;
+
+        private AccountModelBuilder accountModelBuilder;
 
         private AccountsController controller;
         private Mock<IAccountsService> mockService;
@@ -26,7 +27,8 @@ namespace FinancialHub.WebApi.NUnitTests.Controllers
         public void Setup()
         {
             this.random = new Random();
-            this.modelGenerator = new ModelGenerator(random);
+
+            this.accountModelBuilder = new AccountModelBuilder();
 
             this.mockService = new Mock<IAccountsService>();
             this.controller = new AccountsController(this.mockService.Object);

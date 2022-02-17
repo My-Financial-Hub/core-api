@@ -2,9 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using FinancialHub.Domain.Models;
 using FinancialHub.Domain.Results;
-using System.Collections.Generic;
 
 namespace FinancialHub.Domain.Interfaces.Services
 {

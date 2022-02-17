@@ -14,7 +14,7 @@ namespace FinancialHub.Services.NUnitTests.Services
         [TestCase(Description = "Update valid Category", Category = "Update")]
         public async Task UpdateAsync_ValidCategoryModel_ReturnsCategoryModel()
         {
-            var model = this.modelGenerator.GenerateCategory();
+            var model = this.categoryModelBuilder.Generate();
 
             this.repository
                 .Setup(x => x.GetByIdAsync(model.Id.GetValueOrDefault()))
@@ -52,11 +52,11 @@ namespace FinancialHub.Services.NUnitTests.Services
         [TestCase(Description = "Update non existing Category", Category = "Update")]
         public async Task UpdateAsync_NonExistingCategoryId_ReturnsResultError()
         {
-            var model = this.modelGenerator.GenerateCategory();
+            var model = this.categoryModelBuilder.Generate();
 
             this.repository
                 .Setup(x => x.GetByIdAsync(model.Id.GetValueOrDefault()))
-                .ReturnsAsync((CategoryEntity)null)
+                .ReturnsAsync(default(CategoryEntity))
                 .Verifiable();
 
             this.repository
@@ -75,9 +75,9 @@ namespace FinancialHub.Services.NUnitTests.Services
 
         [Test]
         [TestCase(Description = "Update repository exception", Category = "Update")]
-        public async Task UpdateAsync_RepositoryException_ThrowsException()
+        public void UpdateAsync_RepositoryException_ThrowsException()
         {
-            var model = this.modelGenerator.GenerateCategory();
+            var model = this.categoryModelBuilder.Generate();
             var exc = new Exception("mock");
 
             this.repository

@@ -1,20 +1,20 @@
 ﻿using System;
-using NUnit.Framework;
-using FinancialHub.Infra.Data.Contexts;
-using FinancialHub.Domain.Entities;
-using Microsoft.EntityFrameworkCore;
-using FinancialHub.Domain.Interfaces.Repositories;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using NUnit.Framework;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Data.Sqlite;
-using FinancialHub.Domain.NUnitTests.Generators;
+using FinancialHub.Domain.Interfaces.Repositories;
+using FinancialHub.Domain.Tests.Builders.Entities;
+using FinancialHub.Domain.Entities;
+using FinancialHub.Infra.Data.Contexts;
 
 namespace FinancialHub.Infra.Data.NUnitTests.Repositories.Base
 {
-    public abstract partial class BaseRepositoryTests<T> where T : BaseEntity
+    public abstract partial class BaseRepositoryTests<T>
+        where T : BaseEntity
     {
-        protected Random random;
-        protected EntityGenerator generator;
+        protected BaseEntityBuilder<T> builder;
         protected FinancialHubContext context;
 
         protected IBaseRepository<T> repository;
@@ -32,15 +32,12 @@ namespace FinancialHub.Infra.Data.NUnitTests.Repositories.Base
             );
         }
 
+        #region lifeCycle
         [SetUp]
         protected virtual void Setup()
-        {  
+        {
             this.context = this.GetContext();
-            context.Database.EnsureCreated();
-
-            this.random = new Random();
-
-            this.generator = new EntityGenerator(random);
+            this.context.Database.EnsureCreated();
         }
 
         [TearDown]
@@ -48,6 +45,7 @@ namespace FinancialHub.Infra.Data.NUnitTests.Repositories.Base
         {
             this.context.Dispose();
         }
+        #endregion
 
         #region Generics
         protected virtual async Task<ICollection<Y>> InsertData<Y>(ICollection<Y> items)
@@ -78,17 +76,20 @@ namespace FinancialHub.Infra.Data.NUnitTests.Repositories.Base
 
         protected virtual ICollection<T> GenerateData(int min = 1, int max = 100)
         {
-            var count = random.Next(min, max);
-            var data = new T[count];
-
-            for (int i = 0; i < count; i++)
-            {
-                data[i] = this.GenerateObject(Guid.NewGuid());
-            }
-
-            return data;
+            var count = new Random().Next(min, max);
+            return this.builder.Generate(count);
         }
 
-        protected abstract T GenerateObject(Guid? id = null);
+        protected virtual T GenerateObject(Guid? id = null)
+        {
+            if (id == null)
+            {
+                return this.builder.Generate();
+            }
+            else
+            {
+                return this.builder.WithId(id.Value).Generate();
+            }
+        }
     }
 }

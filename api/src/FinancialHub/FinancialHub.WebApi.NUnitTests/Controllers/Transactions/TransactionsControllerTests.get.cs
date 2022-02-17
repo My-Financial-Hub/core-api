@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace FinancialHub.WebApi.NUnitTests.Controllers
@@ -16,9 +15,7 @@ namespace FinancialHub.WebApi.NUnitTests.Controllers
         [Test]
         public async Task GetMyTransactions_ServiceSuccess_ReturnsOk()
         {
-            var mockResult = new ServiceResult<ICollection<TransactionModel>>(
-                Enumerable.Repeat(modelGenerator.GenerateTransaction(), random.Next(0, 10)).ToArray()
-            );
+            var mockResult = new ServiceResult<ICollection<TransactionModel>>(transactionModelBuilder.Generate(random.Next(0, 10)));
 
             var filter = new TransactionFilter();
 

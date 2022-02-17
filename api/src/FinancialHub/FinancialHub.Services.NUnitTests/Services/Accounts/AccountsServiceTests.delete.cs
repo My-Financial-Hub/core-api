@@ -28,7 +28,7 @@ namespace FinancialHub.Services.NUnitTests.Services
 
         [Test]
         [TestCase(Description = "Update repository exception", Category = "Delete")]
-        public async Task DeleteAsync_RepositoryException_ThrowsException()
+        public void DeleteAsync_RepositoryException_ThrowsException()
         {
             var guid = Guid.NewGuid();
             var exc = new Exception("mock");

@@ -19,7 +19,6 @@ namespace FinancialHub.Infra.Data.NUnitTests.Repositories.Base
             Assert.IsNotEmpty(context.Set<T>().ToList());
         }
 
-        #region Create
         [Test]
         [TestCase(TestName = "Create new Item", Category = "Create")]
         public virtual async Task CreateAsync_ValidItem_AddsOneRow(T item = null)
@@ -60,6 +59,5 @@ namespace FinancialHub.Infra.Data.NUnitTests.Repositories.Base
             this.AssertCreated(result);
             Assert.AreEqual(2,context.Set<T>().Count());
         }
-        #endregion
     }
 }

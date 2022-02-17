@@ -15,8 +15,7 @@ namespace FinancialHub.Infra.Data.Contexts
             modelBuilder.Entity<TransactionEntity>(table =>
             {
                 table.HasKey(t => t.Id);
-                table.HasIndex(t => t.Id)
-                .IsUnique(true);
+                table.HasIndex(t => t.Id).IsUnique(true);
 
                 table.HasOne(x => x.Account)
                     .WithMany(x => x.Transactions)
