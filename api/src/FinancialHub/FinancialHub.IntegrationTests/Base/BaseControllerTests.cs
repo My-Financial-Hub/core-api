@@ -1,82 +1,74 @@
-﻿using FinancialHub.Infra.Data.Contexts;
-using FinancialHub.WebApi;
-using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
+﻿using NUnit.Framework;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
+using FinancialHub.IntegrationTests.Setup;
+using System.Text;
+using System;
 
 namespace FinancialHub.IntegrationTests.Base
 {
     public abstract class BaseControllerTests
     {
-        protected readonly HttpClient client;
-        protected readonly FinancialHubContext database;
+        protected readonly FinancialHubApiFixture fixture;
+        protected HttpClient client => fixture.Client;
 
         public BaseControllerTests()
         {
-            var optionsBuilder = new DbContextOptionsBuilder<FinancialHubContext>();
-            optionsBuilder.UseInMemoryDatabase("test");
-            this.database = new FinancialHubContext(optionsBuilder.Options); 
+            this.fixture = new FinancialHubApiFixture();
+        }
 
-            var api = new WebApplicationFactory<Startup>().WithWebHostBuilder(
-                builder =>
-                {
-                    builder.ConfigureServices(services => {
-                        services.Remove(
-                            new ServiceDescriptor(
-                                typeof(FinancialHubContext), typeof(FinancialHubContext)
-                            )
-                        );
+        [SetUp]
+        public virtual void SetUp()
+        {
+        }
 
-                        services.Configure<FinancialHubContext>(ctx =>
-                        {
-                            ctx = this.database;
-                        });
-                    });
-                }
-            );
-
-            using (var scope = api.Services.CreateScope())
-            {
-                var context = scope.ServiceProvider.GetRequiredService<FinancialHubContext>();
-                context.Database.EnsureCreated();
-            }
-
-            this.client = api.CreateClient();
+        [TearDown]
+        public virtual void TearDown()
+        {
+            this.fixture.ClearData();
         }
 
         protected static HttpContent CreateContent<T>(T content)
         {
-            return new StringContent(JsonSerializer.Serialize(content));
+            return new StringContent(JsonSerializer.Serialize(content), Encoding.UTF8,"application/json");
         }
 
         protected static async Task<T?> ReadContentAsync<T>(HttpContent content)
         {
-            var stream = await content.ReadAsStreamAsync();
+            try
+            {
+                var stream = await content.ReadAsStreamAsync();
 
-            return await JsonSerializer.DeserializeAsync<T>(stream,
-                new JsonSerializerOptions() { 
-                    PropertyNameCaseInsensitive = true
-                }
-            );
+                return await JsonSerializer.DeserializeAsync<T>(stream,
+                    new JsonSerializerOptions()
+                    {
+                        PropertyNameCaseInsensitive = true
+                    }
+                );
+            }
+            catch (Exception e)
+            {
+                var json = await content.ReadAsStringAsync();
+                Assert.Fail($"Not able to Read the content:\n{json}\n Exception :\n{e}");
+                throw;
+            }
         }
 
-        protected async Task<Y?> PostAsync<T, Y>(string endpoint, Y body)
+        protected async Task<T?> PostAsync<T>(string endpoint, T body)
         {
             var contentBody = CreateContent(body);
             var response = await this.client.PostAsync(endpoint, contentBody);
 
-            return await ReadContentAsync<Y>(response.Content);
+            return await ReadContentAsync<T>(response.Content);
         }
 
-        protected async Task<Y?> PutAsync<T, Y>(string endpoint, Y body)
+        protected async Task<T?> PutAsync<T>(string endpoint, T body)
         {
             var contentBody = CreateContent(body);
             var response = await this.client.PutAsync(endpoint, contentBody);
 
-            return await ReadContentAsync<Y>(response.Content);
+            return await ReadContentAsync<T>(response.Content);
         }
 
         protected async Task<T?> GetAsync<T>(string endpoint)
