@@ -32,12 +32,16 @@ namespace FinancialHub.IntegrationTests.Setup
 
                             services.AddDbContext<FinancialHubContext>(options =>
                             {
-                                options.UseInMemoryDatabase("InMemoryDbForTesting");
+                                //TODO: use sql local database / docker
+                                options.UseInMemoryDatabase("DataSource=:memory:");
+                                //TODO: remove it
+                                //https://stackoverflow.com/questions/482827/database-data-needed-in-integration-tests-created-by-api-calls-or-using-importe
                                 options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
                             });
 
                             var sp = services.BuildServiceProvider();
 
+                            //TODO: run migrations
                             var db = sp.GetRequiredService<FinancialHubContext>();
                             db.Database.EnsureCreated();
                         });
