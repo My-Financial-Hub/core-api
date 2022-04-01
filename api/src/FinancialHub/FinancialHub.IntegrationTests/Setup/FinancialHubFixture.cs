@@ -7,8 +7,6 @@ using Microsoft.EntityFrameworkCore;
 using FinancialHub.WebApi;
 using FinancialHub.Infra.Data.Contexts;
 using FinancialHub.Domain.Entities;
-using System.Collections.Generic;
-
 namespace FinancialHub.IntegrationTests.Setup
 {
     public class FinancialHubApiFixture : IDisposable
@@ -33,10 +31,12 @@ namespace FinancialHub.IntegrationTests.Setup
                             services.AddDbContext<FinancialHubContext>(options =>
                             {
                                 //TODO: use sql local database / docker
-                                options.UseInMemoryDatabase("DataSource=:memory:");
+                                options.UseInMemoryDatabase("InMemoryDbForTesting");
                                 //TODO: remove it
                                 //https://stackoverflow.com/questions/482827/database-data-needed-in-integration-tests-created-by-api-calls-or-using-importe
                                 options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+
+                                options.EnableSensitiveDataLogging();
                             });
 
                             var sp = services.BuildServiceProvider();
@@ -51,7 +51,7 @@ namespace FinancialHub.IntegrationTests.Setup
             this.Client = this.Api.CreateClient();
         }
 
-        public void AddData<T>(IEnumerable<T> data)
+        public void AddData<T>(params T[] data)
             where T : BaseEntity
         {
             using (var scope = this.Api.Server.Services.CreateScope())
@@ -59,19 +59,6 @@ namespace FinancialHub.IntegrationTests.Setup
                 var context = scope.ServiceProvider.GetRequiredService<FinancialHubContext>();
                 context.Set<T>().AddRange(data);
                 context.SaveChanges();
-            }
-        }
-
-        public void AddData<T>(T data)
-            where T : BaseEntity
-        {
-            using (var scope = this.Api.Server.Services.CreateScope())
-            {
-                using(var context = scope.ServiceProvider.GetRequiredService<FinancialHubContext>())
-                {
-                    context.Set<T>().Add(data);
-                    context.SaveChanges();
-                }
             }
         }
 

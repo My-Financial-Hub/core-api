@@ -14,15 +14,21 @@ namespace FinancialHub.IntegrationTests.Accounts
 {
     public class AccountsControllerTests : BaseControllerTests
     {
-        private readonly AccountEntityBuilder dataBuilder;
-        private readonly AccountModelBuilder builder;
+        private AccountEntityBuilder dataBuilder;
+        private AccountModelBuilder builder;
 
         private const string baseEndpoint = "/accounts";
 
         public AccountsControllerTests() : base()
         {
+            
+        }
+
+        public override void SetUp()
+        {
             this.dataBuilder = new AccountEntityBuilder();
-            this.builder = new AccountModelBuilder();
+            this.builder = new AccountModelBuilder(); 
+            base.SetUp();
         }
 
         protected static void AssertEqual(AccountModel expected, AccountModel result)
@@ -45,7 +51,7 @@ namespace FinancialHub.IntegrationTests.Accounts
         public async Task GetAll_ReturnAccounts()
         {
             var data = dataBuilder.Generate(10);
-            this.fixture.AddData(data);
+            this.fixture.AddData(data.ToArray());
 
             var response = await this.client.GetAsync(baseEndpoint);
             Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
@@ -117,6 +123,33 @@ namespace FinancialHub.IntegrationTests.Accounts
 
             var result = await ReadContentAsync<NotFoundErrorResponse>(response.Content);
             Assert.AreEqual($"Not found account with id {id}", result!.Message);
+        }
+
+        [Test]
+        public async Task Delete_ReturnNoContent()
+        {
+            var id = Guid.NewGuid();
+
+            var data = dataBuilder.WithId(id).Generate();
+            this.fixture.AddData(data);
+
+            var response = await this.client.DeleteAsync($"{baseEndpoint}/{id}");
+            Assert.AreEqual(HttpStatusCode.NoContent, response.StatusCode);
+        }
+
+        [Test]
+        public async Task Delete_RemovesAccountFromDatabase()
+        {
+            var id = Guid.NewGuid();
+
+            var data = dataBuilder.WithId(id).Generate();
+            this.fixture.AddData(data);
+
+            await this.client.DeleteAsync($"{baseEndpoint}/{id}");
+
+            var getResponse = await this.client.GetAsync(baseEndpoint);
+            var getResult = await ReadContentAsync<ListResponse<AccountModel>>(getResponse.Content);
+            Assert.IsEmpty(getResult!.Data);
         }
     }
 }
