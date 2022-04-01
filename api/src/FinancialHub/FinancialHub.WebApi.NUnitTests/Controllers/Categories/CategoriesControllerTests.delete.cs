@@ -7,6 +7,7 @@ namespace FinancialHub.WebApi.NUnitTests.Controllers
     public partial class CategoriesControllerTests
     {
         [Test]
+        [TestCase(Description = "Delete Returns NoContent", Category = "Delete")]
         public async Task DeleteMyCategories_ServiceSuccess_ReturnsNoContent()
         {
             var mock = this.categoryModelBuilder.Generate();

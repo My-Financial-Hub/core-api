@@ -14,7 +14,8 @@ namespace FinancialHub.WebApi.NUnitTests.Controllers
     public partial class AccountsControllerTests
     {
         [Test]
-        public async Task CreateAccount_Valid_ReturnsOk()
+        [TestCase(Description = "Create account returns ok", Category = "Create")]
+        public async Task CreateAccount_ServiceSuccess_ReturnsOk()
         {
             var body = this.accountModelBuilder.Generate();
             var mockResult = new ServiceResult<AccountModel>(body);
@@ -38,7 +39,8 @@ namespace FinancialHub.WebApi.NUnitTests.Controllers
         }
 
         [Test]
-        public async Task CreateAccount_Invalid_ReturnsBadRequest()
+        [TestCase(Description = "Create account returns Bad Request", Category = "Create")]
+        public async Task CreateAccount_ServiceError_ReturnsBadRequest()
         {
             var errorMessage = $"Invalid thing : {Guid.NewGuid()}";
             var body = this.accountModelBuilder.Generate();
