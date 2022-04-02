@@ -9,6 +9,7 @@ using FinancialHub.Domain.Tests.Builders.Models;
 using System;
 using System.Linq;
 using FinancialHub.Domain.Responses.Errors;
+using FinancialHub.Domain.Tests.Extensions;
 
 namespace FinancialHub.IntegrationTests.Accounts
 {
@@ -39,10 +40,11 @@ namespace FinancialHub.IntegrationTests.Accounts
             Assert.AreEqual(expected.IsActive,      result.IsActive);
         }
 
-        protected async Task AssertGetExists(AccountModel expected)// TODO: change to get by ID url
+        protected async Task AssertGetExists(AccountModel expected)
         {
             var getResponse = await this.client.GetAsync(baseEndpoint);
-            var getResult = await ReadContentAsync<ListResponse<AccountModel>>(getResponse.Content);
+
+            var getResult = await getResponse.ReadContentAsync<ListResponse<AccountModel>>();
             Assert.AreEqual(1, getResult?.Data.Count);
             AssertEqual(expected, getResult!.Data.First());
         }
@@ -56,7 +58,7 @@ namespace FinancialHub.IntegrationTests.Accounts
             var response = await this.client.GetAsync(baseEndpoint);
             Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
 
-            var result = await ReadContentAsync<ListResponse<AccountModel>>(response.Content);
+            var result = await response.ReadContentAsync<ListResponse<AccountModel>>();
             Assert.AreEqual(data.Count, result?.Data.Count);
         }
 
@@ -65,10 +67,10 @@ namespace FinancialHub.IntegrationTests.Accounts
         {
             var data = this.builder.Generate();
 
-            var response = await this.client.PostAsync(baseEndpoint, CreateContent(data));
+            var response = await this.client.PostAsync(baseEndpoint, data);
             Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
 
-            var result = await ReadContentAsync<SaveResponse<AccountModel>>(response.Content);
+            var result = await response.ReadContentAsync<SaveResponse<AccountModel>>();
             Assert.IsNotNull(result?.Data);
             AssertEqual(data, result!.Data);
         }
@@ -78,7 +80,7 @@ namespace FinancialHub.IntegrationTests.Accounts
         {
             var body = this.builder.Generate();
 
-            await this.client.PostAsync(baseEndpoint, CreateContent(body));
+            await this.client.PostAsync(baseEndpoint, body);
 
             await this.AssertGetExists(body);
         }
@@ -91,10 +93,10 @@ namespace FinancialHub.IntegrationTests.Accounts
 
             var body = this.builder.WithId(id).Generate();
 
-            var response = await this.client.PutAsync($"{baseEndpoint}/{id}", CreateContent(body));
+            var response = await this.client.PutAsync($"{baseEndpoint}/{id}", body);
             Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
 
-            var result = await ReadContentAsync<SaveResponse<AccountModel>>(response.Content);
+            var result = await response.ReadContentAsync<SaveResponse<AccountModel>>();
             Assert.IsNotNull(result?.Data);
             Assert.AreEqual(body.Id, result?.Data.Id);
             AssertEqual(body,result!.Data);
@@ -107,7 +109,7 @@ namespace FinancialHub.IntegrationTests.Accounts
             this.fixture.AddData(dataBuilder.WithId(id).Generate());
 
             var body = this.builder.WithId(id).Generate();
-            await this.client.PutAsync($"{baseEndpoint}/{id}", CreateContent(body));
+            await this.client.PutAsync($"{baseEndpoint}/{id}", body);
 
             await this.AssertGetExists(body);
         }
@@ -118,10 +120,10 @@ namespace FinancialHub.IntegrationTests.Accounts
             var id = Guid.NewGuid();
             var body = this.builder.WithId(id).Generate();
 
-            var response = await this.client.PutAsync($"{baseEndpoint}/{id}", CreateContent(body));
+            var response = await this.client.PutAsync($"{baseEndpoint}/{id}", body);
             Assert.AreEqual(HttpStatusCode.NotFound, response.StatusCode);
 
-            var result = await ReadContentAsync<NotFoundErrorResponse>(response.Content);
+            var result = await response.ReadContentAsync<NotFoundErrorResponse>();
             Assert.AreEqual($"Not found account with id {id}", result!.Message);
         }
 
@@ -148,7 +150,7 @@ namespace FinancialHub.IntegrationTests.Accounts
             await this.client.DeleteAsync($"{baseEndpoint}/{id}");
 
             var getResponse = await this.client.GetAsync(baseEndpoint);
-            var getResult = await ReadContentAsync<ListResponse<AccountModel>>(getResponse.Content);
+            var getResult = await getResponse.ReadContentAsync<ListResponse<AccountModel>>();
             Assert.IsEmpty(getResult!.Data);
         }
     }
