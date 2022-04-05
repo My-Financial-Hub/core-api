@@ -1,14 +1,12 @@
 ﻿using System;
-using System.Linq;
 using System.Net.Http;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.EntityFrameworkCore;
 using FinancialHub.WebApi;
 using FinancialHub.Infra.Data.Contexts;
 using FinancialHub.Domain.Entities;
 using System.Collections;
-using Microsoft.Data.Sqlite;
+using FinancialHub.IntegrationTests.Extensions;
 
 namespace FinancialHub.IntegrationTests.Setup
 {
@@ -25,19 +23,7 @@ namespace FinancialHub.IntegrationTests.Setup
                     {
                         builder.ConfigureServices(services =>
                         {
-                            var dbContextOptions = services.SingleOrDefault(
-                                d => d.ServiceType == typeof(DbContextOptions<FinancialHubContext>)
-                            );
-                            services.Remove(dbContextOptions!);
-
-                            services.AddDbContext<FinancialHubContext>(options =>
-                            {
-                                options.UseInMemoryDatabase("123");
-                                options.EnableSensitiveDataLogging(true);
-                                //TODO: remove it
-                                //https://stackoverflow.com/questions/482827/database-data-needed-in-integration-tests-created-by-api-calls-or-using-importe
-                                options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
-                            });
+                            services.AddTestDbContext<FinancialHubContext>();
                         });
                     }
                 );
