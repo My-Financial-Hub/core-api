@@ -55,7 +55,15 @@ namespace FinancialHub.IntegrationTests
         [Test]
         public async Task GetAll_ReturnTransactions()
         {
+            var category = categoryBuilder.Generate();
+            this.fixture.AddData(category);
+
+            var account = accountBuilder.Generate();
+            this.fixture.AddData(account);
+
             var data = entityBuilder
+                .WithAccount(account)
+                .WithCategory(category)
                 .Generate(10);
             this.fixture.AddData(data.ToArray());
 
