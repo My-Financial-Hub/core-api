@@ -1,26 +1,27 @@
-﻿using NUnit.Framework;
-using System.Net.Http;
-using System.Text.Json;
-using System.Threading.Tasks;
+﻿using System.Net.Http;
+using NUnit.Framework;
 using FinancialHub.IntegrationTests.Setup;
-using System.Text;
-using System;
 
 namespace FinancialHub.IntegrationTests.Base
 {
+    [TestFixtureSource(typeof(FinancialHubApiFixture))]
     public abstract class BaseControllerTests
     {
         protected readonly FinancialHubApiFixture fixture;
         protected HttpClient client => fixture.Client;
 
-        public BaseControllerTests()
+        protected readonly string baseEndpoint;
+
+        public BaseControllerTests(FinancialHubApiFixture fixture,string endpoint)
         {
-            this.fixture = new FinancialHubApiFixture();
+            this.fixture = fixture;
+            this.baseEndpoint = endpoint;
         }
 
         [SetUp]
         public virtual void SetUp()
         {
+            this.fixture.CreateDatabase();
         }
 
         [TearDown]

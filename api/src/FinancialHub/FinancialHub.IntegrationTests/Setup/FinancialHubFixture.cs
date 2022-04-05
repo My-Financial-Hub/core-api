@@ -7,9 +7,12 @@ using Microsoft.EntityFrameworkCore;
 using FinancialHub.WebApi;
 using FinancialHub.Infra.Data.Contexts;
 using FinancialHub.Domain.Entities;
+using System.Collections;
+using Microsoft.Data.Sqlite;
+
 namespace FinancialHub.IntegrationTests.Setup
 {
-    public class FinancialHubApiFixture : IDisposable
+    public class FinancialHubApiFixture : IEnumerable, IDisposable
     {
         public HttpClient Client { get; protected set; }
         public WebApplicationFactory<Startup> Api { get; protected set; }
@@ -22,28 +25,19 @@ namespace FinancialHub.IntegrationTests.Setup
                     {
                         builder.ConfigureServices(services =>
                         {
-                            var descriptor = services.SingleOrDefault(
+                            var dbContextOptions = services.SingleOrDefault(
                                 d => d.ServiceType == typeof(DbContextOptions<FinancialHubContext>)
                             );
-
-                            services.Remove(descriptor!);
+                            services.Remove(dbContextOptions!);
 
                             services.AddDbContext<FinancialHubContext>(options =>
                             {
-                                //TODO: use sql local database / docker
-                                options.UseInMemoryDatabase("InMemoryDbForTesting");
+                                options.UseInMemoryDatabase("123");
+                                options.EnableSensitiveDataLogging(true);
                                 //TODO: remove it
                                 //https://stackoverflow.com/questions/482827/database-data-needed-in-integration-tests-created-by-api-calls-or-using-importe
                                 options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
-
-                                options.EnableSensitiveDataLogging();
                             });
-
-                            var sp = services.BuildServiceProvider();
-
-                            //TODO: run migrations
-                            var db = sp.GetRequiredService<FinancialHubContext>();
-                            db.Database.EnsureCreated();
                         });
                     }
                 );
@@ -62,6 +56,16 @@ namespace FinancialHub.IntegrationTests.Setup
             }
         }
 
+        public void CreateDatabase()
+        {
+            using(var scope = this.Api.Services.CreateScope())
+            {
+                //TODO: run migrations
+                var db = scope.ServiceProvider.GetRequiredService<FinancialHubContext>();
+                db.Database.EnsureCreated();
+            }
+        }
+
         public void ClearData()
         {
             using (var scope = this.Api.Server.Services.CreateScope())
@@ -76,6 +80,11 @@ namespace FinancialHub.IntegrationTests.Setup
             this.Api.Dispose();
             this.Client.Dispose();
             GC.SuppressFinalize(this);
+        }
+
+        public IEnumerator GetEnumerator()
+        {
+            yield return this;
         }
     }
 }

@@ -3,7 +3,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace FinancialHub.Domain.Tests.Extensions
+namespace FinancialHub.IntegrationTests.Extensions
 {
     public static class HttpClientExtensions
     {
