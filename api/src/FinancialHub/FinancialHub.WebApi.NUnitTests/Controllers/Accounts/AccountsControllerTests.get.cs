@@ -1,25 +1,22 @@
-﻿using FinancialHub.Domain.Models;
+﻿using Microsoft.AspNetCore.Mvc;
+using Moq;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using NUnit.Framework;
+using FinancialHub.Domain.Models;
 using FinancialHub.Domain.Responses.Success;
 using FinancialHub.Domain.Results;
-using Microsoft.AspNetCore.Mvc;
-using Moq;
-using NUnit.Framework;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace FinancialHub.WebApi.NUnitTests.Controllers
 {
     public partial class AccountsControllerTests
     {
-
         [Test]
-        public async Task GetMyAccounts_ServiceSuccess_ReturnsOk(
-            //ServiceResult<IEnumerable<AccountModel>> mockResult
-            )
+        [TestCase(Description = "Get Accounts returns ok", Category = "Get")]
+        public async Task GetMyAccounts_ServiceSuccess_ReturnsOk()
         {
             var mockResult = new ServiceResult<ICollection<AccountModel>>(
-                Enumerable.Repeat(modelGenerator.GenerateAccount(), random.Next(0, 10)).ToArray()
+                accountModelBuilder.Generate(random.Next(0, 10))
             );
 
             this.mockService

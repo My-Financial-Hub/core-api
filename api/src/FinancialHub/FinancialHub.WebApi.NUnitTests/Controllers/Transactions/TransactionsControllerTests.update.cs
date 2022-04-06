@@ -14,9 +14,10 @@ namespace FinancialHub.WebApi.NUnitTests.Controllers
     public partial class TransactionsControllerTests
     {
         [Test]
+        [TestCase(Description = "Update valid Transaction returns Ok", Category = "Update")]
         public async Task UpdateTransaction_Valid_ReturnsOk()
         {
-            var body = this.modelGenerator.GenerateTransaction();
+            var body = this.transactionModelBuilder.Generate();
             var guid = body.Id.GetValueOrDefault();
             var mockResult = new ServiceResult<TransactionModel>(body);
 
@@ -39,10 +40,11 @@ namespace FinancialHub.WebApi.NUnitTests.Controllers
         }
 
         [Test]
+        [TestCase(Description = "Update Transaction invalid returns BadRequest", Category = "Update")]
         public async Task UpdateTransaction_Invalid_ReturnsBadRequest()
         {
             var errorMessage = $"Invalid thing : {Guid.NewGuid()}";
-            var body = this.modelGenerator.GenerateTransaction();
+            var body = this.transactionModelBuilder.Generate();
             var guid = body.Id.GetValueOrDefault();
 
             var mockResult = new ServiceResult<TransactionModel>(body, new InvalidDataError(errorMessage));

@@ -3,6 +3,7 @@ using NUnit.Framework;
 using FinancialHub.Domain.Entities;
 using FinancialHub.Infra.Data.Repositories;
 using FinancialHub.Infra.Data.NUnitTests.Repositories.Base;
+using FinancialHub.Domain.Tests.Builders.Entities;
 
 namespace FinancialHub.Infra.Data.NUnitTests.Repositories
 {
@@ -13,12 +14,7 @@ namespace FinancialHub.Infra.Data.NUnitTests.Repositories
         {
             base.Setup();
             this.repository = new AccountsRepository(this.context);
-        }
-
-        protected override AccountEntity GenerateObject(Guid? id = null)
-        {
-
-            return this.generator.GenerateAccount(id);
+            this.builder = new AccountEntityBuilder();
         }
     }
 }

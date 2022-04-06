@@ -14,7 +14,7 @@ namespace FinancialHub.Services.NUnitTests.Services
         [TestCase(Description = "Update valid account", Category = "Update")]
         public async Task UpdateAsync_ValidAccountModel_ReturnsAccountModel()
         {
-            var model = this.modelGenerator.GenerateAccount();
+            var model = this.accountModelBuilder.Generate();
 
             this.repository
                 .Setup(x => x.GetByIdAsync(model.Id.GetValueOrDefault()))
@@ -52,11 +52,11 @@ namespace FinancialHub.Services.NUnitTests.Services
         [TestCase(Description = "Update non existing account", Category = "Update")]
         public async Task UpdateAsync_NonExistingAccountId_ReturnsResultError()
         {
-            var model = this.modelGenerator.GenerateAccount();
+            var model = this.accountModelBuilder.Generate();
 
             this.repository
                 .Setup(x => x.GetByIdAsync(model.Id.GetValueOrDefault()))
-                .ReturnsAsync((AccountEntity)null)
+                .ReturnsAsync(default(AccountEntity))
                 .Verifiable();
 
             this.repository
@@ -75,9 +75,9 @@ namespace FinancialHub.Services.NUnitTests.Services
 
         [Test]
         [TestCase(Description = "Update repository exception", Category = "Update")]
-        public async Task UpdateAsync_RepositoryException_ThrowsException()
+        public void UpdateAsync_RepositoryException_ThrowsException()
         {
-            var model = this.modelGenerator.GenerateAccount();
+            var model = this.accountModelBuilder.Generate();
             var exc = new Exception("mock");
 
             this.repository

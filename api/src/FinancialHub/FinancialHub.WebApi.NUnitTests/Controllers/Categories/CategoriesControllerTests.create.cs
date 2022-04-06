@@ -1,22 +1,23 @@
-﻿using FinancialHub.Domain.Models;
+﻿using Moq;
+using System;
+using System.Threading.Tasks;
+using NUnit.Framework;
+using Microsoft.AspNetCore.Mvc;
+using FinancialHub.Domain.Models;
 using FinancialHub.Domain.Results;
 using FinancialHub.Domain.Responses.Errors;
 using FinancialHub.Domain.Responses.Success;
 using FinancialHub.Domain.Results.Errors;
-using Microsoft.AspNetCore.Mvc;
-using Moq;
-using NUnit.Framework;
-using System;
-using System.Threading.Tasks;
 
 namespace FinancialHub.WebApi.NUnitTests.Controllers
 {
     public partial class CategoriesControllerTests
     {
         [Test]
+        [TestCase(Description = "Create valid category returns Ok", Category = "Create")]
         public async Task CreateCategory_Valid_ReturnsOk()
         {
-            var body = this.modelGenerator.GenerateCategory();
+            var body = this.categoryModelBuilder.Generate();
             var mockResult = new ServiceResult<CategoryModel>(body);
 
             this.mockService
@@ -38,10 +39,11 @@ namespace FinancialHub.WebApi.NUnitTests.Controllers
         }
 
         [Test]
+        [TestCase(Description = "Create invalid Category returns BadRequest", Category = "Create")]
         public async Task CreateCategory_Invalid_ReturnsBadRequest()
         {
             var errorMessage = $"Invalid thing : {Guid.NewGuid()}";
-            var body = this.modelGenerator.GenerateCategory();
+            var body = this.categoryModelBuilder.Generate();
 
             var mockResult = new ServiceResult<CategoryModel>(body, new InvalidDataError(errorMessage));
 

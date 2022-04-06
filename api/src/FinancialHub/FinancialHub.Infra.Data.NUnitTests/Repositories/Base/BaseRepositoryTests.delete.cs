@@ -8,7 +8,6 @@ namespace FinancialHub.Infra.Data.NUnitTests.Repositories.Base
 {
     public abstract partial class BaseRepositoryTests<T> where T : BaseEntity
     {
-        #region Delete
         [Test]
         [TestCase(TestName = "Delete existing Item",Category = "Delete")]
         public virtual async Task DeleteAsync_ExistingItem_AffectsOneRow()
@@ -32,6 +31,5 @@ namespace FinancialHub.Infra.Data.NUnitTests.Repositories.Base
             Assert.AreEqual(0, affectedRows);
             Assert.IsNotEmpty(context.Set<T>().ToList());
         }
-        #endregion
     }
 }

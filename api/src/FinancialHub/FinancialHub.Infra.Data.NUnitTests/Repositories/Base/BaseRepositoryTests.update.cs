@@ -30,7 +30,7 @@ namespace FinancialHub.Infra.Data.NUnitTests.Repositories.Base
 
         [Test]
         [TestCase(TestName = "Update non existing Item", Category = "Update")]
-        public virtual async Task UpdateAsync_NonExistingItem_ThrowsDbUpdateConcurrencyException()
+        public virtual void UpdateAsync_NonExistingItem_ThrowsDbUpdateConcurrencyException()
         {
             var id = Guid.NewGuid();
             var item = this.GenerateObject(id);
