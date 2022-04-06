@@ -19,9 +19,6 @@ namespace FinancialHub.IntegrationTests
         private TransactionEntityBuilder entityBuilder;
         private TransactionModelBuilder modelBuilder;
 
-        private CategoryEntityBuilder categoryBuilder;
-        private AccountEntityBuilder accountBuilder;
-
         public TransactionsControllerTests(FinancialHubApiFixture fixture) : base(fixture, "/Transactions")
         {
 
@@ -29,9 +26,6 @@ namespace FinancialHub.IntegrationTests
 
         public override void SetUp()
         {
-            this.categoryBuilder = new CategoryEntityBuilder();
-            this.accountBuilder = new AccountEntityBuilder();
-
             this.entityBuilder = new TransactionEntityBuilder();
             this.modelBuilder = new TransactionModelBuilder(); 
             base.SetUp();
@@ -39,6 +33,12 @@ namespace FinancialHub.IntegrationTests
 
         protected static void AssertEqual(TransactionModel expected, TransactionModel result)
         {
+            Assert.AreEqual(expected.AccountId,     result.AccountId);
+            Assert.AreEqual(expected.CategoryId,    result.CategoryId);
+            Assert.AreEqual(expected.TargetDate,    result.TargetDate);
+            Assert.AreEqual(expected.FinishDate,    result.FinishDate);
+            Assert.AreEqual(expected.Amount,        result.Amount);
+            Assert.AreEqual(expected.Type,          result.Type);
             Assert.AreEqual(expected.Description,   result.Description);
             Assert.AreEqual(expected.IsActive,      result.IsActive);
         }
@@ -52,32 +52,124 @@ namespace FinancialHub.IntegrationTests
             AssertEqual(expected, getResult!.Data.First());
         }
 
-        [Test]
-        public async Task GetAll_ReturnTransactions()
+        protected TransactionModel CreateValidTransaction(bool isActive = true)
         {
-            var category = categoryBuilder.Generate();
-            this.fixture.AddData(category);
+            var model = entityBuilder.Generate();
 
-            var account = accountBuilder.Generate();
-            this.fixture.AddData(account);
+            this.fixture.AddData(model.Category);
+            this.fixture.AddData(model.Account);
 
             var data = entityBuilder
-                .WithAccount(account)
-                .WithCategory(category)
+                .WithAccountId(model.Account.Id)
+                .WithCategoryId(model.Category.Id)
+                .WithActiveStatus(isActive)
+                .Generate();
+        
+            return new TransactionModel()
+            {
+                Id          = data.Id,
+                CategoryId  = data.CategoryId,
+                AccountId   = data.AccountId,
+                Description = data.Description,
+                FinishDate  = data.FinishDate,
+                TargetDate  = data.TargetDate,
+                Amount      = data.Amount,
+                Status      = data.Status,
+                Type        = data.Type,
+                IsActive    = data.IsActive,
+            };
+        }
+
+        protected TransactionModel InsertTransaction(bool isActive = true)
+        {
+            var model = entityBuilder.Generate();
+
+            this.fixture.AddData(model.Category);
+            this.fixture.AddData(model.Account);
+
+            var data = entityBuilder
+                .WithAccountId(model.Account.Id)
+                .WithCategoryId(model.Category.Id)
+                .WithActiveStatus(isActive)
+                .Generate();
+
+            this.fixture.AddData(data);
+
+            return new TransactionModel()
+            {
+                Id          = data.Id,
+                CategoryId  = data.CategoryId,
+                AccountId   = data.AccountId,
+                Description = data.Description,
+                FinishDate  = data.FinishDate,
+                TargetDate  = data.TargetDate,
+                Amount      = data.Amount,
+                Status      = data.Status,
+                Type        = data.Type,
+                IsActive    = data.IsActive,
+            };
+        }
+
+        protected TransactionModel[] InsertTransactions(bool isActive = true)
+        {
+            var model = entityBuilder.Generate();
+
+            this.fixture.AddData(model.Category);
+            this.fixture.AddData(model.Account);
+
+            var data = entityBuilder
+                .WithAccountId(model.Account.Id)
+                .WithCategoryId(model.Category.Id)
+                .WithActiveStatus(isActive)
                 .Generate(10);
+
             this.fixture.AddData(data.ToArray());
+
+            return data.Select(
+                x => new TransactionModel()
+                {
+                    Id          = x.Id,
+                    CategoryId  = x.CategoryId,
+                    AccountId   = x.AccountId,
+                    Description = x.Description,
+                    FinishDate  = x.FinishDate,
+                    TargetDate  = x.TargetDate,
+                    Amount      = x.Amount,
+                    Status      = x.Status,
+                    Type        = x.Type,
+                    IsActive    = x.IsActive,
+                }
+            ).ToArray();
+        }
+
+        [Test]
+        public async Task GetAll_ReturnActiveTransactions()
+        {
+            var data = this.InsertTransactions();
 
             var response = await this.client.GetAsync(baseEndpoint);
             Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
 
             var result = await response.ReadContentAsync<ListResponse<TransactionModel>>();
-            Assert.AreEqual(data.Count, result?.Data.Count);
+            Assert.AreEqual(data.Length, result?.Data.Count);
+        }
+
+        [Test]
+        public async Task GetAll_DoesNotReturnNotActiveTransactions()
+        {
+            this.InsertTransactions(false);
+
+            var response = await this.client.GetAsync(baseEndpoint);
+            Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
+
+            var result = await response.ReadContentAsync<ListResponse<TransactionModel>>();
+            Assert.Zero(result!.Data.Count);
         }
 
         [Test]
         public async Task Post_ValidTransaction_ReturnCreatedTransaction()
         {
-            var data = this.modelBuilder.Generate();
+            var data = this.CreateValidTransaction();
 
             var response = await this.client.PostAsync(baseEndpoint, data);
             Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
@@ -90,7 +182,7 @@ namespace FinancialHub.IntegrationTests
         [Test]
         public async Task Post_ValidTransaction_CreateTransaction()
         {
-            var body = this.modelBuilder.Generate();
+            var body = this.CreateValidTransaction();
 
             await this.client.PostAsync(baseEndpoint, body);
 
@@ -100,12 +192,16 @@ namespace FinancialHub.IntegrationTests
         [Test]
         public async Task Put_ExistingTransaction_ReturnUpdatedTransaction()
         {
-            var id = Guid.NewGuid();
-            this.fixture.AddData(entityBuilder.WithId(id).Generate());
+            var data = this.InsertTransaction(true);
 
-            var body = this.modelBuilder.WithId(id).Generate();
+            var body = this.modelBuilder
+                .WithAccountId(data.AccountId)
+                .WithCategoryId(data.CategoryId)
+                .WithActiveStatus(data.IsActive)
+                .WithId(data.Id.GetValueOrDefault())
+                .Generate();
 
-            var response = await this.client.PutAsync($"{baseEndpoint}/{id}", body);
+            var response = await this.client.PutAsync($"{baseEndpoint}/{data.Id}", body);
             Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
 
             var result = await response.ReadContentAsync<SaveResponse<TransactionModel>>();
@@ -117,11 +213,15 @@ namespace FinancialHub.IntegrationTests
         [Test]
         public async Task Put_ExistingTransaction_UpdatesTransaction()
         {
-            var id = Guid.NewGuid();
-            this.fixture.AddData(entityBuilder.WithId(id).Generate());
+            var data = this.InsertTransaction(true);
 
-            var body = this.modelBuilder.WithId(id).Generate();
-            await this.client.PutAsync($"{baseEndpoint}/{id}", body);
+            var body = this.modelBuilder
+                .WithAccountId(data.AccountId)
+                .WithCategoryId(data.CategoryId)
+                .WithActiveStatus(data.IsActive)
+                .WithId(data.Id.GetValueOrDefault())
+                .Generate();
+            await this.client.PutAsync($"{baseEndpoint}/{data.Id}", body);
 
             await this.AssertGetExists(body);
         }
@@ -129,37 +229,31 @@ namespace FinancialHub.IntegrationTests
         [Test]
         public async Task Put_NonExistingTransaction_ReturnNotFoundError()
         {
-            var id = Guid.NewGuid();
-            var body = this.modelBuilder.WithId(id).Generate();
+            var body = this.CreateValidTransaction();
 
-            var response = await this.client.PutAsync($"{baseEndpoint}/{id}", body);
+            var response = await this.client.PutAsync($"{baseEndpoint}/{body.Id}", body);
             Assert.AreEqual(HttpStatusCode.NotFound, response.StatusCode);
 
             var result = await response.ReadContentAsync<NotFoundErrorResponse>();
-            Assert.AreEqual($"Not found Transaction with id {id}", result!.Message);
+            Assert.AreEqual($"Not found Transaction with id {body.Id}", result!.Message);
         }
 
         [Test]
         public async Task Delete_ReturnNoContent()
         {
-            var id = Guid.NewGuid();
+            var body = this.InsertTransaction();
 
-            var data = entityBuilder.WithId(id).Generate();
-            this.fixture.AddData(data);
+            var response = await this.client.DeleteAsync($"{baseEndpoint}/{body.Id}");
 
-            var response = await this.client.DeleteAsync($"{baseEndpoint}/{id}");
             Assert.AreEqual(HttpStatusCode.NoContent, response.StatusCode);
         }
 
         [Test]
         public async Task Delete_RemovesTransactionFromDatabase()
         {
-            var id = Guid.NewGuid();
+            var body = this.InsertTransaction();
 
-            var data = entityBuilder.WithId(id).Generate();
-            this.fixture.AddData(data);
-
-            await this.client.DeleteAsync($"{baseEndpoint}/{id}");
+            await this.client.DeleteAsync($"{baseEndpoint}/{body.Id}");
 
             var getResponse = await this.client.GetAsync(baseEndpoint);
             var getResult = await getResponse.ReadContentAsync<ListResponse<TransactionModel>>();

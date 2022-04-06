@@ -19,8 +19,6 @@ namespace FinancialHub.IntegrationTests.Extensions
             {
                 options.UseSqlServer(DbConnectionStringManager.ConnectionString);
                 options.EnableSensitiveDataLogging(true);
-                //TODO: remove it
-                //https://stackoverflow.com/questions/482827/database-data-needed-in-integration-tests-created-by-api-calls-or-using-importe
                 options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
             });
             return services;
