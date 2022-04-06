@@ -12,6 +12,7 @@ namespace FinancialHub.WebApi.NUnitTests.Controllers
     public partial class AccountsControllerTests
     {
         [Test]
+        [TestCase(Description = "Get Accounts returns ok", Category = "Get")]
         public async Task GetMyAccounts_ServiceSuccess_ReturnsOk()
         {
             var mockResult = new ServiceResult<ICollection<AccountModel>>(

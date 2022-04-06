@@ -14,6 +14,7 @@ namespace FinancialHub.WebApi.NUnitTests.Controllers
     public partial class CategoriesControllerTests
     {
         [Test]
+        [TestCase(Description = "Create valid category returns Ok", Category = "Create")]
         public async Task CreateCategory_Valid_ReturnsOk()
         {
             var body = this.categoryModelBuilder.Generate();
@@ -38,6 +39,7 @@ namespace FinancialHub.WebApi.NUnitTests.Controllers
         }
 
         [Test]
+        [TestCase(Description = "Create invalid Category returns BadRequest", Category = "Create")]
         public async Task CreateCategory_Invalid_ReturnsBadRequest()
         {
             var errorMessage = $"Invalid thing : {Guid.NewGuid()}";

@@ -14,6 +14,7 @@ namespace FinancialHub.WebApi.NUnitTests.Controllers
     public partial class TransactionsControllerTests
     {
         [Test]
+        [TestCase(Description = "Create valid transaction Return Ok", Category = "Create")]
         public async Task CreateTransaction_Valid_ReturnsOk()
         {
             var body = this.transactionModelBuilder.Generate();
@@ -38,6 +39,7 @@ namespace FinancialHub.WebApi.NUnitTests.Controllers
         }
 
         [Test]
+        [TestCase(Description = "Create invalid Transaction Return BadRequest", Category = "Create")]
         public async Task CreateTransaction_Invalid_ReturnsBadRequest()
         {
             var errorMessage = $"Invalid thing : {Guid.NewGuid()}";

@@ -8,9 +8,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Bogus" Version="34.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="6.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="6.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.1" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.11.0" />
-    <PackageReference Include="Moq" Version="4.16.1" />
     <PackageReference Include="NUnit" Version="3.13.2" />
     <PackageReference Include="NUnit3TestAdapter" Version="4.0.0" />
     <PackageReference Include="coverlet.collector" Version="3.1.0" />
@@ -18,8 +20,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FinancialHub.Domain.Tests\FinancialHub.Domain.Tests.csproj" />
-    <ProjectReference Include="..\FinancialHub.Domain\FinancialHub.Domain.csproj" />
-    <ProjectReference Include="..\FinancialHub.Services\FinancialHub.Services.csproj" />
+    <ProjectReference Include="..\FinancialHub.WebApi\FinancialHub.WebApi.csproj" />
   </ItemGroup>
 
 </Project>

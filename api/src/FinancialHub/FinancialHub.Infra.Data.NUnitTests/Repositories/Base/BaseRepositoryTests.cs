@@ -21,6 +21,7 @@ namespace FinancialHub.Infra.Data.NUnitTests.Repositories.Base
 
         protected FinancialHubContext GetContext()
         {
+            //TODO: use docker/ local sql database
             var conn = new SqliteConnection("DataSource=:memory:");
             conn.Open();
 

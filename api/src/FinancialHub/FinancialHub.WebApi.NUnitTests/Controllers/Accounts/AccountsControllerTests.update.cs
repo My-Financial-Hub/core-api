@@ -1,19 +1,20 @@
-﻿using FinancialHub.Domain.Models;
-using FinancialHub.Domain.Responses.Errors;
-using FinancialHub.Domain.Responses.Success;
+﻿using System;
+using System.Threading.Tasks;
+using NUnit.Framework;
+using Moq;
+using Microsoft.AspNetCore.Mvc;
+using FinancialHub.Domain.Models;
 using FinancialHub.Domain.Results;
 using FinancialHub.Domain.Results.Errors;
-using Microsoft.AspNetCore.Mvc;
-using Moq;
-using NUnit.Framework;
-using System;
-using System.Threading.Tasks;
+using FinancialHub.Domain.Responses.Errors;
+using FinancialHub.Domain.Responses.Success;
 
 namespace FinancialHub.WebApi.NUnitTests.Controllers
 {
     public partial class AccountsControllerTests
     {
         [Test]
+        [TestCase(Description = "Update account existing Returns Ok", Category = "Update")]
         public async Task UpdateAccount_Valid_ReturnsOk()
         {
             var body = this.accountModelBuilder.Generate();
@@ -39,6 +40,7 @@ namespace FinancialHub.WebApi.NUnitTests.Controllers
         }
 
         [Test]
+        [TestCase(Description = "Update Account invalid account returns BadRequest", Category = "Update")]
         public async Task UpdateAccount_Invalid_ReturnsBadRequest()
         {
             var errorMessage = $"Invalid thing : {Guid.NewGuid()}";

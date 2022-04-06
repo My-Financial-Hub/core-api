@@ -53,7 +53,7 @@ namespace FinancialHub.Services.Services
 
             if (entity == null)
             {
-                return new NotFoundError($"Not found transaction with id {id}");
+                return new NotFoundError($"Not found Transaction with id {id}");
             }
 
             entity = this.mapper.Map<TransactionEntity>(transaction);

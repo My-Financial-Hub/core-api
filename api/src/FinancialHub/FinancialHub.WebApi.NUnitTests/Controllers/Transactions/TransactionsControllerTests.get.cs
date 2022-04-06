@@ -13,6 +13,7 @@ namespace FinancialHub.WebApi.NUnitTests.Controllers
     public partial class TransactionsControllerTests
     {
         [Test]
+        [TestCase(Description = "Get Transactions return Ok", Category = "Create")]
         public async Task GetMyTransactions_ServiceSuccess_ReturnsOk()
         {
             var mockResult = new ServiceResult<ICollection<TransactionModel>>(transactionModelBuilder.Generate(random.Next(0, 10)));
