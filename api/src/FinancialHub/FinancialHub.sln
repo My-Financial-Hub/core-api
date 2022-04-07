@@ -27,6 +27,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinancialHub.Domain.Tests",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinancialHub.IntegrationTests", "FinancialHub.IntegrationTests\FinancialHub.IntegrationTests.csproj", "{B6694C5F-1BCF-460D-B9EA-39A49849737A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinancialHub.Migration", "FinancialHub.Migration\FinancialHub.Migration.csproj", "{B1C27976-1CD4-4B64-93C5-4E92A585ED6A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,6 +71,10 @@ Global
 		{B6694C5F-1BCF-460D-B9EA-39A49849737A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B6694C5F-1BCF-460D-B9EA-39A49849737A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B6694C5F-1BCF-460D-B9EA-39A49849737A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B1C27976-1CD4-4B64-93C5-4E92A585ED6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1C27976-1CD4-4B64-93C5-4E92A585ED6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1C27976-1CD4-4B64-93C5-4E92A585ED6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1C27976-1CD4-4B64-93C5-4E92A585ED6A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -80,6 +86,7 @@ Global
 		{19E36296-E7CC-4D88-8F72-5B13ABE9A4E3} = {2444FB9D-15D1-4193-BF04-83C4397369DA}
 		{5A26CFA8-B077-4C91-BED9-C47339F960A2} = {2444FB9D-15D1-4193-BF04-83C4397369DA}
 		{050E99E5-5F26-4157-A80A-0493D5E9DE55} = {1F4F43B0-14F5-4C91-B98C-AEB8A5421258}
+		{B1C27976-1CD4-4B64-93C5-4E92A585ED6A} = {2444FB9D-15D1-4193-BF04-83C4397369DA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9A4C4A77-82DC-47E2-AA98-E741B329A3E8}
