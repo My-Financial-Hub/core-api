@@ -7,10 +7,10 @@ namespace FinancialHub.Domain.Entities
     [Table("transactions")]
     public class TransactionEntity : BaseEntity
     {
-        [Column("description")]
+        [Column("description", TypeName = "varchar(500)")]
         public string Description { get; set; }
 
-        [Column("amount")]
+        [Column("amount",TypeName = "money")]
         public decimal Amount { get; set; }
 
         [Column("target_date")]

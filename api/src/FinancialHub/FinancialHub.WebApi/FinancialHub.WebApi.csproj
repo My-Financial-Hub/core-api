@@ -31,6 +31,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FinancialHub.Infra.Data\FinancialHub.Infra.Data.csproj" />
+    <ProjectReference Include="..\FinancialHub.Infra.Migrations\FinancialHub.Infra.Migrations.csproj" />
     <ProjectReference Include="..\FinancialHub.Services\FinancialHub.Services.csproj" />
   </ItemGroup>
 

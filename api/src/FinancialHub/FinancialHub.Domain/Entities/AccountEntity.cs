@@ -6,11 +6,11 @@ namespace FinancialHub.Domain.Entities
     [Table("accounts")]
     public class AccountEntity : BaseEntity
     {
-        [Column("name")]
+        [Column("name",TypeName = "varchar(200)")]
         public string Name { get; set; }
-        [Column("description")]
+        [Column("description", TypeName = "varchar(500)")]
         public string Description { get; set; }
-        [Column("currency")]
+        [Column("currency", TypeName = "varchar(50)")]
         public string Currency { get; set; }
         [Column("active")]
         public bool IsActive { get; set; }
