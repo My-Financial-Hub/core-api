@@ -1,4 +1,4 @@
-name: Basic QA gate
+name: Basic build
 
 on:
   push:
@@ -12,7 +12,7 @@ on:
 
 jobs:
   build:
-    name: build & test
+    name: build
     runs-on: ubuntu-latest
 
     steps:
