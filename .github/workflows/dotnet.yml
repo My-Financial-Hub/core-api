@@ -1,4 +1,4 @@
-name: action_1
+name: Basic QA gate
 
 on:
   push:
@@ -12,7 +12,7 @@ on:
 
 jobs:
   build:
-
+    name: build
     runs-on: ubuntu-latest
 
     steps:
@@ -25,5 +25,11 @@ jobs:
       run: dotnet restore
     - name: Build
       run: dotnet build --no-restore
+      
+  test:
+    name: test
+    runs-on: ubuntu-latest
+    steps:
     - name: Test
       run: dotnet test --no-build --verbosity normal
+    
