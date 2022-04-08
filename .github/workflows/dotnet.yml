@@ -28,5 +28,6 @@ jobs:
       working-directory: ./api/src/FinancialHub/
       run: dotnet build --no-restore
     - name: Test
+      working-directory: ./api/src/FinancialHub/
       run: dotnet test --no-build --verbosity normal
    
