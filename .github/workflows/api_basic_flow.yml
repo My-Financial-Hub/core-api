@@ -25,8 +25,6 @@ jobs:
           ACCEPT_EULA: "Y"
         ports: 
           - 1450:1433
-        volumes: 
-          - ../database:/var/opt/mssql/data
     steps:
     - uses: actions/checkout@v3
     - name: Setup .NET
