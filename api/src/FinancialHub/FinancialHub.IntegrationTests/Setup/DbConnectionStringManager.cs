@@ -5,7 +5,7 @@ namespace FinancialHub.IntegrationTests.Setup
 {
     internal static class DbConnectionStringManager
     {
-        private const string DockerConnectionString = "Server=localhost;Database=financial_hub;Trusted_Connection=True;";
+        private const string DockerConnectionString = "Server=localhost,1450;Database=financial_hub;user=sa;pwd=P@ssw0rd!;";
         private const string LocalDbConnectionString = "Server=(LocalDB)\\MSSQLLocalDB;Database=financial_hub;Trusted_Connection=True;";
 
         public static string ConnectionString
