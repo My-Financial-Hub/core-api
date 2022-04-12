@@ -24,10 +24,27 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-      - name: Analyze with SonarCloud
-
-        uses: SonarSource/sonarcloud-github-action@de2e56b42aa84d0b1c5b622644ac17e505c9a049
+      - uses: actions/checkout@v3
+    
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: 6.0.x
         
+      - name: Restore dependencies
+        run: dotnet restore
+        working-directory: './api/src/FinancialHub/'
+
+      - name: Build
+        run: dotnet build --no-restore
+        working-directory: './api/src/FinancialHub/'
+
+      - name: Test
+        run: dotnet test --no-build --verbosity normal
+        working-directory: './api/src/FinancialHub/'
+      
+      - name: Analyze with SonarCloud
+        uses: SonarSource/sonarcloud-github-action@de2e56b42aa84d0b1c5b622644ac17e505c9a049
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
@@ -35,4 +52,3 @@ jobs:
           args:             
             -Dsonar.projectKey=Chingling152_my-financial-hub
             -Dsonar.organization=chingling-152
-            -Dsonar.sources=api/src/FinancialHub/
