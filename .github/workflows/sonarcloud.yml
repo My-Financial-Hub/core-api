@@ -1,0 +1,37 @@
+name: SonarCloud analysis
+
+on:
+  push:
+    branches: 
+      - 'main'
+      - 'release/**'
+    paths:
+      - '*' 
+      - '**'
+      #TODO: add for api
+  pull_request:
+    branches: 
+      - 'main'
+      - 'release/**'
+  workflow_dispatch:
+  
+permissions:
+    pull-requests: read
+
+jobs:
+  code_analysis:
+    name: Code Analysis
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Analyze with SonarCloud
+
+        uses: SonarSource/sonarcloud-github-action@de2e56b42aa84d0b1c5b622644ac17e505c9a049
+        
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          args:             
+            -Dsonar.projectKey=Chingling152_my-financial-hub
+            -Dsonar.organization=chingling-152 
