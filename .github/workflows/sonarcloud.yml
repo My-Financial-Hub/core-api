@@ -35,3 +35,4 @@ jobs:
           args:             
             -Dsonar.projectKey=Chingling152_my-financial-hub
             -Dsonar.organization=chingling-152
+            -Dsonar.sources=api/src/FinancialHub/
