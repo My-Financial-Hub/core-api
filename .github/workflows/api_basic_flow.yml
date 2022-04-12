@@ -1,0 +1,71 @@
+name: api_basic_build
+
+on:
+  push:
+    branches: 
+      - 'main'
+      - 'release/**'
+    paths:
+      - '*' 
+      - '**'
+      #TODO: add for api
+  pull_request:
+    branches: 
+      - 'main'
+      - 'release/**'
+  workflow_dispatch:
+  
+permissions:
+    pull-requests: read # allows SonarCloud to decorate PRs with analysis results
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    
+    services:
+      sql-database: 
+        image: mcr.microsoft.com/mssql/server:2019-latest    
+        env: 
+          SA_PASSWORD: "P@ssw0rd!"
+          ACCEPT_EULA: "Y"
+        ports: 
+          - 1450:1433
+              
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: 6.0.x
+        
+    - name: Restore dependencies
+      run: dotnet restore
+      working-directory: './api/src/FinancialHub/'
+      
+    - name: Build
+      run: dotnet build --no-restore
+      working-directory: './api/src/FinancialHub/'
+      
+    - name: Test
+      run: dotnet test --no-build --verbosity normal
+      working-directory: './api/src/FinancialHub/'
+      
+  code_analysis:
+    name: Code Analysis
+    runs-on: ubuntu-latest
+    needs: build
+    
+    steps:
+      - name: Analyze with SonarCloud
+
+        uses: SonarSource/sonarcloud-github-action@de2e56b42aa84d0b1c5b622644ac17e505c9a049
+        
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          args:             
+            -Dsonar.projectKey=Chingling152_my-financial-hub
+            -Dsonar.organization=chingling-152 
