@@ -61,10 +61,9 @@ jobs:
       - name: Analyze with SonarCloud
 
         uses: SonarSource/sonarcloud-github-action@de2e56b42aa84d0b1c5b622644ac17e505c9a049
-        env:
+        with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        with:
           args:             
             -Dsonar.projectKey=Chingling152_my-financial-hub
             -Dsonar.organization=chingling-152 
