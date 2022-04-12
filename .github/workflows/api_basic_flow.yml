@@ -60,7 +60,7 @@ jobs:
           - 1450:1433
           
     steps: 
-      - uses: SonarSource/sonarcloud-github-action@v1.6
       - name: 'Code Scan'
+        uses: SonarSource/sonarcloud-github-action@v1.6
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
