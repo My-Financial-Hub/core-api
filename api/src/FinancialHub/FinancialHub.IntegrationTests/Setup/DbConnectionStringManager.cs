@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Runtime.InteropServices;
 
 namespace FinancialHub.IntegrationTests.Setup
 {
@@ -11,8 +12,8 @@ namespace FinancialHub.IntegrationTests.Setup
         public static string ConnectionString
         {
             get
-            {
-                if (LocalDbExists())
+            {   
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) && LocalDbExists())
                 {
                     return LocalDbConnectionString;
                 }
@@ -21,8 +22,8 @@ namespace FinancialHub.IntegrationTests.Setup
             }
         }
         private static readonly string sqlServerLocalDbPath = Path.Combine(
-                Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles),
-                "Microsoft SQL Server"
+            Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles),
+            "Microsoft SQL Server"
         );
 
         private static bool LocalDbExists()
