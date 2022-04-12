@@ -55,7 +55,6 @@ jobs:
   code_analysis:
     name: Code Analysis
     runs-on: ubuntu-latest
-    environment: dev
     needs: build
     
     steps:
