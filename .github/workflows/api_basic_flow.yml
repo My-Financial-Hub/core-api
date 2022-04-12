@@ -37,7 +37,6 @@ jobs:
       
   qa: 
     runs-on: ubuntu-latest
-    environment: dev
     needs: build
     
     services:
