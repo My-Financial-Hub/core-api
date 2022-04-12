@@ -17,6 +17,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    environment: dev
     
     services:
       sql-database: 
@@ -49,6 +50,7 @@ jobs:
       
   qa: 
     runs-on: ubuntu-latest
+    environment: dev
     
     services:
       sql-database: 
