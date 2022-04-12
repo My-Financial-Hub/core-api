@@ -20,6 +20,7 @@ permissions:
 
 jobs:
   build:
+    name: Build
     runs-on: ubuntu-latest
     
     services:
@@ -51,7 +52,8 @@ jobs:
       run: dotnet test --no-build --verbosity normal
       working-directory: './api/src/FinancialHub/'
       
-  Analysis:
+  code_analysis:
+    name: Code Analysis
     runs-on: ubuntu-latest
     environment: dev
     needs: build
