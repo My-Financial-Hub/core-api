@@ -1,7 +1,7 @@
 name: SonarCloud analysis
 
 on:
-  push:
+  pull_request:
     branches: 
       - 'main'
       - 'release/**'
@@ -9,10 +9,6 @@ on:
       - '*' 
       - '**'
       #TODO: add for api
-  pull_request:
-    branches: 
-      - 'main'
-      - 'release/**'
   workflow_dispatch:
   
 permissions:
