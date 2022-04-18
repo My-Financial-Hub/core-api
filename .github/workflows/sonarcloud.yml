@@ -22,7 +22,9 @@ jobs:
   code_analysis:
     name: Code Analysis
     runs-on: ubuntu-latest
-    
+    defaults:
+      run:
+        working-directory: './api/src/FinancialHub/'
     steps:
       - uses: actions/checkout@v3
     
@@ -33,11 +35,9 @@ jobs:
         
       - name: Restore dependencies
         run: dotnet restore
-        working-directory: './api/src/FinancialHub/'
 
       - name: Build
         run: dotnet build --no-restore
-        working-directory: './api/src/FinancialHub/'
       
       - name: Analyze with SonarCloud
         uses: SonarSource/sonarcloud-github-action@de2e56b42aa84d0b1c5b622644ac17e505c9a049
