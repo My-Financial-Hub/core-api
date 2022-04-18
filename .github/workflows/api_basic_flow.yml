@@ -1,7 +1,7 @@
 name: api_basic_build
 
 on:
-  push:
+  pull_request:
     branches: 
       - 'main'
       - 'release/**'
@@ -9,10 +9,6 @@ on:
       - '*' 
       - '**'
       #TODO: add for api
-  pull_request:
-    branches: 
-      - 'main'
-      - 'release/**'
 
 jobs:
   build:
