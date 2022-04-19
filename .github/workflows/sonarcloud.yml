@@ -1,9 +1,14 @@
 name: SonarCloud analysis
 
 on:
-  pull_request:
+  push:
     branches: 
       - 'main'
+    paths:
+      - '*' 
+      - '**'
+  pull_request:
+    branches: 
       - 'release/**'
     paths:
       - '*' 
