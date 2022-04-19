@@ -25,7 +25,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-    
+        with:
+          fetch-depth: 0
+      
       - name: Setup .NET
         uses: actions/setup-dotnet@v2
         with:
@@ -40,12 +42,12 @@ jobs:
         working-directory: './api/src/FinancialHub/FinancialHub.WebApi/'
         
       - name: Analyze with SonarCloud
-        uses: SonarSource/sonarcloud-github-action@de2e56b42aa84d0b1c5b622644ac17e505c9a049
+        uses: SonarSource/sonarcloud-github-action@v1.6
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
           projectBaseDir: api/src/FinancialHub/
-#           args:             
-#             -Dsonar.projectKey=Chingling152_my-financial-hub
-#             -Dsonar.organization=chingling-152
+          args:  
+            -Dsonar.projectKey=chingling-152_my-financial-hub
+            -Dsonar.organization=chingling-152
