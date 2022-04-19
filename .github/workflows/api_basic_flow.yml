@@ -1,9 +1,14 @@
 name: api_basic_build
 
 on:
-  pull_request:
+  push:
     branches: 
       - 'main'
+    paths:
+      - '*' 
+      - '**'
+  pull_request:
+    branches: 
       - 'release/**'
     paths:
       - '*' 
