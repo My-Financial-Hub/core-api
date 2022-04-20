@@ -18,6 +18,9 @@ on:
   
 permissions:
     pull-requests: read
+    
+env:
+  BASE_PATH: ./api/src/FinancialHub/FinancialHub.WebApi/
 
 jobs:
   code_analysis:
@@ -25,7 +28,7 @@ jobs:
     runs-on: windows-latest
     defaults:
       run: 
-        working-directory: './api/src/FinancialHub/FinancialHub.WebApi/'
+        working-directory: $BASE_PATH
     steps:
       - name: Set up JDK 11
         uses: actions/setup-java@v1
@@ -59,6 +62,6 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         shell: powershell
         run: |
-          \.sonar\scanner\sonarscanner begin /k:"chingling-152_my-financial-hub" /o:"chingling-152" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
+          .\.sonar\scanner\sonarscanner begin /k:"chingling-152_my-financial-hub" /o:"chingling-152" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
           dotnet build 
-          \.sonar\scanner\sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
+          .\.sonar\scanner\sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
