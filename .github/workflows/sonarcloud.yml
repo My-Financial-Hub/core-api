@@ -28,7 +28,7 @@ jobs:
     runs-on: windows-latest
     defaults:
       run: 
-        working-directory: $BASE_PATH
+        working-directory: "$BASE_PATH"
     steps:
       - name: Set up JDK 11
         uses: actions/setup-java@v1
