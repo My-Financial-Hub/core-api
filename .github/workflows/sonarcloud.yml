@@ -22,10 +22,7 @@ permissions:
 jobs:
   code_analysis:
     name: Code Analysis
-    runs-on: windows-latest
-    env:
-      BASE_PATH: ./api/src/FinancialHub/FinancialHub.WebApi/
-    
+    runs-on: windows-latest   
     defaults:
       run:
         working-directory: "$BASE_PATH"
@@ -57,11 +54,12 @@ jobs:
           New-Item -Path .\.sonar\scanner -ItemType Directory
           dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner
       - name: Build and analyze
+        # working-directory: ./api/src/FinancialHub/
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         shell: powershell
         run: |
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"Chingling152_my-financial-hub" /o:"chingling-152" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
-          dotnet build 
+          dotnet build ./api/src/FinancialHub/
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
