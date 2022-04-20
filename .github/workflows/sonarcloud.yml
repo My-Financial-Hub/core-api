@@ -59,6 +59,6 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         shell: powershell
         run: |
-          .\.sonar\scanner\dotnet-sonarscanner begin /k:"chingling-152_my-financial-hub" /o:"chingling-152" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
+          ${{ runner.os }}-sonar-scanner begin /k:"chingling-152_my-financial-hub" /o:"chingling-152" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
           dotnet build 
-          .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
+          ${{ runner.os }}-sonar-scanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
