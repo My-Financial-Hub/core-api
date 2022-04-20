@@ -19,16 +19,13 @@ on:
 permissions:
     pull-requests: read
     
-env:
-  BASE_PATH: ./api/src/FinancialHub/FinancialHub.WebApi/
-
 jobs:
   code_analysis:
     name: Code Analysis
     runs-on: windows-latest
     defaults:
       run: 
-        working-directory: "$BASE_PATH"
+        working-directory: './api/src/FinancialHub/FinancialHub.WebApi/'
     steps:
       - name: Set up JDK 11
         uses: actions/setup-java@v1
@@ -36,7 +33,7 @@ jobs:
           java-version: 1.11
       - uses: actions/checkout@v2
         with:
-          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+          fetch-depth: 0
       - name: Cache SonarCloud packages
         uses: actions/cache@v1
         with:
@@ -55,13 +52,13 @@ jobs:
         shell: powershell
         run: |
           New-Item -Path .\.sonar\scanner -ItemType Directory
-          dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner
+          dotnet tool update dotnet-sonarscanner --tool-path .\api\src\FinancialHub\FinancialHub.WebApi\.sonar\scanner
       - name: Build and analyze
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         shell: powershell
         run: |
-          .\.sonar\scanner\sonarscanner begin /k:"chingling-152_my-financial-hub" /o:"chingling-152" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
+          .\api\src\FinancialHub\FinancialHub.WebApi\.sonar\scanner\sonarscanner begin /k:"chingling-152_my-financial-hub" /o:"chingling-152" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
           dotnet build 
-          .\.sonar\scanner\sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
+          .\api\src\FinancialHub\FinancialHub.WebApi\.sonar\scanner\sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
