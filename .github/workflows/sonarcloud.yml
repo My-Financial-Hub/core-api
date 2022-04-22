@@ -53,7 +53,7 @@ jobs:
         shell: powershell
         run: |
           New-Item -Path .\.sonar\scanner -ItemType Directory
-          dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner --global dotnet-sonarscanner
+          dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner
           
       - name: Setup .NET
         uses: actions/setup-dotnet@v2
