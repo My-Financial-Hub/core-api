@@ -1,4 +1,4 @@
-name: api_basic_build
+name: "API Build & Tests"
 
 on:
   push:
