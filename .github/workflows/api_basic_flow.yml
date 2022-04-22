@@ -9,6 +9,7 @@ on:
       - 'api/src/FinancialHub/**'
   pull_request:
     branches: 
+      - 'main'
       - 'release/**'
     paths:
       - 'api/src/FinancialHub/*' 
