@@ -6,9 +6,9 @@ namespace FinancialHub.Domain.Entities
     [Table("categories")]
     public class CategoryEntity : BaseEntity
     {
-        [Column("name")]
+        [Column("name", TypeName = "varchar(200)")]
         public string Name { get; set; }
-        [Column("description")]
+        [Column("description", TypeName = "varchar(500)")]
         public string Description { get; set; }
         [Column("active")]
         public bool IsActive { get; set; }

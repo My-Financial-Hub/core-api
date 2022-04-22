@@ -1,0 +1,50 @@
+name: "API Build & Tests"
+
+on:
+  push:
+    branches: 
+      - 'main'
+    paths:
+      - 'api/src/FinancialHub/*' 
+      - 'api/src/FinancialHub/**'
+  pull_request:
+    branches: 
+      - 'main'
+      - 'release/**'
+    paths:
+      - 'api/src/FinancialHub/*' 
+      - 'api/src/FinancialHub/**'
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    
+    services:
+      sql-database: 
+        image: mcr.microsoft.com/mssql/server:2019-latest    
+        env: 
+          SA_PASSWORD: "P@ssw0rd!"
+          ACCEPT_EULA: "Y"
+        ports: 
+          - 1450:1433
+              
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: 6.0.x
+        
+    - name: Restore dependencies
+      run: dotnet restore
+      working-directory: './api/src/FinancialHub/'
+      
+    - name: Build
+      run: dotnet build --no-restore
+      working-directory: './api/src/FinancialHub/'
+      
+    - name: Test
+      run: dotnet test --no-build --verbosity normal
+      working-directory: './api/src/FinancialHub/'
