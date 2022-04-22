@@ -1,19 +1,19 @@
-name: api_basic_build
+name: "API Build & Tests"
 
 on:
   push:
     branches: 
       - 'main'
     paths:
-      - '*' 
-      - '**'
+      - 'api/src/FinancialHub/*' 
+      - 'api/src/FinancialHub/**'
   pull_request:
     branches: 
+      - 'main'
       - 'release/**'
     paths:
-      - '*' 
-      - '**'
-      #TODO: add for api
+      - 'api/src/FinancialHub/*' 
+      - 'api/src/FinancialHub/**'
 
 jobs:
   build:

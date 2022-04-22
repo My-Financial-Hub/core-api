@@ -11,7 +11,7 @@ namespace FinancialHub.WebApi.Controllers
         public IActionResult Index()
         {
             var name = "aaaa";
-            var res = "".Equals(name) && name.Equals("") && name.Equals(string.Empty);
+            var res = "".Equals(name) && name.Equals("");
             return Ok(res);
         }
     }
