@@ -5,15 +5,15 @@ on:
     branches: 
       - 'main'
     paths:
-      - '*' 
-      - '**'
+      - 'api/src/FinancialHub/*' 
+      - 'api/src/FinancialHub/**'
   pull_request:
     branches: 
+      - 'main'
       - 'release/**'
     paths:
-      - '*' 
-      - '**'
-      #TODO: add for api
+      - 'api/src/FinancialHub/*' 
+      - 'api/src/FinancialHub/**'
   workflow_dispatch:
   
 permissions:
