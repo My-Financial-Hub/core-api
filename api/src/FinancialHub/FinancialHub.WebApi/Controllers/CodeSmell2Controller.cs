@@ -5,7 +5,7 @@ namespace FinancialHub.WebApi.Controllers
     [ApiController]
     [Route("[controller]")]
     [Produces("application/json")]
-    public class CodeSmellController : Controller
+    public class _CodeSmell2Controller : Controller
     {
         [HttpGet]
         public IActionResult Index()
