@@ -11,6 +11,11 @@
   - **Transaction exports (xlsx,pdf)**
   - **Earns/Expenses average**
   - **Earns/Expenses predictions**
-- ### Website
+
+## Requeriments
+- ### Api
+  * .NET 6.0
+  * SQL Server 
 
 ## How to Start
+- ### Api
