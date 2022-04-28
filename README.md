@@ -14,8 +14,17 @@
 
 ## Requeriments
 - ### Api
+  * Docker (optional)
   * .NET 6.0
   * SQL Server 
 
 ## How to Start
-- ### Api
+### Api
+* Run the Dockerfile in root project to create the database (optional)
+* Configure the **ConnectionStrings** in the file **appsettings.Development.json** with your SQL Server database
+* Initial configuration
+  * #### Visual Studio
+    Open : Project solution and build the project
+    Open : Tools -> NuGet Package Manager -> Package Manager Console
+    Type : Update-Database
+  * ### Dotnet Cli
