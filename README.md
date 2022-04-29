@@ -22,9 +22,14 @@
 ### Api
 * Run the Dockerfile in root project to create the database (optional)
 * Configure the **ConnectionStrings** in the file **appsettings.Development.json** with your SQL Server database
-* Initial configuration
+* Initial configuration (pick one)
   * #### Visual Studio
     Open : Project solution and build the project
     Open : Tools -> NuGet Package Manager -> Package Manager Console
     Type : Update-Database
   * ### Dotnet Cli
+    Open : WebApi Project directory
+    Type : dotnet build
+    Type : dotnet tool install --global dotnet-ef
+    Type : dotnet ef database update
+* After that, you'll be able to run the project
