@@ -1,0 +1,1261 @@
+{
+	"info": {
+		"_postman_id": "38685a83-5b92-4a6a-93f3-ee9ece5cbb4b",
+		"name": "Financial Hub WebApi",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Accounts",
+			"item": [
+				{
+					"name": "{id}",
+					"item": [
+						{
+							"name": "/Accounts/:id",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"id\": \"<uuid>\",\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"currency\": \"<string>\",\n  \"isActive\": \"<boolean>\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/Accounts/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"Accounts",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "<uuid>",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"id\": \"<uuid>\",\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"currency\": \"<string>\",\n  \"isActive\": \"<boolean>\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/Accounts/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"Accounts",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "<uuid>",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"data\": {\n    \"id\": \"<uuid>\",\n    \"name\": \"<string>\",\n    \"description\": \"<string>\",\n    \"currency\": \"<string>\",\n    \"isActive\": \"<boolean>\"\n  }\n}"
+								},
+								{
+									"name": "Bad Request",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"id\": \"<uuid>\",\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"currency\": \"<string>\",\n  \"isActive\": \"<boolean>\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/Accounts/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"Accounts",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "<uuid>",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"code\": \"<integer>\",\n  \"message\": \"<string>\"\n}"
+								},
+								{
+									"name": "Not Found",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"id\": \"<uuid>\",\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"currency\": \"<string>\",\n  \"isActive\": \"<boolean>\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/Accounts/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"Accounts",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "<uuid>",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"code\": \"<integer>\",\n  \"message\": \"<string>\"\n}"
+								}
+							]
+						},
+						{
+							"name": "/Accounts/:id",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/Accounts/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"Accounts",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "<uuid>",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/Accounts/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"Accounts",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "<uuid>",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "/Accounts",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/Accounts",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"Accounts"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/Accounts",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"Accounts"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"data\": [\n    {\n      \"id\": \"<uuid>\",\n      \"name\": \"<string>\",\n      \"description\": \"<string>\",\n      \"currency\": \"<string>\",\n      \"isActive\": \"<boolean>\"\n    },\n    {\n      \"id\": \"<uuid>\",\n      \"name\": \"<string>\",\n      \"description\": \"<string>\",\n      \"currency\": \"<string>\",\n      \"isActive\": \"<boolean>\"\n    }\n  ]\n}"
+						}
+					]
+				},
+				{
+					"name": "/Accounts",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\": \"<uuid>\",\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"currency\": \"<string>\",\n  \"isActive\": \"<boolean>\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/Accounts",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"Accounts"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"id\": \"<uuid>\",\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"currency\": \"<string>\",\n  \"isActive\": \"<boolean>\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/Accounts",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"Accounts"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"data\": {\n    \"id\": \"<uuid>\",\n    \"name\": \"<string>\",\n    \"description\": \"<string>\",\n    \"currency\": \"<string>\",\n    \"isActive\": \"<boolean>\"\n  }\n}"
+						},
+						{
+							"name": "Bad Request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"id\": \"<uuid>\",\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"currency\": \"<string>\",\n  \"isActive\": \"<boolean>\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/Accounts",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"Accounts"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"code\": \"<integer>\",\n  \"message\": \"<string>\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Categories",
+			"item": [
+				{
+					"name": "{id}",
+					"item": [
+						{
+							"name": "/Categories/:id",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"id\": \"<uuid>\",\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"isActive\": \"<boolean>\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/Categories/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"Categories",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "<uuid>",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"id\": \"<uuid>\",\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"isActive\": \"<boolean>\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/Categories/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"Categories",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "<uuid>",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"data\": {\n    \"id\": \"<uuid>\",\n    \"name\": \"<string>\",\n    \"description\": \"<string>\",\n    \"isActive\": \"<boolean>\"\n  }\n}"
+								},
+								{
+									"name": "Bad Request",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"id\": \"<uuid>\",\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"isActive\": \"<boolean>\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/Categories/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"Categories",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "<uuid>",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"code\": \"<integer>\",\n  \"message\": \"<string>\"\n}"
+								}
+							]
+						},
+						{
+							"name": "/Categories/:id",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/Categories/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"Categories",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "<uuid>",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:62772//Categories/:id",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "62772",
+											"path": [
+												"",
+												"Categories",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "<uuid>",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "/Categories",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/Categories",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"Categories"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:62772//Categories",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "62772",
+									"path": [
+										"",
+										"Categories"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"data\": [\n    {\n      \"id\": \"<uuid>\",\n      \"name\": \"<string>\",\n      \"description\": \"<string>\",\n      \"isActive\": \"<boolean>\"\n    },\n    {\n      \"id\": \"<uuid>\",\n      \"name\": \"<string>\",\n      \"description\": \"<string>\",\n      \"isActive\": \"<boolean>\"\n    }\n  ]\n}"
+						}
+					]
+				},
+				{
+					"name": "/Categories",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\": \"<uuid>\",\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"isActive\": \"<boolean>\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/Categories",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"Categories"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"id\": \"<uuid>\",\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"isActive\": \"<boolean>\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:62772//Categories",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "62772",
+									"path": [
+										"",
+										"Categories"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"data\": {\n    \"id\": \"<uuid>\",\n    \"name\": \"<string>\",\n    \"description\": \"<string>\",\n    \"isActive\": \"<boolean>\"\n  }\n}"
+						},
+						{
+							"name": "Bad Request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"id\": \"<uuid>\",\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"isActive\": \"<boolean>\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/Categories",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"Categories"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"code\": \"<integer>\",\n  \"message\": \"<string>\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Transactions",
+			"item": [
+				{
+					"name": "{id}",
+					"item": [
+						{
+							"name": "/Transactions/:id",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"id\": \"<uuid>\",\n  \"description\": \"<string>\",\n  \"amount\": \"<double>\",\n  \"targetDate\": \"<dateTime>\",\n  \"finishDate\": \"<dateTime>\",\n  \"accountId\": \"<uuid>\",\n  \"account\": {\n    \"id\": \"<uuid>\",\n    \"name\": \"<string>\",\n    \"description\": \"<string>\",\n    \"currency\": \"<string>\",\n    \"isActive\": \"<boolean>\"\n  },\n  \"categoryId\": \"<uuid>\",\n  \"category\": {\n    \"id\": \"<uuid>\",\n    \"name\": \"<string>\",\n    \"description\": \"<string>\",\n    \"isActive\": \"<boolean>\"\n  },\n  \"isActive\": \"<boolean>\",\n  \"status\": \"<integer>\",\n  \"type\": \"<integer>\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/Transactions/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"Transactions",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "<uuid>",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"id\": \"<uuid>\",\n  \"description\": \"<string>\",\n  \"amount\": \"<double>\",\n  \"targetDate\": \"<dateTime>\",\n  \"finishDate\": \"<dateTime>\",\n  \"accountId\": \"<uuid>\",\n  \"account\": {\n    \"id\": \"<uuid>\",\n    \"name\": \"<string>\",\n    \"description\": \"<string>\",\n    \"currency\": \"<string>\",\n    \"isActive\": \"<boolean>\"\n  },\n  \"categoryId\": \"<uuid>\",\n  \"category\": {\n    \"id\": \"<uuid>\",\n    \"name\": \"<string>\",\n    \"description\": \"<string>\",\n    \"isActive\": \"<boolean>\"\n  },\n  \"isActive\": \"<boolean>\",\n  \"status\": \"<integer>\",\n  \"type\": \"<integer>\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:62772//Transactions/:id",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "62772",
+											"path": [
+												"",
+												"Transactions",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "<uuid>",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"data\": {\n    \"id\": \"<uuid>\",\n    \"description\": \"<string>\",\n    \"amount\": \"<double>\",\n    \"targetDate\": \"<dateTime>\",\n    \"finishDate\": \"<dateTime>\",\n    \"accountId\": \"<uuid>\",\n    \"account\": {\n      \"id\": \"<uuid>\",\n      \"name\": \"<string>\",\n      \"description\": \"<string>\",\n      \"currency\": \"<string>\",\n      \"isActive\": \"<boolean>\"\n    },\n    \"categoryId\": \"<uuid>\",\n    \"category\": {\n      \"id\": \"<uuid>\",\n      \"name\": \"<string>\",\n      \"description\": \"<string>\",\n      \"isActive\": \"<boolean>\"\n    },\n    \"isActive\": \"<boolean>\",\n    \"status\": \"<integer>\",\n    \"type\": \"<integer>\"\n  }\n}"
+								},
+								{
+									"name": "Bad Request",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"id\": \"<uuid>\",\n  \"description\": \"<string>\",\n  \"amount\": \"<double>\",\n  \"targetDate\": \"<dateTime>\",\n  \"finishDate\": \"<dateTime>\",\n  \"accountId\": \"<uuid>\",\n  \"account\": {\n    \"id\": \"<uuid>\",\n    \"name\": \"<string>\",\n    \"description\": \"<string>\",\n    \"currency\": \"<string>\",\n    \"isActive\": \"<boolean>\"\n  },\n  \"categoryId\": \"<uuid>\",\n  \"category\": {\n    \"id\": \"<uuid>\",\n    \"name\": \"<string>\",\n    \"description\": \"<string>\",\n    \"isActive\": \"<boolean>\"\n  },\n  \"isActive\": \"<boolean>\",\n  \"status\": \"<integer>\",\n  \"type\": \"<integer>\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/Transactions/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"Transactions",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "<uuid>",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"code\": \"<integer>\",\n  \"message\": \"<string>\"\n}"
+								}
+							]
+						},
+						{
+							"name": "/Transactions/:id",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/Transactions/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"Transactions",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "<uuid>",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:62772//Transactions/:id",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "62772",
+											"path": [
+												"",
+												"Transactions",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "<uuid>",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"status": "No Content",
+									"code": 204,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "/Transactions",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/Transactions?StartDate=<dateTime>&EndDate=<dateTime>&Types=<integer>&Types=<integer>&Status=<integer>&Status=<integer>&Accounts=<uuid>&Accounts=<uuid>&Categories=<uuid>&Categories=<uuid>",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"Transactions"
+							],
+							"query": [
+								{
+									"key": "StartDate",
+									"value": "<dateTime>"
+								},
+								{
+									"key": "EndDate",
+									"value": "<dateTime>"
+								},
+								{
+									"key": "Types",
+									"value": "<integer>"
+								},
+								{
+									"key": "Types",
+									"value": "<integer>"
+								},
+								{
+									"key": "Status",
+									"value": "<integer>"
+								},
+								{
+									"key": "Status",
+									"value": "<integer>"
+								},
+								{
+									"key": "Accounts",
+									"value": "<uuid>"
+								},
+								{
+									"key": "Accounts",
+									"value": "<uuid>"
+								},
+								{
+									"key": "Categories",
+									"value": "<uuid>"
+								},
+								{
+									"key": "Categories",
+									"value": "<uuid>"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:62772//Transactions?StartDate=<dateTime>&EndDate=<dateTime>&Types=<integer>&Types=<integer>&Status=<integer>&Status=<integer>&Accounts=<uuid>&Accounts=<uuid>&Categories=<uuid>&Categories=<uuid>",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "62772",
+									"path": [
+										"",
+										"Transactions"
+									],
+									"query": [
+										{
+											"key": "StartDate",
+											"value": "<dateTime>"
+										},
+										{
+											"key": "EndDate",
+											"value": "<dateTime>"
+										},
+										{
+											"key": "Types",
+											"value": "<integer>"
+										},
+										{
+											"key": "Types",
+											"value": "<integer>"
+										},
+										{
+											"key": "Status",
+											"value": "<integer>"
+										},
+										{
+											"key": "Status",
+											"value": "<integer>"
+										},
+										{
+											"key": "Accounts",
+											"value": "<uuid>"
+										},
+										{
+											"key": "Accounts",
+											"value": "<uuid>"
+										},
+										{
+											"key": "Categories",
+											"value": "<uuid>"
+										},
+										{
+											"key": "Categories",
+											"value": "<uuid>"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"data\": [\n    {\n      \"id\": \"<uuid>\",\n      \"description\": \"<string>\",\n      \"amount\": \"<double>\",\n      \"targetDate\": \"<dateTime>\",\n      \"finishDate\": \"<dateTime>\",\n      \"accountId\": \"<uuid>\",\n      \"account\": {\n        \"id\": \"<uuid>\",\n        \"name\": \"<string>\",\n        \"description\": \"<string>\",\n        \"currency\": \"<string>\",\n        \"isActive\": \"<boolean>\"\n      },\n      \"categoryId\": \"<uuid>\",\n      \"category\": {\n        \"id\": \"<uuid>\",\n        \"name\": \"<string>\",\n        \"description\": \"<string>\",\n        \"isActive\": \"<boolean>\"\n      },\n      \"isActive\": \"<boolean>\",\n      \"status\": \"<integer>\",\n      \"type\": \"<integer>\"\n    },\n    {\n      \"id\": \"<uuid>\",\n      \"description\": \"<string>\",\n      \"amount\": \"<double>\",\n      \"targetDate\": \"<dateTime>\",\n      \"finishDate\": \"<dateTime>\",\n      \"accountId\": \"<uuid>\",\n      \"account\": {\n        \"id\": \"<uuid>\",\n        \"name\": \"<string>\",\n        \"description\": \"<string>\",\n        \"currency\": \"<string>\",\n        \"isActive\": \"<boolean>\"\n      },\n      \"categoryId\": \"<uuid>\",\n      \"category\": {\n        \"id\": \"<uuid>\",\n        \"name\": \"<string>\",\n        \"description\": \"<string>\",\n        \"isActive\": \"<boolean>\"\n      },\n      \"isActive\": \"<boolean>\",\n      \"status\": \"<integer>\",\n      \"type\": \"<integer>\"\n    }\n  ]\n}"
+						}
+					]
+				},
+				{
+					"name": "/Transactions",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\": \"<uuid>\",\n  \"description\": \"<string>\",\n  \"amount\": \"<double>\",\n  \"targetDate\": \"<dateTime>\",\n  \"finishDate\": \"<dateTime>\",\n  \"accountId\": \"<uuid>\",\n  \"account\": {\n    \"id\": \"<uuid>\",\n    \"name\": \"<string>\",\n    \"description\": \"<string>\",\n    \"currency\": \"<string>\",\n    \"isActive\": \"<boolean>\"\n  },\n  \"categoryId\": \"<uuid>\",\n  \"category\": {\n    \"id\": \"<uuid>\",\n    \"name\": \"<string>\",\n    \"description\": \"<string>\",\n    \"isActive\": \"<boolean>\"\n  },\n  \"isActive\": \"<boolean>\",\n  \"status\": \"<integer>\",\n  \"type\": \"<integer>\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/Transactions",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"Transactions"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"id\": \"<uuid>\",\n  \"description\": \"<string>\",\n  \"amount\": \"<double>\",\n  \"targetDate\": \"<dateTime>\",\n  \"finishDate\": \"<dateTime>\",\n  \"accountId\": \"<uuid>\",\n  \"account\": {\n    \"id\": \"<uuid>\",\n    \"name\": \"<string>\",\n    \"description\": \"<string>\",\n    \"currency\": \"<string>\",\n    \"isActive\": \"<boolean>\"\n  },\n  \"categoryId\": \"<uuid>\",\n  \"category\": {\n    \"id\": \"<uuid>\",\n    \"name\": \"<string>\",\n    \"description\": \"<string>\",\n    \"isActive\": \"<boolean>\"\n  },\n  \"isActive\": \"<boolean>\",\n  \"status\": \"<integer>\",\n  \"type\": \"<integer>\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:62772//Transactions",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "62772",
+									"path": [
+										"",
+										"Transactions"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"data\": {\n    \"id\": \"<uuid>\",\n    \"description\": \"<string>\",\n    \"amount\": \"<double>\",\n    \"targetDate\": \"<dateTime>\",\n    \"finishDate\": \"<dateTime>\",\n    \"accountId\": \"<uuid>\",\n    \"account\": {\n      \"id\": \"<uuid>\",\n      \"name\": \"<string>\",\n      \"description\": \"<string>\",\n      \"currency\": \"<string>\",\n      \"isActive\": \"<boolean>\"\n    },\n    \"categoryId\": \"<uuid>\",\n    \"category\": {\n      \"id\": \"<uuid>\",\n      \"name\": \"<string>\",\n      \"description\": \"<string>\",\n      \"isActive\": \"<boolean>\"\n    },\n    \"isActive\": \"<boolean>\",\n    \"status\": \"<integer>\",\n    \"type\": \"<integer>\"\n  }\n}"
+						},
+						{
+							"name": "Bad Request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"id\": \"<uuid>\",\n  \"description\": \"<string>\",\n  \"amount\": \"<double>\",\n  \"targetDate\": \"<dateTime>\",\n  \"finishDate\": \"<dateTime>\",\n  \"accountId\": \"<uuid>\",\n  \"account\": {\n    \"id\": \"<uuid>\",\n    \"name\": \"<string>\",\n    \"description\": \"<string>\",\n    \"currency\": \"<string>\",\n    \"isActive\": \"<boolean>\"\n  },\n  \"categoryId\": \"<uuid>\",\n  \"category\": {\n    \"id\": \"<uuid>\",\n    \"name\": \"<string>\",\n    \"description\": \"<string>\",\n    \"isActive\": \"<boolean>\"\n  },\n  \"isActive\": \"<boolean>\",\n  \"status\": \"<integer>\",\n  \"type\": \"<integer>\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/Transactions",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"Transactions"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"code\": \"<integer>\",\n  \"message\": \"<string>\"\n}"
+						}
+					]
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
