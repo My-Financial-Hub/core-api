@@ -36,6 +36,7 @@ namespace FinancialHub.WebApi
 
             services.AddRepositories();
             services.AddServices();
+            services.AddValidators();
             services.AddApiConfigurations();
 
             //services.AddHealthCheck();
