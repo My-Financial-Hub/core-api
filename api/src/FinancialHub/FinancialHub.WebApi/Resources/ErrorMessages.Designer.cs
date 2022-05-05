@@ -61,7 +61,7 @@ namespace FinancialHub.WebApi.Resources {
         }
         
         /// <summary>
-        ///   Consulta uma cadeia de caracteres localizada semelhante a {0} {1} Exceeds the max lenght of {2}.
+        ///   Consulta uma cadeia de caracteres localizada semelhante a {PropertyName} exceeds the max length of {MaxLength}.
         /// </summary>
         internal static string ExceedMaxLength {
             get {
@@ -70,7 +70,16 @@ namespace FinancialHub.WebApi.Resources {
         }
         
         /// <summary>
-        ///   Consulta uma cadeia de caracteres localizada semelhante a {0} {1} is required.
+        ///   Consulta uma cadeia de caracteres localizada semelhante a {PropertyName} must be greater than {ComparisonValue}.
+        /// </summary>
+        internal static string GreaterThan {
+            get {
+                return ResourceManager.GetString("GreaterThan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a {PropertyName} is required.
         /// </summary>
         internal static string Required {
             get {

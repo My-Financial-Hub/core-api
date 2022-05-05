@@ -4,9 +4,9 @@ using FluentValidation;
 
 namespace FinancialHub.WebApi.Validators
 {
-    public class AccountValidator : AbstractValidator<AccountModel>
+    public class CategoryValidator : AbstractValidator<CategoryModel>
     {
-        public AccountValidator()
+        public CategoryValidator()
         {
             RuleFor(x => x.Name)
                 .NotEmpty()
@@ -15,11 +15,7 @@ namespace FinancialHub.WebApi.Validators
                 .WithMessage(ErrorMessages.ExceedMaxLength);
 
             RuleFor(x => x.Description)
-                .Length(0, 500)
-                .WithMessage(ErrorMessages.ExceedMaxLength);
-
-            RuleFor(x => x.Currency)
-                .Length(0,50)
+                .Length(0,500)
                 .WithMessage(ErrorMessages.ExceedMaxLength);
         }
     }

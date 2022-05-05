@@ -56,6 +56,8 @@ namespace FinancialHub.WebApi.Extensions.Configurations
                 x.DisableDataAnnotationsValidation = true;
             });
             services.AddScoped<IValidator<AccountModel>, AccountValidator>();
+            services.AddScoped<IValidator<CategoryModel>, CategoryValidator>();
+            services.AddScoped<IValidator<TransactionModel>, TransactionValidator>();
             return services;
         }
     }
