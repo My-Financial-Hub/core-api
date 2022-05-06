@@ -64,10 +64,7 @@ jobs:
 
       - name: Restore dependencies
         run: dotnet restore
-        
-      - name: Run sql database
-        run: docker run -e "ACCEPT_EULA=Y" -e "MSSQ_SA_PASSWORD=P@ssw0rd!" -p 1450:1433 -d mcr.microsoft.com/mssql/server:2019-latest
-              
+                      
       - name: Build and analyze
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
