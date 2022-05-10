@@ -16,17 +16,5 @@ namespace FinancialHub.WebApi.Validators
                 .GreaterThan(0)
                 .WithMessage(ErrorMessages.GreaterThan);
         }
-
-        public void CoverageTest()
-        {
-            if( new System.Random().Next(10) > 8)
-            {
-                System.Console.WriteLine("a");
-            }
-            else
-            {
-                System.Console.WriteLine("b");
-            }
-        }
     }
 }
