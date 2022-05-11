@@ -79,6 +79,15 @@ namespace FinancialHub.WebApi.Resources {
         }
         
         /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a {PropertyName} has a range of values which does not include &apos;{PropertyValue}&apos;.
+        /// </summary>
+        internal static string OutOfEnum {
+            get {
+                return ResourceManager.GetString("OutOfEnum", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a {PropertyName} is required.
         /// </summary>
         internal static string Required {

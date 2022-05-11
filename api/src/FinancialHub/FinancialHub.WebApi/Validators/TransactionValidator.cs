@@ -15,6 +15,14 @@ namespace FinancialHub.WebApi.Validators
             RuleFor(x => x.Amount)
                 .GreaterThan(0)
                 .WithMessage(ErrorMessages.GreaterThan);
+
+            RuleFor(x => x.Status)
+                .IsInEnum()
+                .WithMessage(ErrorMessages.OutOfEnum);
+
+            RuleFor(x => x.Type)
+                .IsInEnum()
+                .WithMessage(ErrorMessages.OutOfEnum);
         }
     }
 }

@@ -123,6 +123,9 @@
   <data name="GreaterThan" xml:space="preserve">
     <value>{PropertyName} must be greater than {ComparisonValue}</value>
   </data>
+  <data name="OutOfEnum" xml:space="preserve">
+    <value>{PropertyName} has a range of values which does not include '{PropertyValue}'</value>
+  </data>
   <data name="Required" xml:space="preserve">
     <value>{PropertyName} is required</value>
   </data>
