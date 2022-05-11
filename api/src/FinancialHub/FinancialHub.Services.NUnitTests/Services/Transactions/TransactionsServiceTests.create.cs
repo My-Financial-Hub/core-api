@@ -16,6 +16,14 @@ namespace FinancialHub.Services.NUnitTests.Services
         {
             var model = this.transactionModelBuilder.Generate();
 
+            this.categoriesRepository
+                .Setup(x => x.GetByIdAsync(model.CategoryId))
+                .ReturnsAsync(this.mapper.Map<CategoryEntity>(model.Category));
+
+            this.accountsRepository
+                .Setup(x => x.GetByIdAsync(model.AccountId))
+                .ReturnsAsync(this.mapper.Map<AccountEntity>(model.Account));
+
             this.repository
                 .Setup(x => x.CreateAsync(It.IsAny<TransactionEntity>()))
                 .Returns<TransactionEntity>(async (x) => await Task.FromResult(x))
@@ -47,6 +55,14 @@ namespace FinancialHub.Services.NUnitTests.Services
         {
             var model = this.transactionModelBuilder.Generate();
             var exc = new Exception("mock");
+
+            this.categoriesRepository
+                .Setup(x => x.GetByIdAsync(model.CategoryId))
+                .ReturnsAsync(this.mapper.Map<CategoryEntity>(model.Category));
+
+            this.accountsRepository
+                .Setup(x => x.GetByIdAsync(model.AccountId))
+                .ReturnsAsync(this.mapper.Map<AccountEntity>(model.Account));
 
             this.repository
                 .Setup(x => x.CreateAsync(It.IsAny<TransactionEntity>()))
