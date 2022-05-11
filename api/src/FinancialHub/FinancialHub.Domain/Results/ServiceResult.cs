@@ -5,7 +5,7 @@ namespace FinancialHub.Domain.Results
     public class ServiceResult<T>
     {
         public bool HasError => this.Error != null;
-        public ServiceError Error { get; protected set; }
+        public ServiceError Error { get; protected set; }//TODO: change to a collection
         public T Data { get; protected set; }
 
         public ServiceResult(T data = default,ServiceError error = null)
