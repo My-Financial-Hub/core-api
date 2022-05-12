@@ -3,6 +3,7 @@ using FinancialHub.Domain.Entities;
 using FinancialHub.Domain.Interfaces.Mappers;
 using FinancialHub.Domain.Interfaces.Repositories;
 using FinancialHub.Domain.Interfaces.Services;
+using FinancialHub.Domain.Models;
 using FinancialHub.Domain.Tests.Builders.Entities;
 using FinancialHub.Domain.Tests.Builders.Models;
 using FinancialHub.Services.Mappers;
@@ -53,6 +54,32 @@ namespace FinancialHub.Services.NUnitTests.Services
 
             this.transactionBuilder = new TransactionEntityBuilder();
             this.transactionModelBuilder = new TransactionModelBuilder();
+        }
+
+        private void SetUpMapper<T,Y>()
+        {
+            this.mapperWrapper
+                .Setup(x => x.Map<Y>(It.IsAny<T>()))
+                .Returns<T>((ent) => this.mapper.Map<Y>(ent))
+                .Verifiable();
+
+            this.mapperWrapper
+                .Setup(x => x.Map<T>(It.IsAny<Y>()))
+                .Returns<Y>((model) => this.mapper.Map<T>(model))
+                .Verifiable();
+        }
+
+        private void SetUpMapper()
+        {
+            this.mapperWrapper
+                .Setup(x => x.Map<TransactionModel>(It.IsAny<TransactionEntity>()))
+                .Returns<TransactionEntity>((ent) => this.mapper.Map<TransactionModel>(ent))
+                .Verifiable();
+
+            this.mapperWrapper
+                .Setup(x => x.Map<TransactionEntity>(It.IsAny<TransactionModel>()))
+                .Returns<TransactionModel>((model) => this.mapper.Map<TransactionEntity>(model))
+                .Verifiable();
         }
 
         public ICollection<TransactionEntity> GenerateTransactions()

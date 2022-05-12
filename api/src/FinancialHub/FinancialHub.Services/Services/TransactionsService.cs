@@ -39,7 +39,7 @@ namespace FinancialHub.Services.Services
             var account = await this.accountsRepository.GetByIdAsync(transaction.AccountId);
             if (account == null)
             {
-                return new NotFoundError($"Not found Transaction with id {transaction.AccountId}");
+                return new NotFoundError($"Not found Account with id {transaction.AccountId}");
             }
 
             var category = await this.categoriesRepository.GetByIdAsync(transaction.CategoryId);
