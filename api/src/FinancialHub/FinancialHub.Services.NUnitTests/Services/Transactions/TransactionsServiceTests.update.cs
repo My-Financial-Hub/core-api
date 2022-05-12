@@ -104,5 +104,49 @@ namespace FinancialHub.Services.NUnitTests.Services
             Assert.IsInstanceOf(exc.GetType(), exception);
             this.repository.Verify(x => x.UpdateAsync(It.IsAny<TransactionEntity>()), Times.Once());
         }
+
+        [Test]
+        public async Task UpdateAsync_InvalidCategory_ReturnsNotFoundError()
+        {
+            var model = this.transactionModelBuilder.Generate();
+
+            this.SetUpMapper();
+
+            this.accountsRepository
+                .Setup(x => x.GetByIdAsync(model.AccountId))
+                .ReturnsAsync(this.mapper.Map<AccountEntity>(model.Account));
+
+            this.repository
+                .Setup(x => x.GetByIdAsync(model.Id.GetValueOrDefault()))
+                .ReturnsAsync(this.mapper.Map<TransactionEntity>(model))
+                .Verifiable();
+
+            var result = await this.service.UpdateAsync(model.Id.GetValueOrDefault(), model);
+
+            Assert.IsTrue(result.HasError);
+            Assert.AreEqual($"Not found Category with id {model.CategoryId}", result.Error.Message);
+        }
+
+        [Test]
+        public async Task UpdateAsync_InvalidAccount_ReturnsNotFoundError()
+        {
+            var model = this.transactionModelBuilder.Generate();
+
+            this.SetUpMapper();
+
+            this.categoriesRepository
+                .Setup(x => x.GetByIdAsync(model.CategoryId))
+                .ReturnsAsync(this.mapper.Map<CategoryEntity>(model.Category));
+
+            this.repository
+                .Setup(x => x.GetByIdAsync(model.Id.GetValueOrDefault()))
+                .ReturnsAsync(this.mapper.Map<TransactionEntity>(model))
+                .Verifiable();
+
+            var result = await this.service.UpdateAsync(model.Id.GetValueOrDefault(), model);
+
+            Assert.IsTrue(result.HasError);
+            Assert.AreEqual($"Not found Account with id {model.AccountId}", result.Error.Message);
+        }
     }
 }
