@@ -31,11 +31,6 @@ namespace FinancialHub.Services.Services
 
         private async Task<ServiceResult<bool>> ValidateTransaction(TransactionEntity transaction)
         {
-            if (transaction == null)
-            {
-                return new NotFoundError("Transaction Not found");
-            }
-
             var account = await this.accountsRepository.GetByIdAsync(transaction.AccountId);
             if (account == null)
             {
