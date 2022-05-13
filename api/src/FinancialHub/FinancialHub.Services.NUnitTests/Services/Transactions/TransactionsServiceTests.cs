@@ -3,6 +3,7 @@ using FinancialHub.Domain.Entities;
 using FinancialHub.Domain.Interfaces.Mappers;
 using FinancialHub.Domain.Interfaces.Repositories;
 using FinancialHub.Domain.Interfaces.Services;
+using FinancialHub.Domain.Models;
 using FinancialHub.Domain.Tests.Builders.Entities;
 using FinancialHub.Domain.Tests.Builders.Models;
 using FinancialHub.Services.Mappers;
@@ -25,6 +26,8 @@ namespace FinancialHub.Services.NUnitTests.Services
         private IMapper mapper;
         private Mock<IMapperWrapper> mapperWrapper;
         private Mock<ITransactionsRepository> repository;
+        private Mock<IAccountsRepository> accountsRepository;
+        private Mock<ICategoriesRepository> categoriesRepository;
 
         private void MockMapper()
         {
@@ -43,12 +46,40 @@ namespace FinancialHub.Services.NUnitTests.Services
             this.MockMapper();
 
             this.repository = new Mock<ITransactionsRepository>();
-            this.service = new TransactionsService(mapperWrapper.Object,repository.Object);
+            this.accountsRepository = new Mock<IAccountsRepository>();
+            this.categoriesRepository = new Mock<ICategoriesRepository>();
+            this.service = new TransactionsService(mapperWrapper.Object,repository.Object,accountsRepository.Object,categoriesRepository.Object);
 
             this.random = new Random();
 
             this.transactionBuilder = new TransactionEntityBuilder();
             this.transactionModelBuilder = new TransactionModelBuilder();
+        }
+
+        private void SetUpMapper<T,Y>()
+        {
+            this.mapperWrapper
+                .Setup(x => x.Map<Y>(It.IsAny<T>()))
+                .Returns<T>((ent) => this.mapper.Map<Y>(ent))
+                .Verifiable();
+
+            this.mapperWrapper
+                .Setup(x => x.Map<T>(It.IsAny<Y>()))
+                .Returns<Y>((model) => this.mapper.Map<T>(model))
+                .Verifiable();
+        }
+
+        private void SetUpMapper()
+        {
+            this.mapperWrapper
+                .Setup(x => x.Map<TransactionModel>(It.IsAny<TransactionEntity>()))
+                .Returns<TransactionEntity>((ent) => this.mapper.Map<TransactionModel>(ent))
+                .Verifiable();
+
+            this.mapperWrapper
+                .Setup(x => x.Map<TransactionEntity>(It.IsAny<TransactionModel>()))
+                .Returns<TransactionModel>((model) => this.mapper.Map<TransactionEntity>(model))
+                .Verifiable();
         }
 
         public ICollection<TransactionEntity> GenerateTransactions()

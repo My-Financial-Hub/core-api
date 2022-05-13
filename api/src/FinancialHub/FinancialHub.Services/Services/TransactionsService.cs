@@ -14,16 +14,47 @@ namespace FinancialHub.Services.Services
     {
         private readonly IMapperWrapper mapper;
         private readonly ITransactionsRepository repository;
+        private readonly IAccountsRepository accountsRepository;
+        private readonly ICategoriesRepository categoriesRepository;
 
-        public TransactionsService(IMapperWrapper mapper, ITransactionsRepository repository)
+        public TransactionsService(
+            IMapperWrapper mapper, 
+            ITransactionsRepository repository, 
+            IAccountsRepository accountsRepository, ICategoriesRepository categoriesRepository
+        )
         {
             this.mapper = mapper;
             this.repository = repository;
+            this.accountsRepository = accountsRepository;
+            this.categoriesRepository = categoriesRepository;
+        }
+
+        private async Task<ServiceResult<bool>> ValidateTransaction(TransactionEntity transaction)
+        {
+            var account = await this.accountsRepository.GetByIdAsync(transaction.AccountId);
+            if (account == null)
+            {
+                return new NotFoundError($"Not found Account with id {transaction.AccountId}");
+            }
+
+            var category = await this.categoriesRepository.GetByIdAsync(transaction.CategoryId);
+            if (category == null)
+            {
+                return new NotFoundError($"Not found Category with id {transaction.CategoryId}");
+            }
+
+            return true;
         }
 
         public async Task<ServiceResult<TransactionModel>> CreateAsync(TransactionModel category)
         {
             var entity = mapper.Map<TransactionEntity>(category);
+
+            var validation = await this.ValidateTransaction(entity);
+            if (validation.HasError)
+            {
+                return new ServiceResult<TransactionModel>(error: validation.Error);
+            }
 
             entity = await this.repository.CreateAsync(entity);
 
@@ -57,6 +88,12 @@ namespace FinancialHub.Services.Services
             }
 
             entity = this.mapper.Map<TransactionEntity>(transaction);
+
+            var validation = await this.ValidateTransaction(entity);
+            if (validation.HasError)
+            {
+                return new ServiceResult<TransactionModel>(error: validation.Error);
+            }
 
             entity = await this.repository.UpdateAsync(entity);
 

@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
+    <PackageReference Include="FluentValidation.AspNetCore" Version="11.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.OData" Version="8.0.4" />
@@ -33,6 +34,21 @@
     <ProjectReference Include="..\FinancialHub.Infra.Data\FinancialHub.Infra.Data.csproj" />
     <ProjectReference Include="..\FinancialHub.Infra.Migrations\FinancialHub.Infra.Migrations.csproj" />
     <ProjectReference Include="..\FinancialHub.Services\FinancialHub.Services.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Resources\ErrorMessages.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ErrorMessages.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Resources\ErrorMessages.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ErrorMessages.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

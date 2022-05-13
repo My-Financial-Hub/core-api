@@ -14,11 +14,7 @@ namespace FinancialHub.Services.NUnitTests.Services
 {
     public partial class TransactionsServiceTests
     {
-        //TODO: change mock when filter by user
-        //TODO: add validation tests
-        //TODO: add filter validation tests
         [Test]
-        [TestCase(Description = "Get by user sucess return",Category = "Get")]
         public async Task GetByUsersAsync_ValidUser_ReturnsTransactions()
         {
             var filter = new TransactionFilter();
@@ -43,7 +39,7 @@ namespace FinancialHub.Services.NUnitTests.Services
 
             Assert.IsInstanceOf<ServiceResult<ICollection<TransactionModel>>>(result);
             Assert.IsFalse(result.HasError);
-            Assert.AreEqual(entitiesMock.Count(), result.Data.Count);
+            Assert.AreEqual(entitiesMock.Count, result.Data.Count);
 
             this.mapperWrapper.Verify(x => x.Map<TransactionQuery>(It.IsAny<TransactionFilter>()),Times.Once);
             this.mapperWrapper.Verify(x => x.Map<IEnumerable<TransactionModel>>(It.IsAny<IEnumerable<TransactionEntity>>()),Times.Once);
@@ -51,8 +47,7 @@ namespace FinancialHub.Services.NUnitTests.Services
         }
 
 
-        [Test]
-        [TestCase(Description = "Get by user repository exception", Category = "Get")]
+        [Test]  
         public void GetByUsersAsync_RepositoryException_ThrowsException()
         {
             var filter = new TransactionFilter();

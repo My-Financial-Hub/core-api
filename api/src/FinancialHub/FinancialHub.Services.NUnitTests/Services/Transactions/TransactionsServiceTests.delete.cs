@@ -9,14 +9,13 @@ namespace FinancialHub.Services.NUnitTests.Services
     public partial class TransactionsServiceTests
     {
         [Test]
-        [TestCase(Description = "Update valid Transaction", Category = "Delete")]
         public async Task DeleteAsync_RepositorySuccess_ReturnsTransactionModel()
         {
             var expectedResult = random.Next(1,100);
             var guid = Guid.NewGuid();
             this.repository
                 .Setup(x => x.DeleteAsync(guid))
-                .Returns(async () => await Task.FromResult(expectedResult))
+                .ReturnsAsync(expectedResult)
                 .Verifiable();
 
             var result = await this.service.DeleteAsync(guid);
@@ -27,7 +26,6 @@ namespace FinancialHub.Services.NUnitTests.Services
         }
 
         [Test]
-        [TestCase(Description = "Update repository exception", Category = "Delete")]
         public void DeleteAsync_RepositoryException_ThrowsException()
         {
             var guid = Guid.NewGuid();
@@ -35,7 +33,7 @@ namespace FinancialHub.Services.NUnitTests.Services
 
             this.repository
                 .Setup(x => x.DeleteAsync(guid))
-                .Throws(exc)
+                .ThrowsAsync(exc)
                 .Verifiable();
 
             var exception = Assert.ThrowsAsync<Exception>(

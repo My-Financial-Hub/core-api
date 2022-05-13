@@ -11,10 +11,17 @@ namespace FinancialHub.Services.NUnitTests.Services
     public partial class TransactionsServiceTests
     {
         [Test]
-        [TestCase(Description = "Update valid Transaction", Category = "Update")]
         public async Task UpdateAsync_ValidTransactionModel_ReturnsTransactionModel()
         {
             var model = this.transactionModelBuilder.Generate();
+
+            this.categoriesRepository
+                .Setup(x => x.GetByIdAsync(model.CategoryId))
+                .ReturnsAsync(this.mapper.Map<CategoryEntity>(model.Category));
+
+            this.accountsRepository
+                .Setup(x => x.GetByIdAsync(model.AccountId))
+                .ReturnsAsync(this.mapper.Map<AccountEntity>(model.Account));
 
             this.repository
                 .Setup(x => x.GetByIdAsync(model.Id.GetValueOrDefault()))
@@ -26,15 +33,7 @@ namespace FinancialHub.Services.NUnitTests.Services
                 .Returns<TransactionEntity>(async (x) => await Task.FromResult(x))
                 .Verifiable();
 
-            this.mapperWrapper
-                .Setup(x => x.Map<TransactionModel>(It.IsAny<TransactionEntity>()))
-                .Returns<TransactionEntity>((ent) => this.mapper.Map<TransactionModel>(ent))
-                .Verifiable();
-
-            this.mapperWrapper
-                .Setup(x => x.Map<TransactionEntity>(It.IsAny<TransactionModel>()))
-                .Returns<TransactionModel>((model) => this.mapper.Map<TransactionEntity>(model))
-                .Verifiable();
+            this.SetUpMapper();
 
             var result = await this.service.UpdateAsync(model.Id.GetValueOrDefault(), model);
 
@@ -49,7 +48,6 @@ namespace FinancialHub.Services.NUnitTests.Services
         }
 
         [Test]
-        [TestCase(Description = "Update non existing Transaction", Category = "Update")]
         public async Task UpdateAsync_NonExistingTransactionId_ReturnsResultError()
         {
             var model = this.transactionModelBuilder.Generate();
@@ -74,11 +72,18 @@ namespace FinancialHub.Services.NUnitTests.Services
         }
 
         [Test]
-        [TestCase(Description = "Update repository exception", Category = "Update")]
         public void UpdateAsync_RepositoryException_ThrowsException()
         {
             var model = this.transactionModelBuilder.Generate();
             var exc = new Exception("mock");
+
+            this.categoriesRepository
+                .Setup(x => x.GetByIdAsync(model.CategoryId))
+                .ReturnsAsync(this.mapper.Map<CategoryEntity>(model.Category));
+
+            this.accountsRepository
+                .Setup(x => x.GetByIdAsync(model.AccountId))
+                .ReturnsAsync(this.mapper.Map<AccountEntity>(model.Account));
 
             this.repository
                 .Setup(x => x.GetByIdAsync(model.Id.GetValueOrDefault()))
@@ -90,15 +95,7 @@ namespace FinancialHub.Services.NUnitTests.Services
                 .Throws(exc)
                 .Verifiable();
 
-            this.mapperWrapper
-                .Setup(x => x.Map<TransactionModel>(It.IsAny<TransactionEntity>()))
-                .Returns<TransactionEntity>((ent) => this.mapper.Map<TransactionModel>(ent))
-                .Verifiable();
-
-            this.mapperWrapper
-                .Setup(x => x.Map<TransactionEntity>(It.IsAny<TransactionModel>()))
-                .Returns<TransactionModel>((model) => this.mapper.Map<TransactionEntity>(model))
-                .Verifiable();
+            this.SetUpMapper();
 
             var exception = Assert.ThrowsAsync<Exception>(
                 async () => await this.service.UpdateAsync(model.Id.GetValueOrDefault(), model)
@@ -106,6 +103,50 @@ namespace FinancialHub.Services.NUnitTests.Services
 
             Assert.IsInstanceOf(exc.GetType(), exception);
             this.repository.Verify(x => x.UpdateAsync(It.IsAny<TransactionEntity>()), Times.Once());
+        }
+
+        [Test]
+        public async Task UpdateAsync_InvalidCategory_ReturnsNotFoundError()
+        {
+            var model = this.transactionModelBuilder.Generate();
+
+            this.SetUpMapper();
+
+            this.accountsRepository
+                .Setup(x => x.GetByIdAsync(model.AccountId))
+                .ReturnsAsync(this.mapper.Map<AccountEntity>(model.Account));
+
+            this.repository
+                .Setup(x => x.GetByIdAsync(model.Id.GetValueOrDefault()))
+                .ReturnsAsync(this.mapper.Map<TransactionEntity>(model))
+                .Verifiable();
+
+            var result = await this.service.UpdateAsync(model.Id.GetValueOrDefault(), model);
+
+            Assert.IsTrue(result.HasError);
+            Assert.AreEqual($"Not found Category with id {model.CategoryId}", result.Error.Message);
+        }
+
+        [Test]
+        public async Task UpdateAsync_InvalidAccount_ReturnsNotFoundError()
+        {
+            var model = this.transactionModelBuilder.Generate();
+
+            this.SetUpMapper();
+
+            this.categoriesRepository
+                .Setup(x => x.GetByIdAsync(model.CategoryId))
+                .ReturnsAsync(this.mapper.Map<CategoryEntity>(model.Category));
+
+            this.repository
+                .Setup(x => x.GetByIdAsync(model.Id.GetValueOrDefault()))
+                .ReturnsAsync(this.mapper.Map<TransactionEntity>(model))
+                .Verifiable();
+
+            var result = await this.service.UpdateAsync(model.Id.GetValueOrDefault(), model);
+
+            Assert.IsTrue(result.HasError);
+            Assert.AreEqual($"Not found Account with id {model.AccountId}", result.Error.Message);
         }
     }
 }

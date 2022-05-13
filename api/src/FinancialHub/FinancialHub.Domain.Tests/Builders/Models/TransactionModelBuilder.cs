@@ -23,6 +23,12 @@ namespace FinancialHub.Domain.Tests.Builders.Models
 
         }
 
+        public TransactionModelBuilder WithDescription(string description)
+        {
+            this.RuleFor(c => c.Description, description);
+            return this;
+        }
+
         public TransactionModelBuilder WithCategoryId(Guid? categoryId)
         {
             this.RuleFor(x => x.CategoryId, fake => categoryId);
