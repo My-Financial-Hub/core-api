@@ -17,10 +17,6 @@ namespace FinancialHub.WebApi.Validators
             RuleFor(x => x.Description)
                 .Length(0, 500)
                 .WithMessage(ErrorMessages.ExceedMaxLength);
-
-            RuleFor(x => x.Currency)
-                .Length(0,50)
-                .WithMessage(ErrorMessages.ExceedMaxLength);
         }
     }
 }

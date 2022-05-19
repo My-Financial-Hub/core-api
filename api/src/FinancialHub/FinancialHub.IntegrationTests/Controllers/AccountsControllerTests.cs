@@ -35,7 +35,6 @@ namespace FinancialHub.IntegrationTests
         {
             Assert.AreEqual(expected.Name,          result.Name);
             Assert.AreEqual(expected.Description,   result.Description);
-            Assert.AreEqual(expected.Currency,      result.Currency);
             Assert.AreEqual(expected.IsActive,      result.IsActive);
         }
 

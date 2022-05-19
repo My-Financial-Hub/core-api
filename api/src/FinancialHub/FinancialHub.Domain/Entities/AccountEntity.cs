@@ -13,6 +13,7 @@ namespace FinancialHub.Domain.Entities
         [Column("active")]
         public bool IsActive { get; set; }
 
+        public ICollection<BalanceEntity> Balances { get; set; }
         public ICollection<TransactionEntity> Transactions { get; set; }
     }
 }
