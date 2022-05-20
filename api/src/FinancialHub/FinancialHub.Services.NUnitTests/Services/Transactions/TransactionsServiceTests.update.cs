@@ -19,9 +19,9 @@ namespace FinancialHub.Services.NUnitTests.Services
                 .Setup(x => x.GetByIdAsync(model.CategoryId))
                 .ReturnsAsync(this.mapper.Map<CategoryEntity>(model.Category));
 
-            this.accountsRepository
-                .Setup(x => x.GetByIdAsync(model.AccountId))
-                .ReturnsAsync(this.mapper.Map<AccountEntity>(model.Account));
+            this.balancesRepository
+                .Setup(x => x.GetByIdAsync(model.BalanceId))
+                .ReturnsAsync(this.mapper.Map<BalanceEntity>(model.Balance));
 
             this.repository
                 .Setup(x => x.GetByIdAsync(model.Id.GetValueOrDefault()))
@@ -81,9 +81,9 @@ namespace FinancialHub.Services.NUnitTests.Services
                 .Setup(x => x.GetByIdAsync(model.CategoryId))
                 .ReturnsAsync(this.mapper.Map<CategoryEntity>(model.Category));
 
-            this.accountsRepository
-                .Setup(x => x.GetByIdAsync(model.AccountId))
-                .ReturnsAsync(this.mapper.Map<AccountEntity>(model.Account));
+            this.balancesRepository
+                .Setup(x => x.GetByIdAsync(model.BalanceId))
+                .ReturnsAsync(this.mapper.Map<BalanceEntity>(model.Balance));
 
             this.repository
                 .Setup(x => x.GetByIdAsync(model.Id.GetValueOrDefault()))
@@ -112,9 +112,9 @@ namespace FinancialHub.Services.NUnitTests.Services
 
             this.SetUpMapper();
 
-            this.accountsRepository
-                .Setup(x => x.GetByIdAsync(model.AccountId))
-                .ReturnsAsync(this.mapper.Map<AccountEntity>(model.Account));
+            this.balancesRepository
+                .Setup(x => x.GetByIdAsync(model.BalanceId))
+                .ReturnsAsync(this.mapper.Map<BalanceEntity>(model.Balance));
 
             this.repository
                 .Setup(x => x.GetByIdAsync(model.Id.GetValueOrDefault()))
@@ -128,7 +128,7 @@ namespace FinancialHub.Services.NUnitTests.Services
         }
 
         [Test]
-        public async Task UpdateAsync_InvalidAccount_ReturnsNotFoundError()
+        public async Task UpdateAsync_InvalidBalance_ReturnsNotFoundError()
         {
             var model = this.transactionModelBuilder.Generate();
 
@@ -146,7 +146,7 @@ namespace FinancialHub.Services.NUnitTests.Services
             var result = await this.service.UpdateAsync(model.Id.GetValueOrDefault(), model);
 
             Assert.IsTrue(result.HasError);
-            Assert.AreEqual($"Not found Account with id {model.AccountId}", result.Error.Message);
+            Assert.AreEqual($"Not found Balance with id {model.BalanceId}", result.Error.Message);
         }
     }
 }

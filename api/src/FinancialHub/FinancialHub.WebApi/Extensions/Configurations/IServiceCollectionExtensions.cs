@@ -35,7 +35,7 @@ namespace FinancialHub.WebApi.Extensions.Configurations
             services.AddScoped<ICategoriesRepository, CategoriesRepository>();
             services.AddScoped<ITransactionsRepository, TransactionsRepository>();
 
-            services.AddScoped<IBalanceRepository, BalanceRepository>();
+            services.AddScoped<IBalancesRepository, BalancesRepository>();
             return services;
         }
 

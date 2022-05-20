@@ -26,7 +26,7 @@ namespace FinancialHub.Services.NUnitTests.Services
         private IMapper mapper;
         private Mock<IMapperWrapper> mapperWrapper;
         private Mock<ITransactionsRepository> repository;
-        private Mock<IAccountsRepository> accountsRepository;
+        private Mock<IBalancesRepository> balancesRepository;
         private Mock<ICategoriesRepository> categoriesRepository;
 
         private void MockMapper()
@@ -46,9 +46,9 @@ namespace FinancialHub.Services.NUnitTests.Services
             this.MockMapper();
 
             this.repository = new Mock<ITransactionsRepository>();
-            this.accountsRepository = new Mock<IAccountsRepository>();
+            this.balancesRepository = new Mock<IBalancesRepository>();
             this.categoriesRepository = new Mock<ICategoriesRepository>();
-            this.service = new TransactionsService(mapperWrapper.Object,repository.Object,accountsRepository.Object,categoriesRepository.Object);
+            this.service = new TransactionsService(mapperWrapper.Object,repository.Object,balancesRepository.Object,categoriesRepository.Object);
 
             this.random = new Random();
 

@@ -18,9 +18,9 @@ namespace FinancialHub.Domain.Entities
         [Column("finish_date")]
         public DateTimeOffset FinishDate { get; set; }
 
-        [Column("account_id")]
-        public Guid AccountId { get; set; }
-        public AccountEntity Account { get; set; }
+        [Column("balance_id")]
+        public Guid BalanceId { get; set; }
+        public BalanceEntity Balance { get; set; }
 
         [Column("category_id")]
         [ForeignKey("category_id")]

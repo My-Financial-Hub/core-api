@@ -4,9 +4,9 @@ using FinancialHub.Infra.Data.Contexts;
 
 namespace FinancialHub.Infra.Data.Repositories
 {
-    public class BalanceRepository : BaseRepository<BalanceEntity>, IBalanceRepository
+    public class BalancesRepository : BaseRepository<BalanceEntity>, IBalancesRepository
     {
-        public BalanceRepository(FinancialHubContext context) : base(context)
+        public BalancesRepository(FinancialHubContext context) : base(context)
         {
         }
     }

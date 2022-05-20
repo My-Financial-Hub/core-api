@@ -11,9 +11,9 @@ namespace FinancialHub.Services.Services
     public class BalancesService : IBalancesService
     {
         private readonly IMapperWrapper mapper;
-        private readonly IBalanceRepository repository;
+        private readonly IBalancesRepository repository;
 
-        public BalancesService(IMapperWrapper mapper, IBalanceRepository repository)
+        public BalancesService(IMapperWrapper mapper, IBalancesRepository repository)
         {
             this.mapper = mapper;
             this.repository = repository;

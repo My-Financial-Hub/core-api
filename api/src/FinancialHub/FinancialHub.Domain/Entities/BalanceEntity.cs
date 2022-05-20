@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FinancialHub.Domain.Entities
@@ -16,5 +17,7 @@ namespace FinancialHub.Domain.Entities
         [Column("account_id")]
         public Guid AccountId { get; set; }
         public AccountEntity Account { get; set; }
+
+        public ICollection<TransactionEntity> Transactions { get; set; }
     }
 }

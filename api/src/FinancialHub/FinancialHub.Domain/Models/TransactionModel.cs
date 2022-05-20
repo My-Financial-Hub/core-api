@@ -12,8 +12,8 @@ namespace FinancialHub.Domain.Models
         public DateTimeOffset TargetDate { get; set; }
         public DateTimeOffset FinishDate { get; set; }
 
-        public Guid AccountId { get; set; }
-        public AccountModel Account { get; set; }
+        public Guid BalanceId { get; set; }
+        public BalanceModel Balance { get; set; }
 
         public Guid CategoryId { get; set; }
         public CategoryModel Category { get; set; }

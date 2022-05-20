@@ -8,7 +8,7 @@ namespace FinancialHub.Domain.Tests.Builders.Models
     {
         public TransactionModelBuilder() : base()
         {
-            var account = new AccountModelBuilder().Generate();
+            var balance = new BalanceModelBuilder().Generate();
             var category = new CategoryModelBuilder().Generate();
 
             this.RuleFor(x => x.Amount, fake => decimal.Round(fake.Random.Decimal(0, 10000),2));
@@ -16,8 +16,10 @@ namespace FinancialHub.Domain.Tests.Builders.Models
             this.RuleFor(x => x.IsActive, fake => fake.System.Random.Bool());
             this.RuleFor(x => x.Type, fake => fake.PickRandom<TransactionType>());
             this.RuleFor(x => x.Status, fake => fake.PickRandom<TransactionStatus>());
-            this.RuleFor(x => x.AccountId, fake => account.Id);
-            this.RuleFor(x => x.Account, fake => account);
+
+            this.RuleFor(x => x.BalanceId, fake => balance.Id);
+            this.RuleFor(x => x.Balance, fake => balance);
+
             this.RuleFor(x => x.CategoryId, fake => category.Id);
             this.RuleFor(x => x.Category, fake => category);
 
@@ -43,17 +45,17 @@ namespace FinancialHub.Domain.Tests.Builders.Models
             return this;
         }
 
-        public TransactionModelBuilder WithAccount(AccountModel account)
+        public TransactionModelBuilder WithBalance(BalanceModel balance)
         {
-            this.WithAccountId(account.Id);
-            this.RuleFor(x => x.Account, fake => account);
+            this.WithBalanceId(balance.Id);
+            this.RuleFor(x => x.Balance, fake => balance);
             return this;
         }
 
-        public TransactionModelBuilder WithAccountId(Guid? accountId)
+        public TransactionModelBuilder WithBalanceId(Guid? balanceId)
         {
-            this.RuleFor(x => x.AccountId, fake => accountId);
-            this.RuleFor(x => x.Account, fake => default);
+            this.RuleFor(x => x.BalanceId, fake => balanceId);
+            this.RuleFor(x => x.Balance, fake => default);
             return this;
         }
 

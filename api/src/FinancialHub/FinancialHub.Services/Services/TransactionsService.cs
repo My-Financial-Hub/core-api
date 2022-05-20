@@ -14,27 +14,27 @@ namespace FinancialHub.Services.Services
     {
         private readonly IMapperWrapper mapper;
         private readonly ITransactionsRepository repository;
-        private readonly IAccountsRepository accountsRepository;
+        private readonly IBalancesRepository balancesRepository;
         private readonly ICategoriesRepository categoriesRepository;
 
         public TransactionsService(
             IMapperWrapper mapper, 
-            ITransactionsRepository repository, 
-            IAccountsRepository accountsRepository, ICategoriesRepository categoriesRepository
+            ITransactionsRepository repository,
+            IBalancesRepository accountsRepository, ICategoriesRepository categoriesRepository
         )
         {
             this.mapper = mapper;
             this.repository = repository;
-            this.accountsRepository = accountsRepository;
+            this.balancesRepository = accountsRepository;
             this.categoriesRepository = categoriesRepository;
         }
 
         private async Task<ServiceResult<bool>> ValidateTransaction(TransactionEntity transaction)
         {
-            var account = await this.accountsRepository.GetByIdAsync(transaction.AccountId);
-            if (account == null)
+            var balance = await this.balancesRepository.GetByIdAsync(transaction.BalanceId);
+            if (balance == null)
             {
-                return new NotFoundError($"Not found Account with id {transaction.AccountId}");
+                return new NotFoundError($"Not found Balance with id {transaction.BalanceId}");
             }
 
             var category = await this.categoriesRepository.GetByIdAsync(transaction.CategoryId);

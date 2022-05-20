@@ -2,7 +2,7 @@
 
 namespace FinancialHub.Domain.Interfaces.Repositories
 {
-    public interface IBalanceRepository : IBaseRepository<BalanceEntity>
+    public interface IBalancesRepository : IBaseRepository<BalanceEntity>
     {
     }
 }
