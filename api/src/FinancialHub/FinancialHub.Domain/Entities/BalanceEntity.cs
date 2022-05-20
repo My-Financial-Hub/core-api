@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FinancialHub.Domain.Entities
 {
+    [Table("balances")]
     public class BalanceEntity : BaseEntity
     {
         [Column("name",TypeName = "varchar(200)")]

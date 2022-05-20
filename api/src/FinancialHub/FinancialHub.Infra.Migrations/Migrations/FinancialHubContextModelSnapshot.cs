@@ -89,7 +89,7 @@ namespace FinancialHub.Infra.Migrations.Migrations
 
                     b.HasIndex("AccountId");
 
-                    b.ToTable("Balances");
+                    b.ToTable("balances");
                 });
 
             modelBuilder.Entity("FinancialHub.Domain.Entities.CategoryEntity", b =>

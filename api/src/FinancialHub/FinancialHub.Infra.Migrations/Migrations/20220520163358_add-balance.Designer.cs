@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FinancialHub.Infra.Migrations.Migrations
 {
     [DbContext(typeof(FinancialHubContext))]
-    [Migration("20220518203409_adds balance")]
-    partial class addsbalance
+    [Migration("20220520163358_add-balance")]
+    partial class addbalance
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -91,7 +91,7 @@ namespace FinancialHub.Infra.Migrations.Migrations
 
                     b.HasIndex("AccountId");
 
-                    b.ToTable("Balances");
+                    b.ToTable("balances");
                 });
 
             modelBuilder.Entity("FinancialHub.Domain.Entities.CategoryEntity", b =>

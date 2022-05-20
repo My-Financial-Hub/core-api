@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace FinancialHub.Infra.Migrations.Migrations
 {
-    public partial class addsbalance : Migration
+    public partial class addbalance : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -14,7 +14,7 @@ namespace FinancialHub.Infra.Migrations.Migrations
                 table: "accounts");
 
             migrationBuilder.CreateTable(
-                name: "Balances",
+                name: "balances",
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -27,9 +27,9 @@ namespace FinancialHub.Infra.Migrations.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Balances", x => x.id);
+                    table.PrimaryKey("PK_balances", x => x.id);
                     table.ForeignKey(
-                        name: "FK_Balances_accounts_account_id",
+                        name: "FK_balances_accounts_account_id",
                         column: x => x.account_id,
                         principalTable: "accounts",
                         principalColumn: "id",
@@ -37,15 +37,15 @@ namespace FinancialHub.Infra.Migrations.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Balances_account_id",
-                table: "Balances",
+                name: "IX_balances_account_id",
+                table: "balances",
                 column: "account_id");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Balances");
+                name: "balances");
 
             migrationBuilder.AddColumn<string>(
                 name: "currency",
