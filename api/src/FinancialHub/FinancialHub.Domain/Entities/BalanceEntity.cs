@@ -13,10 +13,13 @@ namespace FinancialHub.Domain.Entities
         public string Currency { get; set; }
         [Column("amount", TypeName = "money")]
         public decimal Amount { get; set; }
+        [Column("active")]
+        public bool IsActive { get; set; }
 
         [Column("account_id")]
         public Guid AccountId { get; set; }
         public AccountEntity Account { get; set; }
+
 
         public ICollection<TransactionEntity> Transactions { get; set; }
     }

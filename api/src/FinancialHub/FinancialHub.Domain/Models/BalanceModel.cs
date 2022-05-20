@@ -10,5 +10,6 @@ namespace FinancialHub.Domain.Models
         public decimal Amount { get; set; }
         public Guid AccountId { get; set; }
         public AccountModel Account { get; set; }
+        public bool IsActive { get; set; }
     }
 }
