@@ -11,9 +11,9 @@ namespace FinancialHub.Domain.Interfaces.Services
     {
         Task<ServiceResult<ICollection<TransactionModel>>> GetAllByUserAsync(string userId, TransactionFilter filter);
 
-        Task<ServiceResult<TransactionModel>> CreateAsync(TransactionModel account);
+        Task<ServiceResult<TransactionModel>> CreateAsync(TransactionModel transaction);
 
-        Task<ServiceResult<TransactionModel>> UpdateAsync(Guid id, TransactionModel account);
+        Task<ServiceResult<TransactionModel>> UpdateAsync(Guid id, TransactionModel transaction);
 
         Task<ServiceResult<int>> DeleteAsync(Guid id);
     }
