@@ -19,15 +19,16 @@ namespace FinancialHub.Services.Services
         {
             var createdAccount = await this.accountsService.CreateAsync(account);
 
-            if(createdAccount == null)
+            if(createdAccount.Data == null)
             {
                 return new ServiceResult<AccountModel>();
             }
 
             var balance = new BalanceModel()
             {
-                Name = "Default Balance",
-                AccountId = createdAccount.Data.Id.GetValueOrDefault()
+                Name = $"{createdAccount.Data.Name} Default Balance",
+                AccountId = createdAccount.Data.Id.GetValueOrDefault(),
+                IsActive = createdAccount.Data.IsActive
             };
             var createdBalance = await this.balancesService.CreateAsync(balance);
 

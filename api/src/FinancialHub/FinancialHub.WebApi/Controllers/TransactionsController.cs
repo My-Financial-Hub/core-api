@@ -41,7 +41,7 @@ namespace FinancialHub.WebApi.Controllers
         /// <param name="category">Transaction to be created</param>
         public async Task<IActionResult> CreateTransaction([FromBody] TransactionModel transaction)
         {
-            var result = await service.CreateAsync(transaction);
+            var result = await this.service.CreateAsync(transaction);
 
             if (result.HasError)
             {
@@ -64,7 +64,7 @@ namespace FinancialHub.WebApi.Controllers
         /// <param name="transaction">transaction changes</param>
         public async Task<IActionResult> UpdateTransaction([FromRoute] Guid id, [FromBody] TransactionModel transaction)
         {
-            var result = await service.UpdateAsync(id, transaction);
+            var result = await this.service.UpdateAsync(id, transaction);
 
             if (result.HasError)
             {

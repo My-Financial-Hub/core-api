@@ -8,6 +8,8 @@ namespace FinancialHub.Domain.Interfaces.Services
 {
     public interface IBalancesService
     {
+        Task<ServiceResult<BalanceModel>> GetByIdAsync(Guid accountId);
+
         Task<ServiceResult<ICollection<BalanceModel>>> GetAllByAccountAsync(Guid accountId);
 
         Task<ServiceResult<BalanceModel>> CreateAsync(BalanceModel balance);

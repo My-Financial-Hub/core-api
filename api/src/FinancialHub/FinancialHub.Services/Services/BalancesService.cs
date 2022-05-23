@@ -35,6 +35,13 @@ namespace FinancialHub.Services.Services
             return new ServiceResult<int>(count);
         }
 
+        public async Task<ServiceResult<BalanceModel>> GetByIdAsync(Guid accountId)
+        {
+            var entities = await this.repository.GetByIdAsync(accountId);
+
+            return this.mapper.Map<BalanceModel>(entities);
+        }
+
         public async Task<ServiceResult<ICollection<BalanceModel>>> GetAllByAccountAsync(Guid accountId)
         {
             var entities = await this.repository.GetAsync(x => x.AccountId == accountId);
