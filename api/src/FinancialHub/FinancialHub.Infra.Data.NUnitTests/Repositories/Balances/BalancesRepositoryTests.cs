@@ -6,14 +6,14 @@ using FinancialHub.Domain.Tests.Builders.Entities;
 
 namespace FinancialHub.Infra.Data.NUnitTests.Repositories
 {
-    public class AccountsRepositoryTests : BaseRepositoryTests<AccountEntity>
+    public class BalancesRepositoryTests : BaseRepositoryTests<BalanceEntity>
     {
         [SetUp]
         protected override void Setup()
         {
             base.Setup();
-            this.repository = new AccountsRepository(this.context);
-            this.builder = new AccountEntityBuilder();
+            this.repository = new BalancesRepository(this.context);
+            this.builder = new BalanceEntityBuilder();
         }
     }
 }
