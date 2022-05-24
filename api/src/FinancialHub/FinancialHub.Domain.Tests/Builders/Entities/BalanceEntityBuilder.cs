@@ -37,7 +37,7 @@ namespace FinancialHub.Domain.Tests.Builders.Entities
 
         public BalanceEntityBuilder WithAccount(AccountEntity account)
         {
-            this.WithAccountId(account.Id);
+            this.RuleFor(x => x.AccountId, fake => account.Id);
             this.RuleFor(x => x.Account, fake => account);
             return this;
         }
@@ -45,7 +45,7 @@ namespace FinancialHub.Domain.Tests.Builders.Entities
         public BalanceEntityBuilder WithAccountId(Guid? accountId)
         {
             this.RuleFor(x => x.AccountId, fake => accountId);
-            this.RuleFor(x => x.Account, fake => default);
+            this.Ignore( x => x.Account);
             return this;
         }
     }

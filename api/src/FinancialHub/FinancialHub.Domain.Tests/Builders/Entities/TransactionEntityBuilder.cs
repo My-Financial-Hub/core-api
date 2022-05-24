@@ -29,20 +29,20 @@ namespace FinancialHub.Domain.Tests.Builders.Entities
         public TransactionEntityBuilder WithCategoryId(Guid? categoryId)
         {
             this.RuleFor(x => x.CategoryId, fake => categoryId);
-            this.RuleFor(x => x.Category, fake => default);
+            this.Ignore(x => x.Category);
             return this;
         }
 
         public TransactionEntityBuilder WithCategory(CategoryEntity category)
         {
-            this.WithCategoryId(category.Id);
+            this.RuleFor(x => x.CategoryId, fake => category.Id);
             this.RuleFor(x => x.Category, fake => category);
             return this;
         }
 
         public TransactionEntityBuilder WithBalance(BalanceEntity balance)
         {
-            this.WithBalanceId(balance.Id);
+            this.RuleFor(x => x.BalanceId, fake => balance.Id);
             this.RuleFor(x => x.Balance, fake => balance);
             return this;
         }
@@ -50,7 +50,7 @@ namespace FinancialHub.Domain.Tests.Builders.Entities
         public TransactionEntityBuilder WithBalanceId(Guid? balanceId)
         {
             this.RuleFor(x => x.BalanceId, fake => balanceId);
-            this.RuleFor(x => x.Balance, fake => default);
+            this.Ignore( x => x.Balance);
             return this;
         }
 
