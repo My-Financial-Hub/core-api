@@ -19,9 +19,9 @@ namespace FinancialHub.Services.Services
         {
             var createdAccount = await this.accountsService.CreateAsync(account);
 
-            if(createdAccount.Data == null)
+            if(createdAccount.HasError)
             {
-                return new ServiceResult<AccountModel>();
+                return createdAccount.Error;
             }
 
             var balance = new BalanceModel()
@@ -32,9 +32,9 @@ namespace FinancialHub.Services.Services
             };
             var createdBalance = await this.balancesService.CreateAsync(balance);
 
-            if (createdBalance == null)
+            if (createdBalance.HasError)
             {
-                return new ServiceResult<AccountModel>();
+                return createdBalance.Error;
             }
 
             return createdAccount;

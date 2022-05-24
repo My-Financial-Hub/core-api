@@ -12,16 +12,38 @@ namespace FinancialHub.Services.Services
     {
         private readonly IMapperWrapper mapper;
         private readonly IBalancesRepository repository;
+        private readonly IAccountsRepository accountsRepository;
 
-        public BalancesService(IMapperWrapper mapper, IBalancesRepository repository)
+        public BalancesService(IMapperWrapper mapper, 
+            IBalancesRepository repository, IAccountsRepository accountsRepository
+            )
         {
             this.mapper = mapper;
             this.repository = repository;
+            this.accountsRepository = accountsRepository;
+        }
+
+        private async Task<ServiceResult> ValidateAccountAsync(BalanceEntity balance)
+        {
+            var accountResult = await this.accountsRepository.GetByIdAsync(balance.AccountId);
+
+            if(accountResult == null)
+            {
+                return new NotFoundError($"Not found Account with id {balance.AccountId}");
+            }
+
+            return new ServiceResult();
         }
 
         public async Task<ServiceResult<BalanceModel>> CreateAsync(BalanceModel balance)
         {
             var entity = this.mapper.Map<BalanceEntity>(balance);
+
+            var validationResult = await this.ValidateAccountAsync(entity);
+            if (validationResult.HasError)
+            {
+                return validationResult.Error;
+            }
 
             entity = await this.repository.CreateAsync(entity);
 
@@ -54,10 +76,15 @@ namespace FinancialHub.Services.Services
         public async Task<ServiceResult<BalanceModel>> UpdateAsync(Guid id, BalanceModel balance)
         {
             var entity = await this.repository.GetByIdAsync(id);
-
             if (entity == null)
             {
                 return new NotFoundError($"Not found balance with id {id}");
+            }
+
+            var validationResult = await this.ValidateAccountAsync(entity);
+            if (validationResult.HasError)
+            {
+                return validationResult.Error;
             }
 
             entity = this.mapper.Map<BalanceEntity>(balance);
