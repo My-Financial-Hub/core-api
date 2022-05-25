@@ -40,27 +40,40 @@ namespace FinancialHub.Services.NUnitTests.Services
         }
 
         [Test]
-        public void GetByAccountAsync_RepositoryException_ThrowsException()
+        public async Task GetByIdAsync_ValidId_ReturnsBalance()
         {
-            var entitiesMock = this.GenerateBalances();
+            var entity = this.balanceEntityBuilder.Generate();
 
-            var exc = new Exception("mock");
             this.repository
-                .Setup(x => x.GetAsync(It.IsAny<Func<BalanceEntity, bool>>()))
-                .Throws(exc)
+                .Setup(x => x.GetByIdAsync(entity.Id.GetValueOrDefault()))
+                .ReturnsAsync(entity)
                 .Verifiable();
 
-            this.mapperWrapper
-                .Setup(x => x.Map<IEnumerable<AccountModel>>(It.IsAny<IEnumerable<AccountEntity>>()))
-                .Returns<IEnumerable<AccountEntity>>((ent) => this.mapper.Map<IEnumerable<AccountModel>>(ent))
-                .Verifiable();
+            this.SetUpMapper();
 
-            var exception = Assert.ThrowsAsync<Exception>(
-                async () => await this.service.GetAllByAccountAsync(Guid.Empty)
-            );
+            var result = await this.service.GetByIdAsync(entity.Id.GetValueOrDefault());
 
-            Assert.IsInstanceOf(exc.GetType(), exception);
-            this.repository.Verify(x => x.GetAsync(It.IsAny<Func<BalanceEntity, bool>>()), Times.Once);
+            Assert.IsInstanceOf<ServiceResult<BalanceModel>>(result);
+            Assert.IsFalse(result.HasError);
+            Assert.AreEqual(entity.AccountId    , result.Data.AccountId);
+            Assert.AreEqual(entity.Amount       , result.Data.Amount);
+            Assert.AreEqual(entity.Name         , result.Data.Name);
+            Assert.AreEqual(entity.IsActive     , result.Data.IsActive);
+
+            this.repository.Verify(x => x.GetByIdAsync(entity.Id.GetValueOrDefault()), Times.Once);
+        }
+
+        [Test]
+        public async Task GetByIdAsync_InvalidId_ReturnsNotFoundError()
+        {
+            var entity = this.balanceEntityBuilder.Generate();
+
+            this.SetUpMapper();
+
+            var result = await this.service.GetByIdAsync(entity.Id.GetValueOrDefault());
+
+            Assert.IsInstanceOf<ServiceResult<BalanceModel>>(result);
+            Assert.IsTrue(result.HasError);
         }
     }
 }

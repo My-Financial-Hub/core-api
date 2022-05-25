@@ -96,30 +96,5 @@ namespace FinancialHub.Services.NUnitTests.Services
 
             this.repository.Verify(x => x.CreateAsync(It.IsAny<BalanceEntity>()), Times.Never);
         }
-
-        [Test]
-        public void CreateAsync_RepositoryException_ThrowsException()
-        {
-            var model = this.balanceModelBuilder.Generate();
-            var exc = new Exception("mock");
-
-            this.repository
-                .Setup(x => x.CreateAsync(It.IsAny<BalanceEntity>()))
-                .Throws(exc)
-                .Verifiable();
-
-            this.accountsRepository
-                .Setup(x => x.GetByIdAsync(model.AccountId))
-                .ReturnsAsync(this.mapper.Map<AccountEntity>(model.Account));
-
-            this.SetUpMapper();
-
-            var exception = Assert.ThrowsAsync<Exception>(
-                async () => await this.service.CreateAsync(model)
-            );
-
-            Assert.IsInstanceOf(exc.GetType(), exception);
-            this.repository.Verify(x => x.CreateAsync(It.IsAny<BalanceEntity>()), Times.Once);
-        }
     }
 }

@@ -57,11 +57,16 @@ namespace FinancialHub.Services.Services
             return new ServiceResult<int>(count);
         }
 
-        public async Task<ServiceResult<BalanceModel>> GetByIdAsync(Guid accountId)
+        public async Task<ServiceResult<BalanceModel>> GetByIdAsync(Guid id)
         {
-            var entities = await this.repository.GetByIdAsync(accountId);
+            var entity = await this.repository.GetByIdAsync(id);
 
-            return this.mapper.Map<BalanceModel>(entities);
+            if(entity == null)
+            {
+                return new NotFoundError($"Not found Balance with id {id}");
+            }
+
+            return this.mapper.Map<BalanceModel>(entity);
         }
 
         public async Task<ServiceResult<ICollection<BalanceModel>>> GetAllByAccountAsync(Guid accountId)
@@ -75,19 +80,19 @@ namespace FinancialHub.Services.Services
 
         public async Task<ServiceResult<BalanceModel>> UpdateAsync(Guid id, BalanceModel balance)
         {
-            var entity = await this.repository.GetByIdAsync(id);
-            if (entity == null)
+            var entityResult = await this.GetByIdAsync(id);
+            if (entityResult.HasError)
             {
-                return new NotFoundError($"Not found balance with id {id}");
+                return entityResult.Error;
             }
+
+            var entity = this.mapper.Map<BalanceEntity>(balance);
 
             var validationResult = await this.ValidateAccountAsync(entity);
             if (validationResult.HasError)
             {
                 return validationResult.Error;
             }
-
-            entity = this.mapper.Map<BalanceEntity>(balance);
 
             entity = await this.repository.UpdateAsync(entity);
 
