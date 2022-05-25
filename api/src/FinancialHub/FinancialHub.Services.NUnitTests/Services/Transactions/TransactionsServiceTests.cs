@@ -56,19 +56,6 @@ namespace FinancialHub.Services.NUnitTests.Services
             this.transactionModelBuilder = new TransactionModelBuilder();
         }
 
-        private void SetUpMapper<T,Y>()
-        {
-            this.mapperWrapper
-                .Setup(x => x.Map<Y>(It.IsAny<T>()))
-                .Returns<T>((ent) => this.mapper.Map<Y>(ent))
-                .Verifiable();
-
-            this.mapperWrapper
-                .Setup(x => x.Map<T>(It.IsAny<Y>()))
-                .Returns<Y>((model) => this.mapper.Map<T>(model))
-                .Verifiable();
-        }
-
         private void SetUpMapper()
         {
             this.mapperWrapper

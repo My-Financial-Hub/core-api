@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace FinancialHub.Services.NUnitTests.Services
 {
-    public partial class AccountsServiceTests
+    public partial class BalancesServiceTests
     {
         [Test]
-        public async Task DeleteAsync_RepositorySuccess_ReturnsAccountModel()
+        public async Task DeleteAsync_RepositorySuccess_ReturnsBalanceModel()
         {
             var expectedResult = random.Next(1,100);
             var guid = Guid.NewGuid();
