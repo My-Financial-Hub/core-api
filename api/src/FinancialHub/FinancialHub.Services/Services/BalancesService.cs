@@ -38,6 +38,7 @@ namespace FinancialHub.Services.Services
         public async Task<ServiceResult<BalanceModel>> CreateAsync(BalanceModel balance)
         {
             var entity = this.mapper.Map<BalanceEntity>(balance);
+            entity.Amount = 0;
 
             var validationResult = await this.ValidateAccountAsync(entity);
             if (validationResult.HasError)
@@ -87,6 +88,8 @@ namespace FinancialHub.Services.Services
             }
 
             var entity = this.mapper.Map<BalanceEntity>(balance);
+            //TODO: move to repository
+            entity.Amount = entityResult.Data.Amount;
 
             var validationResult = await this.ValidateAccountAsync(entity);
             if (validationResult.HasError)
