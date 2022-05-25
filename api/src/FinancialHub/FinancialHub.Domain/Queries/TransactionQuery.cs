@@ -8,8 +8,6 @@ namespace FinancialHub.Domain.Queries
 {
     public class TransactionQuery
     {
-        [Obsolete("Not Used yet")]
-        public string UserId { get; set; }
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
 
@@ -18,9 +16,6 @@ namespace FinancialHub.Domain.Queries
 
         public TransactionType[] Types { get; set; }
         public TransactionStatus[] Status { get; set; }
-
-        //public Guid[] AccountsIds { get; set; }
-        //public Guid[] CategoriesIds { get; set; }
 
         public Func<TransactionEntity, bool> Query()
         {
