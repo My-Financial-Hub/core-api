@@ -45,7 +45,7 @@ namespace FinancialHub.Domain.Tests.Builders.Models
         public BalanceModelBuilder WithAccountId(Guid? accountId)
         {
             this.RuleFor(x => x.AccountId, fake => accountId);
-            this.RuleFor(x => x.Account, fake => default);
+            this.Ignore(x => x.Account);
             return this;
         }
     }

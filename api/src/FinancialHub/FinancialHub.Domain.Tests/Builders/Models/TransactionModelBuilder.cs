@@ -34,7 +34,7 @@ namespace FinancialHub.Domain.Tests.Builders.Models
         public TransactionModelBuilder WithCategoryId(Guid? categoryId)
         {
             this.RuleFor(x => x.CategoryId, fake => categoryId);
-            this.RuleFor(x => x.Category, fake => default);
+            this.Ignore( x => x.Category);
             return this;
         }
 
@@ -55,7 +55,7 @@ namespace FinancialHub.Domain.Tests.Builders.Models
         public TransactionModelBuilder WithBalanceId(Guid? balanceId)
         {
             this.RuleFor(x => x.BalanceId, fake => balanceId);
-            this.RuleFor(x => x.Balance, fake => default);
+            this.Ignore(x => x.Balance);
             return this;
         }
 

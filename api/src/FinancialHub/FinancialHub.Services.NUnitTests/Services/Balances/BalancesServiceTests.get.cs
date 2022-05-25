@@ -34,7 +34,7 @@ namespace FinancialHub.Services.NUnitTests.Services
 
             Assert.IsInstanceOf<ServiceResult<ICollection<BalanceModel>>>(result);
             Assert.IsFalse(result.HasError);
-            Assert.AreEqual(entitiesMock.Count(), result.Data.Count());
+            Assert.AreEqual(entitiesMock.Count, result.Data.Count);
 
             this.repository.Verify(x => x.GetAsync(It.IsAny<Func<BalanceEntity, bool>>()), Times.Once);
         }
