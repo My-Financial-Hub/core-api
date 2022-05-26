@@ -57,5 +57,10 @@ namespace FinancialHub.Services.Services
 
             return removedLines;
         }
+
+        public async Task<ServiceResult<ICollection<BalanceModel>>> GetBalancesByAccountAsync(Guid accountId)
+        {
+            return await this.balancesService.GetAllByAccountAsync(accountId);
+        }
     }
 }

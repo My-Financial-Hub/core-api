@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using FinancialHub.Domain.Interfaces.Services;
@@ -13,11 +12,11 @@ namespace FinancialHub.WebApi.Controllers
     [Route("[controller]")]
     [Produces("application/json")]
     [ProducesErrorResponseType(typeof(Exception))]
-    public class BalanceController : Controller
+    public class BalancesController : Controller
     {
         private readonly IBalancesService service;
 
-        public BalanceController(IBalancesService service)
+        public BalancesController(IBalancesService service)
         {
             this.service = service;
         }
@@ -27,19 +26,6 @@ namespace FinancialHub.WebApi.Controllers
         public async Task<IActionResult> GetBalances([FromRoute] Guid accountId)
         {
             var result = await service.GetAllByAccountAsync(accountId);
-
-            var account = result.Data.FirstOrDefault()?.Account;
-            var total = new BalanceModel()
-            {
-                Id = Guid.NewGuid(),
-                Name = "Total",
-                Account = account,
-                AccountId = accountId,
-                Amount = result.Data?.Sum(x => x.Amount) ?? 0,
-                IsActive = true
-            };
-
-            result.Data.Add(total);
 
             return Ok(new ListResponse<BalanceModel>(result.Data));
         }

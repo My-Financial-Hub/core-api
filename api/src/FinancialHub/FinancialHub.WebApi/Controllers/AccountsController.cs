@@ -23,6 +23,15 @@ namespace FinancialHub.WebApi.Controllers
             this.service = service;
         }
 
+        [HttpGet("/{accountId}/balances")]
+        [ProducesResponseType(typeof(ListResponse<BalanceModel>), 200)]
+        public async Task<IActionResult> GetAccountBalances([FromRoute] Guid accountId)
+        {
+            var result = await this.accountBalanceService.GetBalancesByAccountAsync(accountId);
+
+            return Ok(new ListResponse<BalanceModel>(result.Data));
+        }
+
         /// <summary>
         /// Get all accounts of the system (will be changed to only one user)
         /// </summary>
