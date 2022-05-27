@@ -23,7 +23,7 @@ namespace FinancialHub.WebApi.Controllers
             this.service = service;
         }
 
-        [HttpGet("/{accountId}/balances")]
+        [HttpGet("{accountId}/balances")]
         [ProducesResponseType(typeof(ListResponse<BalanceModel>), 200)]
         public async Task<IActionResult> GetAccountBalances([FromRoute] Guid accountId)
         {
