@@ -25,9 +25,10 @@ namespace FinancialHub.Domain.Queries
 
         private Func<TransactionEntity, bool> QueryFuncs()
         {
-            var queries = new List<Func<TransactionEntity, bool>>();
-
-            queries.Add((ent) => ent.IsActive);
+            var queries = new List<Func<TransactionEntity, bool>>
+            {
+                (ent) => ent.IsActive
+            };
 
             if (StartDate != null)
             {

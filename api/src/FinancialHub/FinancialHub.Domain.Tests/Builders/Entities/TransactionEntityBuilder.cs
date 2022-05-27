@@ -77,5 +77,16 @@ namespace FinancialHub.Domain.Tests.Builders.Entities
             this.RuleFor(x => x.IsActive, fake => isActive);
             return this;
         }
+
+        public TransactionEntityBuilder WithTargetDate(DateTime date)
+        {
+            this.RuleFor(x => x.TargetDate, date);
+            return this;
+        }
+        public TransactionEntityBuilder WithTargetDateNextTo(DateTime date)
+        {
+            this.RuleFor(x => x.TargetDate, fake => fake.Date.RecentOffset(90, date));
+            return this;
+        }
     }
 }
