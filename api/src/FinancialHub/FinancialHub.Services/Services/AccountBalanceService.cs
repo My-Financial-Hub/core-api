@@ -43,17 +43,27 @@ namespace FinancialHub.Services.Services
         public async Task<ServiceResult<int>> DeleteAsync(Guid accountId)
         {
             int removedLines = 0;
-            
-            var accountResult = await this.accountsService.DeleteAsync(accountId);
-            removedLines += accountResult.Data;
 
             var balances = await this.balancesService.GetAllByAccountAsync(accountId);
 
             foreach (var balance in balances.Data)
             {
                 var balanceResult = await this.balancesService.DeleteAsync(balance.Id.GetValueOrDefault());
+                if (balanceResult.HasError)
+                {
+                    return balanceResult.Error;
+                }
+
                 removedLines += balanceResult.Data;
             }
+
+            var accountResult = await this.accountsService.DeleteAsync(accountId);
+            if (accountResult.HasError)
+            {
+                return accountResult.Error;
+            }
+
+            removedLines += accountResult.Data;
 
             return removedLines;
         }

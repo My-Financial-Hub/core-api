@@ -9,7 +9,22 @@ namespace FinancialHub.Services.NUnitTests.Services
     public partial class BalancesServiceTests
     {
         [Test]
-        public async Task DeleteAsync_RepositorySuccess_ReturnsBalanceModel()
+        public async Task DeleteAsync_RemovesBalance()
+        {
+            var expectedResult = random.Next(1, 100);
+            var guid = Guid.NewGuid();
+            this.repository
+                .Setup(x => x.DeleteAsync(guid))
+                .Returns(async () => await Task.FromResult(expectedResult))
+                .Verifiable();
+
+            await this.service.DeleteAsync(guid);
+
+            this.repository.Verify(x => x.DeleteAsync(guid), Times.Once);
+        }
+
+        [Test]
+        public async Task DeleteAsync_RepositorySuccess_ReturnsRemovedBalances()
         {
             var expectedResult = random.Next(1,100);
             var guid = Guid.NewGuid();
@@ -22,7 +37,6 @@ namespace FinancialHub.Services.NUnitTests.Services
 
             Assert.IsInstanceOf<ServiceResult<int>>(result);
             Assert.AreEqual(expectedResult,result.Data);
-            this.repository.Verify(x => x.DeleteAsync(guid), Times.Once);
         }
     }
 }

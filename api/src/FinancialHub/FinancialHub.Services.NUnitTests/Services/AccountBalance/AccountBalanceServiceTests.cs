@@ -1,6 +1,6 @@
-﻿using Moq;
+﻿using System;
+using Moq;
 using NUnit.Framework;
-using System;
 using FinancialHub.Domain.Interfaces.Services;
 using FinancialHub.Services.Services;
 using FinancialHub.Domain.Tests.Builders.Models;
@@ -11,6 +11,7 @@ namespace FinancialHub.Services.NUnitTests.Services
     {
         protected Random random;
         protected AccountModelBuilder accountModelBuilder;
+        protected BalanceModelBuilder balanceModelBuilder;
 
         private IAccountBalanceService service;
 
@@ -30,6 +31,7 @@ namespace FinancialHub.Services.NUnitTests.Services
             this.random = new Random();
 
             this.accountModelBuilder = new AccountModelBuilder();
+            this.balanceModelBuilder = new BalanceModelBuilder();
         }
     }
 }
