@@ -21,15 +21,6 @@ namespace FinancialHub.WebApi.Controllers
             this.service = service;
         }
 
-        [HttpGet]
-        [ProducesResponseType(typeof(ListResponse<BalanceModel>), 200)]
-        public async Task<IActionResult> GetBalances([FromRoute] Guid accountId)
-        {
-            var result = await service.GetAllByAccountAsync(accountId);
-
-            return Ok(new ListResponse<BalanceModel>(result.Data));
-        }
-
         [HttpPost]
         [ProducesResponseType(typeof(SaveResponse<BalanceModel>), 200)]
         [ProducesResponseType(typeof(ValidationErrorResponse), 400)]
@@ -68,7 +59,7 @@ namespace FinancialHub.WebApi.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAccount([FromRoute] Guid id)
+        public async Task<IActionResult> DeleteBalance([FromRoute] Guid id)
         {
             await this.service.DeleteAsync(id);
             return NoContent();

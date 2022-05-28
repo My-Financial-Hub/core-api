@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Net.Http;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
@@ -7,6 +8,7 @@ using FinancialHub.Infra.Data.Contexts;
 using FinancialHub.Domain.Entities;
 using System.Collections;
 using FinancialHub.IntegrationTests.Extensions;
+using System.Collections.Generic;
 
 namespace FinancialHub.IntegrationTests.Setup
 {
@@ -39,6 +41,16 @@ namespace FinancialHub.IntegrationTests.Setup
                 var context = scope.ServiceProvider.GetRequiredService<FinancialHubContext>();
                 context.Set<T>().AddRange(data);
                 context.SaveChanges();
+            }
+        }
+
+        public IEnumerable<T> GetData<T>()
+            where T : BaseEntity
+        {
+            using (var scope = this.Api.Server.Services.CreateScope())
+            {
+                var context = scope.ServiceProvider.GetRequiredService<FinancialHubContext>();
+                return context.Set<T>().ToArray();
             }
         }
 
