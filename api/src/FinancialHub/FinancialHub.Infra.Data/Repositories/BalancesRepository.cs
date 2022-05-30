@@ -1,9 +1,9 @@
-﻿using FinancialHub.Domain.Entities;
+﻿using System;
+using System.Threading.Tasks;
+using FinancialHub.Domain.Entities;
 using FinancialHub.Domain.Enums;
 using FinancialHub.Domain.Interfaces.Repositories;
 using FinancialHub.Infra.Data.Contexts;
-using System;
-using System.Threading.Tasks;
 
 namespace FinancialHub.Infra.Data.Repositories
 {
@@ -20,7 +20,9 @@ namespace FinancialHub.Infra.Data.Repositories
             var result = this.context.Update(obj);
             this.context.Entry(result.Entity).Property(x => x.Amount).IsModified = false;
             this.context.Entry(result.Entity).Property(x => x.CreationTime).IsModified = false;
+
             await context.SaveChangesAsync();
+            await result.ReloadAsync();
 
             return result.Entity;
         }
