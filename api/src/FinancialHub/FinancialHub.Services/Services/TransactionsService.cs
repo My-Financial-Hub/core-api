@@ -19,7 +19,7 @@ namespace FinancialHub.Services.Services
         private readonly ICategoriesRepository categoriesRepository;
 
         public TransactionsService(
-            IMapperWrapper mapper, 
+            IMapperWrapper mapper,
             ITransactionsRepository repository,
             IBalancesRepository balancesRepository, ICategoriesRepository categoriesRepository
         )
@@ -59,7 +59,7 @@ namespace FinancialHub.Services.Services
 
             entity = await this.repository.CreateAsync(entity);
 
-            if (entity.Status == TransactionStatus.Committed)
+            if (entity.Status == TransactionStatus.Committed && entity.IsActive)
             {
                 await this.balancesRepository.AddAmountAsync(entity);
             }
@@ -86,38 +86,38 @@ namespace FinancialHub.Services.Services
 
         public async Task<ServiceResult<TransactionModel>> UpdateAsync(Guid id, TransactionModel transaction)
         {
-            var oldEntity = await this.repository.GetByIdAsync(id);
-            if (oldEntity == null)
+            var oldTransaction = await this.repository.GetByIdAsync(id);
+            if (oldTransaction == null)
             {
                 return new NotFoundError($"Not found Transaction with id {id}");
             }
 
-            var entity = this.mapper.Map<TransactionEntity>(transaction);
+            var newTransaction = this.mapper.Map<TransactionEntity>(transaction);
 
-            var validation = await this.ValidateTransaction(entity);
+            var validation = await this.ValidateTransaction(newTransaction);
             if (validation.HasError)
             {
                 return new ServiceResult<TransactionModel>(error: validation.Error);
             }
 
-            entity = await this.repository.UpdateAsync(entity);
+            newTransaction = await this.repository.UpdateAsync(newTransaction);
 
-            if (
-                (entity.Status == TransactionStatus.Committed && entity.Status != oldEntity.Status) || 
-                (entity.IsActive && !oldEntity.IsActive)
-            )
+            if (newTransaction.IsActive && newTransaction.Status == TransactionStatus.Committed)
             {
-                await this.balancesRepository.AddAmountAsync(entity);
+                if (!oldTransaction.IsActive || newTransaction.Status != oldTransaction.Status)
+                {
+                    await this.balancesRepository.AddAmountAsync(newTransaction);
+                }
             }
-            else if(
-                (entity.Status == TransactionStatus.NotCommitted && entity.Status != oldEntity.Status) ||
-                (!entity.IsActive && oldEntity.IsActive)
-            )
+            else if(oldTransaction.IsActive && oldTransaction.Status == TransactionStatus.Committed)
             {
-                await this.balancesRepository.RemoveAmountAsync(entity);
+                if (!newTransaction.IsActive || newTransaction.Status != oldTransaction.Status)
+                {
+                    await this.balancesRepository.RemoveAmountAsync(newTransaction);
+                }
             }
 
-            return mapper.Map<TransactionModel>(entity);
+            return mapper.Map<TransactionModel>(newTransaction);
         }
     }
 }
