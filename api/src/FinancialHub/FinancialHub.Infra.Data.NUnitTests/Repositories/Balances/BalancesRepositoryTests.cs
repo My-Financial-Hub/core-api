@@ -6,7 +6,7 @@ using FinancialHub.Domain.Tests.Builders.Entities;
 
 namespace FinancialHub.Infra.Data.NUnitTests.Repositories
 {
-    public class BalancesRepositoryTests : BaseRepositoryTests<BalanceEntity>
+    public partial class BalancesRepositoryTests : BaseRepositoryTests<BalanceEntity>
     {
         [SetUp]
         protected override void Setup()

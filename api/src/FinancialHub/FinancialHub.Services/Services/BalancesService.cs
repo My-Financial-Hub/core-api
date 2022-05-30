@@ -88,8 +88,7 @@ namespace FinancialHub.Services.Services
             }
 
             var entity = this.mapper.Map<BalanceEntity>(balance);
-            //TODO: move to repository
-            entity.Amount = entityResult.Data.Amount;
+            entity.Id = id;
 
             var validationResult = await this.ValidateAccountAsync(entity);
             if (validationResult.HasError)

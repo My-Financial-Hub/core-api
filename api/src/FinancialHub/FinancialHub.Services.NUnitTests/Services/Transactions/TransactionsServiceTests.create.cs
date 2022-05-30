@@ -5,7 +5,7 @@ using NUnit.Framework;
 using FinancialHub.Domain.Entities;
 using FinancialHub.Domain.Models;
 using FinancialHub.Domain.Results;
-using FinancialHub.Domain.Results.Errors;
+using FinancialHub.Domain.Enums;
 
 namespace FinancialHub.Services.NUnitTests.Services
 {
@@ -39,7 +39,9 @@ namespace FinancialHub.Services.NUnitTests.Services
         [Test]
         public async Task CreateAsync_ValidTransactionModel_UpdatesBalance()
         {
-            var model = this.transactionModelBuilder.Generate();
+            var model = this.transactionModelBuilder
+                .WithStatus(TransactionStatus.Committed)
+                .Generate();
             var balanceEntity = this.mapper.Map<BalanceEntity>(model.Balance);
 
             this.categoriesRepository
@@ -51,7 +53,7 @@ namespace FinancialHub.Services.NUnitTests.Services
                 .ReturnsAsync(balanceEntity);
 
             this.balancesRepository
-                .Setup(x => x.UpdateAsync(balanceEntity))
+                .Setup(x => x.AddAmountAsync(It.IsAny<TransactionEntity>()))
                 .ReturnsAsync(balanceEntity);
 
             this.repository
@@ -63,7 +65,7 @@ namespace FinancialHub.Services.NUnitTests.Services
 
             await this.service.CreateAsync(model);
 
-            this.balancesRepository.Verify(x => x.UpdateAsync(balanceEntity), Times.Once);
+            this.balancesRepository.Verify(x => x.AddAmountAsync(It.IsAny<TransactionEntity>()), Times.Once);
         }
 
         [Test]
