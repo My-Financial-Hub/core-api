@@ -37,7 +37,7 @@ namespace FinancialHub.Services.NUnitTests.Services
         }
 
         [Test]
-        public async Task CreateAsync_ValidTransactionModel_UpdatesBalance()
+        public async Task CreateAsync_CommitedTransaction_UpdatesBalance()
         {
             var model = this.transactionModelBuilder
                 .WithStatus(TransactionStatus.Committed)
@@ -46,15 +46,18 @@ namespace FinancialHub.Services.NUnitTests.Services
 
             this.categoriesRepository
                 .Setup(x => x.GetByIdAsync(model.CategoryId))
-                .ReturnsAsync(this.mapper.Map<CategoryEntity>(model.Category));
+                .ReturnsAsync(this.mapper.Map<CategoryEntity>(model.Category))
+                .Verifiable();
 
             this.balancesRepository
                 .Setup(x => x.GetByIdAsync(model.BalanceId))
-                .ReturnsAsync(balanceEntity);
+                .ReturnsAsync(balanceEntity)
+                .Verifiable();
 
             this.balancesRepository
                 .Setup(x => x.AddAmountAsync(It.IsAny<TransactionEntity>()))
-                .ReturnsAsync(balanceEntity);
+                .ReturnsAsync(balanceEntity)
+                .Verifiable();
 
             this.repository
                 .Setup(x => x.CreateAsync(It.IsAny<TransactionEntity>()))
@@ -66,6 +69,41 @@ namespace FinancialHub.Services.NUnitTests.Services
             await this.service.CreateAsync(model);
 
             this.balancesRepository.Verify(x => x.AddAmountAsync(It.IsAny<TransactionEntity>()), Times.Once);
+        }
+
+        [Test]
+        public async Task CreateAsync_NotCommitedTransaction_DoesNotUpdatesBalance()
+        {
+            var model = this.transactionModelBuilder
+                .WithStatus(TransactionStatus.NotCommitted)
+                .Generate();
+            var balanceEntity = this.mapper.Map<BalanceEntity>(model.Balance);
+
+            this.categoriesRepository
+                .Setup(x => x.GetByIdAsync(model.CategoryId))
+                .ReturnsAsync(this.mapper.Map<CategoryEntity>(model.Category))
+                .Verifiable();
+
+            this.balancesRepository
+                .Setup(x => x.GetByIdAsync(model.BalanceId))
+                .ReturnsAsync(balanceEntity)
+                .Verifiable();
+
+            this.balancesRepository
+                .Setup(x => x.AddAmountAsync(It.IsAny<TransactionEntity>()))
+                .ReturnsAsync(balanceEntity)
+                .Verifiable();
+
+            this.repository
+                .Setup(x => x.CreateAsync(It.IsAny<TransactionEntity>()))
+                .Returns<TransactionEntity>(async (x) => await Task.FromResult(x))
+                .Verifiable();
+
+            this.SetUpMapper();
+
+            await this.service.CreateAsync(model);
+
+            this.balancesRepository.Verify(x => x.AddAmountAsync(It.IsAny<TransactionEntity>()), Times.Never);
         }
 
         [Test]
@@ -92,35 +130,6 @@ namespace FinancialHub.Services.NUnitTests.Services
 
             Assert.IsNotNull(result.Data);
             Assert.IsInstanceOf<ServiceResult<TransactionModel>>(result);
-        }
-
-        [Test]
-        public void CreateAsync_RepositoryException_ThrowsException()
-        {
-            var model = this.transactionModelBuilder.Generate();
-            var exc = new Exception("mock");
-
-            this.categoriesRepository
-                .Setup(x => x.GetByIdAsync(model.CategoryId))
-                .ReturnsAsync(this.mapper.Map<CategoryEntity>(model.Category));
-
-            this.balancesRepository
-                .Setup(x => x.GetByIdAsync(model.BalanceId))
-                .ReturnsAsync(this.mapper.Map<BalanceEntity>(model.Balance));
-
-            this.repository
-                .Setup(x => x.CreateAsync(It.IsAny<TransactionEntity>()))
-                .Throws(exc)
-                .Verifiable();
-
-            this.SetUpMapper();
-
-            var exception = Assert.ThrowsAsync<Exception>(
-                async () => await this.service.CreateAsync(model)
-            );
-
-            Assert.IsInstanceOf(exc.GetType(), exception);
-            this.repository.Verify(x => x.CreateAsync(It.IsAny<TransactionEntity>()), Times.Once());
         }
 
         [Test]
