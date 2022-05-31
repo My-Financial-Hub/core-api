@@ -37,10 +37,11 @@ namespace FinancialHub.Services.NUnitTests.Services
         }
 
         [Test]
-        public async Task CreateAsync_CommitedTransaction_UpdatesBalance()
+        public async Task CreateAsync_CommitedActiveTransaction_UpdatesBalance()
         {
             var model = this.transactionModelBuilder
                 .WithStatus(TransactionStatus.Committed)
+                .WithActiveStatus(true)
                 .Generate();
             var balanceEntity = this.mapper.Map<BalanceEntity>(model.Balance);
 

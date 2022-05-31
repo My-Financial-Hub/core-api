@@ -112,8 +112,8 @@ namespace FinancialHub.Services.Services
             }
             else if
             (
-                (oldTransaction.IsActive && !newTransaction.IsActive && oldTransaction.Status == TransactionStatus.Committed) || 
-                (newTransaction.Status != oldTransaction.Status)
+                oldTransaction.IsActive && oldTransaction.Status == TransactionStatus.Committed &&
+                (!newTransaction.IsActive || newTransaction.Status != oldTransaction.Status) 
             )
             {
                 await this.balancesRepository.RemoveAmountAsync(newTransaction);
