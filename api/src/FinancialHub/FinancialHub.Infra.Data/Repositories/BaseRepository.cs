@@ -32,7 +32,7 @@ namespace FinancialHub.Infra.Data.Repositories
 
         public virtual async Task<int> DeleteAsync(Guid id)
         {
-            var entity = context.Set<T>().FirstOrDefault(x => x.Id == id);
+            var entity = await this.GetByIdAsync(id);
 
             if(entity != null)
             {
