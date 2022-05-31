@@ -102,19 +102,21 @@ namespace FinancialHub.Services.Services
 
             newTransaction = await this.repository.UpdateAsync(newTransaction);
 
-            if (newTransaction.IsActive && newTransaction.Status == TransactionStatus.Committed)
+            if 
+            (
+                newTransaction.IsActive && newTransaction.Status == TransactionStatus.Committed &&
+                (!oldTransaction.IsActive || newTransaction.Status != oldTransaction.Status)
+            )
             {
-                if (!oldTransaction.IsActive || newTransaction.Status != oldTransaction.Status)
-                {
-                    await this.balancesRepository.AddAmountAsync(newTransaction);
-                }
+                await this.balancesRepository.AddAmountAsync(newTransaction);
             }
-            else if(oldTransaction.IsActive && oldTransaction.Status == TransactionStatus.Committed)
+            else if
+            (
+                (oldTransaction.IsActive && !newTransaction.IsActive && oldTransaction.Status == TransactionStatus.Committed) || 
+                (newTransaction.Status != oldTransaction.Status)
+            )
             {
-                if (!newTransaction.IsActive || newTransaction.Status != oldTransaction.Status)
-                {
-                    await this.balancesRepository.RemoveAmountAsync(newTransaction);
-                }
+                await this.balancesRepository.RemoveAmountAsync(newTransaction);
             }
 
             return mapper.Map<TransactionModel>(newTransaction);
