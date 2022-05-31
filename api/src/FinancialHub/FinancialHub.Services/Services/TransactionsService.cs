@@ -69,6 +69,17 @@ namespace FinancialHub.Services.Services
 
         public async Task<ServiceResult<int>> DeleteAsync(Guid id)
         {
+            var transaction = await this.repository.GetByIdAsync(id);
+            if (transaction == null)
+            {
+                return new NotFoundError($"Not found Transaction with id {id}");
+            }
+            
+            if (transaction.Status == TransactionStatus.Committed && transaction.IsActive)
+            {
+                await this.balancesRepository.RemoveAmountAsync(transaction);
+            }
+
             return await this.repository.DeleteAsync(id);
         }
 
