@@ -48,8 +48,12 @@ namespace FinancialHub.Infra.Data.Repositories
         public virtual async Task<T> UpdateAsync(T obj)
         {
             obj.UpdateTime = DateTimeOffset.Now;
+
             var res = context.Set<T>().Update(obj);
+            this.context.Entry(res.Entity).Property(x => x.CreationTime).IsModified = false;
+
             await context.SaveChangesAsync();
+
             return res.Entity;
         }
 

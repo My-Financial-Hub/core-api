@@ -16,6 +16,7 @@ namespace FinancialHub.Infra.Data.NUnitTests.Repositories.Base
     {
         protected BaseEntityBuilder<T> builder;
         protected FinancialHubContext context;
+        protected Random random;
 
         protected IBaseRepository<T> repository;
 
@@ -37,6 +38,7 @@ namespace FinancialHub.Infra.Data.NUnitTests.Repositories.Base
         [SetUp]
         protected virtual void Setup()
         {
+            this.random = new Random();
             this.context = this.GetContext();
             this.context.Database.EnsureCreated();
         }
