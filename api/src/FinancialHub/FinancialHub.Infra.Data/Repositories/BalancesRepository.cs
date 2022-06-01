@@ -36,12 +36,10 @@ namespace FinancialHub.Infra.Data.Repositories
         protected async Task<BalanceEntity> UpdateAmountAsync(BalanceEntity balance)
         {
             balance.UpdateTime = DateTimeOffset.Now;
-            var result = this.context.Update(balance);
 
             await context.SaveChangesAsync();
-            await result.ReloadAsync();
 
-            return result.Entity;
+            return this.context.Entry(balance).Entity;
         }
 
         public async Task<BalanceEntity> AddAmountAsync(TransactionEntity transaction)

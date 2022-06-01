@@ -33,7 +33,7 @@ namespace FinancialHub.IntegrationTests.Setup
             this.Client = this.Api.CreateClient();
         }
 
-        public void AddData<T>(params T[] data)
+        public T[] AddData<T>(params T[] data)
             where T : BaseEntity
         {
             using (var scope = this.Api.Server.Services.CreateScope())
@@ -41,6 +41,11 @@ namespace FinancialHub.IntegrationTests.Setup
                 var context = scope.ServiceProvider.GetRequiredService<FinancialHubContext>();
                 context.Set<T>().AddRange(data);
                 context.SaveChanges();
+
+                context.ChangeTracker.Clear();
+
+                var res = context.Set<T>().ToArray();
+                return res.Where(x => data.Any(y => y.Id == x.Id)).ToArray();
             }
         }
 

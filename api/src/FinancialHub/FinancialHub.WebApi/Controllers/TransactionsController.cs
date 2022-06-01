@@ -86,8 +86,16 @@ namespace FinancialHub.WebApi.Controllers
         /// <param name="id">id of the transaction</param>
         public async Task<IActionResult> DeleteTransaction([FromRoute] Guid id)
         {
-            await service.DeleteAsync(id);
-            return NoContent();
+            try
+            {
+                await service.DeleteAsync(id);
+                return NoContent();
+            }
+            catch (Exception e )
+            {
+                return BadRequest(e);
+                throw;
+            }
         }
     }
 }

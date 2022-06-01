@@ -13,6 +13,7 @@ namespace FinancialHub.Infra.Data.NUnitTests.Repositories
             await this.InsertData(entity.Balance);
             await this.InsertData(entity.Category);
             await this.InsertData(entity);
+            this.context.ChangeTracker.Clear();
 
             var result = await this.repository.DeleteAsync(entity.Id.Value);
 

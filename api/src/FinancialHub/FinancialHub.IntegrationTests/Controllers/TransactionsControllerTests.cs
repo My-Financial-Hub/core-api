@@ -84,16 +84,20 @@ namespace FinancialHub.IntegrationTests
         {
             var model = entityBuilder.Generate();
 
-            this.fixture.AddData(model.Category);
-            this.fixture.AddData(model.Balance);
+            var account     = this.fixture.AddData(model.Balance.Account).First();
+            model.Balance.Account = null;
+            model.Balance.AccountId = account.Id.GetValueOrDefault();
+
+            var balance     = this.fixture.AddData(model.Balance).First();
+            var category    = this.fixture.AddData(model.Category).First();
 
             var data = entityBuilder
-                .WithBalanceId(model.Balance.Id)
-                .WithCategoryId(model.Category.Id)
+                .WithBalanceId(balance.Id)
+                .WithCategoryId(category.Id)
                 .WithActiveStatus(isActive)
                 .Generate();
 
-            this.fixture.AddData(data);
+            data = this.fixture.AddData(data).First();
 
             return new TransactionModel()
             {
