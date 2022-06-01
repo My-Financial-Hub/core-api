@@ -83,9 +83,9 @@ namespace FinancialHub.Domain.Tests.Builders.Entities
             this.RuleFor(x => x.TargetDate, date);
             return this;
         }
-        public TransactionEntityBuilder WithTargetDateNextTo(DateTime date)
+        public TransactionEntityBuilder WithTargetDateNextTo(DateTime date,int offset = 90)
         {
-            this.RuleFor(x => x.TargetDate, fake => fake.Date.RecentOffset(90, date));
+            this.RuleFor(x => x.TargetDate, fake => fake.Date.RecentOffset(offset, date));
             return this;
         }
     }

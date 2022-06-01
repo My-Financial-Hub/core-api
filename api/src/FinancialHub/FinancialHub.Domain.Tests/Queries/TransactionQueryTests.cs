@@ -44,9 +44,14 @@ namespace FinancialHub.Domain.Tests.Queries
         {
             var thisDate = DateTime.Now;
             var size = this.random.Next(10, 100);
+
+            var entity = this.transactionBuilder
+                .WithTargetDate(thisDate)
+                .Generate();
             var entities = this.transactionBuilder
-                .WithTargetDateNextTo(thisDate)
+                .WithTargetDateNextTo(thisDate,30)
                 .Generate(size);
+            entities.Add(entity);
 
             var transactionQuery = new TransactionQuery()
             {
@@ -60,8 +65,7 @@ namespace FinancialHub.Domain.Tests.Queries
                 Assert.AreEqual(thisDate.Month, res.TargetDate.Month);
                 Assert.IsTrue(res.IsActive);
             }
-
-            Assert.Greater(result.Count(),0);
+            Assert.Greater(result.Count(), 0);
         }
 
         [Test]

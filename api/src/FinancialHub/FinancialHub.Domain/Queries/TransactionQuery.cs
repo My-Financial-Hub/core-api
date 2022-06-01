@@ -35,7 +35,7 @@ namespace FinancialHub.Domain.Queries
                 if (EndDate == null)
                 {
                     StartDate = new DateTime(StartDate.Value.Year, StartDate.Value.Month,1);
-                    EndDate = StartDate.Value.AddMonths(2).AddSeconds(-1);
+                    EndDate = StartDate.Value.AddMonths(1).AddSeconds(-1);
                 }
                 queries.Add((ent) => ent.TargetDate >= StartDate && ent.TargetDate <= EndDate);
             }
