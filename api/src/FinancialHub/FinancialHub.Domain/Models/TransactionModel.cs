@@ -1,6 +1,7 @@
 ﻿using FinancialHub.Domain.Enums;
 using FinancialHub.Domain.Model;
 using System;
+using System.Text.Json.Serialization;
 
 namespace FinancialHub.Domain.Models
 {
@@ -22,5 +23,8 @@ namespace FinancialHub.Domain.Models
 
         public TransactionStatus Status { get; set; }
         public TransactionType Type { get ; set ;}
+
+        [JsonIgnore]
+        public bool IsPaid => this.IsActive && this.Status == TransactionStatus.Committed;
     }
 }

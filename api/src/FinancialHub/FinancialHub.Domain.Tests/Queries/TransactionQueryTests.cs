@@ -47,6 +47,7 @@ namespace FinancialHub.Domain.Tests.Queries
 
             var entity = this.transactionBuilder
                 .WithTargetDate(thisDate)
+                .WithActiveStatus(true)
                 .Generate();
             var entities = this.transactionBuilder
                 .WithTargetDateNextTo(thisDate,30)

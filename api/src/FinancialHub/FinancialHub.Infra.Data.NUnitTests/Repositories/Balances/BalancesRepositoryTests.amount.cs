@@ -25,7 +25,7 @@ namespace FinancialHub.Infra.Data.NUnitTests.Repositories
                 .WithAmount(amount)
                 .Generate();
 
-            var balanceResult = await this.balanceRepository.AddAmountAsync(entity);
+            var balanceResult = await this.balanceRepository.ChangeAmountAsync(balanceId,amount, TransactionType.Earn);
             Assert.AreEqual(balance.Amount + entity.Amount, balanceResult.Amount);
         }
 
@@ -47,7 +47,7 @@ namespace FinancialHub.Infra.Data.NUnitTests.Repositories
                 .WithAmount(amount)
                 .Generate();
 
-            var balanceResult = await this.balanceRepository.AddAmountAsync(entity);
+            var balanceResult = await this.balanceRepository.ChangeAmountAsync(balanceId, amount, TransactionType.Expense);
             Assert.AreEqual(balance.Amount - entity.Amount, balanceResult.Amount);
         }
 
@@ -69,7 +69,7 @@ namespace FinancialHub.Infra.Data.NUnitTests.Repositories
                 .WithAmount(amount)
                 .Generate();
 
-            var balanceResult = await this.balanceRepository.RemoveAmountAsync(entity);
+            var balanceResult = await this.balanceRepository.ChangeAmountAsync(balanceId, amount, TransactionType.Earn, true);
             Assert.AreEqual(balance.Amount - entity.Amount, balanceResult.Amount);
         }
 
@@ -91,7 +91,7 @@ namespace FinancialHub.Infra.Data.NUnitTests.Repositories
                 .WithAmount(amount)
                 .Generate();
 
-            var balanceResult = await this.balanceRepository.RemoveAmountAsync(entity);
+            var balanceResult = await this.balanceRepository.ChangeAmountAsync(balanceId, amount, TransactionType.Expense, true);
             Assert.AreEqual(balance.Amount + entity.Amount, balanceResult.Amount);
         }
     }

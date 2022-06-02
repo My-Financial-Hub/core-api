@@ -97,12 +97,12 @@ namespace FinancialHub.Services.Services
 
         public async Task<ServiceResult<TransactionModel>> UpdateAsync(Guid id, TransactionModel transaction)
         {
-            var oldTransaction = await this.repository.GetByIdAsync(id);
-            if (oldTransaction == null)
+            var oldTransactionResult = await this.GetByIdAsync(id);
+            if (oldTransactionResult.HasError)
             {
-                return new NotFoundError($"Not found Transaction with id {id}");
+                return oldTransactionResult.Error;
             }
-
+            var oldTransaction = oldTransactionResult.Data;
             var newTransaction = this.mapper.Map<TransactionEntity>(transaction);
 
             var validation = await this.ValidateTransaction(newTransaction);
@@ -113,24 +113,40 @@ namespace FinancialHub.Services.Services
 
             newTransaction = await this.repository.UpdateAsync(newTransaction);
 
-            if 
-            (
-                newTransaction.IsActive && newTransaction.Status == TransactionStatus.Committed &&
-                (!oldTransaction.IsActive || newTransaction.Status != oldTransaction.Status)
-            )
+            if (transaction.IsPaid && oldTransaction.IsPaid)
             {
-                await this.balancesRepository.AddAmountAsync(newTransaction);
+                if (transaction.BalanceId != oldTransaction.BalanceId)
+                {
+                    await this.balancesRepository.ChangeAmountAsync(transaction.BalanceId, transaction.Amount, transaction.Type,true);
+                    await this.balancesRepository.ChangeAmountAsync(oldTransaction.BalanceId, oldTransaction.Amount, oldTransaction.Type);
+                }
+                else if(transaction.Amount != oldTransaction.Amount)
+                {
+                    var amountDifference = oldTransaction.Amount - transaction.Amount;
+                    await this.balancesRepository.ChangeAmountAsync(transaction.BalanceId, amountDifference, transaction.Type);
+                }
             }
-            else if
-            (
-                oldTransaction.IsActive && oldTransaction.Status == TransactionStatus.Committed &&
-                (!newTransaction.IsActive || newTransaction.Status != oldTransaction.Status) 
-            )
+            else if (transaction.IsPaid && (!oldTransaction.IsActive || transaction.Status != oldTransaction.Status))
             {
-                await this.balancesRepository.RemoveAmountAsync(newTransaction);
+                await this.balancesRepository.ChangeAmountAsync(transaction.BalanceId, transaction.Amount, transaction.Type);
+            }
+            else if (oldTransaction.IsPaid && (!transaction.IsActive || transaction.Status != oldTransaction.Status))
+            {
+                await this.balancesRepository.ChangeAmountAsync(transaction.BalanceId, transaction.Amount, transaction.Type, true);
             }
 
             return mapper.Map<TransactionModel>(newTransaction);
+        }
+
+        public async Task<ServiceResult<TransactionModel>> GetByIdAsync(Guid id)
+        {
+            var transaction = await this.repository.GetByIdAsync(id);
+            if (transaction == null)
+            {
+                return new NotFoundError($"Not found Transaction with id {id}");
+            }
+
+            return mapper.Map<TransactionModel>(transaction);
         }
     }
 }
