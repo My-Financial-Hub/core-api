@@ -175,7 +175,51 @@ namespace FinancialHub.Services.NUnitTests.Services
         }
 
         [Test]
-        public async Task UpdateAsync_CommitedAndActiveTransactionWithDifferentAmounts_ChangesBalance()
+        public async Task UpdateAsync_DifferentAmounts_ChangesBalance()
+        {
+            var oldAmount = random.Next(1, 10);
+            var oldModel = this.transactionBuilder
+                .WithStatus(TransactionStatus.Committed)
+                .WithActiveStatus(true)
+                .WithAmount(oldAmount)
+                .Generate();
+            var balance = this.mapper.Map<BalanceEntity>(oldModel.Balance);
+
+            var newAmount = random.Next(11, 100);
+            var model = this.transactionModelBuilder
+                .WithStatus(TransactionStatus.Committed)
+                .WithActiveStatus(true)
+                .WithBalanceId(balance.Id)
+                .WithAmount(newAmount)
+                .Generate();
+
+            this.categoriesRepository.Setup(x => x.GetByIdAsync(model.CategoryId))
+                .ReturnsAsync(this.mapper.Map<CategoryEntity>(model.Category))
+                .Verifiable();
+
+            this.balancesRepository.Setup(x => x.GetByIdAsync(model.BalanceId))
+                .ReturnsAsync(balance)
+                .Verifiable();
+
+            this.repository
+                .Setup(x => x.GetByIdAsync(model.Id.GetValueOrDefault()))
+                .ReturnsAsync(oldModel)
+                .Verifiable();
+
+            this.repository
+                .Setup(x => x.UpdateAsync(It.IsAny<TransactionEntity>()))
+                .Returns<TransactionEntity>(async (x) => await Task.FromResult(x))
+                .Verifiable();
+
+            this.SetUpMapper();
+
+            await this.service.UpdateAsync(model.Id.GetValueOrDefault(), model);
+
+            this.balancesRepository.Verify(x => x.ChangeAmountAsync(model.BalanceId, oldAmount - newAmount, model.Type, false), Times.Once);
+        }
+
+        [Test]
+        public async Task UpdateAsync_BalanceChanges_MoveAmountsFromOldBalanceToNewBalance()
         {
             var oldAmount = random.Next(1,10);
             var oldModel = this.transactionBuilder
@@ -219,8 +263,8 @@ namespace FinancialHub.Services.NUnitTests.Services
 
             await this.service.UpdateAsync(model.Id.GetValueOrDefault(), model);
 
-            this.balancesRepository.Verify(x => x.ChangeAmountAsync(oldModel.BalanceId, oldAmount, oldModel.Type, true));
-            this.balancesRepository.Verify(x => x.ChangeAmountAsync(model.BalanceId, newAmount, model.Type, false));
+            this.balancesRepository.Verify(x => x.ChangeAmountAsync(oldModel.BalanceId, oldAmount, oldModel.Type, true), Times.Once);
+            this.balancesRepository.Verify(x => x.ChangeAmountAsync(model.BalanceId, newAmount, model.Type, false),Times.Once);
         }
 
         [Test]
