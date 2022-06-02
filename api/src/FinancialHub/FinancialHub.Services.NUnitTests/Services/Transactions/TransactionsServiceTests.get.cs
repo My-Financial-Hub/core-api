@@ -29,6 +29,11 @@ namespace FinancialHub.Services.NUnitTests.Services
                 .Returns<TransactionFilter>((ent) => this.mapper.Map<TransactionQuery>(ent))
                 .Verifiable();
 
+            this.mapperWrapper
+                .Setup(x => x.Map<IEnumerable<TransactionModel>>(It.IsAny<IEnumerable<TransactionEntity>>()))
+                .Returns<IEnumerable<TransactionEntity>>((ent) => this.mapper.Map<IEnumerable<TransactionModel>>(ent))
+                .Verifiable();
+
             this.SetUpMapper();
 
             var result = await this.service.GetAllByUserAsync(string.Empty, filter);

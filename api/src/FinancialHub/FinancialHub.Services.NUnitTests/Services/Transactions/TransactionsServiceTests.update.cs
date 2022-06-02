@@ -175,7 +175,7 @@ namespace FinancialHub.Services.NUnitTests.Services
         }
 
         [Test]
-        public async Task UpdateAsync_CommitedAndActiveTransactionWithAmountChanges_ChangesBalance()
+        public async Task UpdateAsync_CommitedAndActiveTransactionWithDifferentAmounts_ChangesBalance()
         {
             var oldAmount = random.Next(1,10);
             var oldModel = this.transactionBuilder
@@ -183,18 +183,22 @@ namespace FinancialHub.Services.NUnitTests.Services
                 .WithActiveStatus(true)
                 .WithAmount(oldAmount)
                 .Generate();
+            var oldBalance = this.mapper.Map<BalanceEntity>(oldModel.Balance);
+
             var newAmount = random.Next(11,100);
             var model = this.transactionModelBuilder
                 .WithStatus(TransactionStatus.Committed)
                 .WithActiveStatus(true)
-                .WithBalanceId(oldModel.BalanceId)
                 .WithAmount(newAmount)
                 .Generate();
-
-            var balance = this.mapper.Map<BalanceEntity>(oldModel.Balance);
+            var balance = this.mapper.Map<BalanceEntity>(model.Balance);
 
             this.categoriesRepository.Setup(x => x.GetByIdAsync(model.CategoryId))
                 .ReturnsAsync(this.mapper.Map<CategoryEntity>(model.Category))
+                .Verifiable();
+
+            this.balancesRepository.Setup(x => x.GetByIdAsync(oldModel.BalanceId))
+                .ReturnsAsync(oldBalance)
                 .Verifiable();
 
             this.balancesRepository.Setup(x => x.GetByIdAsync(model.BalanceId))
@@ -214,7 +218,9 @@ namespace FinancialHub.Services.NUnitTests.Services
             this.SetUpMapper();
 
             await this.service.UpdateAsync(model.Id.GetValueOrDefault(), model);
-            this.balancesRepository.Verify(x => x.ChangeAmountAsync(balance.Id.GetValueOrDefault(), oldAmount - newAmount, model.Type, false));
+
+            this.balancesRepository.Verify(x => x.ChangeAmountAsync(oldModel.BalanceId, oldAmount, oldModel.Type, true));
+            this.balancesRepository.Verify(x => x.ChangeAmountAsync(model.BalanceId, newAmount, model.Type, false));
         }
 
         [Test]

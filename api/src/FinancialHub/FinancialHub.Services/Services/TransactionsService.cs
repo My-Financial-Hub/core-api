@@ -118,8 +118,8 @@ namespace FinancialHub.Services.Services
             {
                 if (transaction.BalanceId != oldTransaction.BalanceId)
                 {
-                    await this.balancesRepository.ChangeAmountAsync(transaction.BalanceId, transaction.Amount, transaction.Type,true);
-                    await this.balancesRepository.ChangeAmountAsync(oldTransaction.BalanceId, oldTransaction.Amount, oldTransaction.Type);
+                    await this.balancesRepository.ChangeAmountAsync(oldTransaction.BalanceId, oldTransaction.Amount, oldTransaction.Type, true);
+                    await this.balancesRepository.ChangeAmountAsync(transaction.BalanceId, transaction.Amount, transaction.Type);
                 }
                 else if(transaction.Amount != oldTransaction.Amount)
                 {
