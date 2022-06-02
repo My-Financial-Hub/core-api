@@ -22,8 +22,8 @@ namespace FinancialHub.Services.NUnitTests.Services
             this.repository
                 .Setup(x => x.GetByIdAsync(guid))
                 .ReturnsAsync(transaction);
-            this.balancesRepository
-                .Setup(x => x.RemoveAmountAsync(transaction));
+            
+            this.SetUpMapper();
 
             await this.service.DeleteAsync(guid);
 
@@ -43,9 +43,9 @@ namespace FinancialHub.Services.NUnitTests.Services
             this.repository
                 .Setup(x => x.GetByIdAsync(guid))
                 .ReturnsAsync(transaction);
-            this.balancesRepository
-                .Setup(x => x.RemoveAmountAsync(transaction));
 
+            this.SetUpMapper();
+            
             var result = await this.service.DeleteAsync(guid);
 
             Assert.IsInstanceOf<ServiceResult<int>>(result);
@@ -102,13 +102,12 @@ namespace FinancialHub.Services.NUnitTests.Services
             this.repository
                 .Setup(x => x.GetByIdAsync(guid))
                 .ReturnsAsync(transaction);
-            this.balancesRepository
-                .Setup(x => x.RemoveAmountAsync(transaction))
-                .Verifiable();
+
+            this.SetUpMapper();
 
             await this.service.DeleteAsync(guid);
 
-            this.balancesRepository.Verify(x => x.RemoveAmountAsync(transaction), Times.Never);
+            this.balancesRepository.Verify(x => x.ChangeAmountAsync(transaction.BalanceId,transaction.Amount,transaction.Type,true), Times.Never);
         }
 
         [TestCase(TransactionStatus.Committed, true)]
@@ -129,13 +128,12 @@ namespace FinancialHub.Services.NUnitTests.Services
             this.repository
                 .Setup(x => x.GetByIdAsync(guid))
                 .ReturnsAsync(transaction);
-            this.balancesRepository
-                .Setup(x => x.RemoveAmountAsync(transaction))
-                .Verifiable();
 
+            this.SetUpMapper();
+            
             await this.service.DeleteAsync(guid);
 
-            this.balancesRepository.Verify(x => x.RemoveAmountAsync(transaction), Times.Once);
+            this.balancesRepository.Verify(x => x.ChangeAmountAsync(transaction.BalanceId, transaction.Amount, transaction.Type,true), Times.Once);
         }
     }
 }

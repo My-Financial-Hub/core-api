@@ -61,7 +61,7 @@ namespace FinancialHub.Services.Services
 
             if (entity.Status == TransactionStatus.Committed && entity.IsActive)
             {
-                await this.balancesRepository.AddAmountAsync(entity);
+                await this.balancesRepository.ChangeAmountAsync(entity.BalanceId,entity.Amount,entity.Type);
             }
 
             return mapper.Map<TransactionModel>(entity);
@@ -69,15 +69,16 @@ namespace FinancialHub.Services.Services
 
         public async Task<ServiceResult<int>> DeleteAsync(Guid id)
         {
-            var transaction = await this.repository.GetByIdAsync(id);
-            if (transaction == null)
+            var transactionResult = await this.GetByIdAsync(id);
+            if (transactionResult.HasError)
             {
-                return new NotFoundError($"Not found Transaction with id {id}");
+                return transactionResult.Error;
             }
-            
+            var transaction = transactionResult.Data;
+
             if (transaction.Status == TransactionStatus.Committed && transaction.IsActive)
             {
-                await this.balancesRepository.RemoveAmountAsync(transaction);
+                await this.balancesRepository.ChangeAmountAsync(transaction.BalanceId, transaction.Amount, transaction.Type,true);
             }
 
             return await this.repository.DeleteAsync(id);

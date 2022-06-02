@@ -5,6 +5,7 @@ using FinancialHub.Domain.Entities;
 using FinancialHub.Domain.Models;
 using FinancialHub.Domain.Results;
 using FinancialHub.Domain.Enums;
+using System;
 
 namespace FinancialHub.Services.NUnitTests.Services
 {
@@ -170,8 +171,7 @@ namespace FinancialHub.Services.NUnitTests.Services
             this.SetUpMapper();
 
             await this.service.UpdateAsync(model.Id.GetValueOrDefault(), model);
-            this.balancesRepository.Verify(x => x.AddAmountAsync(It.IsAny<TransactionEntity>()), Times.Never);
-            this.balancesRepository.Verify(x => x.RemoveAmountAsync(It.IsAny<TransactionEntity>()), Times.Never);
+            this.balancesRepository.Verify(x => x.ChangeAmountAsync(It.IsAny<Guid>(), It.IsAny<decimal>(), It.IsAny<TransactionType>(), It.IsAny<bool>()), Times.Never);
         }
 
         [Test]

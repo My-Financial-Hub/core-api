@@ -55,11 +55,6 @@ namespace FinancialHub.Services.NUnitTests.Services
                 .ReturnsAsync(balanceEntity)
                 .Verifiable();
 
-            this.balancesRepository
-                .Setup(x => x.AddAmountAsync(It.IsAny<TransactionEntity>()))
-                .ReturnsAsync(balanceEntity)
-                .Verifiable();
-
             this.repository
                 .Setup(x => x.CreateAsync(It.IsAny<TransactionEntity>()))
                 .Returns<TransactionEntity>(async (x) => await Task.FromResult(x))
@@ -69,7 +64,7 @@ namespace FinancialHub.Services.NUnitTests.Services
 
             await this.service.CreateAsync(model);
 
-            this.balancesRepository.Verify(x => x.AddAmountAsync(It.IsAny<TransactionEntity>()), Times.Once);
+            this.balancesRepository.Verify(x => x.ChangeAmountAsync(model.BalanceId, model.Amount,model.Type,false), Times.Once);
         }
 
         [Test]
@@ -90,11 +85,6 @@ namespace FinancialHub.Services.NUnitTests.Services
                 .ReturnsAsync(balanceEntity)
                 .Verifiable();
 
-            this.balancesRepository
-                .Setup(x => x.AddAmountAsync(It.IsAny<TransactionEntity>()))
-                .ReturnsAsync(balanceEntity)
-                .Verifiable();
-
             this.repository
                 .Setup(x => x.CreateAsync(It.IsAny<TransactionEntity>()))
                 .Returns<TransactionEntity>(async (x) => await Task.FromResult(x))
@@ -104,7 +94,7 @@ namespace FinancialHub.Services.NUnitTests.Services
 
             await this.service.CreateAsync(model);
 
-            this.balancesRepository.Verify(x => x.AddAmountAsync(It.IsAny<TransactionEntity>()), Times.Never);
+            this.balancesRepository.Verify(x => x.ChangeAmountAsync(It.IsAny<Guid>(), It.IsAny<decimal>(), It.IsAny<TransactionType>(), It.IsAny<bool>()), Times.Never);
         }
 
         [Test]

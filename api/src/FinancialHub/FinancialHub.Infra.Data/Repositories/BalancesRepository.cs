@@ -33,48 +33,6 @@ namespace FinancialHub.Infra.Data.Repositories
             return await base.CreateAsync(obj);
         }
 
-        protected async Task<BalanceEntity> UpdateAmountAsync(BalanceEntity balance)
-        {
-            balance.UpdateTime = DateTimeOffset.Now;
-
-            context.Update(balance);
-            await context.SaveChangesAsync();
-
-            return balance;
-        }
-
-        public async Task<BalanceEntity> AddAmountAsync(TransactionEntity transaction)
-        {
-            var balance = await this.GetByIdAsync(transaction.BalanceId);
-
-            if (transaction.Type == TransactionType.Earn)
-            {
-                balance.Amount += transaction.Amount;
-            }
-            else
-            {
-                balance.Amount -= transaction.Amount;
-            }
-
-            return await this.UpdateAmountAsync(balance);
-        }
-
-        public async Task<BalanceEntity> RemoveAmountAsync(TransactionEntity transaction)
-        {
-            var balance = await this.GetByIdAsync(transaction.BalanceId);
-
-            if (transaction.Type == TransactionType.Earn)
-            {
-                balance.Amount -= transaction.Amount;
-            }
-            else
-            {
-                balance.Amount += transaction.Amount;
-            }
-
-            return await this.UpdateAmountAsync(balance);
-        }
-
         public async Task<BalanceEntity> ChangeAmountAsync(Guid balanceId, decimal value, TransactionType transactionType, bool removed = false)
         {
             var balance = await this.GetByIdAsync(balanceId);
