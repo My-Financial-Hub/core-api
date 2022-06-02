@@ -80,7 +80,6 @@ namespace FinancialHub.Services.NUnitTests.Services
 
             await this.service.UpdateAsync(model.Id.GetValueOrDefault(), model);
             this.balancesRepository.Verify(x => x.ChangeAmountAsync(balance.Id.GetValueOrDefault(),model.Amount, model.Type,false));
-            //this.balancesRepository.Verify(x => x.AddAmountAsync(It.IsAny<TransactionEntity>()), Times.Once);
         }
 
         [TestCase(TransactionStatus.Committed, true, TransactionStatus.NotCommitted, true)]
