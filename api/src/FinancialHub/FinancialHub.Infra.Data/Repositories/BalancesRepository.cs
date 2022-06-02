@@ -49,8 +49,9 @@ namespace FinancialHub.Infra.Data.Repositories
             balance.UpdateTime = DateTimeOffset.Now;
             context.Update(balance);
             await context.SaveChangesAsync();
+            context.ChangeTracker.Clear();
 
-            return this.context.Entry(balance).Entity;
+            return balance;
         }
     }
 }
