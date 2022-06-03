@@ -69,7 +69,7 @@ namespace FinancialHub.Infra.Data.Repositories
 
         public virtual async Task<T> GetByIdAsync(Guid id)
         {
-            return await context.Set<T>().FirstOrDefaultAsync(x => x.Id == id);
+            return await context.Set<T>().AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
         }
     }
 }
