@@ -1,24 +1,20 @@
-﻿using FinancialHub.Domain.Entities;
-using FinancialHub.Domain.Filters;
-using FinancialHub.Domain.Models;
-using FinancialHub.Domain.Queries;
-using FinancialHub.Domain.Results;
-using Moq;
-using NUnit.Framework;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using Moq;
+using NUnit.Framework;
+using FinancialHub.Domain.Entities;
+using FinancialHub.Domain.Models;
+using FinancialHub.Domain.Filters;
+using FinancialHub.Domain.Queries;
+using FinancialHub.Domain.Results;
 
 namespace FinancialHub.Services.NUnitTests.Services
 {
     public partial class TransactionsServiceTests
     {
-        //TODO: change mock when filter by user
-        //TODO: add validation tests
-        //TODO: add filter validation tests
         [Test]
-        [TestCase(Description = "Get by user sucess return",Category = "Get")]
         public async Task GetByUsersAsync_ValidUser_ReturnsTransactions()
         {
             var filter = new TransactionFilter();
@@ -26,8 +22,7 @@ namespace FinancialHub.Services.NUnitTests.Services
 
             this.repository
                 .Setup(x => x.GetAsync(It.IsAny<Func<TransactionEntity,bool>>()))
-                .ReturnsAsync(entitiesMock.ToArray())
-                .Verifiable();
+                .ReturnsAsync(entitiesMock.ToArray());
 
             this.mapperWrapper
                 .Setup(x => x.Map<TransactionQuery>(It.IsAny<TransactionFilter>()))
@@ -38,50 +33,48 @@ namespace FinancialHub.Services.NUnitTests.Services
                 .Setup(x => x.Map<IEnumerable<TransactionModel>>(It.IsAny<IEnumerable<TransactionEntity>>()))
                 .Returns<IEnumerable<TransactionEntity>>((ent) => this.mapper.Map<IEnumerable<TransactionModel>>(ent))
                 .Verifiable();
+
+            this.SetUpMapper();
 
             var result = await this.service.GetAllByUserAsync(string.Empty, filter);
 
             Assert.IsInstanceOf<ServiceResult<ICollection<TransactionModel>>>(result);
             Assert.IsFalse(result.HasError);
-            Assert.AreEqual(entitiesMock.Count(), result.Data.Count);
-
-            this.mapperWrapper.Verify(x => x.Map<TransactionQuery>(It.IsAny<TransactionFilter>()),Times.Once);
-            this.mapperWrapper.Verify(x => x.Map<IEnumerable<TransactionModel>>(It.IsAny<IEnumerable<TransactionEntity>>()),Times.Once);
-            this.repository.Verify(x => x.GetAsync(It.IsAny<Func<TransactionEntity, bool>>()), Times.Once());
+            Assert.AreEqual(entitiesMock.Count, result.Data.Count);
         }
 
-
-        [Test]
-        [TestCase(Description = "Get by user repository exception", Category = "Get")]
-        public void GetByUsersAsync_RepositoryException_ThrowsException()
+        [Test]  
+        public async Task GetByIdAsync_ExistingTransaction_ReturnsTransaction()
         {
-            var filter = new TransactionFilter();
-
-            var entitiesMock = this.GenerateTransactions();
-            var exc = new Exception("mock");
-
-            this.mapperWrapper
-                .Setup(x => x.Map<TransactionQuery>(It.IsAny<TransactionFilter>()))
-                .Returns<TransactionFilter>((ent) => this.mapper.Map<TransactionQuery>(ent))
-                .Verifiable();
+            var id = Guid.NewGuid();
+            var transaction = this.transactionBuilder
+                .WithId(id)
+                .Generate();
 
             this.repository
-                .Setup(x => x.GetAsync(It.IsAny<Func<TransactionEntity, bool>>()))
-                .Throws(exc)
-                .Verifiable();
+                .Setup(x => x.GetByIdAsync(id))
+                .ReturnsAsync(transaction);
 
-            this.mapperWrapper
-                .Setup(x => x.Map<IEnumerable<TransactionModel>>(It.IsAny<IEnumerable<TransactionEntity>>()))
-                .Returns<IEnumerable<TransactionEntity>>((ent) => this.mapper.Map<IEnumerable<TransactionModel>>(ent))
-                .Verifiable();
+            this.SetUpMapper();
 
-            var exception = Assert.ThrowsAsync<Exception>(
-                async ()=> await this.service.GetAllByUserAsync(string.Empty, filter)
-            );
+            var result = await this.service.GetByIdAsync(id);
 
-            Assert.IsInstanceOf(exc.GetType(), exception);
-            this.mapperWrapper.Verify(x => x.Map<TransactionQuery>(It.IsAny<TransactionFilter>()),Times.Once);
-            this.repository.Verify(x => x.GetAsync(It.IsAny<Func<TransactionEntity, bool>>()), Times.Once());
+            Assert.IsFalse(result.HasError);
+            Assert.IsInstanceOf<ServiceResult<TransactionModel>>(result);
+            Assert.AreEqual(transaction.Id, result.Data.Id);
+        }
+
+        [Test]
+        public async Task GetByIdAsync_NonExistingTransaction_ReturnsNotFoundError()
+        {
+            var id = Guid.NewGuid();
+
+            this.SetUpMapper();
+
+            var result = await this.service.GetByIdAsync(id);
+
+            Assert.IsTrue(result.HasError);
+            Assert.AreEqual($"Not found Transaction with id {id}", result.Error.Message);
         }
     }
 }

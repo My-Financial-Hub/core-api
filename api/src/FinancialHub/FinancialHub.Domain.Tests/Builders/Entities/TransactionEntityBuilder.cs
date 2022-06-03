@@ -8,7 +8,7 @@ namespace FinancialHub.Domain.Tests.Builders.Entities
     {
         public TransactionEntityBuilder() : base()
         {
-            var account     = new AccountEntityBuilder().Generate();
+            var balance     = new BalanceEntityBuilder().Generate();
             var category    = new CategoryEntityBuilder().Generate();
 
             this.RuleFor(x => x.Amount, fake => decimal.Round(fake.Random.Decimal(0, 10000),2));
@@ -17,8 +17,8 @@ namespace FinancialHub.Domain.Tests.Builders.Entities
             this.RuleFor(x => x.Type, fake => fake.PickRandom<TransactionType>());
             this.RuleFor(x => x.Status, fake => fake.PickRandom<TransactionStatus>());
 
-            this.RuleFor(x => x.AccountId, fake => account.Id);
-            this.RuleFor(x => x.Account, fake => account);
+            this.RuleFor(x => x.BalanceId, fake => balance.Id);
+            this.RuleFor(x => x.Balance, fake => balance);
             this.RuleFor(x => x.CategoryId, fake => category.Id);
             this.RuleFor(x => x.Category, fake => category);
 
@@ -29,28 +29,28 @@ namespace FinancialHub.Domain.Tests.Builders.Entities
         public TransactionEntityBuilder WithCategoryId(Guid? categoryId)
         {
             this.RuleFor(x => x.CategoryId, fake => categoryId);
-            this.RuleFor(x => x.Category, fake => default);
+            this.Ignore(x => x.Category);
             return this;
         }
 
         public TransactionEntityBuilder WithCategory(CategoryEntity category)
         {
-            this.WithCategoryId(category.Id);
+            this.RuleFor(x => x.CategoryId, fake => category.Id);
             this.RuleFor(x => x.Category, fake => category);
             return this;
         }
 
-        public TransactionEntityBuilder WithAccount(AccountEntity account)
+        public TransactionEntityBuilder WithBalance(BalanceEntity balance)
         {
-            this.WithAccountId(account.Id);
-            this.RuleFor(x => x.Account, fake => account);
+            this.RuleFor(x => x.BalanceId, fake => balance.Id);
+            this.RuleFor(x => x.Balance, fake => balance);
             return this;
         }
 
-        public TransactionEntityBuilder WithAccountId(Guid? accountId)
+        public TransactionEntityBuilder WithBalanceId(Guid? balanceId)
         {
-            this.RuleFor(x => x.AccountId, fake => accountId);
-            this.RuleFor(x => x.Account, fake => default);
+            this.RuleFor(x => x.BalanceId, fake => balanceId);
+            this.Ignore( x => x.Balance);
             return this;
         }
 
@@ -75,6 +75,17 @@ namespace FinancialHub.Domain.Tests.Builders.Entities
         public TransactionEntityBuilder WithActiveStatus(bool isActive)
         {
             this.RuleFor(x => x.IsActive, fake => isActive);
+            return this;
+        }
+
+        public TransactionEntityBuilder WithTargetDate(DateTime date)
+        {
+            this.RuleFor(x => x.TargetDate, date);
+            return this;
+        }
+        public TransactionEntityBuilder WithTargetDateNextTo(DateTime date,int offset = 90)
+        {
+            this.RuleFor(x => x.TargetDate, fake => fake.Date.RecentOffset(offset, date));
             return this;
         }
     }

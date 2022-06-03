@@ -20,7 +20,7 @@ namespace FinancialHub.WebApi.NUnitTests.Controllers
             var body = this.accountModelBuilder.Generate();
             var mockResult = new ServiceResult<AccountModel>(body);
 
-            this.mockService
+            this.mockAccountService
                 .Setup(x => x.CreateAsync(body))
                 .ReturnsAsync(mockResult)
                 .Verifiable();
@@ -35,7 +35,7 @@ namespace FinancialHub.WebApi.NUnitTests.Controllers
             var listResponse = result?.Value as SaveResponse<AccountModel>;
             Assert.AreEqual(mockResult.Data, listResponse?.Data);
 
-            this.mockService.Verify(x => x.CreateAsync(body), Times.Once);
+            this.mockAccountService.Verify(x => x.CreateAsync(body), Times.Once);
         }
 
         [Test]
@@ -47,7 +47,7 @@ namespace FinancialHub.WebApi.NUnitTests.Controllers
 
             var mockResult = new ServiceResult<AccountModel>(body, new InvalidDataError(errorMessage));
 
-            this.mockService
+            this.mockAccountService
                 .Setup(x => x.CreateAsync(body))
                 .ReturnsAsync(mockResult)
                 .Verifiable();
@@ -63,7 +63,7 @@ namespace FinancialHub.WebApi.NUnitTests.Controllers
             Assert.AreEqual(mockResult.Error.Code, listResponse?.Code);
             Assert.AreEqual(mockResult.Error.Message, listResponse?.Message);
 
-            this.mockService.Verify(x => x.CreateAsync(body), Times.Once);
+            this.mockAccountService.Verify(x => x.CreateAsync(body), Times.Once);
         }
     }
 }

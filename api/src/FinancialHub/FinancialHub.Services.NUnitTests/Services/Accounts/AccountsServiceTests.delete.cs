@@ -9,7 +9,6 @@ namespace FinancialHub.Services.NUnitTests.Services
     public partial class AccountsServiceTests
     {
         [Test]
-        [TestCase(Description = "Update valid account", Category = "Delete")]
         public async Task DeleteAsync_RepositorySuccess_ReturnsAccountModel()
         {
             var expectedResult = random.Next(1,100);
@@ -27,7 +26,6 @@ namespace FinancialHub.Services.NUnitTests.Services
         }
 
         [Test]
-        [TestCase(Description = "Update repository exception", Category = "Delete")]
         public void DeleteAsync_RepositoryException_ThrowsException()
         {
             var guid = Guid.NewGuid();

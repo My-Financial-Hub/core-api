@@ -10,11 +10,9 @@ namespace FinancialHub.Domain.Entities
         public string Name { get; set; }
         [Column("description", TypeName = "varchar(500)")]
         public string Description { get; set; }
-        [Column("currency", TypeName = "varchar(50)")]
-        public string Currency { get; set; }
         [Column("active")]
         public bool IsActive { get; set; }
 
-        public ICollection<TransactionEntity> Transactions { get; set; }
+        public ICollection<BalanceEntity> Balances { get; set; }
     }
 }

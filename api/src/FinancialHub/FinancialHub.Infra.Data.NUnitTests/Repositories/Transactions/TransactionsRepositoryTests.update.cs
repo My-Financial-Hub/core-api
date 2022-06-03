@@ -11,7 +11,7 @@ namespace FinancialHub.Infra.Data.NUnitTests.Repositories
     {
         protected async Task InsertTransaction(TransactionEntity entity)
         {
-            await this.InsertData(entity.Account);
+            await this.InsertData(entity.Balance);
             await this.InsertData(entity.Category);
             await this.InsertData(entity);
 
@@ -19,48 +19,48 @@ namespace FinancialHub.Infra.Data.NUnitTests.Repositories
         }
 
         [Test]
-        [TestCase(TestName = "Update Transaction but no Accounts or Category", Category = "Update")]
+        [TestCase(TestName = "Update Transaction but no Balances or Category", Category = "Update")]
         public async Task UpdateAsync_ValidItemWithNestChild_DoesNotUpdateNestChild()
         {
             var entity = this.GenerateObject();
             await this.InsertTransaction(entity);
 
-            var changedEntity = this.GenerateTransaction(entity.Id, entity.AccountId, entity.CategoryId);
+            var changedEntity = this.GenerateTransaction(entity.Id, entity.BalanceId, entity.CategoryId);
 
             var result = await this.repository.UpdateAsync(changedEntity);
 
             this.AssertCreated(result);
 
             //SHOULD NOT CREATE 
-            Assert.AreEqual(1, this.context.Accounts.Local.Count);
+            Assert.AreEqual(1, this.context.Balances.Local.Count);
             Assert.AreEqual(1, this.context.Categories.Local.Count);
 
-            var account = this.context.Accounts.FirstOrDefault(x => x.Id == changedEntity.AccountId);
+            var account = this.context.Balances.FirstOrDefault(x => x.Id == changedEntity.BalanceId);
             var category = this.context.Categories.FirstOrDefault(x => x.Id == changedEntity.CategoryId);
 
             //SHOULD NOT UPDATE DATABASE
-            Assert.AreEqual(account, result.Account);
+            Assert.AreEqual(account, result.Balance);
             Assert.AreEqual(category, result.Category);
         }
 
         [Test]
-        [TestCase(TestName = "Update Transaction changing Account", Category = "Update")]
-        public async Task UpdateAsync_ChangeAccountId_ChangesAccount()
+        [TestCase(TestName = "Update Transaction changing Balance", Category = "Update")]
+        public async Task UpdateAsync_ChangeBalanceId_ChangesBalance()
         {
             var entity = this.GenerateObject();
             await this.InsertTransaction(entity);
 
-            var newAccount = this.GenerateAccount();
-            await this.InsertData(newAccount);
+            var newBalance = this.GenerateBalance();
+            await this.InsertData(newBalance);
 
-            entity.AccountId = (Guid)newAccount.Id;
+            entity.BalanceId = (Guid)newBalance.Id;
 
             var result = await this.repository.CreateAsync(entity);
 
             this.AssertCreated(result);
 
-            Assert.AreEqual(newAccount.Id, result.AccountId);
-            Assert.AreEqual(newAccount, result.Account);
+            Assert.AreEqual(newBalance.Id, result.BalanceId);
+            Assert.AreEqual(newBalance, result.Balance);
         }
 
         [Test]
@@ -84,8 +84,8 @@ namespace FinancialHub.Infra.Data.NUnitTests.Repositories
         }
 
         [Test]
-        [TestCase(TestName = "Update Transaction with invalid Account", Category = "Update")]
-        public async Task UpdateAsync_InvalidAccountId_ThrowsDbUpdateException()
+        [TestCase(TestName = "Update Transaction with invalid Balance", Category = "Update")]
+        public async Task UpdateAsync_InvalidBalanceId_ThrowsDbUpdateException()
         {
             var entity = this.GenerateObject();
             var oldCategoryId = entity.Category.Id;

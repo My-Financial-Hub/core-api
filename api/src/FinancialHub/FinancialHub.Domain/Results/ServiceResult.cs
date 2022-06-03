@@ -24,4 +24,20 @@ namespace FinancialHub.Domain.Results
             return new ServiceResult<T>(error: error);
         }
     }
+
+    public class ServiceResult
+    {
+        public bool HasError => this.Error != null;
+        public ServiceError Error { get; protected set; }
+
+        public ServiceResult(ServiceError error = null)
+        {
+            this.Error = error;
+        }
+
+        public static implicit operator ServiceResult(ServiceError error)
+        {
+            return new ServiceResult(error: error);
+        }
+    }
 }

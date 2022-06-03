@@ -7,7 +7,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using FinancialHub.Domain.Interfaces.Mappers;
 using FinancialHub.Services.Mappers;
+using FluentValidation;
 using FinancialHub.Domain.Mappers;
+using FinancialHub.Domain.Models;
+using FinancialHub.WebApi.Validators;
+using FluentValidation.AspNetCore;
 
 namespace FinancialHub.WebApi.Extensions.Configurations
 {
@@ -30,6 +34,8 @@ namespace FinancialHub.WebApi.Extensions.Configurations
             services.AddScoped<IAccountsRepository, AccountsRepository>();
             services.AddScoped<ICategoriesRepository, CategoriesRepository>();
             services.AddScoped<ITransactionsRepository, TransactionsRepository>();
+
+            services.AddScoped<IBalancesRepository, BalancesRepository>();
             return services;
         }
 
@@ -41,6 +47,22 @@ namespace FinancialHub.WebApi.Extensions.Configurations
             services.AddScoped<IAccountsService, AccountsService>();
             services.AddScoped<ICategoriesService, CategoriesService>();
             services.AddScoped<ITransactionsService, TransactionsService>();
+            services.AddScoped<IBalancesService, BalancesService>();
+
+            services.AddScoped<IAccountBalanceService, AccountBalanceService>();
+            return services;
+        }
+
+        public static IServiceCollection AddValidators(this IServiceCollection services)
+        {
+            services.AddFluentValidation(x =>
+            {
+                x.AutomaticValidationEnabled = true;
+                x.DisableDataAnnotationsValidation = true;
+            });
+            services.AddScoped<IValidator<AccountModel>, AccountValidator>();
+            services.AddScoped<IValidator<CategoryModel>, CategoryValidator>();
+            services.AddScoped<IValidator<TransactionModel>, TransactionValidator>();
             return services;
         }
     }

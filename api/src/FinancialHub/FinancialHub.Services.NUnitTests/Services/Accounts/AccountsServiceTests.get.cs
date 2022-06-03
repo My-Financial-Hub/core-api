@@ -12,7 +12,6 @@ namespace FinancialHub.Services.NUnitTests.Services
 {
     public partial class AccountsServiceTests
     {
-        //TODO: change mock when filter by user
         [Test]
         [TestCase(Description = "Get by user sucess return",Category = "Get")]
         public async Task GetByUsersAsync_ValidUser_ReturnsAccounts()

@@ -6,14 +6,14 @@ namespace FinancialHub.Infra.Data.NUnitTests.Repositories
     public partial class TransactionsRepositoryTests
     {
         [Test]
-        [TestCase(TestName = "Delete a Transaction without delete Category or Account", Category = "Delete")]
         public async Task DeleteAsync_ValidItemWithNestChild_DoesNotDeleteNestChild()
         {
             var entity = this.GenerateObject();
 
-            await this.InsertData(entity.Account);
+            await this.InsertData(entity.Balance);
             await this.InsertData(entity.Category);
             await this.InsertData(entity);
+            this.context.ChangeTracker.Clear();
 
             var result = await this.repository.DeleteAsync(entity.Id.Value);
 

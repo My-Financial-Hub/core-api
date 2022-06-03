@@ -14,11 +14,22 @@ namespace FinancialHub.WebApi.Controllers
     [ProducesErrorResponseType(typeof(Exception))]
     public class AccountsController : Controller
     {
+        private readonly IAccountBalanceService accountBalanceService;
         private readonly IAccountsService service;
 
-        public AccountsController(IAccountsService service) 
+        public AccountsController(IAccountBalanceService accountBalanceService,IAccountsService service) 
         {
+            this.accountBalanceService = accountBalanceService;
             this.service = service;
+        }
+
+        [HttpGet("{accountId}/balances")]
+        [ProducesResponseType(typeof(ListResponse<BalanceModel>), 200)]
+        public async Task<IActionResult> GetAccountBalances([FromRoute] Guid accountId)
+        {
+            var result = await this.accountBalanceService.GetBalancesByAccountAsync(accountId);
+
+            return Ok(new ListResponse<BalanceModel>(result.Data));
         }
 
         /// <summary>
@@ -42,7 +53,7 @@ namespace FinancialHub.WebApi.Controllers
         [ProducesResponseType(typeof(ValidationErrorResponse), 400)]
         public async Task<IActionResult> CreateAccount([FromBody] AccountModel account)
         {
-            var result = await service.CreateAsync(account);
+            var result = await this.accountBalanceService.CreateAsync(account);
 
             if (result.HasError)
             {
@@ -52,7 +63,7 @@ namespace FinancialHub.WebApi.Controllers
                  );
             }
 
-            return Ok( new SaveResponse<AccountModel>(result.Data));
+            return Ok(new SaveResponse<AccountModel>(result.Data));
         }
 
         /// <summary>
@@ -86,7 +97,7 @@ namespace FinancialHub.WebApi.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAccount([FromRoute] Guid id)
         {
-            await service.DeleteAsync(id);
+            await accountBalanceService.DeleteAsync(id);
             return NoContent();
         }
     }

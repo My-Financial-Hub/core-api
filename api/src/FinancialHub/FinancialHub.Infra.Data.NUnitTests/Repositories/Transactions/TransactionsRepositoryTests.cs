@@ -1,15 +1,15 @@
-﻿using FinancialHub.Domain.Entities;
+﻿using System;
+using NUnit.Framework;
+using FinancialHub.Domain.Entities;
+using FinancialHub.Infra.Data.Repositories;
 using FinancialHub.Domain.Tests.Builders.Entities;
 using FinancialHub.Infra.Data.NUnitTests.Repositories.Base;
-using FinancialHub.Infra.Data.Repositories;
-using NUnit.Framework;
-using System;
 
 namespace FinancialHub.Infra.Data.NUnitTests.Repositories
 {
     public partial class TransactionsRepositoryTests : BaseRepositoryTests<TransactionEntity>
     {
-        private AccountEntityBuilder accountEntityBuilder;
+        private BalanceEntityBuilder balanceEntityBuilder;
         private CategoryEntityBuilder categoryEntityBuilder;
 
         [SetUp]
@@ -18,7 +18,7 @@ namespace FinancialHub.Infra.Data.NUnitTests.Repositories
             base.Setup();
             this.repository = new TransactionsRepository(this.context);
 
-            this.accountEntityBuilder = new AccountEntityBuilder();
+            this.balanceEntityBuilder = new BalanceEntityBuilder();
             this.categoryEntityBuilder = new CategoryEntityBuilder();
 
             this.builder = new TransactionEntityBuilder();
@@ -27,21 +27,21 @@ namespace FinancialHub.Infra.Data.NUnitTests.Repositories
         protected TransactionEntity GenerateTransaction(Guid? id = null,Guid? accountId = null, Guid? categoryId = null)
         {
             var category = this.GenerateCategory(categoryId);
-            var account = this.GenerateAccount(accountId);
+            var balance = this.GenerateBalance(accountId);
 
             var build = (TransactionEntityBuilder)this.builder;
 
             if (id == null)
             {
                 return build
-                    .WithAccount(account)
+                    .WithBalance(balance)
                     .WithCategory(category)
                     .Generate();
             }
             else
             {
                 return build
-                    .WithAccount(account)
+                    .WithBalance(balance)
                     .WithCategory(category)
                     .WithId(id.Value)
                     .Generate();
@@ -60,15 +60,15 @@ namespace FinancialHub.Infra.Data.NUnitTests.Repositories
             }
         }
 
-        protected AccountEntity GenerateAccount(Guid? id = null)
+        protected BalanceEntity GenerateBalance(Guid? id = null)
         {
             if (id == null)
             {
-                return this.accountEntityBuilder.Generate();
+                return this.balanceEntityBuilder.Generate();
             }
             else
             {
-                return this.accountEntityBuilder.WithId(id.Value).Generate();
+                return this.balanceEntityBuilder.WithId(id.Value).Generate();
             }
         }
     }

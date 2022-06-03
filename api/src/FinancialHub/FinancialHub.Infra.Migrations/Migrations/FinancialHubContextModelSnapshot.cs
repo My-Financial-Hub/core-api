@@ -33,10 +33,6 @@ namespace FinancialHub.Infra.Migrations.Migrations
                         .HasColumnType("datetimeoffset")
                         .HasColumnName("creation_time");
 
-                    b.Property<string>("Currency")
-                        .HasColumnType("varchar(50)")
-                        .HasColumnName("currency");
-
                     b.Property<string>("Description")
                         .HasColumnType("varchar(500)")
                         .HasColumnName("description");
@@ -56,6 +52,51 @@ namespace FinancialHub.Infra.Migrations.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("accounts");
+                });
+
+            modelBuilder.Entity("FinancialHub.Domain.Entities.BalanceEntity", b =>
+                {
+                    b.Property<Guid?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("id");
+
+                    b.Property<Guid>("AccountId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("account_id");
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("money")
+                        .HasColumnName("amount");
+
+                    b.Property<DateTimeOffset?>("CreationTime")
+                        .HasColumnType("datetimeoffset")
+                        .HasColumnName("creation_time");
+
+                    b.Property<string>("Currency")
+                        .HasColumnType("varchar(50)")
+                        .HasColumnName("currency");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit")
+                        .HasColumnName("active");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("varchar(200)")
+                        .HasColumnName("name");
+
+                    b.Property<DateTimeOffset?>("UpdateTime")
+                        .HasColumnType("datetimeoffset")
+                        .HasColumnName("update_time");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AccountId");
+
+                    b.HasIndex("Id")
+                        .IsUnique();
+
+                    b.ToTable("balances");
                 });
 
             modelBuilder.Entity("FinancialHub.Domain.Entities.CategoryEntity", b =>
@@ -97,13 +138,13 @@ namespace FinancialHub.Infra.Migrations.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("id");
 
-                    b.Property<Guid>("AccountId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("account_id");
-
                     b.Property<decimal>("Amount")
                         .HasColumnType("money")
                         .HasColumnName("amount");
+
+                    b.Property<Guid>("BalanceId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("balance_id");
 
                     b.Property<Guid>("CategoryId")
                         .HasColumnType("uniqueidentifier")
@@ -143,7 +184,7 @@ namespace FinancialHub.Infra.Migrations.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AccountId");
+                    b.HasIndex("BalanceId");
 
                     b.HasIndex("CategoryId");
 
@@ -153,11 +194,22 @@ namespace FinancialHub.Infra.Migrations.Migrations
                     b.ToTable("transactions");
                 });
 
-            modelBuilder.Entity("FinancialHub.Domain.Entities.TransactionEntity", b =>
+            modelBuilder.Entity("FinancialHub.Domain.Entities.BalanceEntity", b =>
                 {
                     b.HasOne("FinancialHub.Domain.Entities.AccountEntity", "Account")
-                        .WithMany("Transactions")
+                        .WithMany("Balances")
                         .HasForeignKey("AccountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Account");
+                });
+
+            modelBuilder.Entity("FinancialHub.Domain.Entities.TransactionEntity", b =>
+                {
+                    b.HasOne("FinancialHub.Domain.Entities.BalanceEntity", "Balance")
+                        .WithMany("Transactions")
+                        .HasForeignKey("BalanceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -167,12 +219,17 @@ namespace FinancialHub.Infra.Migrations.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Account");
+                    b.Navigation("Balance");
 
                     b.Navigation("Category");
                 });
 
             modelBuilder.Entity("FinancialHub.Domain.Entities.AccountEntity", b =>
+                {
+                    b.Navigation("Balances");
+                });
+
+            modelBuilder.Entity("FinancialHub.Domain.Entities.BalanceEntity", b =>
                 {
                     b.Navigation("Transactions");
                 });

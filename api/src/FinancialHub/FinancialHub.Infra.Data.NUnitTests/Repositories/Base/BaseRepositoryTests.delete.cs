@@ -14,6 +14,7 @@ namespace FinancialHub.Infra.Data.NUnitTests.Repositories.Base
         {
             var items = this.GenerateData();
             await this.InsertData(items);
+            this.context.ChangeTracker.Clear();
 
             var affectedRows = await this.repository.DeleteAsync(items.First().Id.Value);
             Assert.AreEqual(1,affectedRows);
@@ -26,6 +27,7 @@ namespace FinancialHub.Infra.Data.NUnitTests.Repositories.Base
         {
             var items = this.GenerateData();
             await this.InsertData(items);
+            this.context.ChangeTracker.Clear();
 
             var affectedRows = await this.repository.DeleteAsync(new Guid());
             Assert.AreEqual(0, affectedRows);

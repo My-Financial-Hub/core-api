@@ -1,7 +1,7 @@
-﻿using FinancialHub.Domain.Results;
+﻿using FinancialHub.Domain.Enums;
+using FinancialHub.Domain.Results;
 using Moq;
 using NUnit.Framework;
-using System;
 using System.Threading.Tasks;
 
 namespace FinancialHub.Services.NUnitTests.Services
@@ -9,41 +9,131 @@ namespace FinancialHub.Services.NUnitTests.Services
     public partial class TransactionsServiceTests
     {
         [Test]
-        [TestCase(Description = "Update valid Transaction", Category = "Delete")]
-        public async Task DeleteAsync_RepositorySuccess_ReturnsTransactionModel()
+        public async Task DeleteAsync_ExistingTransaction_RemovesTransactions()
         {
-            var expectedResult = random.Next(1,100);
-            var guid = Guid.NewGuid();
+            var expectedResult = random.Next(1, 100);
+            var transaction = this.transactionBuilder.Generate();
+            var guid = transaction.Id.GetValueOrDefault();
+
             this.repository
                 .Setup(x => x.DeleteAsync(guid))
-                .Returns(async () => await Task.FromResult(expectedResult))
+                .ReturnsAsync(expectedResult)
                 .Verifiable();
+            this.repository
+                .Setup(x => x.GetByIdAsync(guid))
+                .ReturnsAsync(transaction);
+            
+            this.SetUpMapper();
 
-            var result = await this.service.DeleteAsync(guid);
+            await this.service.DeleteAsync(guid);
 
-            Assert.IsInstanceOf<ServiceResult<int>>(result);
-            Assert.AreEqual(expectedResult,result.Data);
             this.repository.Verify(x => x.DeleteAsync(guid), Times.Once);
         }
 
         [Test]
-        [TestCase(Description = "Update repository exception", Category = "Delete")]
-        public void DeleteAsync_RepositoryException_ThrowsException()
+        public async Task DeleteAsync_ExistingTransaction_ReturnsRemovedTransactions()
         {
-            var guid = Guid.NewGuid();
-            var exc = new Exception("mock");
+            var expectedResult = random.Next(1,100);
+            var transaction = this.transactionBuilder.Generate();
+            var guid = transaction.Id.GetValueOrDefault();
 
             this.repository
                 .Setup(x => x.DeleteAsync(guid))
-                .Throws(exc)
-                .Verifiable();
+                .ReturnsAsync(expectedResult);
+            this.repository
+                .Setup(x => x.GetByIdAsync(guid))
+                .ReturnsAsync(transaction);
 
-            var exception = Assert.ThrowsAsync<Exception>(
-                async () => await this.service.DeleteAsync(guid)
-            );
+            this.SetUpMapper();
+            
+            var result = await this.service.DeleteAsync(guid);
 
-            Assert.IsInstanceOf(exc.GetType(), exception);
-            this.repository.Verify(x => x.DeleteAsync(guid), Times.Once());
+            Assert.IsInstanceOf<ServiceResult<int>>(result);
+            Assert.AreEqual(expectedResult,result.Data);
+        }
+
+        [Test]
+        public async Task DeleteAsync_NotExistingTransaction_ReturnsNotFoundError()
+        {
+            var transaction = this.transactionBuilder.Generate();
+            var guid = transaction.Id.GetValueOrDefault();
+
+            this.repository
+                .Setup(x => x.GetByIdAsync(guid));
+
+            var result = await this.service.DeleteAsync(guid);
+
+            Assert.Zero(result.Data);
+            Assert.IsTrue(result.HasError);
+            Assert.AreEqual($"Not found Transaction with id {guid}", result.Error.Message);
+        }
+
+        [Test]
+        public async Task DeleteAsync_NotExistingTransaction_DoesNotRemovesTransactions()
+        {
+            var transaction = this.transactionBuilder.Generate();
+            var guid = transaction.Id.GetValueOrDefault();
+
+            this.repository
+                .Setup(x => x.GetByIdAsync(guid));
+
+            await this.service.DeleteAsync(guid);
+
+            this.repository.Verify(x => x.GetByIdAsync(guid),Times.Once);
+        }
+
+        [TestCase(TransactionStatus.Committed, false)]
+        [TestCase(TransactionStatus.NotCommitted, true)]
+        [TestCase(TransactionStatus.NotCommitted, false)]
+        public async Task DeleteAsync_ExistingNotCommitedOrInactiveTransaction_RemovesBalanceAmount(
+            TransactionStatus status, bool isActive
+        )
+        {
+            var expectedResult = random.Next(1, 100);
+            var transaction = this.transactionBuilder
+                .WithStatus(status)
+                .WithActiveStatus(isActive)
+                .Generate();
+            var guid = transaction.Id.GetValueOrDefault();
+
+            this.repository
+                .Setup(x => x.DeleteAsync(guid))
+                .ReturnsAsync(expectedResult);
+            this.repository
+                .Setup(x => x.GetByIdAsync(guid))
+                .ReturnsAsync(transaction);
+
+            this.SetUpMapper();
+
+            await this.service.DeleteAsync(guid);
+
+            this.balancesRepository.Verify(x => x.ChangeAmountAsync(transaction.BalanceId,transaction.Amount,transaction.Type,true), Times.Never);
+        }
+
+        [TestCase(TransactionStatus.Committed, true)]
+        public async Task DeleteAsync_ExistingCommitedAndActiveTransaction_RemovesBalanceAmount(
+            TransactionStatus status, bool isActive
+        )
+        {
+            var expectedResult = random.Next(1, 100);
+            var transaction = this.transactionBuilder
+                .WithStatus(status)
+                .WithActiveStatus(isActive)
+                .Generate();
+            var guid = transaction.Id.GetValueOrDefault();
+
+            this.repository
+                .Setup(x => x.DeleteAsync(guid))
+                .ReturnsAsync(expectedResult);
+            this.repository
+                .Setup(x => x.GetByIdAsync(guid))
+                .ReturnsAsync(transaction);
+
+            this.SetUpMapper();
+            
+            await this.service.DeleteAsync(guid);
+
+            this.balancesRepository.Verify(x => x.ChangeAmountAsync(transaction.BalanceId, transaction.Amount, transaction.Type,true), Times.Once);
         }
     }
 }

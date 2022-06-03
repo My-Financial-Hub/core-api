@@ -17,12 +17,12 @@ namespace FinancialHub.Infra.Data.Contexts
                 table.HasKey(t => t.Id);
                 table.HasIndex(t => t.Id).IsUnique(true);
 
-                table.HasOne(x => x.Account)
+                table.HasOne(x => x.Balance)
                     .WithMany(x => x.Transactions)
-                    .HasForeignKey(x => x.AccountId)
+                    .HasForeignKey(x => x.BalanceId)
                     .HasPrincipalKey(x => x.Id)
                     .IsRequired(true);
-                table.Navigation(t => t.Account).AutoInclude();
+                table.Navigation(t => t.Balance).AutoInclude();
 
                 table.HasOne(x => x.Category)
                     .WithMany(x => x.Transactions)
@@ -31,11 +31,26 @@ namespace FinancialHub.Infra.Data.Contexts
                     .IsRequired(true);
                 table.Navigation(t => t.Category).AutoInclude();
             });
+
+            modelBuilder.Entity<BalanceEntity>(table =>
+            {
+                table.HasKey(t => t.Id);
+                table.HasIndex(t => t.Id).IsUnique(true);
+
+                table.HasOne(x => x.Account)
+                    .WithMany(x => x.Balances)
+                    .HasForeignKey(x => x.AccountId)
+                    .HasPrincipalKey(x => x.Id)
+                    .IsRequired(true);
+                table.Navigation(t => t.Account).AutoInclude();
+            });
+
             base.OnModelCreating(modelBuilder);
         }
 
         public DbSet<AccountEntity> Accounts { get; set; }
         public DbSet<TransactionEntity> Transactions { get; set; }
         public DbSet<CategoryEntity> Categories { get; set; }
+        public DbSet<BalanceEntity> Balances { get; set; }
     }
 }

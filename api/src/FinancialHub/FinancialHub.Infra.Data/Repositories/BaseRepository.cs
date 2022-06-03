@@ -32,7 +32,7 @@ namespace FinancialHub.Infra.Data.Repositories
 
         public virtual async Task<int> DeleteAsync(Guid id)
         {
-            var entity = context.Set<T>().FirstOrDefault(x => x.Id == id);
+            var entity = await this.GetByIdAsync(id);
 
             if(entity != null)
             {
@@ -48,8 +48,12 @@ namespace FinancialHub.Infra.Data.Repositories
         public virtual async Task<T> UpdateAsync(T obj)
         {
             obj.UpdateTime = DateTimeOffset.Now;
+
             var res = context.Set<T>().Update(obj);
+            this.context.Entry(res.Entity).Property(x => x.CreationTime).IsModified = false;
+
             await context.SaveChangesAsync();
+
             return res.Entity;
         }
 
@@ -65,7 +69,7 @@ namespace FinancialHub.Infra.Data.Repositories
 
         public virtual async Task<T> GetByIdAsync(Guid id)
         {
-            return await context.Set<T>().FirstOrDefaultAsync(x => x.Id == id);
+            return await context.Set<T>().AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
         }
     }
 }
