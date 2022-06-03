@@ -33,7 +33,7 @@ namespace FinancialHub.IntegrationTests
 
         protected static void AssertEqual(TransactionModel expected, TransactionModel result)
         {
-            Assert.AreEqual(expected.AccountId,     result.AccountId);
+            Assert.AreEqual(expected.BalanceId,     result.BalanceId);
             Assert.AreEqual(expected.CategoryId,    result.CategoryId);
             Assert.AreEqual(expected.TargetDate,    result.TargetDate);
             Assert.AreEqual(expected.FinishDate,    result.FinishDate);
@@ -57,10 +57,10 @@ namespace FinancialHub.IntegrationTests
             var model = entityBuilder.Generate();
 
             this.fixture.AddData(model.Category);
-            this.fixture.AddData(model.Account);
+            this.fixture.AddData(model.Balance);
 
             var data = entityBuilder
-                .WithAccountId(model.Account.Id)
+                .WithBalanceId(model.Balance.Id)
                 .WithCategoryId(model.Category.Id)
                 .WithActiveStatus(isActive)
                 .Generate();
@@ -69,7 +69,7 @@ namespace FinancialHub.IntegrationTests
             {
                 Id          = data.Id,
                 CategoryId  = data.CategoryId,
-                AccountId   = data.AccountId,
+                BalanceId   = data.BalanceId,
                 Description = data.Description,
                 FinishDate  = data.FinishDate,
                 TargetDate  = data.TargetDate,
@@ -84,22 +84,26 @@ namespace FinancialHub.IntegrationTests
         {
             var model = entityBuilder.Generate();
 
-            this.fixture.AddData(model.Category);
-            this.fixture.AddData(model.Account);
+            var account     = this.fixture.AddData(model.Balance.Account).First();
+            model.Balance.Account = null;
+            model.Balance.AccountId = account.Id.GetValueOrDefault();
+
+            var balance     = this.fixture.AddData(model.Balance).First();
+            var category    = this.fixture.AddData(model.Category).First();
 
             var data = entityBuilder
-                .WithAccountId(model.Account.Id)
-                .WithCategoryId(model.Category.Id)
+                .WithBalanceId(balance.Id)
+                .WithCategoryId(category.Id)
                 .WithActiveStatus(isActive)
                 .Generate();
 
-            this.fixture.AddData(data);
+            data = this.fixture.AddData(data).First();
 
             return new TransactionModel()
             {
                 Id          = data.Id,
                 CategoryId  = data.CategoryId,
-                AccountId   = data.AccountId,
+                BalanceId   = data.BalanceId,
                 Description = data.Description,
                 FinishDate  = data.FinishDate,
                 TargetDate  = data.TargetDate,
@@ -115,10 +119,10 @@ namespace FinancialHub.IntegrationTests
             var model = entityBuilder.Generate();
 
             this.fixture.AddData(model.Category);
-            this.fixture.AddData(model.Account);
+            this.fixture.AddData(model.Balance);
 
             var data = entityBuilder
-                .WithAccountId(model.Account.Id)
+                .WithBalanceId(model.Balance.Id)
                 .WithCategoryId(model.Category.Id)
                 .WithActiveStatus(isActive)
                 .Generate(10);
@@ -130,7 +134,7 @@ namespace FinancialHub.IntegrationTests
                 {
                     Id          = x.Id,
                     CategoryId  = x.CategoryId,
-                    AccountId   = x.AccountId,
+                    BalanceId   = x.BalanceId,
                     Description = x.Description,
                     FinishDate  = x.FinishDate,
                     TargetDate  = x.TargetDate,
@@ -195,7 +199,7 @@ namespace FinancialHub.IntegrationTests
             var data = this.InsertTransaction(true);
 
             var body = this.modelBuilder
-                .WithAccountId(data.AccountId)
+                .WithBalanceId(data.BalanceId)
                 .WithCategoryId(data.CategoryId)
                 .WithActiveStatus(data.IsActive)
                 .WithId(data.Id.GetValueOrDefault())
@@ -216,7 +220,7 @@ namespace FinancialHub.IntegrationTests
             var data = this.InsertTransaction(true);
 
             var body = this.modelBuilder
-                .WithAccountId(data.AccountId)
+                .WithBalanceId(data.BalanceId)
                 .WithCategoryId(data.CategoryId)
                 .WithActiveStatus(data.IsActive)
                 .WithId(data.Id.GetValueOrDefault())

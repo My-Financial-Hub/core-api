@@ -21,14 +21,14 @@ namespace FinancialHub.Infra.Data.Repositories
             }
 
             obj.Category = null;
-            obj.Account = null;
+            obj.Balance = null;
             return await base.CreateAsync(obj);
         }
 
         public override async Task<TransactionEntity> UpdateAsync(TransactionEntity obj)
         {
             obj.Category = null;
-            obj.Account = null; 
+            obj.Balance = null; 
             return await base.UpdateAsync(obj);
         }
     }

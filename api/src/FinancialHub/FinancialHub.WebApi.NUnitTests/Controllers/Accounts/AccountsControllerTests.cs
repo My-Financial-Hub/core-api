@@ -7,10 +7,6 @@ using System;
 
 namespace FinancialHub.WebApi.NUnitTests.Controllers
 {
-    //TODO: start to use : 
-    //https://docs.educationsmediagroup.com/unit-testing-csharp/nunit/parameterized-tests 
-    //or
-    //https://docs.nunit.org/articles/nunit/writing-tests/attributes/theory.html
     public partial class AccountsControllerTests
     {
         private Random random;
@@ -19,6 +15,7 @@ namespace FinancialHub.WebApi.NUnitTests.Controllers
 
         private AccountsController controller;
         private Mock<IAccountsService> mockService;
+        private Mock<IAccountBalanceService> mockAccountService;
 
         [SetUp]
         public void Setup()
@@ -28,7 +25,8 @@ namespace FinancialHub.WebApi.NUnitTests.Controllers
             this.accountModelBuilder = new AccountModelBuilder();
 
             this.mockService = new Mock<IAccountsService>();
-            this.controller = new AccountsController(this.mockService.Object);
+            this.mockAccountService = new Mock<IAccountBalanceService>();
+            this.controller = new AccountsController(mockAccountService.Object ,this.mockService.Object);
         }
     }
 }
