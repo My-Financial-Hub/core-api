@@ -1,7 +1,7 @@
 {
     "editor.codeActionsOnSave": {
         "source.fixAll": false,
-        "source.organizeImports": true
+        "source.organizeImports": false
     },
     "files.eol": "\n",
     "editor.tabSize": 2,
