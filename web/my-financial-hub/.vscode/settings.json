@@ -3,5 +3,6 @@
         "source.fixAll": false,
         "source.organizeImports": true
     },
+    "files.eol": "\n",
     "editor.tabSize": 2,
 }
