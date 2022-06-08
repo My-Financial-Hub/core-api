@@ -11,9 +11,21 @@ function AccountsForm() {
   const [isLoading, setLoading] = useState(false);
   const [state, setState] = useAccountsContext();
 
-  const submitAccount = function (event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    setLoading(true);
+  const resetForm = function () {
+    setState({ ...state, account: { name: '', description: '', currency: '', isActive: false } as Account });
+  };
+
+  const updateAccount = async function () {
+    accountsApi.PutAsync(state.account.id, state.account)
+      .then(() => {
+        const index = state.accounts.findIndex(obj => obj.id == state.account.id);
+        state.accounts[index] = state.account;
+        resetForm();
+        setLoading(false);
+      });
+  };
+
+  const createAccount = async function () {
     accountsApi.PostAsync(state.account)
       .then((accountResult) => {
         setState(
@@ -22,8 +34,18 @@ function AccountsForm() {
             account: { name: '', description: '', currency: '', isActive: false } as Account
           }
         );
-        setLoading(false);
       });
+  };
+
+  const submitAccount = function (event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setLoading(true);
+
+    if (state.account.id) {
+      updateAccount().then(() => setLoading(false));
+    } else {
+      createAccount().then(() => setLoading(false));
+    }
   };
 
   const changeAccount = (event: React.ChangeEvent<HTMLInputElement>) => {

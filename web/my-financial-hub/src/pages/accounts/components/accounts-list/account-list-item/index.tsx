@@ -1,8 +1,8 @@
+import style from './account-list__item.module.scss';
+
 import { useAccountsContext } from '../../../contexts/accounts-page-context';
 
 import { Account } from '../../../../../commom/interfaces/account';
-
-import style from './account-list__item.module.scss';
 import AccountApi from '../../../../../commom/http/account-api';
 
 interface AccountListItemProps {
@@ -12,12 +12,12 @@ const accountsApi = new AccountApi();
 
 export default function AccountListItem({ account }: AccountListItemProps) {
   const [state, setState] = useAccountsContext();
-  
+
   const deleteAccount = function (id: string) {
     accountsApi.DeleteAsync(id)
       .then(() => setState(
         {
-          ...state,
+          account: { name: '', description: '', currency: '', isActive: false } as Account,
           accounts: state.accounts.filter(x => x.id !== id)
         }
       ))
@@ -25,7 +25,7 @@ export default function AccountListItem({ account }: AccountListItemProps) {
   };
 
   const selectAccount = function () {
-    setState({...state,account});
+    setState({ ...state, account: account });
   };
 
   return (
@@ -44,7 +44,7 @@ export default function AccountListItem({ account }: AccountListItemProps) {
         {account.isActive ? 'yes' : 'no'}
       </div>
       <div className='col-1'>
-        <button onClick={()=> deleteAccount(account.id)}>Delete</button>
+        <button onClick={() => deleteAccount(account.id)}>Delete</button>
       </div>
     </div>
   );

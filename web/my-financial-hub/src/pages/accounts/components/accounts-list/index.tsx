@@ -1,10 +1,10 @@
 import { useEffect, useState} from 'react';
-import { useAccountsContext } from '../../contexts/accounts-page-context';
 
 import AccountApi from '../../../../commom/http/account-api';
 
 import AccountListItem from './account-list-item';
 import Loading from '../../../../commom/components/loading/loading';
+import { useAccountsContext } from '../../contexts/accounts-page-context';
 
 const accountsApi = new AccountApi();//TODO: move to context
 
@@ -16,7 +16,7 @@ function AccountsList() {
     setLoading(true);
     accountsApi.GetAllAsync()
       .then(accountsResult => {
-        setState({...state,accounts: accountsResult});
+        setState({...state, accounts: accountsResult});
         setLoading(false);
       })
       .catch(e => console.error(e));

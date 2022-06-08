@@ -13,7 +13,6 @@ export default class Api<T>
   }
 
   async GetAllAsync(): Promise<T[]> {
-    console.log(this._apiUrl);
     const result = await fetch(this._apiUrl);
     const json = await result.json();
 

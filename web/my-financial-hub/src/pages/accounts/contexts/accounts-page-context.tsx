@@ -25,6 +25,7 @@ const defaultContext: AccountsContext = [
 //TODO: prevent page reload
 const AccountsContext = createContext<AccountsContext>(defaultContext);
 
+//EXPORT
 export function AccountsProvider({ children }: { children?: JSX.Element | JSX.Element[] }) {
   const [state, setState] = useState(defaultContextState);
 
@@ -39,7 +40,7 @@ export function useAccountsContext(){
   const context = useContext(AccountsContext);
 
   if (context === undefined) {
-    throw new Error('useCount must be used within a CountProvider');
+    throw new Error('useAccountsContext must be used within a AccountsProvider');
   }
   return context;
 }
