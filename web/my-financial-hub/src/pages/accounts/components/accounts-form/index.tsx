@@ -1,84 +1,94 @@
-import { FormEvent, useState } from 'react';
+import { useState, FormEvent } from 'react';
+import Loading from '../../../../commom/components/loading/loading';
+
+import AccountApi from '../../../../commom/http/account-api';
 import { Account } from '../../../../commom/interfaces/account';
+import { useAccountsContext } from '../../contexts/accounts-page-context';
 
-interface AccountFormProps {
-  account? :Account
-}
+const accountsApi = new AccountApi();
 
-function AccountsForm(props: AccountFormProps) {
-
-  const [account, setAccount] = useState(props.account?? {} as Account);
+function AccountsForm() {
+  const [isLoading, setLoading] = useState(false);
+  const [state, setState] = useAccountsContext();
 
   const submitAccount = function (event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    fetch('http://localhost:5000/accounts', {
-      method: 'POST',
-      headers: {
-        'content-type': 'application/json'
-      },
-      body: JSON.stringify(account)
-    })
-      .then((x: Response) => x.json())
-      .then(() => 
-        setAccount(
-          { id: '', name: '', description: '', currency: '', isActive: false }
-        )
-      );
+    setLoading(true);
+    accountsApi.PostAsync(state.account)
+      .then((accountResult) => {
+        setState(
+          {
+            accounts: [...state.accounts, accountResult],
+            account: { name: '', description: '', currency: '', isActive: false } as Account
+          }
+        );
+        setLoading(false);
+      });
   };
 
   const changeAccount = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newAccount = {
-      ...account,
+      ...state.account,
       [event.target.name]: event.target.value
     } as Account;
-    setAccount(newAccount);
+    setState({ ...state, account: newAccount });
   };
 
   const changeAccountActive = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(event.target.value);
     const newAccount = {
-      ...account,
+      ...state.account,
       isActive: event.target.value == 'on'
     } as Account;
-    setAccount(newAccount);
+    setState({ ...state, account: newAccount });
   };
 
   return (
-    <form onSubmit={(e) => submitAccount(e)} className="container mb-4">
-      <label htmlFor='name'>Name</label>
-      <input name='name' title='name'
-        type='text'
-        placeholder='Insert Account name'
-        maxLength={50}
-        required
-        onChange={changeAccount}
-      />
+    <>
+      {
+        isLoading ?
+          <Loading />
+          :
+          <form onSubmit={(e) => submitAccount(e)} className="container mb-4">
+            <label htmlFor='name'>Name</label>
+            <input name='name' title='name'
+              type='text'
+              placeholder='Insert Account name'
+              maxLength={50}
+              required
+              value={state.account.name}
+              onChange={changeAccount}
+            />
 
-      <label htmlFor='description'>Description</label>
-      <input name='description' title='description'
-        type='text'
-        placeholder='Insert Account description'
-        maxLength={500}
-        onChange={changeAccount}
-      />
+            <label htmlFor='description'>Description</label>
+            <input name='description' title='description'
+              type='text'
+              placeholder='Insert Account description'
+              maxLength={500}
+              value={state.account.description}
+              onChange={changeAccount}
+            />
 
-      <label htmlFor='currency'>Currency</label>
-      <input name='currency' title='currency'
-        type='text'
-        placeholder='Insert Account currency'
-        maxLength={50}
-        onChange={changeAccount}
-      />
+            <label htmlFor='currency'>Currency</label>
+            <input name='currency' title='currency'
+              type='text'
+              placeholder='Insert Account currency'
+              maxLength={50}
+              value={state.account.currency}
+              onChange={changeAccount}
+            />
 
-      <label htmlFor='isActive'>Is Active</label>
-      <input
-        name='isActive' title='isActive'
-        type='checkbox'
-        onChange={changeAccountActive}
-      />
+            <label htmlFor='isActive'>Is Active</label>
+            <input
+              name='isActive' title='isActive'
+              type='checkbox'
+              checked={state.account.isActive}
+              onChange={changeAccountActive}
+            />
 
-      <input type='submit' />
-    </form>
+            <input type='submit' />
+          </form>
+      }
+    </>
   );
 }
 

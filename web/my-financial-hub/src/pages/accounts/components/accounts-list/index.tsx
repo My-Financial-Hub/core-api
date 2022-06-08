@@ -1,40 +1,31 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState} from 'react';
+import { useAccountsContext } from '../../contexts/accounts-page-context';
 
 import AccountApi from '../../../../commom/http/account-api';
-import { Account } from '../../../../commom/interfaces/account';
 
 import AccountListItem from './account-list-item';
 import Loading from '../../../../commom/components/loading/loading';
 
-interface AccountListProps {
-  onSelectAccount: (account: Account) => void
-}
-const accountsApi = new AccountApi();
+const accountsApi = new AccountApi();//TODO: move to context
 
-function AccountsList({ onSelectAccount }: AccountListProps) {
+function AccountsList() {
   const [isLoading, setLoading] = useState(true);
-  const [accounts, setAccounts] = useState([] as Account[]);
+  const [state, setState] = useAccountsContext();
 
   const getAccounts = function () {
     setLoading(true);
     accountsApi.GetAllAsync()
-      .then(a => {
-        setAccounts(a);
+      .then(accountsResult => {
+        setState({...state,accounts: accountsResult});
         setLoading(false);
       })
       .catch(e => console.error(e));
   };
 
-  const deleteAccount = function (id: string) {
-    accountsApi.DeleteAsync(id)
-      .then(() => setAccounts(accounts.filter(x => x.id !== id)))
-      .catch(e => console.error(e));
-  };
-  
   useEffect(() => {
     getAccounts();
   }, []);
-
+  
   return (
     <>
       <div className='container'>
@@ -59,12 +50,11 @@ function AccountsList({ onSelectAccount }: AccountListProps) {
           isLoading?
             <Loading />
             :
-            accounts.map(
+            state.accounts.map(
               (account) => (
                 <AccountListItem 
                   key={account.id} 
                   account={account} 
-                  onRemove={deleteAccount} onSelect={onSelectAccount}
                 />
               )
             )

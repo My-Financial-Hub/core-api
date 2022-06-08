@@ -24,10 +24,29 @@ export default class Api<T>
     return json as T[];
   }
 
-  async PostAsync(baseEndpoint: string, body: T): Promise<T> {
+  async PostAsync(body: T): Promise<T> {
     const result = await fetch(this._apiUrl,
       {
         method: 'POST',
+        headers: {
+          'content-type': 'application/json'
+        },
+        body: JSON.stringify(body)
+      }
+    );
+    const json = await result.json();
+
+    if (!result.ok) {
+      throw json;//TODO:
+    }
+
+    return json as T;
+  }
+
+  async PutAsync(id: string,body: T): Promise<T> {
+    const result = await fetch(`${this._apiUrl}/${id}`,
+      {
+        method: 'PUT',
         headers: {
           'content-type': 'application/json'
         },
