@@ -1,9 +1,9 @@
-import style from './account-list__item.module.scss';
+import { Account } from '../../../../../commom/interfaces/account';
+import AccountApi from '../../../../../commom/http/account-api';
 
 import { useAccountsContext } from '../../../contexts/accounts-page-context';
 
-import { Account } from '../../../../../commom/interfaces/account';
-import AccountApi from '../../../../../commom/http/account-api';
+import style from './account-list__item.module.scss';
 
 interface AccountListItemProps {
   account: Account
@@ -13,15 +13,17 @@ const accountsApi = new AccountApi();
 export default function AccountListItem({ account }: AccountListItemProps) {
   const [state, setState] = useAccountsContext();
 
-  const deleteAccount = function (id: string) {
-    accountsApi.DeleteAsync(id)
-      .then(() => setState(
-        {
-          account: { name: '', description: '', currency: '', isActive: false } as Account,
-          accounts: state.accounts.filter(x => x.id !== id)
-        }
-      ))
-      .catch(e => console.error(e));
+  const deleteAccount = function (id?: string) {
+    if(id){
+      accountsApi.DeleteAsync(id)
+        .then(() => setState(
+          {
+            account: { name: '', description: '', currency: '', isActive: false } as Account,
+            accounts: state.accounts.filter(x => x.id !== id)
+          }
+        ))
+        .catch(e => console.error(e));
+    }
   };
 
   const selectAccount = function () {
