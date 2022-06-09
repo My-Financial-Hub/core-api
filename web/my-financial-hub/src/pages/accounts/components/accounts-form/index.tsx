@@ -18,11 +18,10 @@ function AccountsForm() {
   const updateAccount = async function () {
     if (state.account.id) {
       accountsApi.PutAsync(state.account.id, state.account)
-        .then(() => {
-          const index = state.accounts.findIndex(obj => obj.id == state.account.id);
-          state.accounts[index] = state.account;
+        .then((result) => {
+          const index = state.accounts.findIndex(obj => obj.id == result.id);
+          state.accounts[index] = result;
           resetForm();
-          setLoading(false);
         });
     }
   };
@@ -109,7 +108,7 @@ function AccountsForm() {
                     className={style.checkbox}
                     name='isActive' title='isActive'
                     type='checkbox'
-                    checked={state.account.isActive}
+                    checked={state.account.isActive ?? false}
                     onChange={changeAccountActiveField}
                   />
                 </FormFieldLabel>

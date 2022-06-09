@@ -22,7 +22,6 @@ const defaultContext: AccountsContext = [
   (state: AccountsState) => { }
 ];
 
-//TODO: prevent page reload
 const AccountsContext = createContext<AccountsContext>(defaultContext);
 
 //EXPORT

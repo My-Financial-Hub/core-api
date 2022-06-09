@@ -58,6 +58,8 @@ export default class Api<T>
       throw json;//TODO:
     }
 
+    console.log(json);
+
     return json as T;
   }
 
