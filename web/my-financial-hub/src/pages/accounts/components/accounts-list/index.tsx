@@ -42,17 +42,19 @@ function AccountsList() {
   return (
     <div className={`container ${style.table}`}>
       <div className='row d-flex p-2'>
-        <div className='col-3'>
-          Name
-        </div>
-        <div className='col-6'>
-          Description
-        </div>
-        <div className='col-1'>
-          Currency
-        </div>
-        <div className='col-1'>
-          Is Active
+        <div className='d-flex col-11'>
+          <div className='col-3'>
+            Name
+          </div>
+          <div className='col-6'>
+            Description
+          </div>
+          <div className='col-1'>
+            Currency
+          </div>
+          <div className='col-1'>
+            Is Active
+          </div>
         </div>
         <div className='col-1'>
           Delete
