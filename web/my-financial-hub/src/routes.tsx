@@ -8,9 +8,9 @@ export default function AppRouter() {
   return (
     <Router>
       <Routes>
-        <Route path='/' element={<App/>}/>
-        <Route path='/accounts' element={<AccountsPage/>}/>
-        <Route path='*' element={<NotFoundPage/>}/>
+        <Route path='/' element={<App />} />
+        <Route path='/accounts' element={<AccountsPage />} />
+        <Route path='*' element={<NotFoundPage />} />
       </Routes>
     </Router>
   );
