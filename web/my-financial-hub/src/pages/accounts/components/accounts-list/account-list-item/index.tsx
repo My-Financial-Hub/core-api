@@ -32,18 +32,20 @@ export default function AccountListItem({ account }: AccountListItemProps) {
 
   return (
     //${account.isActive?style.inactive:style.inactive}
-    <div className={`row d-flex p-2 align-middle ${style.row}`} onClick={() => selectAccount()}>
-      <div className='col-3'>
-        {account.name}
-      </div>
-      <div className='col-6'>
-        {account.description}
-      </div>
-      <div className='col-1'>
-        {account.currency}
-      </div>
-      <div className='col-1'>
-        {account.isActive ? 'yes' : 'no'}
+    <div className={`row d-flex p-2 align-middle ${style.row}`}>
+      <div className='col-11 d-flex' onClick={() => selectAccount()}>
+        <div className='col-3'>
+          {account.name}
+        </div>
+        <div className='col-6'>
+          {account.description}
+        </div>
+        <div className='col-1'>
+          {account.currency}
+        </div>
+        <div className='col-1'>
+          {account.isActive ? 'yes' : 'no'}
+        </div>
       </div>
       <div className='col-1'>
         <button onClick={() => deleteAccount(account.id)}>Delete</button>
