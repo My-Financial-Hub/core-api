@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
-import AccountApi from '../../../../commom/http/account-api';
 import { useAccountsContext } from '../../contexts/accounts-page-context';
+import { useApisContext } from '../../../../commom/contexts/api-context';
 
 import Loading from '../../../../commom/components/loading/loading';
 import AccountListItem from './account-list-item';
@@ -20,11 +20,10 @@ import style from './account-list.module.scss';
 5. Stylesheets
 */
 
-const accountsApi = new AccountApi();//TODO: move to context
-
 function AccountsList() {
   const [isLoading, setLoading] = useState(true);
   const [state, setState] = useAccountsContext();
+  const {accountsApi} = useApisContext();
 
   const getAccounts = function () {
     setLoading(true);

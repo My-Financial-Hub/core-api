@@ -1,19 +1,20 @@
 import { useState, FormEvent } from 'react';
-import FormFieldLabel from '../../../../commom/components/forms/form-field';
 
-import Loading from '../../../../commom/components/loading/loading';
-
-import AccountApi from '../../../../commom/http/account-api';
 import { Account } from '../../../../commom/interfaces/account';
+
+import { useApisContext } from '../../../../commom/contexts/api-context';
 import { useAccountsContext } from '../../contexts/accounts-page-context';
+
+import FormFieldLabel from '../../../../commom/components/forms/form-field';
+import Loading from '../../../../commom/components/loading/loading';
 
 import style from './accounts-form.module.scss';
 
-const accountsApi = new AccountApi();
-
 function AccountsForm() {
   const [isLoading, setLoading] = useState(false);
+
   const [state, setState] = useAccountsContext();
+  const {accountsApi} = useApisContext();
 
   const updateAccount = async function () {
     if (state.account.id) {

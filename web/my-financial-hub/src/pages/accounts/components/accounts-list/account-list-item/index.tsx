@@ -1,17 +1,17 @@
 import { Account } from '../../../../../commom/interfaces/account';
-import AccountApi from '../../../../../commom/http/account-api';
 
 import { useAccountsContext } from '../../../contexts/accounts-page-context';
+import { useApisContext } from '../../../../../commom/contexts/api-context';
 
 import style from './account-list__item.module.scss';
 
 interface AccountListItemProps {
   account: Account
 }
-const accountsApi = new AccountApi();
 
 export default function AccountListItem({ account }: AccountListItemProps) {
   const [state, setState] = useAccountsContext();
+  const {accountsApi} = useApisContext();
 
   const deleteAccount = function (id?: string) {
     if(id){
