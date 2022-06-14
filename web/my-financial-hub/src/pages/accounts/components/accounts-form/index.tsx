@@ -9,52 +9,28 @@ import FormFieldLabel from '../../../../commom/components/forms/form-field';
 import Loading from '../../../../commom/components/loading/loading';
 
 import style from './accounts-form.module.scss';
+import { useCreateAccount, useUpdateAccount } from '../../hooks/accounts-page.hooks';
 
 function AccountsForm() {
   const [isLoading, setLoading] = useState(false);
 
   const [state, setState] = useAccountsContext();
-  const {accountsApi} = useApisContext();
+  const { accountsApi } = useApisContext();
 
-  const updateAccount = async function () {
-    if (state.account.id) {
-      accountsApi.PutAsync(state.account.id, state.account)
-        .then((result) => {
-          const index = state.accounts.findIndex(obj => obj.id == result.id);
-          state.accounts[index] = result;
-          resetForm();
-        });
-    }
-  };
-
-  const createAccount = async function () {
-    accountsApi.PostAsync(state.account)
-      .then((accountResult) => {
-        setState(
-          {
-            accounts: [...state.accounts, accountResult],
-            account: { name: '', description: '', currency: '', isActive: false } as Account
-          }
-        );
-      });
-  };
-
-  const submitAccount = function (event: FormEvent<HTMLFormElement>) {
+  const submitAccount = async function (event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setLoading(true);
 
     if (state.account.id) {
-      updateAccount().then(() => setLoading(false));
+      await useUpdateAccount([state, setState], accountsApi);
     } else {
-      createAccount().then(() => setLoading(false));
+      await useCreateAccount([state, setState], accountsApi);
     }
+
+    setLoading(false);
   };
 
-  const resetForm = function () {
-    setState({ ...state, account: { name: '', description: '', currency: '', isActive: false } as Account });
-  };
-
-  const changeAccountField = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const changeAccountField = function(event: React.ChangeEvent<HTMLInputElement>){
     const newAccount = {
       ...state.account,
       [event.target.name]: event.target.value
@@ -62,7 +38,7 @@ function AccountsForm() {
     setState({ ...state, account: newAccount });
   };
 
-  const changeAccountActiveField = () => {
+  const changeAccountActiveField = function(){
     const newAccount = {
       ...state.account,
       isActive: !state.account.isActive
@@ -76,7 +52,7 @@ function AccountsForm() {
         isLoading ?
           <Loading />
           :
-          <form onSubmit={(e) => submitAccount(e)} className="container mb-4">
+          <form onSubmit={submitAccount} className="container mb-4">
             <div className='row align-items-xl-end my-2'>
               <div className='col-5'>
                 <FormFieldLabel name='name' title='Name'>
@@ -129,7 +105,7 @@ function AccountsForm() {
                 </FormFieldLabel>
               </div>
               <div className='col-1'>
-                <input type='submit' />
+                <button type='submit'>Submit</button>
               </div>
             </div>
           </form>

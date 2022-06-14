@@ -4,6 +4,7 @@ import { useAccountsContext } from '../../../contexts/accounts-page-context';
 import { useApisContext } from '../../../../../commom/contexts/api-context';
 
 import style from './account-list__item.module.scss';
+import { useDeleteAccount } from '../../../hooks/accounts-page.hooks';
 
 interface AccountListItemProps {
   account: Account
@@ -14,16 +15,7 @@ export default function AccountListItem({ account }: AccountListItemProps) {
   const {accountsApi} = useApisContext();
 
   const deleteAccount = function (id?: string) {
-    if(id){
-      accountsApi.DeleteAsync(id)
-        .then(() => setState(
-          {
-            account: { name: '', description: '', currency: '', isActive: false } as Account,
-            accounts: state.accounts.filter(x => x.id !== id)
-          }
-        ))
-        .catch(e => console.error(e));
-    }
+    useDeleteAccount([state, setState], accountsApi, id);
   };
 
   const selectAccount = function () {

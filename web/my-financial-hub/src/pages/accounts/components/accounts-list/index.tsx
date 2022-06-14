@@ -7,6 +7,7 @@ import Loading from '../../../../commom/components/loading/loading';
 import AccountListItem from './account-list-item';
 
 import style from './account-list.module.scss';
+import { useGetAccounts } from '../../hooks/accounts-page.hooks';
 
 //import order
 /*
@@ -25,14 +26,12 @@ function AccountsList() {
   const [state, setState] = useAccountsContext();
   const {accountsApi} = useApisContext();
 
-  const getAccounts = function () {
+  const getAccounts = async function () {
     setLoading(true);
-    accountsApi.GetAllAsync()
-      .then(accountsResult => {
-        setState({ ...state, accounts: accountsResult });
-        setLoading(false);
-      })
-      .catch(e => console.error(e));
+    
+    await useGetAccounts([state, setState],accountsApi);
+    
+    setLoading(false);
   };
 
   useEffect(() => {
