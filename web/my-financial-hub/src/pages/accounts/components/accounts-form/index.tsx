@@ -1,4 +1,4 @@
-import { useState, FormEvent } from 'react';
+import { useState, FormEvent, useRef } from 'react';
 
 import { Account } from '../../../../commom/interfaces/account';
 
@@ -17,6 +17,8 @@ function AccountsForm() {
   const [state, setState] = useAccountsContext();
   const { accountsApi } = useApisContext();
 
+  const nameInputRef = useRef<HTMLInputElement>(null);
+
   const submitAccount = async function (event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setLoading(true);
@@ -28,6 +30,7 @@ function AccountsForm() {
     }
 
     setLoading(false);
+    setTimeout(()=> nameInputRef.current?.focus() , 100);
   };
 
   const changeAccountField = function(event: React.ChangeEvent<HTMLInputElement>){
@@ -57,6 +60,7 @@ function AccountsForm() {
               <div className='col-5'>
                 <FormFieldLabel name='name' title='Name'>
                   <input name='name' title='name'
+                    ref={nameInputRef}
                     type='text'
                     placeholder='Insert Account name'
                     maxLength={50}

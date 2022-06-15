@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 
 import { AccountsProvider } from '../../../../pages/accounts/contexts/accounts-page-context';
 import CreateAccount from '../../../builders/account-builder';
@@ -205,5 +205,20 @@ describe('on submit', () => {
     jest.runAllTimers();
 
     await isFormClear();
+  });
+
+  it('should focus name field', async () => {
+    const account = CreateAccount({ id: '' });
+
+    mockCreateAccount();
+    
+    const { submitButton, fields } = renderForm(account);
+    fireEvent.click(submitButton);
+
+    jest.runAllTimers();
+
+    waitFor( () =>{
+      expect(fields.name).toHaveFocus();
+    });
   });
 });
