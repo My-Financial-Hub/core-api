@@ -13,11 +13,23 @@ type AccountsContext = [
   (state: AccountsState) => void
 ];
 
+const defaultAccount = { 
+  name: '', 
+  description: '', 
+  currency: '', 
+  isActive: false 
+};
+
 export async function useGetAccounts(context: AccountsContext, accountsApi: AccountApi) {
   const [state, setState] = context;
 
   const accountsResult = await accountsApi.GetAllAsync();
-  setState({ ...state, accounts: accountsResult });
+  setState(
+    { 
+      ...state, 
+      accounts: accountsResult 
+    }
+  );
 }
 
 export async function useCreateAccount(context: AccountsContext, accountsApi: AccountApi) {
@@ -27,7 +39,7 @@ export async function useCreateAccount(context: AccountsContext, accountsApi: Ac
   setState(
     {
       accounts: [...state.accounts, accountResult],
-      account: { name: '', description: '', currency: '', isActive: false } as Account
+      account: defaultAccount
     }
   );
 }
@@ -35,7 +47,6 @@ export async function useCreateAccount(context: AccountsContext, accountsApi: Ac
 export async function useUpdateAccount(context: AccountsContext, accountsApi: AccountApi) {
   const [state, setState] = context;
 
-  console.log(state.account);
   if (state.account.id) {
     const result = await accountsApi.PutAsync(state.account.id, state.account);
 
@@ -45,7 +56,7 @@ export async function useUpdateAccount(context: AccountsContext, accountsApi: Ac
     setState(
       {
         accounts: state.accounts,
-        account: { name: '', description: '', currency: '', isActive: false } as Account
+        account: defaultAccount
       }
     );
   }
@@ -59,13 +70,12 @@ export async function useDeleteAccount(context: AccountsContext, accountsApi: Ac
 
     setState(
       {
-        account: { name: '', description: '', currency: '', isActive: false } as Account,
-        accounts: state.accounts.filter(x => x.id !== id)
+        accounts: state.accounts.filter(x => x.id !== id),
+        account: defaultAccount
       }
     );
   }
 }
-
 
 export async function useSelectAccount(context: AccountsContext, account :Account) {
   const [state, setState] = context;
