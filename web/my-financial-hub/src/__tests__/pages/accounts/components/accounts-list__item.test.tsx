@@ -1,10 +1,13 @@
 import { fireEvent, render } from '@testing-library/react';
-import AccountListItem from '../../../../pages/accounts/components/accounts-list/account-list-item';
-import { AccountsProvider } from '../../../../pages/accounts/contexts/accounts-page-context';
-import CreateAccount from '../../../builders/account-builder';
-import * as hooks from '../../../../pages/accounts/hooks/accounts-page.hooks';
-import { Account } from '../../../../commom/interfaces/account';
 import { faker } from '@faker-js/faker';
+
+import CreateAccount from '../../../builders/account-builder';
+
+import { AccountsProvider } from '../../../../pages/accounts/contexts/accounts-page-context';
+
+import AccountListItem from '../../../../pages/accounts/components/accounts-list/account-list-item';
+
+import * as hooks from '../../../../pages/accounts/hooks/accounts-page.hooks';
 
 describe('on render', () =>{
   it('should render with all values', ()=>{
