@@ -1,12 +1,14 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { faker } from '@faker-js/faker';
 
-import { AccountsProvider } from '../../../../pages/accounts/contexts/accounts-page-context';
 import CreateAccount from '../../../builders/account-builder';
 
+import { AccountsProvider } from '../../../../pages/accounts/contexts/accounts-page-context';
+
 import AccountsForm from '../../../../pages/accounts/components/accounts-form';
+
 import { Account } from '../../../../commom/interfaces/account';
 import * as hooks from '../../../../pages/accounts/hooks/accounts-page.hooks';
-import { faker } from '@faker-js/faker';
 
 function fieldHasValue(fieldName: string, value: string) {
   const field = screen.getByTitle(fieldName);
