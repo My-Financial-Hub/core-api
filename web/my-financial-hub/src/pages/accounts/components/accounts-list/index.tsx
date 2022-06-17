@@ -24,13 +24,13 @@ import { useGetAccounts } from '../../hooks/accounts-page.hooks';
 function AccountsList() {
   const [isLoading, setLoading] = useState(true);
   const [state, setState] = useAccountsContext();
-  const {accountsApi} = useApisContext();
+  const { accountsApi } = useApisContext();
 
   const getAccounts = async function () {
     setLoading(true);
-    
-    await useGetAccounts([state, setState],accountsApi);
-    
+
+    await useGetAccounts([state, setState], accountsApi);
+
     setLoading(false);
   };
 
@@ -39,40 +39,54 @@ function AccountsList() {
   }, []);
 
   return (
-    <div className={`container ${style.table}`}>
-      <div className='row d-flex p-2'>
-        <div className='d-flex col-11'>
-          <div className='col-3'>
-            Name
+    isLoading ? (
+      <Loading />
+    ) : state.accounts.length > 0 ?
+      (
+        <div className={`container ${style.table}`}>
+          <div className='row d-flex p-2'>
+            <div className='d-flex col-11'>
+              <div className='col-3'>
+                Name
+              </div>
+              <div className='col-6'>
+                Description
+              </div>
+              <div className='col-1'>
+                Currency
+              </div>
+              <div className='col-1'>
+                Is Active
+              </div>
+            </div>
+            <div className='col-1'>
+              Delete
+            </div>
           </div>
-          <div className='col-6'>
-            Description
-          </div>
-          <div className='col-1'>
-            Currency
-          </div>
-          <div className='col-1'>
-            Is Active
+          <div data-testid ='container-content'>
+            {
+              state.accounts.map(
+                (account) => (
+                  <AccountListItem
+                    key={account.id}
+                    account={account}
+                  />
+                )
+              )
+            }
           </div>
         </div>
-        <div className='col-1'>
-          Delete
+      ) :
+      (
+        <div>
+          <p>No accounts</p>
+          {/* 
+          //TODO: error handling
+          <p>Not able to show accounts</p>
+          <button onClick={getAccounts}>Retry</button> 
+          */}
         </div>
-      </div>
-      {
-        isLoading ?
-          <Loading />
-          :
-          state.accounts.map(
-            (account) => (
-              <AccountListItem
-                key={account.id}
-                account={account}
-              />
-            )
-          )
-      }
-    </div>
+      )
   );
 }
 

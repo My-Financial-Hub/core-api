@@ -22,14 +22,17 @@ const defaultAccount = {
 
 export async function useGetAccounts(context: AccountsContext, accountsApi: AccountApi) {
   const [state, setState] = context;
-
-  const accountsResult = await accountsApi.GetAllAsync();
-  setState(
-    { 
-      ...state, 
-      accounts: accountsResult 
-    }
-  );
+  try {
+    const accountsResult = await accountsApi.GetAllAsync();
+    setState(
+      { 
+        ...state, 
+        accounts: accountsResult 
+      }
+    );
+  } catch (error) {
+    console.error(error);
+  }
 }
 
 export async function useCreateAccount(context: AccountsContext, accountsApi: AccountApi) {

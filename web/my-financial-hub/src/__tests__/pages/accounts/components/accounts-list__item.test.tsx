@@ -1,7 +1,7 @@
 import { fireEvent, render } from '@testing-library/react';
 import { faker } from '@faker-js/faker';
 
-import CreateAccount from '../../../builders/account-builder';
+import {CreateAccount} from '../../../../__mocks__/account-builder';
 
 import { AccountsProvider } from '../../../../pages/accounts/contexts/accounts-page-context';
 
