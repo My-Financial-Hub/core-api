@@ -1,0 +1,11 @@
+.row{
+  cursor: pointer;
+
+  &.inactive{
+    background-color: lightgray;
+  }
+
+  &:hover{
+    background-color: gray;
+  }
+}
