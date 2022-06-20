@@ -5,3 +5,10 @@ export interface Account{
   currency: string,
   isActive: boolean
 }
+
+export const defaultAccount: Account = { 
+  name: '', 
+  description: '', 
+  currency: '', 
+  isActive: false 
+};

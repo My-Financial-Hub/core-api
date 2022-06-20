@@ -1,25 +1,8 @@
 import AccountApi from '../../../commom/http/account-api';
-import { Account } from '../../../commom/interfaces/account';
+import { Account , defaultAccount } from '../../../commom/interfaces/account';
+import { AccountsContext } from '../../../commom/types/account';
 
 //TODO: find a way to use without params
-//TODO : move to commom/types
-type AccountsState = {
-  account: Account,
-  accounts: Account[]
-}
-
-type AccountsContext = [
-  AccountsState,
-  (state: AccountsState) => void
-];
-
-const defaultAccount = { 
-  name: '', 
-  description: '', 
-  currency: '', 
-  isActive: false 
-};
-
 export async function useGetAccounts(context: AccountsContext, accountsApi: AccountApi) {
   const [state, setState] = context;
   try {

@@ -1,20 +1,5 @@
 import { createContext, useContext, useState } from 'react';
-import { Account } from '../../../commom/interfaces/account';
-
-type AccountsState = {
-  account: Account,
-  accounts: Account[]
-}
-
-type AccountsContext = [
-  AccountsState,
-  (state: AccountsState) => void
-];
-
-const defaultContextState = {
-  account: { name: '', description: '', currency: '', isActive: false } as Account,
-  accounts: [] as Account[]
-} as AccountsState;
+import { AccountsState, AccountsContext, defaultContextState } from '../../../commom/types/account';
 
 const defaultContext: AccountsContext = [
   defaultContextState,
@@ -22,7 +7,7 @@ const defaultContext: AccountsContext = [
   (state: AccountsState) => { }
 ];
 
-const AccountsContext = createContext<AccountsContext>(defaultContext);
+const AccountContext = createContext<AccountsContext>(defaultContext);
 
 //EXPORT
 export function AccountsProvider({ children , defaultState}: { children?: JSX.Element | JSX.Element[] , defaultState?: AccountsState }) {
@@ -32,14 +17,14 @@ export function AccountsProvider({ children , defaultState}: { children?: JSX.El
   });
 
   return (
-    <AccountsContext.Provider value={[state, setState]}>
+    <AccountContext.Provider value={[state, setState]}>
       {children}
-    </AccountsContext.Provider>
+    </AccountContext.Provider>
   );
 }
 
 export function useAccountsContext(){
-  const context = useContext(AccountsContext);
+  const context = useContext(AccountContext);
 
   if (context === undefined) {
     throw new Error('useAccountsContext must be used within a AccountsProvider');
