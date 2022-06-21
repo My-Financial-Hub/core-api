@@ -1,11 +1,7 @@
 import { useState } from 'react';
 import FormSelectItem from './form-select-item';
 import style from './form-select.module.scss';
-
-export interface SelectOption{
-  id:string,
-  name:string,
-}
+import SelectOption from './types/select-option';
 
 //https://react-select.com/components
 export default function FormSelect(
@@ -27,7 +23,7 @@ export default function FormSelect(
   };
 
   const deleteOption = function(optionId: string){
-    setOptionsList(optionsList.filter(x => x.id != optionId));
+    setOptionsList(optionsList.filter(x => x.value != optionId));
     selectOption();
   };
 
@@ -41,7 +37,7 @@ export default function FormSelect(
           className={isOpen ? 'expanded' : ''}
           onClick={() => setOpen(!isOpen)}
         >
-          {selectedOption == -1 ? 'None' : optionsList[selectedOption].name}
+          {selectedOption == -1 ? 'None' : optionsList[selectedOption].label}
         </button>
         <button onClick={() => selectOption()}>Clear</button>
       </div>
@@ -55,7 +51,7 @@ export default function FormSelect(
           optionsList.map(
             (option, index) => (
               <FormSelectItem 
-                key={option.id} 
+                key={option.value} 
                 option={option} 
                 isSelected={selectedOption == index} 
                 onSelect={selectOption} 
