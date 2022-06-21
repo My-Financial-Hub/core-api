@@ -6,16 +6,16 @@ import SelectOption from '../../commom/components/forms/form-select/types/select
 export default function CategoriesPage() {
   const opt = [
     {
-      id: 'aaa',
-      name: 'aaa'
+      value: 'aaa',
+      label: 'aaa'
     },
     {
-      id: 'bbb',
-      name: 'bbb'
+      value: 'bbb',
+      label: 'bbb'
     }, 
     {
-      id: 'ccc',
-      name: 'ccc'
+      value: 'ccc',
+      label: 'ccc'
     }
   ];
 
@@ -23,7 +23,7 @@ export default function CategoriesPage() {
   return (
     <div className='container'>
       <CategoryForm />
-      {item?.name}
+      {item?.label}
       <FormSelect options={opt} onChangeOption={(e) => setItem(e)} />
     </div>
   );
