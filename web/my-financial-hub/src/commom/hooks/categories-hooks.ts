@@ -13,7 +13,7 @@ export async function useCreateCategory(category: Category, api: CategoryApi) {
 export async function useGetAccounts(setState:Dispatch<SetStateAction<Category[]>>,api: CategoryApi) {
   try {
     const accountsResult = await api.GetAllAsync();
-    setState(accountsResult);
+    setState(accountsResult.data);
   } catch (error) {
     console.error(error);
   }
