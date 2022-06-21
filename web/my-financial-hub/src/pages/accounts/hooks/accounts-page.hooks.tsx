@@ -8,9 +8,11 @@ export async function useGetAccounts(context: AccountsContext, accountsApi: Acco
   try {
     const accountsResult = await accountsApi.GetAllAsync();
     setState(
-      { 
-        ...state, 
-        accounts: accountsResult 
+      {
+        ...state,
+        hasError: accountsResult.hasError,
+        error:    accountsResult.error,
+        accounts: accountsResult.data
       }
     );
   } catch (error) {
@@ -24,7 +26,9 @@ export async function useCreateAccount(context: AccountsContext, accountsApi: Ac
   const accountResult = await accountsApi.PostAsync(state.account);
   setState(
     {
-      accounts: [...state.accounts, accountResult],
+      hasError: accountResult.hasError,
+      error: accountResult.error,
+      accounts: [...state.accounts, accountResult.data],
       account: defaultAccount
     }
   );
@@ -36,26 +40,39 @@ export async function useUpdateAccount(context: AccountsContext, accountsApi: Ac
   if (state.account.id) {
     const result = await accountsApi.PutAsync(state.account.id, state.account);
 
-    const index = state.accounts.findIndex(obj => obj.id == result.id);
-    state.accounts[index] = result;
-
-    setState(
-      {
-        accounts: state.accounts,
-        account: defaultAccount
-      }
-    );
+    if(result.hasError){ 
+      setState(
+        {
+          ...state,
+          hasError: true,
+          error: result.error
+        }
+      );
+    }else{
+      const index = state.accounts.findIndex(obj => obj.id == result.data.id);
+      state.accounts[index] = result.data;
+  
+      setState(
+        {
+          hasError: false,
+          error: { message: '' },
+          accounts: state.accounts,
+          account: defaultAccount
+        }
+      );
+    }
   }
 }
 
 export async function useDeleteAccount(context: AccountsContext, accountsApi: AccountApi, id?: string) {
   if (id) {
     const [state, setState] = context;
-    
     await accountsApi.DeleteAsync(id);
 
     setState(
       {
+        hasError: false,
+        error: { message: '' },
         accounts: state.accounts.filter(x => x.id !== id),
         account: defaultAccount
       }
@@ -63,7 +80,7 @@ export async function useDeleteAccount(context: AccountsContext, accountsApi: Ac
   }
 }
 
-export async function useSelectAccount(context: AccountsContext, account :Account) {
+export async function useSelectAccount(context: AccountsContext, account: Account) {
   const [state, setState] = context;
   setState({ ...state, account: account });
 }
