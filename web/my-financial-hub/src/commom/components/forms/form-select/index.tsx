@@ -1,15 +1,23 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import FormSelectItem from './form-select-item';
 import style from './form-select.module.scss';
 import SelectOption from './types/select-option';
 
+type FormSelectProps = { 
+  placeholder?:string, 
+  disabled: boolean,
+  options: SelectOption[]
+  onChangeOption?: (selectedOption?: SelectOption) => void,
+  onDeleteOption?: (selectedOption?: string) => void,
+}
+
 //https://react-select.com/components
 export default function FormSelect(
-  { options, onChangeOption }:
   { 
-    options: SelectOption[], 
-    onChangeOption: (selectedOption?: SelectOption) => void 
-  }
+    options, disabled = true, placeholder = 'none', 
+    onChangeOption, onDeleteOption
+  }:
+  FormSelectProps
 ) {
   const [isOpen, setOpen]                   = useState(false);
   const [optionsList, setOptionsList]       = useState<SelectOption[]>(options);
@@ -19,32 +27,44 @@ export default function FormSelect(
     const index = option === undefined? -1 : optionsList.indexOf(option);
     setSelectedOption(index);
     setOpen(false);
-    onChangeOption(option);
+    onChangeOption?.(option);
   };
 
-  const deleteOption = function(optionId: string){
-    setOptionsList(optionsList.filter(x => x.value != optionId));
+  const deleteOption = function(value: string){
+    setOptionsList(optionsList.filter(x => x.value != value));
     selectOption();
+    onDeleteOption?.(value);
   };
+
+  useEffect(() => {
+    setOptionsList(options);
+  }, [options]);
 
   return (
     <div>
       <div className={style.top}>
         <button
-          type="button"
-          aria-haspopup="listbox"
+          type='button'
+          aria-haspopup='listbox'
           aria-expanded={isOpen}
           className={isOpen ? 'expanded' : ''}
+          disabled={disabled}
           onClick={() => setOpen(!isOpen)}
         >
-          {selectedOption == -1 ? 'None' : optionsList[selectedOption].label}
+          {selectedOption == -1 ? placeholder : optionsList[selectedOption].label}
         </button>
-        <button onClick={() => selectOption()}>Clear</button>
+        <button 
+          type='button' 
+          onClick={() => selectOption()}
+          disabled={disabled}
+        >
+          Clear
+        </button>
       </div>
 
       <ul
         className={style[`options-body${isOpen ? '' : '--hiden'}`]}
-        role="listbox"
+        role='listbox'
         tabIndex={-1}
       >
         {

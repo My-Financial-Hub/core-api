@@ -1,12 +1,18 @@
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import { useApisContext } from '../../../contexts/api-context';
 import { useCreateCategory } from '../../../hooks/categories-hooks';
 import { Category, defaultCategory } from '../../../interfaces/category';
 import FormFieldLabel from '../../forms/form-field';
 
-//TODO: add callback
-export default function CategoryForm() {
-  const [category, setCategory] = useState<Category>(defaultCategory);
+type FormProps ={
+  formData? : Category,
+  onSubmit? : (category:Category) => void
+};
+//TODO: use callback
+export default function CategoryForm( 
+  {formData = defaultCategory, onSubmit} : FormProps
+) {
+  const [category, setCategory] = useState<Category>(formData);
   const [isLoading, setLoading] = useState(false);
 
   const { categoriesApi } = useApisContext();
@@ -15,11 +21,24 @@ export default function CategoryForm() {
     event.preventDefault();
     setLoading(true);
 
-    await useCreateCategory(category,categoriesApi);
+    if(category.id){
+      await useCreateCategory(category,categoriesApi);
+    }else{
+      await useCreateCategory(category,categoriesApi);
+    }
 
+    onSubmit?.(category);
     setLoading(false);
+
     setCategory(defaultCategory);
   };
+
+  useEffect(
+    () =>{
+      setCategory(formData);
+    },
+    [formData]
+  );
 
   return (
     <form onSubmit={submitCategory}>
