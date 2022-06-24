@@ -33,6 +33,10 @@ function renderForm(account: Account) {
   const state = {
     accounts: [] as Account[],
     account: account,
+    hasError: false,
+    error: {
+      message: ''
+    }
   };
 
   const component = render(
@@ -146,6 +150,10 @@ describe('on account changes', () => {
     const state = {
       accounts: [] as Account[],
       account: account,
+      hasError: false,
+      error: {
+        message: ''
+      }
     };
 
     render(
