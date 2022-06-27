@@ -1,13 +1,8 @@
-import { faker } from '@faker-js/faker';
 import { Account, defaultAccount } from '../../commom/interfaces/account';
 import * as hooks from '../../pages/accounts/hooks/accounts-page.hooks';
+import { getRandomInt } from '../commom/utils/number-utils';
 
-const randTimeOut = faker.datatype.number(
-  {
-    min:500,
-    max:5000
-  }
-);
+const randTimeOut = getRandomInt(500,5000);
 
 export function mockUseGetAccounts(accounts?: Account[], timeout: number = randTimeOut) {
   return jest.spyOn(hooks, 'useGetAccounts').mockImplementation(
@@ -47,12 +42,7 @@ export function mockUseDeleteAccount(){
 }
 
 export function mockUseUpdateAccount(account?: Account){
-  const randTimeOut = faker.datatype.number(
-    {
-      min:500,
-      max:5000
-    }
-  );
+  const randTimeOut = getRandomInt(500,5000);
 
   return jest.spyOn(hooks, 'useUpdateAccount').mockImplementation(
     async (context) => {
@@ -72,12 +62,7 @@ export function mockUseUpdateAccount(account?: Account){
 }
 
 export function mockUseCreateAccount(account?: Account){
-  const randTimeOut = faker.datatype.number(
-    {
-      min:500,
-      max:5000
-    }
-  );
+  const randTimeOut = getRandomInt(500,5000);
 
   return jest.spyOn(hooks, 'useCreateAccount').mockImplementation(
     async (context) => {

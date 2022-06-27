@@ -1,30 +1,19 @@
 import { render } from '@testing-library/react';
 import { act } from 'react-dom/test-utils';
-import { faker } from '@faker-js/faker';
 
 import { mockUseGetAccounts } from '../../../../__mocks__/hooks/accounts-page.hook';
 import { CreateAccounts } from '../../../../__mocks__/types/account-builder';
+import { getRandomInt } from '../../../../__mocks__/commom/utils/number-utils';
 
 import { AccountsProvider } from '../../../../pages/accounts/contexts/accounts-page-context';
 
 import AccountsList from '../../../../pages/accounts/components/accounts-list';
 
-let randTimeOut = faker.datatype.number(
-  {
-    min: 500,
-    max: 5000
-  }
-);
-
+let randTimeOut = getRandomInt(500,5000);
 
 beforeAll(
   () => {
-    randTimeOut = faker.datatype.number(
-      {
-        min: 500,
-        max: 5000
-      }
-    );
+    randTimeOut = getRandomInt(500,5000);
     jest.useFakeTimers();
   }
 );
