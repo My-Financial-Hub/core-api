@@ -17,8 +17,18 @@ export default function FormSelectItem(
       aria-selected={isSelected}
     >
       <ul>
-        <li onClick={() => onSelect(option)}>{option.label}</li>
-        <li onClick={() => onDelete(option.value)}>delete</li>
+        <li 
+          data-testid={'select-' + option.value}  aria-label={option.label} 
+          onClick={() => onSelect(option)}
+        >
+          {option.label}
+        </li>
+        <li 
+          data-testid={'delete-' + option.value}  aria-label={'delete ' + option.label} 
+          onClick={() => onDelete(option.value)}
+        >
+          delete
+        </li>
       </ul>
     </li>
   );

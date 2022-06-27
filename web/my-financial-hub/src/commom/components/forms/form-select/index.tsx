@@ -3,8 +3,8 @@ import FormSelectItem from './form-select-item';
 import style from './form-select.module.scss';
 import SelectOption from './types/select-option';
 
-type FormSelectProps = { 
-  placeholder?:string, 
+type FormSelectProps = {
+  placeholder?: string,
   disabled: boolean,
   options: SelectOption[]
   onChangeOption?: (selectedOption?: SelectOption) => void,
@@ -13,24 +13,24 @@ type FormSelectProps = {
 
 //https://react-select.com/components
 export default function FormSelect(
-  { 
-    options, disabled = true, placeholder = 'none', 
+  {
+    options, disabled = true, placeholder = 'none',
     onChangeOption, onDeleteOption
   }:
-  FormSelectProps
+    FormSelectProps
 ) {
-  const [isOpen, setOpen]                   = useState(false);
-  const [optionsList, setOptionsList]       = useState<SelectOption[]>(options);
+  const [isOpen, setOpen] = useState(false);
+  const [optionsList, setOptionsList] = useState<SelectOption[]>(options);
   const [selectedOption, setSelectedOption] = useState(-1);
 
-  const selectOption = function(option?: SelectOption){
-    const index = option === undefined? -1 : optionsList.indexOf(option);
+  const selectOption = function (option?: SelectOption) {
+    const index = option === undefined ? -1 : optionsList.indexOf(option);
     setSelectedOption(index);
     setOpen(false);
     onChangeOption?.(option);
   };
 
-  const deleteOption = function(value: string){
+  const deleteOption = function (value: string) {
     setOptionsList(optionsList.filter(x => x.value != value));
     selectOption();
     onDeleteOption?.(value);
@@ -53,8 +53,8 @@ export default function FormSelect(
         >
           {selectedOption == -1 ? placeholder : optionsList[selectedOption].label}
         </button>
-        <button 
-          type='button' 
+        <button
+          type='button'
           onClick={() => selectOption()}
           disabled={disabled}
         >
@@ -62,25 +62,32 @@ export default function FormSelect(
         </button>
       </div>
 
-      <ul
-        className={style[`options-body${isOpen ? '' : '--hiden'}`]}
-        role='listbox'
-        tabIndex={-1}
-      >
-        {
-          optionsList.map(
-            (option, index) => (
-              <FormSelectItem 
-                key={option.value} 
-                option={option} 
-                isSelected={selectedOption == index} 
-                onSelect={selectOption} 
-                onDelete={deleteOption} 
-              />
-            )
-          )
-        }
-      </ul>
+      {
+        isOpen ?
+          (
+            <ul
+              className={style[`options-body${isOpen ? '' : '--hiden'}`]}
+              role='listbox'
+              tabIndex={-1}
+            >
+              {
+                optionsList.map(
+                  (option, index) => (
+                    <FormSelectItem
+                      key={option.value}
+                      option={option}
+                      isSelected={selectedOption == index}
+                      onSelect={selectOption}
+                      onDelete={deleteOption}
+                    />
+                  )
+                )
+              }
+            </ul>
+          ) :
+          (<div></div>)
+      }
+
     </div>
   );
 }
