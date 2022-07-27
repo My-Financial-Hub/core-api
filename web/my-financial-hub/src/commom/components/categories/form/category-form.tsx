@@ -1,6 +1,6 @@
 import { FormEvent, useEffect, useState } from 'react';
 import { useApisContext } from '../../../contexts/api-context';
-import { useCreateCategory } from '../../../hooks/categories-hooks';
+import { useCreateCategory, useUpdateCategory } from '../../../hooks/categories-hooks';
 import { Category, defaultCategory } from '../../../interfaces/category';
 import FormFieldLabel from '../../forms/form-field';
 
@@ -21,16 +21,18 @@ export default function CategoryForm(
     event.preventDefault();
     setLoading(true);
 
+    let cat : Category;
+
     if(category.id){
-      await useCreateCategory(category,categoriesApi);
+      await useUpdateCategory(category,categoriesApi);
+      cat = category;
     }else{
-      await useCreateCategory(category,categoriesApi);
+      cat = await useCreateCategory(category,categoriesApi);
     }
 
-    onSubmit?.(category);
-    setLoading(false);
-
+    onSubmit?.(cat);
     setCategory(defaultCategory);
+    setLoading(false);
   };
 
   useEffect(
@@ -44,11 +46,13 @@ export default function CategoryForm(
     <form onSubmit={submitCategory}>
       <div className='row my-2'>
         <FormFieldLabel name='name' title='Name'>
-          <input title='Name'
+          <input 
+            title='name'
             type='text'
             placeholder='Insert Category Name'
             maxLength={500}
             value={category.name}
+            disabled={isLoading}
             onChange={
               (event) => setCategory({
                 ...category,
@@ -62,8 +66,9 @@ export default function CategoryForm(
       <div className='row my-2'>
         <FormFieldLabel name='description' title='Description'>
           <textarea
-            title='Description'
+            title='description'
             value={category.description}
+            disabled={isLoading}
             onChange={
               (event) => setCategory({
                 ...category,
@@ -80,6 +85,7 @@ export default function CategoryForm(
             className='checkbox'
             name='isActive' title='isActive'
             type='checkbox'
+            disabled={isLoading}
             checked={category.isActive ?? false}
             onChange={
               () => setCategory({
@@ -90,7 +96,7 @@ export default function CategoryForm(
           />
         </FormFieldLabel>
       </div>
-      <button disabled={isLoading} type='submit'>{!isLoading? 'Submit' : 'Loading'}</button>
+      <button disabled={isLoading} type='submit'>{!isLoading? category.id? 'Update' : 'Create' : 'Loading'}</button>
     </form>
   );
 }

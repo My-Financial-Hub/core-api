@@ -8,12 +8,12 @@ type CategoryBuilderArgs = {
   isActive?: boolean
 }
 
-export function CreateCategory(args:CategoryBuilderArgs) : Category {
+export function CreateCategory(args? :CategoryBuilderArgs) : Category {
   return {
-    id:           args.id          ?? faker.datatype.uuid(),
-    name:         args.name        ?? faker.finance.accountName(),
-    description:  args.description ?? faker.finance.currencyCode(),
-    isActive:     args.isActive    ?? faker.datatype.boolean()
+    id:           args?.id          ?? faker.datatype.uuid(),
+    name:         args?.name        ?? faker.finance.accountName(),
+    description:  args?.description ?? faker.finance.currencyCode(),
+    isActive:     args?.isActive    ?? faker.datatype.boolean()
   };
 }
 

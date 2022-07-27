@@ -19,12 +19,30 @@ export default function CategoriesPage() {
 
   const getCategories = async function(){
     setLoading(true);
-    await useGetCategories(setCategories,categoriesApi);
+
+    const categories = await useGetCategories(categoriesApi);
+    setCategories(categories);
+
     setLoading(false);
+  };
+
+  const selectCategory = function(option?: SelectOption){
+    console.log(option);
+    if(!option){
+      setCategory(defaultCategory);
+      return;
+    }
+
+    const foundCategories = categories.filter(c => c.id == option.value);
+    if(foundCategories.length > 0){
+      console.log(foundCategories[0]);
+      setCategory(foundCategories[0]);
+    }
   };
 
   const submitCategory = async function(category: Category){
     const foundCategories = categories.filter(c => c.id == category.id);
+
     if(foundCategories.length > 0){
       const index = categories.findIndex(obj => obj.id == category.id);
       categories[index] = category;
@@ -37,22 +55,12 @@ export default function CategoriesPage() {
   const deleteCategory = async function(id?: string){
     if(id){
       setLoading(true);
-      await useDeleteCategory(setCategories,id,categoriesApi);
+      
+      await useDeleteCategory(id,categoriesApi);
+      setCategories(categories.filter(x => x.id !== id));
+
       setLoading(false);
     }
-  };
-
-  const selectCategory = function(option?: SelectOption){
-    if(option){
-      const foundCategories = categories.filter(c => c.id == option.value);
-      if(foundCategories.length > 0){
-        console.log(foundCategories[0]);
-        setCategory(foundCategories[0]);
-        return;
-      }
-    }
-
-    setCategory(defaultCategory);
   };
 
   useEffect(
