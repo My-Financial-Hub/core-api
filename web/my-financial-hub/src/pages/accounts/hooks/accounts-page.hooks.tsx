@@ -1,5 +1,5 @@
 import AccountApi from '../../../commom/http/account-api';
-import { Account, defaultAccount } from '../../../commom/interfaces/account';
+import { Account , defaultAccount } from '../../../commom/interfaces/account';
 import { AccountsContext } from '../../../commom/types/account';
 
 //TODO: find a way to use without params
@@ -67,7 +67,6 @@ export async function useUpdateAccount(context: AccountsContext, accountsApi: Ac
 export async function useDeleteAccount(context: AccountsContext, accountsApi: AccountApi, id?: string) {
   if (id) {
     const [state, setState] = context;
-
     await accountsApi.DeleteAsync(id);
 
     setState(

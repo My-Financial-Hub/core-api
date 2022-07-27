@@ -1,13 +1,11 @@
 import { fireEvent, render } from '@testing-library/react';
-import { faker } from '@faker-js/faker';
 
-import {CreateAccount} from '../../../../__mocks__/account-builder';
+import { CreateAccount } from '../../../../__mocks__/types/account-builder';
+import { mockUseDeleteAccount } from '../../../../__mocks__/hooks/accounts-page.hook';
 
 import { AccountsProvider } from '../../../../pages/accounts/contexts/accounts-page-context';
 
 import AccountListItem from '../../../../pages/accounts/components/accounts-list/account-list-item';
-
-import * as hooks from '../../../../pages/accounts/hooks/accounts-page.hooks';
 
 describe('on render', () =>{
   it('should render with all values', ()=>{
@@ -27,37 +25,6 @@ describe('on render', () =>{
   });
 });
 
-function mockDeleteAccount(){
-  const randTimeOut = faker.datatype.number(
-    {
-      min:500,
-      max:5000
-    }
-  );
-
-  return jest.spyOn(hooks, 'useDeleteAccount').mockImplementation(
-    async (context) => {
-      setTimeout(() => {
-        const [state, setState] = context;
-        setState(
-          {
-            ...state,
-            account: 
-            {
-              name: '',
-              description: '',
-              currency: '',
-              isActive: false
-            }
-          }
-        );
-
-        Promise.resolve();
-      }, randTimeOut);
-    }
-  );
-}
-
 describe('on click', () =>{
   it('should select the current account',()=>{
     const account = CreateAccount({});
@@ -74,7 +41,7 @@ describe('on click', () =>{
   it('should delete account',()=>{
     const account = CreateAccount({});
 
-    const meth = mockDeleteAccount();
+    const meth = mockUseDeleteAccount();
 
     const { getByText } = render(
       <AccountsProvider>

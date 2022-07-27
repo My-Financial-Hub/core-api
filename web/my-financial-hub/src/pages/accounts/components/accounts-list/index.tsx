@@ -63,7 +63,7 @@ function AccountsList() {
               Delete
             </div>
           </div>
-          <div data-testid ='container-content'>
+          <div data-testid='container-content'>
             {
               state.accounts.map(
                 (account) => (

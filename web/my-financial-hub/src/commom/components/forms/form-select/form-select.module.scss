@@ -1,0 +1,21 @@
+.top{
+  background-color: grey;
+  padding: 0.25rem;
+  button{
+    border:none;
+    padding: 0.25rem; 
+
+    &:hover{
+      background-color: black;
+      color: white;
+    }
+  }
+}
+
+.options-body--hiden{
+  display: none;
+}
+
+.options-body{
+  display: block;
+}

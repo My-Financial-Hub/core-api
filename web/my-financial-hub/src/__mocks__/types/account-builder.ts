@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker';
-import { Account } from '../commom/interfaces/account';
+import { Account } from '../../commom/interfaces/account';
 
 type AccountBuilderArgs = {
   id?: string, 
