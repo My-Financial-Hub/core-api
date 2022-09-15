@@ -23,12 +23,17 @@ export default function FormSelectItem(
         >
           {option.label}
         </li>
-        <li 
-          data-testid={'delete-' + option.value}  aria-label={'delete ' + option.label} 
-          onClick={() => onDelete(option.value)}
-        >
-          delete
-        </li>
+        {
+          onDelete?
+            <li 
+              data-testid={'delete-' + option.value}  aria-label={'delete ' + option.label} 
+              onClick={() => onDelete(option.value)}
+            >
+              delete
+            </li>
+            :
+            null
+        }
       </ul>
     </li>
   );
