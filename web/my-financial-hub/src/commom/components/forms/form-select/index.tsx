@@ -78,7 +78,7 @@ export default function FormSelect(
                       option={option}
                       isSelected={selectedOption == index}
                       onSelect={selectOption}
-                      onDelete={deleteOption}
+                      onDelete={onDeleteOption? deleteOption: undefined}
                     />
                   )
                 )

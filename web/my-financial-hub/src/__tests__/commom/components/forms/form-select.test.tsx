@@ -159,6 +159,7 @@ describe('on delete', () => {
         placeholder={placeholder}
         disabled={false}
         options={options}
+        onDeleteOption={jest.fn()}
       />
     );
 
@@ -182,6 +183,7 @@ describe('on delete', () => {
         placeholder={placeholder}
         disabled={false}
         options={options}
+        onDeleteOption={jest.fn()}
       />
     );
 
