@@ -1,0 +1,9 @@
+export type SelectEnum = {
+  [key: number]: string
+}
+
+export function getEnumKeys(en: SelectEnum): number[]{
+  return Object.keys(en)
+    .filter(x => !isNaN(parseInt(x)))
+    .map(x => parseInt(x));
+}

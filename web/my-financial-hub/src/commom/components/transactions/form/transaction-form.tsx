@@ -1,9 +1,10 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import { Account } from '../../../interfaces/account';
 import { Category } from '../../../interfaces/category';
-import { defaultTransaction, Transaction, TransactionStatus } from '../../../interfaces/transaction';
+import { defaultTransaction, Transaction, TransactionStatus, TransactionType } from '../../../interfaces/transaction';
 import FormFieldLabel from '../../forms/form-field';
 import FormSelect from '../../forms/form-select';
+import EnumFormSelect from '../../forms/form-select/enum-form-select';
 import SelectOption from '../../forms/form-select/types/select-option';
 
 type FormProps = {
@@ -58,12 +59,12 @@ export default function TransactionForm(
   };
 
   const toggleIsPaid = function (event: ChangeEvent<HTMLInputElement>) {
-    console.log( event.target.value);
+    console.log(event.target.value);
     const commited = transaction.status === TransactionStatus.Committed;
     setTransaction(
       {
         ...transaction,
-        status: commited? TransactionStatus.NotCommitted : TransactionStatus.Committed 
+        status: commited ? TransactionStatus.NotCommitted : TransactionStatus.Committed
       }
     );
   };
@@ -72,9 +73,11 @@ export default function TransactionForm(
     <form onSubmit={submitTransaction}>
       <div className='row my-2'>
         <FormFieldLabel name='type' title='type'>
-          <select>
-            {/* TODO : add EnumFormSelect */}
-          </select>
+          <EnumFormSelect
+            options={TransactionType}
+            placeholder='Select a type'
+            disabled={isLoading}
+          />
         </FormFieldLabel>
       </div>
       <div className='row my-2'>
@@ -100,7 +103,7 @@ export default function TransactionForm(
             }
             onChangeOption={selectCategory}
           />
-        </FormFieldLabel>   
+        </FormFieldLabel>
       </div>
 
       <div className='row my-2'>
@@ -186,9 +189,9 @@ export default function TransactionForm(
       }
       <div className='row my-2'>
         <FormFieldLabel name='ispaid' title='is Paid'>
-          <input 
+          <input
             title='ispaid'
-            type="checkbox" 
+            type="checkbox"
             onChange={toggleIsPaid}
           />
         </FormFieldLabel>

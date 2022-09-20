@@ -14,7 +14,7 @@ type FormSelectProps = {
 //https://react-select.com/components
 export default function FormSelect(
   {
-    options, disabled = true, placeholder = 'none',
+    options, disabled, placeholder = '',
     onChangeOption, onDeleteOption
   }:
     FormSelectProps
