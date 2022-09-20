@@ -15,10 +15,10 @@ export interface Transaction{
   categoryId: string,
   category: Category,
 
-  currency: string,
   isActive: boolean,
 
-  type : TransactionType
+  type : TransactionType,
+  status : TransactionStatus
 }
 
 export enum TransactionType{
@@ -45,8 +45,8 @@ export const defaultTransaction: Transaction = {
   categoryId: '',
   category: defaultCategory,
 
-  currency: '',
   isActive: true,
 
-  type : 1
+  type : 1,
+  status : 0 
 };

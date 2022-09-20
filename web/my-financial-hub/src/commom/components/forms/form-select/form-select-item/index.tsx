@@ -7,7 +7,8 @@ export default function FormSelectItem(
   }:
   {
     option: SelectOption, isSelected: boolean,
-    onSelect: (option: SelectOption) => void,onDelete: (id:string) => void
+    onSelect: (option: SelectOption) => void,
+    onDelete?: (id:string) => void
   }
 ) {
 
