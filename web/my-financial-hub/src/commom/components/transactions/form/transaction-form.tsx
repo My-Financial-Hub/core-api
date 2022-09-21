@@ -20,6 +20,15 @@ export default function TransactionForm(
   const [isLoading, setLoading] = useState(false);
   const { accountsApi, categoriesApi } = useApisContext();
 
+  useEffect(
+    () => {
+      setLoading(true);
+      setTransaction(formData);
+      setLoading(false);
+    },
+    [formData]
+  );
+
   const submitTransaction = async function (event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setLoading(true);
@@ -39,21 +48,22 @@ export default function TransactionForm(
     setLoading(false);
   };
 
-  useEffect(
-    () => {
-      setLoading(true);
-      setTransaction(formData);
-      setLoading(false);
-    },
-    [formData]
-  );
-
   const selectCategory = function (option?: SelectOption) {
-    console.log('yay! it worked again');
+    if(option?.value){
+      setTransaction({
+        ...transaction,
+        categoryId: option?.value
+      });
+    }
   };
 
   const selectAccount = function (option?: SelectOption) {
-    console.log('yay! it worked again');
+    if(option?.value){
+      setTransaction({
+        ...transaction,
+        accountId: option?.value
+      });
+    }
   };
 
   const toggleIsPaid = function (event: ChangeEvent<HTMLInputElement>) {

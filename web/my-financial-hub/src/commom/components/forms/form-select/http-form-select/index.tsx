@@ -62,7 +62,7 @@ export default function HttpFormSelect(
       disabled={disabled || isLoading}
       placeholder={placeholder}
       onChangeOption={onChangeOption}
-      onDeleteOption={()=> deleteData}
+      onDeleteOption={onDeleteOption?()=> deleteData : undefined}
     />
   );
 }
