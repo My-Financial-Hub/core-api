@@ -22,7 +22,7 @@ export default function EnumFormSelect(
   const changeOption = function (option?: SelectOption) {
     onChangeOption?.(parseInt(option?.value?? '-1'));
   };
-  
+
   useEffect(() => {
     const opts = getEnumKeys(options).map<SelectOption>(key =>
       ({

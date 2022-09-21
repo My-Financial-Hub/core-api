@@ -1,26 +1,24 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
-import { Account } from '../../../interfaces/account';
-import { Category } from '../../../interfaces/category';
+import { useApisContext } from '../../../contexts/api-context';
 import { defaultTransaction, Transaction, TransactionStatus, TransactionType } from '../../../interfaces/transaction';
 import FormFieldLabel from '../../forms/form-field';
-import FormSelect from '../../forms/form-select';
 import EnumFormSelect from '../../forms/form-select/enum-form-select';
+import HttpFormSelect from '../../forms/form-select/http-form-select';
 import SelectOption from '../../forms/form-select/types/select-option';
 
 type FormProps = {
   formData?: Transaction,
-  accounts: Account[], categories: Category[],
   onSubmit?: (transaction: Transaction) => void
 };
 
 export default function TransactionForm(
   {
     formData = defaultTransaction,
-    categories, accounts,
     onSubmit
   }: FormProps) {
   const [transaction, setTransaction] = useState<Transaction>(formData);
   const [isLoading, setLoading] = useState(false);
+  const { accountsApi, categoriesApi } = useApisContext();
 
   const submitTransaction = async function (event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -88,19 +86,10 @@ export default function TransactionForm(
 
       <div className='row my-2'>
         <FormFieldLabel name='category' title='category'>
-          <FormSelect
+          <HttpFormSelect 
+            api={categoriesApi}
             placeholder='Select a category'
             disabled={isLoading}
-            options={
-              categories.map(
-                cat => (
-                  {
-                    value: cat.id ?? '',
-                    label: cat.name
-                  }
-                )
-              )
-            }
             onChangeOption={selectCategory}
           />
         </FormFieldLabel>
@@ -108,19 +97,10 @@ export default function TransactionForm(
 
       <div className='row my-2'>
         <FormFieldLabel name='account' title='account'>
-          <FormSelect
+          <HttpFormSelect 
+            api={accountsApi}
             placeholder='Select an account'
             disabled={isLoading}
-            options={
-              accounts.map(
-                acc => (
-                  {
-                    value: acc.id ?? '',
-                    label: acc.name
-                  }
-                )
-              )
-            }
             onChangeOption={selectAccount}
           />
         </FormFieldLabel>

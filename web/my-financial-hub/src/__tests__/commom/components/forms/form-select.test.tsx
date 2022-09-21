@@ -23,7 +23,20 @@ describe('on render', () => {
     expect(val).toBeInTheDocument();
     expect(val).toHaveTextContent(expectedResult);
   });
+  
+  describe('when onDelete is null',() => {
+    it('should not show delete option',() => {
+      const { queryByText } = render(
+        <FormSelect
+          disabled={false}
+          options={[]}
+        />
+      );
 
+      const res = queryByText('Delete');
+      expect(res).not.toBeInTheDocument();
+    });
+  });
 });
 
 describe('on click', () => {
