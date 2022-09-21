@@ -59,6 +59,7 @@ export default function CategoryForm(
                 name: event.target.value
               })
             }
+            required={true}
           />
         </FormFieldLabel>
       </div>

@@ -23,7 +23,7 @@ describe('on render', () => {
     });
   });
 
-  describe('withouth formData', () => {
+  describe('without formData', () => {
     it('should render submit button with text "Create"', () => {
       const { getByText } = render(
         <CategoryForm />
@@ -82,7 +82,6 @@ describe('on render', () => {
   });
 });
 
-// TODO : add test eslint
 describe('on submit', () => {
 
   beforeEach(
@@ -158,8 +157,12 @@ describe('on submit', () => {
         <CategoryForm onSubmit={onSubmit} />
       );
 
-      const input = getByText('Create');
-      userEvent.click(input);
+      act(
+        () => {
+          const input = getByText('Create');
+          userEvent.click(input);
+        }
+      );
 
       expect(onSubmit).not.toHaveBeenCalled();
     });
