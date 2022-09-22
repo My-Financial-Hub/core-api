@@ -1,5 +1,5 @@
-import { Account, defaultAccount } from './account';
-import { Category, defaultCategory } from './category';
+import { Account } from './account';
+import { Category } from './category';
 
 export interface Transaction{
   id?: string,
@@ -10,10 +10,10 @@ export interface Transaction{
   targetDate: Date,
 
   accountId: string,
-  account: Account,
+  account?: Account,
   
   categoryId: string,
-  category: Category,
+  category?: Category,
 
   isActive: boolean,
 
@@ -40,10 +40,10 @@ export const defaultTransaction: Transaction = {
   targetDate: new Date(),
 
   accountId: '',
-  account: defaultAccount,
+  account: undefined,
   
   categoryId: '',
-  category: defaultCategory,
+  category: undefined,
 
   isActive: true,
 

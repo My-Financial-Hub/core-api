@@ -5,6 +5,7 @@ import SelectOption from '../types/select-option';
 
 type EnumFormSelectProps = {
   placeholder?: string,
+  value?: number,
   disabled: boolean,
   options: SelectEnum,
   onChangeOption?: (selectedOption?: number) => void
@@ -12,7 +13,8 @@ type EnumFormSelectProps = {
 
 export default function EnumFormSelect(
   {
-    options, disabled, placeholder = '',
+    options, value,
+    disabled, placeholder = '',
     onChangeOption
   }:
   EnumFormSelectProps
@@ -37,6 +39,7 @@ export default function EnumFormSelect(
   return (
     <FormSelect 
       options={optionsList}
+      value={value?.toString()}
       disabled={disabled}
       placeholder={placeholder}
       onChangeOption={changeOption}

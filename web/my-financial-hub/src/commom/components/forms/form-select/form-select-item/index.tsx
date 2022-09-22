@@ -1,15 +1,16 @@
 import SelectOption from '../types/select-option';
 
+type FormSelectItemProps = {
+  option: SelectOption, isSelected: boolean,
+  onSelect: (option: SelectOption) => void,
+  onDelete?: (id:string) => void
+}
+
 export default function FormSelectItem(
   {
     option, isSelected,
     onSelect,onDelete
-  }:
-  {
-    option: SelectOption, isSelected: boolean,
-    onSelect: (option: SelectOption) => void,
-    onDelete?: (id:string) => void
-  }
+  }:FormSelectItemProps
 ) {
 
   return (

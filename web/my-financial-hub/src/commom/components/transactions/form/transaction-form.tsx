@@ -1,5 +1,6 @@
-import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
+import { ChangeEvent, FormEvent, useState } from 'react';
 import { useApisContext } from '../../../contexts/api-context';
+import { useCreateTransaction, useUpdateTransaction } from '../../../hooks/transactions-hooks';
 import { defaultTransaction, Transaction, TransactionStatus, TransactionType } from '../../../interfaces/transaction';
 import FormFieldLabel from '../../forms/form-field';
 import EnumFormSelect from '../../forms/form-select/enum-form-select';
@@ -18,16 +19,7 @@ export default function TransactionForm(
   }: FormProps) {
   const [transaction, setTransaction] = useState<Transaction>(formData);
   const [isLoading, setLoading] = useState(false);
-  const { accountsApi, categoriesApi } = useApisContext();
-
-  useEffect(
-    () => {
-      setLoading(true);
-      setTransaction(formData);
-      setLoading(false);
-    },
-    [formData]
-  );
+  const { transactionsApi, accountsApi, categoriesApi } = useApisContext();
 
   const submitTransaction = async function (event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -36,15 +28,15 @@ export default function TransactionForm(
     let tra: Transaction;
 
     if (transaction.id) {
-      //await useUpdateTransaction(category,categoriesApi);
+      await useUpdateTransaction(transaction,transactionsApi);
       tra = transaction;
     } else {
-      //tra = await useCreateCategory(transaction,categoriesApi);
+      tra = await useCreateTransaction(transaction,transactionsApi);
       tra = transaction;
     }
 
     onSubmit?.(tra);
-    setTransaction(defaultTransaction);
+    setTransaction(defaultTransaction); 
     setLoading(false);
   };
 
@@ -83,6 +75,15 @@ export default function TransactionForm(
         <FormFieldLabel name='type' title='type'>
           <EnumFormSelect
             options={TransactionType}
+            value={transaction.type}
+            onChangeOption={(type)=>{
+              if(type){
+                setTransaction({
+                  ...transaction,
+                  type
+                });
+              }
+            }}
             placeholder='Select a type'
             disabled={isLoading}
           />
@@ -90,7 +91,17 @@ export default function TransactionForm(
       </div>
       <div className='row my-2'>
         <FormFieldLabel name='description' title='description'>
-          <textarea name='description'></textarea>
+          <textarea 
+            name='description'
+            value={transaction.description}
+            onChange={
+              (event) => setTransaction({
+                ...transaction,
+                description: event.target.value
+              })
+            }
+          >
+          </textarea>
         </FormFieldLabel>
       </div>
 
@@ -100,6 +111,7 @@ export default function TransactionForm(
             api={categoriesApi}
             placeholder='Select a category'
             disabled={isLoading}
+            value={transaction.categoryId}
             onChangeOption={selectCategory}
           />
         </FormFieldLabel>
@@ -111,6 +123,7 @@ export default function TransactionForm(
             api={accountsApi}
             placeholder='Select an account'
             disabled={isLoading}
+            value={transaction.accountId}
             onChangeOption={selectAccount}
           />
         </FormFieldLabel>
@@ -124,8 +137,8 @@ export default function TransactionForm(
             step="0.01"
             min="0.01"
             placeholder='Insert Transaction Amount'
-            value={transaction.amount}
             disabled={isLoading}
+            value={transaction.amount}
             onChange={
               (event) => setTransaction({
                 ...transaction,
@@ -141,11 +154,11 @@ export default function TransactionForm(
           <input
             title='targetdate'
             type='date'
-            value={transaction.finishDate.toISOString().split('T')[0]}
+            value={transaction.targetDate.toISOString().split('T')[0]}
             onChange={
               (event) => setTransaction({
                 ...transaction,
-                finishDate: new Date(Date.parse(event.target.value))
+                targetDate: new Date(Date.parse(event.target.value))
               })
             }
           />
@@ -182,6 +195,7 @@ export default function TransactionForm(
           <input
             title='ispaid'
             type="checkbox"
+            value={(transaction.status === TransactionStatus.Committed)? 'on': 'off'}
             onChange={toggleIsPaid}
           />
         </FormFieldLabel>

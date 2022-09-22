@@ -5,6 +5,7 @@ import SelectOption from './types/select-option';
 
 type FormSelectProps = {
   placeholder?: string,
+  value?: string,
   disabled: boolean,
   options: SelectOption[]
   onChangeOption?: (selectedOption?: SelectOption) => void,
@@ -14,7 +15,8 @@ type FormSelectProps = {
 //https://react-select.com/components
 export default function FormSelect(
   {
-    options, disabled, placeholder = '',
+    disabled, placeholder = '',
+    value,options,
     onChangeOption, onDeleteOption
   }:
     FormSelectProps
@@ -30,11 +32,22 @@ export default function FormSelect(
     onChangeOption?.(option);
   };
 
-  const deleteOption = function (value: string) {
-    setOptionsList(optionsList.filter(x => x.value != value));
+  const deleteOption = function (option: string) {
+    setOptionsList(optionsList.filter(x => x.value != option));
     selectOption();
-    onDeleteOption?.(value);
+    onDeleteOption?.(option);
   };
+
+  useEffect(() => {
+    if(value){
+      const find = optionsList.filter(x => x.value === value);
+      if(find.length > 0){
+        selectOption(find[0]);
+      }else{
+        selectOption();  
+      }
+    }
+  }, [value]);
 
   useEffect(() => {
     setOptionsList(options);
@@ -68,7 +81,6 @@ export default function FormSelect(
             <ul
               className={style[`options-body${isOpen ? '' : '--hiden'}`]}
               role='listbox'
-              tabIndex={-1}
             >
               {
                 optionsList.map(

@@ -6,6 +6,7 @@ import SelectOption from '../types/select-option';
 
 type HttpFormSelectProps = {
   api: Api<any>,
+  value?: string,
   placeholder?: string,
   disabled: boolean,
   onChangeOption?: (selectedOption?: SelectOption) => void,
@@ -14,7 +15,7 @@ type HttpFormSelectProps = {
 
 export default function HttpFormSelect(
   {
-    api,
+    api,value,
     disabled, placeholder = '',
     onChangeOption,onDeleteOption
   }:
@@ -52,13 +53,14 @@ export default function HttpFormSelect(
   useEffect(
     () => {
       getData();
-    }
-    , []
+    }, 
+    []
   );
 
   return (
     <FormSelect 
       options={options}
+      value={value}
       disabled={disabled || isLoading}
       placeholder={placeholder}
       onChangeOption={onChangeOption}
