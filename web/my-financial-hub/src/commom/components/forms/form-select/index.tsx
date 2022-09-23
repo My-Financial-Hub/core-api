@@ -16,7 +16,7 @@ type FormSelectProps = {
 export default function FormSelect(
   {
     disabled, placeholder = '',
-    value,options,
+    value, options,
     onChangeOption, onDeleteOption
   }:
     FormSelectProps
@@ -39,13 +39,12 @@ export default function FormSelect(
   };
 
   useEffect(() => {
-    if(value){
-      const find = optionsList.filter(x => x.value === value);
-      if(find.length > 0){
-        selectOption(find[0]);
-      }else{
-        selectOption();  
-      }
+    const find = optionsList.filter(x => x.value === value);
+    if (find.length > 0) {
+      const index = optionsList.indexOf(find[0]);
+      setSelectedOption(index);
+    } else {
+      setSelectedOption(-1);
     }
   }, [value]);
 
@@ -90,7 +89,7 @@ export default function FormSelect(
                       option={option}
                       isSelected={selectedOption == index}
                       onSelect={selectOption}
-                      onDelete={onDeleteOption? deleteOption: undefined}
+                      onDelete={onDeleteOption ? deleteOption : undefined}
                     />
                   )
                 )

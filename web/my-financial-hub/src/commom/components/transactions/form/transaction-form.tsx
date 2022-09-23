@@ -26,7 +26,7 @@ export default function TransactionForm(
     setLoading(true);
 
     let tra: Transaction;
-
+    
     if (transaction.id) {
       await useUpdateTransaction(transaction,transactionsApi);
       tra = transaction;
@@ -58,8 +58,7 @@ export default function TransactionForm(
     }
   };
 
-  const toggleIsPaid = function (event: ChangeEvent<HTMLInputElement>) {
-    console.log(event.target.value);
+  const toggleIsPaid = function () {
     const commited = transaction.status === TransactionStatus.Committed;
     setTransaction(
       {
@@ -93,6 +92,7 @@ export default function TransactionForm(
         <FormFieldLabel name='description' title='description'>
           <textarea 
             name='description'
+            disabled={isLoading}
             value={transaction.description}
             onChange={
               (event) => setTransaction({
