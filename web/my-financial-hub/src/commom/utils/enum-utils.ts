@@ -7,3 +7,7 @@ export function getEnumKeys(en: SelectEnum): number[]{
     .filter(x => !isNaN(parseInt(x)))
     .map(x => parseInt(x));
 }
+
+export function getEnumValues(en: SelectEnum): string[]{
+  return Object.keys(en).filter(x => isNaN(parseInt(x)));
+}
