@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, useState } from 'react';
+import { FormEvent, useState } from 'react';
 import { useApisContext } from '../../../contexts/api-context';
 import { useCreateTransaction, useUpdateTransaction } from '../../../hooks/transactions-hooks';
 import { defaultTransaction, Transaction, TransactionStatus, TransactionType } from '../../../interfaces/transaction';
@@ -32,7 +32,6 @@ export default function TransactionForm(
       tra = transaction;
     } else {
       tra = await useCreateTransaction(transaction,transactionsApi);
-      tra = transaction;
     }
 
     onSubmit?.(tra);

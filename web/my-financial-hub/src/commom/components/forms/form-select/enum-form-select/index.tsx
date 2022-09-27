@@ -35,7 +35,6 @@ export default function EnumFormSelect(
     setOptionsList(opts);
   }, [options]);
 
-  
   return (
     <FormSelect 
       options={optionsList}

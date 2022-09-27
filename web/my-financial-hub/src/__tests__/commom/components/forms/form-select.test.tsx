@@ -7,21 +7,39 @@ import { getRandomItem } from '../../../../__mocks__/commom/utils/array-utils';
 import FormSelect from '../../../../commom/components/forms/form-select';
 
 describe('on render', () => {
+  describe('when does not have a start value',()=>{
+    it('should show the placeholder', () => {
+      const expectedResult = 'placeholder';
+      const { getByText } = render(
+        <FormSelect
+          placeholder={expectedResult}
+          disabled={false}
+          options={[]}
+        />
+      );
+      const val = getByText(expectedResult);
+    
+      expect(val).toBeInTheDocument();
+      expect(val).toHaveTextContent(expectedResult);
+    });
+  });
 
-  it('should show default value', () => {
-    const expectedResult = 'placeholder';
-    const { getByText } = render(
-      <FormSelect
-        placeholder={expectedResult}
-        disabled={false}
-        options={[]}
-      />
-    );
-
-    const val = getByText(expectedResult);
-
-    expect(val).toBeInTheDocument();
-    expect(val).toHaveTextContent(expectedResult);
+  describe('when has a start value', ()=>{
+    it('should show the value', ()=>{
+      const options = CreateSelectOptions(5);
+      const expectedResult = options[0].label;
+      const { getByText } = render(
+        <FormSelect
+          value={expectedResult}
+          disabled={false}
+          options={options}
+        />
+      );
+      const val = getByText(expectedResult);
+    
+      expect(val).toBeInTheDocument();
+      expect(val).toHaveTextContent(expectedResult);
+    });
   });
   
   describe('when onDelete is null',() => {
@@ -37,6 +55,7 @@ describe('on render', () => {
       expect(res).not.toBeInTheDocument();
     });
   });
+
 });
 
 describe('on click', () => {

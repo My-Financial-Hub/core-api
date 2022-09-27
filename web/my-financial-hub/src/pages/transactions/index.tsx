@@ -1,8 +1,8 @@
 import TransactionForm from '../../commom/components/transactions/form/transaction-form';
-import { defaultTransaction } from '../../commom/interfaces/transaction';
+import { defaultTransaction, Transaction } from '../../commom/interfaces/transaction';
 
 export default function TransactionsPage() {
-  const submitForm = () => {
+  const submitForm = (transaction: Transaction) => {
     console.log('yay! it worked');
   };
 

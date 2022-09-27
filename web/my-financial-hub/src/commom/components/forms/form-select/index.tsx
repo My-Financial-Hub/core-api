@@ -12,7 +12,7 @@ type FormSelectProps = {
   onDeleteOption?: (selectedOption?: string) => void,
 }
 
-//https://react-select.com/components
+//TODO: change to https://react-select.com/components
 export default function FormSelect(
   {
     disabled, placeholder = '',
@@ -39,6 +39,17 @@ export default function FormSelect(
   };
 
   useEffect(() => {
+    setOptionsList(options);
+    const find = options.filter(x => x.value === value);
+
+    if (find.length > 0) {
+      selectOption(find[0]);
+    }else{
+      selectOption();
+    }
+  }, [options]);
+
+  useEffect(() => {
     const find = optionsList.filter(x => x.value === value);
     if (find.length > 0) {
       const index = optionsList.indexOf(find[0]);
@@ -47,10 +58,6 @@ export default function FormSelect(
       setSelectedOption(-1);
     }
   }, [value]);
-
-  useEffect(() => {
-    setOptionsList(options);
-  }, [options]);
 
   return (
     <div>
