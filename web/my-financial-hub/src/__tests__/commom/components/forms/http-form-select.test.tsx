@@ -2,10 +2,11 @@ import { render } from '@testing-library/react';
 import Api from '../../../../commom/http/api';
 import userEvent from '@testing-library/user-event';
 
-import HttpFormSelect from '../../../../commom/components/forms/form-select/http-form-select';
+import { CreateSelectOptions } from '../../../../__mocks__/forms/select-option-builder';
 
-import { CreateSelectOptions } from '../../../../__mocks__/commom/forms/select-option-builder';
-import { getRandomItem } from '../../../../__mocks__/commom/utils/array-utils';
+
+import HttpFormSelect from '../../../../commom/components/forms/form-select/http-form-select';
+import { getRandomItem } from '../../../../__mocks__/utils/array-utils';
 
 let api: Api<string>;
 const baseUrl = 'hhtp://localhost:8000';
@@ -63,7 +64,6 @@ describe('on render', () => {
       expect(res).not.toBeInTheDocument();
     });
   });
-
 });
 
 describe('on click', () => {
@@ -91,10 +91,11 @@ describe('on click', () => {
     });
     it('should call the get request', () => {
       const placeholder = 'placeholder';
-      const { getByText , getByTestId, queryByText } = render(
+      render(
         <HttpFormSelect
+          api={api}
           placeholder={placeholder}
-          disabled={false}
+          disabled={false}  
           onDeleteOption={jest.fn()}
         />
       );
@@ -107,6 +108,7 @@ describe('on click', () => {
 
       const { queryByRole, getByText } = render(
         <HttpFormSelect
+          api={api}
           placeholder={placeholder}
           disabled={false}
         />
@@ -125,11 +127,11 @@ describe('on click', () => {
 
   describe('when disabled', () => {
     it('should not open the option list', () => {
-      const options = CreateSelectOptions();
       const placeholder = 'placeholder';
 
       const { queryByRole, getByText } = render(
         <HttpFormSelect
+          api={api}
           placeholder={placeholder}
           disabled={true}
         />
@@ -147,8 +149,9 @@ describe('on click', () => {
 
     it('should call the get request', () => {
       const placeholder = 'placeholder';
-      const { getByText , getByTestId, queryByText } = render(
+      render(
         <HttpFormSelect
+          api={api}
           placeholder={placeholder}
           disabled={true}
           onDeleteOption={jest.fn()}
@@ -168,6 +171,7 @@ describe('on select', () => {
 
     const { getByText } = render(
       <HttpFormSelect
+        api={api}
         placeholder={placeholder}
         disabled={false}
       />
@@ -191,6 +195,7 @@ describe('on select', () => {
 
     const { getByText } = render(
       <HttpFormSelect
+        api={api}
         placeholder={placeholder}
         disabled={false}
         onChangeOption={onChangeOption}
@@ -216,6 +221,7 @@ describe('on delete', () => {
 
     const { getByText , getByTestId } = render(
       <HttpFormSelect
+        api={api}
         placeholder={placeholder}
         disabled={false}
         onDeleteOption={jest.fn()}
@@ -239,6 +245,7 @@ describe('on delete', () => {
 
     const { getByText , getByTestId, queryByText } = render(
       <HttpFormSelect
+        api={api}
         placeholder={placeholder}
         disabled={false}
         onDeleteOption={jest.fn()}
@@ -259,8 +266,9 @@ describe('on delete', () => {
   });
   it('should call a delete request', () => {
     const placeholder = 'placeholder';
-    const { getByText , getByTestId, queryByText } = render(
+    render(
       <HttpFormSelect
+        api={api}
         placeholder={placeholder}
         disabled={false}
         onDeleteOption={jest.fn()}
@@ -276,6 +284,7 @@ describe('on delete', () => {
 
     const { getByText , getByTestId } = render(
       <HttpFormSelect
+        api={api}
         placeholder={placeholder}
         disabled={false}
         onDeleteOption={onDeleteOption}

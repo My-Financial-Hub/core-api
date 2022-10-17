@@ -1,6 +1,6 @@
-import { Account, defaultAccount } from '../../commom/interfaces/account';
 import * as hooks from '../../pages/accounts/hooks/accounts-page.hooks';
-import { getRandomInt } from '../commom/utils/number-utils';
+import { Account, defaultAccount } from '../../commom/interfaces/account';
+import { getRandomInt } from '../utils/number-utils';
 
 const randTimeOut = getRandomInt(500,5000);
 

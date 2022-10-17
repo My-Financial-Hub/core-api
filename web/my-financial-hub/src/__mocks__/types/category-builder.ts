@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker';
-import { Category } from '../commom/interfaces/category';
+import { Category } from '../../commom/interfaces/category';
 
 type CategoryBuilderArgs = {
   id?: string, 

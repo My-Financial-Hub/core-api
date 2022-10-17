@@ -18,3 +18,4 @@ export function getRandomFloat(from = 10, to = 10) : number{
     }
   );
 }
+

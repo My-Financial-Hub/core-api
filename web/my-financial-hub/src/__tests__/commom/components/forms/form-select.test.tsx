@@ -1,8 +1,8 @@
 import { render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import { CreateSelectOptions } from '../../../../__mocks__/commom/forms/select-option-builder';
-import { getRandomItem } from '../../../../__mocks__/commom/utils/array-utils';
+import { CreateSelectOptions } from '../../../../__mocks__/forms/select-option-builder';
+import { getRandomItem } from '../../../../__mocks__/utils/array-utils';
 
 import FormSelect from '../../../../commom/components/forms/form-select';
 
@@ -132,7 +132,7 @@ describe('on click', () => {
 });
 
 describe('on select', () => {
-  it('should set the selected value on the default value', () => {
+  it('should set the selected value', () => {
     const options = CreateSelectOptions();
     const placeholder = 'placeholder';
 

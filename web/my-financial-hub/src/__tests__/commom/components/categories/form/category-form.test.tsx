@@ -2,8 +2,8 @@ import { render } from '@testing-library/react';
 import { act } from 'react-dom/test-utils';
 import userEvent from '@testing-library/user-event';
 
-import { CreateCategory } from '../../../../../__mocks__/category-builder';
-import { mockUseCreateCategory } from '../../../../../__mocks__/hooks/categories-hook';
+import { CreateCategory } from '../../../../../__mocks__/types/category-builder';
+import { MockUseCreateCategory } from '../../../../../__mocks__/hooks/categories-hook';
 
 import CategoryForm from '../../../../../commom/components/categories/form/category-form';
 
@@ -101,7 +101,7 @@ describe('on submit', () => {
       category.id = undefined;
 
       const timeout = 100;
-      mockUseCreateCategory(category, timeout);
+      MockUseCreateCategory(category, timeout);
 
       const { findByText } = render(
         <CategoryForm formData={category} onSubmit={onSubmit} />
@@ -125,7 +125,7 @@ describe('on submit', () => {
       category.id = undefined;
 
       const timeout = 100;
-      mockUseCreateCategory(category, timeout);
+      MockUseCreateCategory(category, timeout);
 
       const { findByText, getByTitle } = render(
         <CategoryForm formData={category} onSubmit={onSubmit} />
@@ -172,7 +172,7 @@ describe('on submit', () => {
       const category = CreateCategory();
       category.id = undefined;
 
-      mockUseCreateCategory(category);
+      MockUseCreateCategory(category);
 
       const { findByText } = render(
         <CategoryForm formData={category} onSubmit={onSubmit} />
@@ -195,7 +195,7 @@ describe('on loading', () => {
     const category = CreateCategory();
     category.id = undefined;
 
-    mockUseCreateCategory(category);
+    MockUseCreateCategory(category);
 
     const { getByText, getByTitle } = render(
       <CategoryForm formData={category} onSubmit={onSubmit} />
@@ -222,7 +222,7 @@ describe('on loading', () => {
     const category = CreateCategory();
     category.id = undefined;
 
-    mockUseCreateCategory(category);
+    MockUseCreateCategory(category);
 
     const { getByText } = render(
       <CategoryForm formData={category} onSubmit={onSubmit} />
