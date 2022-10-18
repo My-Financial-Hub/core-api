@@ -1,12 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { useApisContext } from '../../commom/contexts/api-context';
-import { useDeleteCategory, useGetCategories } from '../../commom/hooks/categories-hooks';
 
 import { Category, defaultCategory } from '../../commom/interfaces/category';
 
 import CategoryForm from '../../commom/components/categories/form/category-form';
-import FormSelect from '../../commom/components/forms/form-select';
 import SelectOption from '../../commom/components/forms/form-select/types/select-option';
 import HttpFormSelect from '../../commom/components/forms/form-select/http-form-select';
 
@@ -19,7 +17,6 @@ export default function CategoriesPage() {
   const [isLoading, setLoading] = useState(false);
 
   const selectCategory = function(option?: SelectOption){
-    console.log(option);
     if(!option){
       setCategory(defaultCategory);
       return;
@@ -27,7 +24,6 @@ export default function CategoriesPage() {
 
     const foundCategories = categories.filter(c => c.id == option.value);
     if(foundCategories.length > 0){
-      console.log(foundCategories[0]);
       setCategory(foundCategories[0]);
     }
   };

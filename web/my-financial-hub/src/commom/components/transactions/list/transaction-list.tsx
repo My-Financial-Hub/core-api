@@ -1,73 +1,63 @@
-import { useState } from 'react';
-import { Account } from '../../../interfaces/account';
-import { Category } from '../../../interfaces/category';
-import { Transaction , TransactionType, TransactionStatus} from '../../../interfaces/transaction';
+import { useEffect, useState } from 'react';
+
+import { useApisContext } from '../../../contexts/api-context';
+import { useGetTransactions } from '../../../hooks/transactions-hooks';
+
+import { Transaction} from '../../../interfaces/transaction';
+
 import TransactionListItem from './item/transaction-list-item';
+import Loading from '../../../../commom/components/loading/loading';
 
-const dataTest: Transaction[] = [
-  {
-    id:'1',
-    description: 'descricao',
-    amount: 10.00,
+type TransactionListProps = {
+  onSelect?: (transaction: Transaction) => void
+};
 
-    finishDate: new Date(Date.parse('2022-10-04')),
-    targetDate: new Date(Date.parse('2022-10-14')),
+export default function TransactionList({onSelect}: TransactionListProps){
+  const [transactions,setTransations] = useState<Transaction[]>([]);
+  const [isLoading,setLoading] = useState<boolean>(true);
+  
+  const { transactionsApi } = useApisContext();
+  
+  const getTransactions = async ()=>{
+    setLoading(true);
 
-    accountId: '1',
-    account: {
-      id: '1',
-      name: 'account',
-    } as Account,
-    
-    categoryId: '1',
-    category: {
-      id: '1',
-      name: 'category',
-    } as Category,
+    const trans = await useGetTransactions(transactionsApi);
+    setTransations(trans);
 
-    isActive: true,
+    setLoading(false);
+  };
 
-    type : TransactionType.Earn,
-    status : TransactionStatus.Committed
-  },
-  {
-    id:'2',
-    description: 'descricao',
-    amount: 10.00,
-
-    finishDate: new Date(Date.parse('2022-10-04')),
-    targetDate: new Date(Date.parse('2022-10-14')),
-
-    accountId: '2',
-    account: {
-      id: '2',
-      name: 'account 2',
-      currency: 'R$'
-    } as Account,
-    
-    categoryId: '1',
-    category: {
-      id: '1',
-      name: 'category',
-    } as Category,
-
-    isActive: true,
-
-    type : TransactionType.Expense,
-    status : TransactionStatus.NotCommitted
-  }
-];
-export default function TransactionList(){
-  const [transactions,setTransations] = useState<Transaction[]>(dataTest);
-  return (
-    <ul>
-      {
-        transactions?.map(
-          transaction =>(
-            <TransactionListItem key={transaction.id} transaction={transaction}/>
-          )
-        )
-      }
-    </ul>
+  const selectTransaction = function(transaction: Transaction){
+    onSelect?.(transaction);
+  };
+  
+  useEffect(
+    ()=>{
+      getTransactions();
+    },[]
   );
+
+  if(isLoading){
+    return (
+      <Loading />
+    );
+  }else{
+    if(transactions.length > 0){
+      return (
+        <ul>
+          {
+            transactions?.map(
+              transaction =>(
+                <TransactionListItem key={transaction.id} transaction={transaction} onSelect={selectTransaction}/>
+              )
+            )
+          }
+        </ul>
+      );
+    }else{
+      return (
+        <p>No transactions</p>
+      );
+    }
+  }
 }

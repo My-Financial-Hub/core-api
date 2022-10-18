@@ -6,8 +6,8 @@ export interface Transaction{
   description: string,
   amount: number,
 
-  finishDate: Date,
-  targetDate: Date,
+  finishDate: string,
+  targetDate: string,
 
   accountId: string,
   account?: Account,
@@ -36,8 +36,8 @@ export const defaultTransaction: Transaction = {
   description: '',
   amount: 1,
 
-  finishDate: new Date(),
-  targetDate: new Date(),
+  finishDate: new Date().toISOString().split('T')[0],
+  targetDate: new Date().toISOString().split('T')[0],
 
   accountId: '',
   account: undefined,

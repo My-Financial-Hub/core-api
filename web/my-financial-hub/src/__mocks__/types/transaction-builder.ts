@@ -3,19 +3,19 @@ import { Transaction, TransactionStatus, TransactionType } from '../../commom/in
 
 type TransactionBuilderArgs = {
   id?: string, 
-  description: string,
-  amount: number,
+  description?: string,
+  amount?: number,
 
-  finishDate: Date,
-  targetDate: Date,
+  finishDate?: string,
+  targetDate?: string,
 
-  accountId: string,
-  categoryId: string,
+  accountId?: string,
+  categoryId?: string,
 
-  isActive: boolean,
+  isActive?: boolean,
 
-  type : TransactionType,
-  status : TransactionStatus
+  type?: TransactionType,
+  status?: TransactionStatus
 }
 
 export function CreateTransaction(args? :TransactionBuilderArgs) : Transaction {
@@ -24,8 +24,8 @@ export function CreateTransaction(args? :TransactionBuilderArgs) : Transaction {
     description: args?.description?? faker.lorem.words(),
     amount: args?.amount?? parseFloat(faker.finance.amount()),
 
-    finishDate: args?.finishDate?? faker.date.soon(),
-    targetDate: args?.finishDate?? faker.date.soon(),
+    finishDate: args?.finishDate?? faker.date.soon().toISOString().split('T')[0],
+    targetDate: args?.finishDate?? faker.date.soon().toISOString().split('T')[0],
 
     accountId: args?.accountId?? faker.datatype.uuid(),
     categoryId: args?.categoryId?? faker.datatype.uuid(),

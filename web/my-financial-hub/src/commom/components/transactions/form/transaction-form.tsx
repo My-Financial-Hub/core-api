@@ -1,4 +1,4 @@
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import { useApisContext } from '../../../contexts/api-context';
 import { useCreateTransaction, useUpdateTransaction } from '../../../hooks/transactions-hooks';
 import { defaultTransaction, Transaction, TransactionStatus, TransactionType } from '../../../interfaces/transaction';
@@ -66,6 +66,13 @@ export default function TransactionForm(
       }
     );
   };
+
+  useEffect(
+    ()=>{
+      setTransaction(formData);
+    }, 
+    [formData]
+  );
 
   return (
     <form onSubmit={submitTransaction}>
@@ -153,11 +160,11 @@ export default function TransactionForm(
           <input
             title='targetdate'
             type='date'
-            value={transaction.targetDate.toISOString().split('T')[0]}
+            value={transaction.targetDate.split('T')[0]}
             onChange={
               (event) => setTransaction({
                 ...transaction,
-                targetDate: new Date(Date.parse(event.target.value))
+                targetDate: event.target.value
               })
             }
           />
@@ -172,11 +179,11 @@ export default function TransactionForm(
                 <input
                   title='finishdate'
                   type='date'
-                  value={transaction.finishDate.toISOString().split('T')[0]}
+                  value={transaction.finishDate.split('T')[0]}
                   onChange={
                     (event) => setTransaction({
                       ...transaction,
-                      finishDate: new Date(Date.parse(event.target.value))
+                      finishDate: event.target.value
                     })
                   }
                 />

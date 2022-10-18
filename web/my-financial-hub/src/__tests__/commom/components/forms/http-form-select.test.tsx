@@ -4,7 +4,6 @@ import userEvent from '@testing-library/user-event';
 
 import { CreateSelectOptions } from '../../../../__mocks__/forms/select-option-builder';
 
-
 import HttpFormSelect from '../../../../commom/components/forms/form-select/http-form-select';
 import { getRandomItem } from '../../../../__mocks__/utils/array-utils';
 
