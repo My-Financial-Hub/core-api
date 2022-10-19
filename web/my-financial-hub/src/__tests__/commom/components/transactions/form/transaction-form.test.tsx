@@ -5,6 +5,9 @@ import { CreateTransaction } from '../../../../../__mocks__/types/transaction-bu
 
 describe('on render', () =>{
   describe('default',() =>{
+    render(
+      <TransactionForm />
+    );
     expect(true).toBe(false);
   });
 
@@ -37,25 +40,43 @@ describe('on submit',()=>{
   describe('create transaction',()=>{
     describe('with valid data',()=>{
       it('should call "onSubmit" method', ()=>{
+        render(
+          <TransactionForm />
+        );
         expect(true).toBe(false);
       });
 
       it('should send a POST request', ()=>{
+        render(
+          <TransactionForm />
+        );
         expect(true).toBe(false);
       });
       it('should reset form', () => {
+        render(
+          <TransactionForm />
+        );
         expect(true).toBe(false);
       });
     });
     describe('with invalid data',()=>{
       it('should not call "onSubmit" method', ()=>{
+        render(
+          <TransactionForm />
+        );
         expect(true).toBe(false);
       });
 
       it('should not send a POST request', ()=>{
+        render(
+          <TransactionForm />
+        );
         expect(true).toBe(false);
       });
       it('should not reset form', () => {
+        render(
+          <TransactionForm />
+        );
         expect(true).toBe(false);
       });
     });
@@ -63,25 +84,43 @@ describe('on submit',()=>{
   describe('update transaction',()=>{
     describe('with valid data',()=>{
       it('should call "onSubmit" method', ()=>{
+        render(
+          <TransactionForm />
+        );
         expect(true).toBe(false);
       });
 
       it('should send a PUT request', ()=>{
+        render(
+          <TransactionForm />
+        );
         expect(true).toBe(false);
       });
       it('should reset form', () => {
+        render(
+          <TransactionForm />
+        );
         expect(true).toBe(false);
       });
     });
     describe('with invalid data',()=>{
       it('should not call "onSubmit" method', ()=>{
+        render(
+          <TransactionForm />
+        );
         expect(true).toBe(false);
       });
 
       it('should not send a PUT request', ()=>{
+        render(
+          <TransactionForm />
+        );
         expect(true).toBe(false);
       });
       it('should not reset form', () => {
+        render(
+          <TransactionForm />
+        );
         expect(true).toBe(false);
       });
     });
@@ -90,9 +129,15 @@ describe('on submit',()=>{
 
 describe('on loading',()=>{
   it('should disable all fields', () => {
+    render(
+      <TransactionForm />
+    );
     expect(true).toBe(false);
   });
   it('should disable the submit button', () => {
+    render(
+      <TransactionForm />
+    );
     expect(true).toBe(false);
   });
 });
