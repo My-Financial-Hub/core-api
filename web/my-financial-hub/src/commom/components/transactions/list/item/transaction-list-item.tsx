@@ -22,6 +22,7 @@ export default function TransactionListItem({transaction, onSelect}:TransactionL
       <div>
         <div>
           <h4>{`${transaction.finishDate} - ${label} in ${transaction.account?.name}`}</h4>
+          <p>{transaction.category?.name}</p>
           <p>{`${transaction.account?.currency??'$'}${transaction.amount.toFixed(2)}`}</p>
         </div>
         <div>
@@ -30,7 +31,6 @@ export default function TransactionListItem({transaction, onSelect}:TransactionL
         <div>
           <button onClick={() => onSelect(transaction)}>Editar</button>
         </div>
-        <p>{transaction.category?.name}</p>
       </div>
     </li>
   );

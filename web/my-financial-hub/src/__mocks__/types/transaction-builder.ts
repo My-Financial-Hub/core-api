@@ -1,5 +1,11 @@
 import { faker } from '@faker-js/faker';
+
+import { Account } from '../../commom/interfaces/account';
+import { Category } from '../../commom/interfaces/category';
 import { Transaction, TransactionStatus, TransactionType } from '../../commom/interfaces/transaction';
+
+import { CreateAccount } from './account-builder';
+import { CreateCategory } from './category-builder';
 
 type TransactionBuilderArgs = {
   id?: string, 
@@ -10,7 +16,10 @@ type TransactionBuilderArgs = {
   targetDate?: string,
 
   accountId?: string,
+  account?: Account,
+
   categoryId?: string,
+  category?: Category,
 
   isActive?: boolean,
 
@@ -28,7 +37,10 @@ export function CreateTransaction(args? :TransactionBuilderArgs) : Transaction {
     targetDate: args?.finishDate?? faker.date.soon().toISOString().split('T')[0],
 
     accountId: args?.accountId?? faker.datatype.uuid(),
+    account: args?.account?? CreateAccount(),
+
     categoryId: args?.categoryId?? faker.datatype.uuid(),
+    category: args?.category?? CreateCategory(),
 
     status: args?.status?? faker.datatype.number({min: 0, max: 1}),
     type: args?.type?? faker.datatype.number({min: 1, max: 2}),
