@@ -20,9 +20,11 @@ export default function EnumFormSelect(
   EnumFormSelectProps
 ) {
   const [optionsList, setOptionsList] = useState<SelectOption[]>([]);
+  const [enumValue, setValue] = useState<string>('-1');
 
   const changeOption = function (option?: SelectOption) {
-    onChangeOption?.(parseInt(option?.value?? '-1'));
+    setValue(option?.value ?? '-1');
+    onChangeOption?.(parseInt(enumValue));
   };
 
   useEffect(() => {
@@ -35,10 +37,14 @@ export default function EnumFormSelect(
     setOptionsList(opts);
   }, [options]);
 
+  useEffect(() =>{
+    setValue(value?.toString() ?? '-1');
+  }, [value]);
+
   return (
     <FormSelect 
       options={optionsList}
-      value={value?.toString()}
+      value={enumValue}
       disabled={disabled}
       placeholder={placeholder}
       onChangeOption={changeOption}

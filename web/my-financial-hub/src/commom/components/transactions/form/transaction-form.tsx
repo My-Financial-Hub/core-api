@@ -26,6 +26,7 @@ export default function TransactionForm(
     setLoading(true);
 
     let tra: Transaction;
+    console.log(transaction);
     
     if (transaction.id) {
       await useUpdateTransaction(transaction,transactionsApi);
@@ -97,7 +98,7 @@ export default function TransactionForm(
       <div className='row my-2'>
         <FormFieldLabel name='description' title='description'>
           <textarea 
-            name='description'
+            title='description'
             disabled={isLoading}
             value={transaction.description}
             onChange={
@@ -160,6 +161,7 @@ export default function TransactionForm(
           <input
             title='targetdate'
             type='date'
+            disabled={isLoading}
             value={transaction.targetDate.split('T')[0]}
             onChange={
               (event) => setTransaction({
@@ -179,6 +181,7 @@ export default function TransactionForm(
                 <input
                   title='finishdate'
                   type='date'
+                  disabled={isLoading}
                   value={transaction.finishDate.split('T')[0]}
                   onChange={
                     (event) => setTransaction({
@@ -201,7 +204,8 @@ export default function TransactionForm(
           <input
             title='ispaid'
             type="checkbox"
-            value={(transaction.status === TransactionStatus.Committed)? 'on': 'off'}
+            disabled={isLoading}
+            checked={transaction.status === TransactionStatus.Committed}
             onChange={toggleIsPaid}
           />
         </FormFieldLabel>

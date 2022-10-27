@@ -21,7 +21,7 @@ export default function FormSelect(
   }:
     FormSelectProps
 ) {
-  const [isOpen, setOpen] = useState(false);
+  const [isOpen, setOpen] = useState<boolean>(false);
   const [optionsList, setOptionsList] = useState<SelectOption[]>(options);
   const [selectedOption, setSelectedOption] = useState(-1);
 
