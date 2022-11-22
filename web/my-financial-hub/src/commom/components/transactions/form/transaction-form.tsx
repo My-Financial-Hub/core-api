@@ -26,7 +26,6 @@ export default function TransactionForm(
     setLoading(true);
 
     let tra: Transaction;
-    console.log(transaction);
     
     if (transaction.id) {
       await useUpdateTransaction(transaction,transactionsApi);

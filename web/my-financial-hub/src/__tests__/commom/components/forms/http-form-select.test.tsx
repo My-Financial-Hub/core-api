@@ -146,7 +146,7 @@ describe('on click', () => {
       expect(listbox).not.toBeInTheDocument();
     });
 
-    it('should call the get request', () => {
+    it('should call the on select', () => {
       const placeholder = 'placeholder';
       render(
         <HttpFormSelect

@@ -49,7 +49,7 @@ export function CreateTransaction(args? :TransactionBuilderArgs) : Transaction {
   };
 }
 
-export function CreateTransactions(args:TransactionBuilderArgs) : Transaction[]{
+export function CreateTransactions(args?:TransactionBuilderArgs) : Transaction[]{
   const count = faker.datatype.number(
     {
       min: 1,

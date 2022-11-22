@@ -1,7 +1,9 @@
 import { useState } from 'react';
+
+import { defaultTransaction, Transaction } from '../../commom/interfaces/transaction';
+
 import TransactionForm from '../../commom/components/transactions/form/transaction-form';
 import TransactionList from '../../commom/components/transactions/list/transaction-list';
-import { defaultTransaction, Transaction } from '../../commom/interfaces/transaction';
 
 export default function TransactionsPage() {
   const [transaction,setTransactions] = useState<Transaction>(defaultTransaction);

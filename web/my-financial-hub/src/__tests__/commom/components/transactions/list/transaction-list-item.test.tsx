@@ -50,7 +50,7 @@ describe('on render', () =>{
     const  amountField = getByText(transactionAmount,{ exact: false });
     expect(amountField).toBeInTheDocument();
   });
-  it('it should show account name', ()=>{
+  it('it should show account name', ()=>{//TODO: fix flaky test
     const transaction = CreateTransaction();
     const onSelect = jest.fn();
     
@@ -71,7 +71,7 @@ describe('on render', () =>{
     );
 
     const transactionCategoryName = transaction.category?.name ?? '';
-    const  categoryField = getByText(transactionCategoryName,{ exact: false });
+    const categoryField = getByText(transactionCategoryName,{ exact: false });
     expect(categoryField).toBeInTheDocument();
   });
 });
