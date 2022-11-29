@@ -1,3 +1,6 @@
+import { useEffect, useState } from 'react';
+import { useApisContext } from '../contexts/api-context';
+
 import TransactionApi from '../http/transaction-api';
 import { Transaction } from '../interfaces/transaction';
 
@@ -21,10 +24,48 @@ export async function useUpdateTransaction(transaction: Transaction, api: Transa
   }
 }
 
+export type TransactionFetchState = {
+  transactions: Transaction[],
+  isLoading: boolean,
+  hasError: boolean
+}
 
-export async function useGetTransactions(api: TransactionApi): Promise<Transaction[]> {
+/**
+ * @deprecated use UseGetTransactions
+ */
+export function useFetchTransactions(): TransactionFetchState{
+  const [transactions, setTransations] = useState<Transaction[]>([]);
+  const [isLoading, setLoading] = useState<boolean>(true);
+  const [hasError,setHasError] = useState<boolean>(false);
+  const { transactionsApi } = useApisContext();
+  
+  useEffect(
+    () => {
+      const getTransactions = async function () {
+        setLoading(true);
+        try {
+          const transactionsResult = await transactionsApi.GetAllAsync();
+          setTransations(transactionsResult.data);
+        } catch (error) {
+          console.error(error);
+          setHasError(true);
+          return Promise.reject();
+        }    
+    
+        setLoading(false);
+      };
+
+      getTransactions();
+    },
+    [transactionsApi]
+  );
+
+  return { transactions, isLoading, hasError };
+}
+
+export async function UseGetTransactions(transactionsApi: TransactionApi): Promise<Transaction[]> {
   try {
-    const transactionsResult = await api.GetAllAsync();
+    const transactionsResult = await transactionsApi.GetAllAsync();
     return transactionsResult.data;
   } catch (error) {
     console.error(error);
@@ -32,9 +73,9 @@ export async function useGetTransactions(api: TransactionApi): Promise<Transacti
   }
 }
 
-export async function useDeleteTransaction(id: string,api: TransactionApi) {
+export async function UseDeleteTransaction(id: string, transactionsApi: TransactionApi) {
   try {
-    await api.DeleteAsync(id);
+    await transactionsApi.DeleteAsync(id);
   } catch (error) {
     console.error(error);
   }

@@ -15,7 +15,7 @@ export function MockUseCreateTransaction(transaction: Transaction, timeout: numb
 }
 
 export function MockUseGetTransactions(transactions?: Transaction[], timeout: number = randTimeOut) {
-  return jest.spyOn(hooks, 'useGetTransactions').mockImplementation(
+  return jest.spyOn(hooks, 'UseGetTransactions').mockImplementation(
     async () => {
       jest.setTimeout(timeout);
       if (transactions) {
@@ -28,7 +28,7 @@ export function MockUseGetTransactions(transactions?: Transaction[], timeout: nu
 }
 
 export function MockUseDeleteTransaction() {
-  return jest.spyOn(hooks, 'useDeleteTransaction').mockImplementation(
+  return jest.spyOn(hooks, 'UseDeleteTransaction').mockImplementation(
     async () => {
       setTimeout(() => {
         Promise.resolve();

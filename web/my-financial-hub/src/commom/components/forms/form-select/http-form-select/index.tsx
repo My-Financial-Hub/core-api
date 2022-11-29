@@ -4,7 +4,7 @@ import FormSelect from '..';
 import Api from '../../../../http/api';
 import SelectOption from '../types/select-option';
 
-type HttpFormSelectProps = {
+interface IHttpFormSelectProps{
   api: Api<any>,
   value?: string,
   placeholder?: string,
@@ -19,7 +19,7 @@ export default function HttpFormSelect(
     disabled, placeholder = '',
     onChangeOption,onDeleteOption
   }:
-  HttpFormSelectProps
+  IHttpFormSelectProps
 ) {
   const [options, setOptions] = useState<SelectOption[]>([]);
   const [isLoading, setLoading] = useState<boolean>(true);

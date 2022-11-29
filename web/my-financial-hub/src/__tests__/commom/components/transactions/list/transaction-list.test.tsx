@@ -1,11 +1,12 @@
 import { render, screen } from '@testing-library/react';
 
+import { act } from 'react-dom/test-utils';
+import userEvent from '@testing-library/user-event';
+
 import { CreateTransactions } from '../../../../../__mocks__/types/transaction-builder';
 
 import TransactionList from '../../../../../commom/components/transactions/list/transaction-list';
 import { MockUseGetTransactions } from '../../../../../__mocks__/hooks/transactions-hooks';
-import { act } from 'react-dom/test-utils';
-import userEvent from '@testing-library/user-event';
 
 describe('on render', () => {
   beforeEach(

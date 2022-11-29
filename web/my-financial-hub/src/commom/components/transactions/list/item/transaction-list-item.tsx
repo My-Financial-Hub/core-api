@@ -2,10 +2,11 @@ import { Transaction, TransactionType } from '../../../../interfaces/transaction
 
 interface TransactionListItemProps {
   transaction: Transaction,
-  onSelect: (transaction: Transaction) => void
+  onSelect: (transaction: Transaction) => void,
+  onRemove: (id?: string) => void,
 }
 
-export default function TransactionListItem({transaction, onSelect}:TransactionListItemProps){
+export default function TransactionListItem({transaction, onSelect, onRemove}:TransactionListItemProps){
   const label = transaction.type == TransactionType.Earn? 'Earn' : 'Expense';
 
   /* 
@@ -30,6 +31,7 @@ export default function TransactionListItem({transaction, onSelect}:TransactionL
         </div>
         <div>
           <button onClick={() => onSelect(transaction)}>Editar</button>
+          <button onClick={() => onRemove(transaction.id)}>Remover</button>
         </div>
       </div>
     </li>
