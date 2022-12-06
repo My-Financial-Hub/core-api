@@ -8,7 +8,7 @@ import { createUrlQuery, createUrlQueryNumber, createUrlStartEndDateQuery } from
 import { ServiceResult } from '../interfaces/service-result';
 import { Transaction } from '../interfaces/transaction';
 
-import './commom/utils/global/date-extensions';
+import '../utils/global/date-extensions';
 
 export default class TransactionApi extends Api<Transaction>{
   constructor(){
