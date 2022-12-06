@@ -3,26 +3,25 @@ import { useState } from 'react';
 import { defaultTransaction, Transaction } from '../../commom/interfaces/transaction';
 import { TransactionFilter } from '../../commom/components/transactions/list/types/transaction-filter';
 
-import { UseDeleteTransaction } from '../../commom/hooks/transactions-hooks';
-import { useApisContext } from '../../commom/contexts/api-context';
-
 import TransactionForm from '../../commom/components/transactions/form/transaction-form';
 import TransactionList from '../../commom/components/transactions/list/transaction-list';
 import TransactionListFilter from '../../commom/components/transactions/list/filter/transaction-list-filter';
 
 export default function TransactionsPage() {
   const [transaction,setTransactions] = useState<Transaction>(defaultTransaction);
-  
-  const submitForm = (tran: Transaction) => {
+  const [transactionFilter,setTransactionFilter] = useState<TransactionFilter>({} as TransactionFilter);
+
+  const submitForm = function(tran: Transaction): void{
     console.log('yay! it worked');
+    setTransactions(defaultTransaction);
   };
 
-  const selectTransaction = (tran: Transaction) => {
+  const selectTransaction = function(tran: Transaction): void{
     setTransactions(tran);
   };
 
-  const filterTransactions = function(transactionFilter: TransactionFilter){
-    console.log('yay! it worked');
+  const filterTransactions = function(transactionFilter: TransactionFilter): void{
+    setTransactionFilter(transactionFilter);
   };
 
   return (
@@ -36,6 +35,7 @@ export default function TransactionsPage() {
         onFilter={filterTransactions}
       />
       <TransactionList 
+        filter={transactionFilter}
         onSelect={selectTransaction}
       />
     </div>

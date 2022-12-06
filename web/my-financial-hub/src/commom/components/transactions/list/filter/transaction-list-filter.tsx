@@ -8,35 +8,44 @@ import { useApisContext } from '../../../../contexts/api-context';
 import EnumFormSelect from '../../../forms/form-select/enum-form-select';
 import { TransactionType } from '../../../../interfaces/transaction';
 
-interface ITransactionListFilterProps{
+interface ITransactionListFilterProps {
   filter?: TransactionFilter,
   onFilter: (filter: TransactionFilter) => void
 }
 
 export default function TransactionListFilter({ onFilter }: ITransactionListFilterProps) {
-  const [isLoading, setLoading] = useState(false);
-  const [filter,setFilters] = useState<TransactionFilter>({} as TransactionFilter);
+  const [filter, setFilters] = useState<TransactionFilter>({} as TransactionFilter);
 
   const { accountsApi, categoriesApi } = useApisContext();
 
   return (
     <div>
       <h3>Filters</h3>
-      <form onSubmit={()=> onFilter(filter)}>
+      <form onSubmit={
+        (e) => {
+          e.preventDefault();
+          onFilter(filter);
+        }
+      }>
         <div>
           <label>Accounts</label>
           <HttpFormSelect
             api={accountsApi}
             placeholder='Select an account'
-            disabled={isLoading}
+            disabled={false}
             onChangeOption={
               (selectedOption) => {
-                if(selectedOption?.value){
+                if (selectedOption?.value) {
                   setFilters({
                     ...filter,
-                    accounts:[
+                    accounts: [
                       selectedOption?.value
                     ]
+                  });
+                }else{
+                  setFilters({
+                    ...filter,
+                    accounts: []
                   });
                 }
               }
@@ -48,15 +57,20 @@ export default function TransactionListFilter({ onFilter }: ITransactionListFilt
         <HttpFormSelect
           api={categoriesApi}
           placeholder='Select an category'
-          disabled={isLoading}
+          disabled={false}
           onChangeOption={
             (selectedOption) => {
-              if(selectedOption?.value){
+              if (selectedOption?.value) {
                 setFilters({
                   ...filter,
-                  categories:[
+                  categories: [
                     selectedOption?.value
                   ]
+                });
+              }else{
+                setFilters({
+                  ...filter,
+                  categories: []
                 });
               }
             }
@@ -68,6 +82,24 @@ export default function TransactionListFilter({ onFilter }: ITransactionListFilt
           options={TransactionType}
           placeholder='Select a type'
           disabled={true}
+          onChangeOption={
+            (selectedOption) => {
+              if (selectedOption) {
+                console.log(selectedOption);
+                setFilters({
+                  ...filter,
+                  types: [
+                    selectedOption
+                  ]
+                });
+              }else{
+                setFilters({
+                  ...filter,
+                  types: []
+                });
+              }
+            }
+          }
         />
 
         <div>
@@ -75,9 +107,8 @@ export default function TransactionListFilter({ onFilter }: ITransactionListFilt
           <input
             title='startDate'
             type='date'
-            disabled={isLoading}
             onChange={
-              (e)=>{
+              (e) => {
                 setFilters({
                   ...filter,
                   startDate: new Date(Date.parse(e.target.value))
@@ -92,9 +123,8 @@ export default function TransactionListFilter({ onFilter }: ITransactionListFilt
           <input
             title='targetdate'
             type='date'
-            disabled={isLoading}
             onChange={
-              (e)=>{
+              (e) => {
                 setFilters({
                   ...filter,
                   targetDate: new Date(Date.parse(e.target.value))
@@ -112,9 +142,8 @@ export default function TransactionListFilter({ onFilter }: ITransactionListFilt
             step="0.01"
             min="0.01"
             placeholder='Insert Min. Transaction Amount'
-            disabled={isLoading}
             onChange={
-              (e)=>{
+              (e) => {
                 setFilters({
                   ...filter,
                   minAmount: parseFloat(e.target.value)
@@ -132,9 +161,8 @@ export default function TransactionListFilter({ onFilter }: ITransactionListFilt
             step="0.01"
             min="0.01"
             placeholder='Insert Max. Transaction Amount'
-            disabled={isLoading}
             onChange={
-              (e)=>{
+              (e) => {
                 setFilters({
                   ...filter,
                   maxAmount: parseFloat(e.target.value)

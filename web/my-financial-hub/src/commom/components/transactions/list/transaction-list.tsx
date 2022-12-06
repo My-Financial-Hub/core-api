@@ -1,18 +1,20 @@
 import { useEffect, useState } from 'react';
 
 import { UseDeleteTransaction, UseGetTransactions } from '../../../hooks/transactions-hooks';
+import { useApisContext } from '../../../contexts/api-context';
 
 import { Transaction } from '../../../interfaces/transaction';
+import { TransactionFilter } from './types/transaction-filter';
 
 import TransactionListItem from './item/transaction-list-item';
 import Loading from '../../../../commom/components/loading/loading';
-import { useApisContext } from '../../../contexts/api-context';
 
 interface ITransactionListProps{
+  filter?: TransactionFilter,
   onSelect?: (transaction: Transaction) => void
 }
 
-export default function TransactionList({ onSelect }: ITransactionListProps) {
+export default function TransactionList({ filter, onSelect }: ITransactionListProps) {
   const [transactions, setTransations] = useState<Transaction[]>([]);
   const [isLoading, setLoading] = useState<boolean>(true);
   const { transactionsApi } = useApisContext();
@@ -21,16 +23,15 @@ export default function TransactionList({ onSelect }: ITransactionListProps) {
     () => {
       const getTransactions = async function () {
         setLoading(true);
-
-        const result = await UseGetTransactions(transactionsApi);
+    
+        const result = await UseGetTransactions(filter);
         setTransations(result);
-
+    
         setLoading(false);
       };
-
       getTransactions();
     },
-    [transactionsApi]
+    [filter]
   );
   
   const selectTransaction = function (transaction: Transaction) {
