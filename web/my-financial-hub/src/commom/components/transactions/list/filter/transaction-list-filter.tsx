@@ -9,12 +9,12 @@ import EnumFormSelect from '../../../forms/form-select/enum-form-select';
 import { TransactionType } from '../../../../interfaces/transaction';
 
 interface ITransactionListFilterProps {
-  filter?: TransactionFilter,
+  filterData?: TransactionFilter, //TODO: use this prop
   onFilter: (filter: TransactionFilter) => void
 }
 
-export default function TransactionListFilter({ onFilter }: ITransactionListFilterProps) {
-  const [filter, setFilters] = useState<TransactionFilter>({} as TransactionFilter);
+export default function TransactionListFilter({filterData = {} , onFilter }: ITransactionListFilterProps) {
+  const [filter, setFilters] = useState<TransactionFilter>(filterData);
 
   const { accountsApi, categoriesApi } = useApisContext();
 
@@ -128,44 +128,6 @@ export default function TransactionListFilter({ onFilter }: ITransactionListFilt
                 setFilters({
                   ...filter,
                   targetDate: new Date(Date.parse(e.target.value))
-                });
-              }
-            }
-          />
-        </div>
-
-        <div>
-          <label>Min. amount</label>
-          <input
-            title='minamount'
-            type='number'
-            step="0.01"
-            min="0.01"
-            placeholder='Insert Min. Transaction Amount'
-            onChange={
-              (e) => {
-                setFilters({
-                  ...filter,
-                  minAmount: parseFloat(e.target.value)
-                });
-              }
-            }
-          />
-        </div>
-
-        <div>
-          <label>Max. amount</label>
-          <input
-            title='maxamount'
-            type='number'
-            step="0.01"
-            min="0.01"
-            placeholder='Insert Max. Transaction Amount'
-            onChange={
-              (e) => {
-                setFilters({
-                  ...filter,
-                  maxAmount: parseFloat(e.target.value)
                 });
               }
             }
