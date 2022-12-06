@@ -12,8 +12,8 @@ export default function TransactionsPage() {
   const [transactionFilter,setTransactionFilter] = useState<TransactionFilter>({} as TransactionFilter);
 
   const submitForm = function(tran: Transaction): void{
-    console.log('yay! it worked');
     setTransactions(defaultTransaction);
+    setTransactionFilter({});
   };
 
   const selectTransaction = function(tran: Transaction): void{

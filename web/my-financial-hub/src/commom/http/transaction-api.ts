@@ -18,7 +18,8 @@ export default class TransactionApi extends Api<Transaction>{
 
 const _baseUrl = `${process.env.REACT_APP_API_BASE_URL}/transactions`;
 
-export function getFilterQuery(filter?: TransactionFilter): string{
+//TODO: move to TransactionFilter
+function getFilterQuery(filter?: TransactionFilter): string{
   let query = '';
   if(filter){
     query += createUrlQueryNumber('types',filter.types);
