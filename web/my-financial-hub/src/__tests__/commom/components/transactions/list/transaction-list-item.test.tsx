@@ -1,11 +1,11 @@
 import { act, render } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
 import { CreateTransaction } from '../../../../../__mocks__/types/transaction-builder';
 
 import TransactionListItem from '../../../../../commom/components/transactions/list/item/transaction-list-item';
 import { TransactionType } from '../../../../../commom/interfaces/transaction';
 import { enumToString } from '../../../../../commom/utils/enum-utils';
-import userEvent from '@testing-library/user-event';
 
 describe('on render', () =>{
   it('it should show finish date', ()=>{
@@ -50,7 +50,7 @@ describe('on render', () =>{
     const  amountField = getByText(transactionAmount,{ exact: false });
     expect(amountField).toBeInTheDocument();
   });
-  it('it should show account name', ()=>{//TODO: fix flaky test
+  it('it should show account name', ()=>{
     const transaction = CreateTransaction();
     const onSelect = jest.fn();
     
@@ -92,5 +92,28 @@ describe('on select', () =>{
 
     expect(onSelect).toBeCalledTimes(1);
     expect(onSelect).toBeCalledWith(transaction);
+  });
+});
+
+describe('on remove', () =>{
+  it('should call onRemove method', () =>{
+    const transaction = CreateTransaction();
+    const onRemove = jest.fn();
+
+    const { getByText } = render(
+      <TransactionListItem 
+        transaction={transaction} 
+        onSelect={jest.fn()} 
+        onRemove={onRemove}
+      />
+    );
+
+    act(()=>{
+      const editButton = getByText('Remover');
+      userEvent.click(editButton);
+    });
+
+    expect(onRemove).toBeCalledTimes(1);
+    expect(onRemove).toBeCalledWith(transaction.id);
   });
 });

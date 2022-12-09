@@ -14,11 +14,13 @@ interface ITransactionListProps{
   onSelect?: (transaction: Transaction) => void
 }
 
+//TODO: use hook for states : https://youtu.be/bGzanfKVFeU?t=946
+
 export default function TransactionList({ filter, onSelect }: ITransactionListProps) {
   const [transactions, setTransations] = useState<Transaction[]>([]);
   const [isLoading, setLoading] = useState<boolean>(true);
   const { transactionsApi } = useApisContext();
-
+  
   useEffect(
     () => {
       const getTransactions = async function () {
