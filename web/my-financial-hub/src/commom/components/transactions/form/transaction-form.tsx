@@ -1,6 +1,6 @@
 import { FormEvent, useEffect, useState } from 'react';
 import { useApisContext } from '../../../contexts/api-context';
-import { useCreateTransaction, useUpdateTransaction } from '../../../hooks/transactions-hooks';
+import { UseCreateTransaction, UseUpdateTransaction } from '../../../hooks/transactions-hooks';
 import { defaultTransaction, Transaction, TransactionStatus, TransactionType } from '../../../interfaces/transaction';
 import FormFieldLabel from '../../forms/form-field';
 import EnumFormSelect from '../../forms/form-select/enum-form-select';
@@ -28,10 +28,10 @@ export default function TransactionForm(
     let tra: Transaction;
     
     if (transaction.id) {
-      await useUpdateTransaction(transaction,transactionsApi);
+      await UseUpdateTransaction(transaction,transactionsApi);
       tra = transaction;
     } else {
-      tra = await useCreateTransaction(transaction,transactionsApi);
+      tra = await UseCreateTransaction(transaction,transactionsApi);
     }
 
     onSubmit?.(tra);

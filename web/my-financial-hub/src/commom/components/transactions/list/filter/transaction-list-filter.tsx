@@ -9,12 +9,12 @@ import EnumFormSelect from '../../../forms/form-select/enum-form-select';
 import { TransactionType } from '../../../../interfaces/transaction';
 
 interface ITransactionListFilterProps {
-  filterData?: TransactionFilter, //TODO: use this prop
+  defaultFilter?: TransactionFilter,
   onFilter: (filter: TransactionFilter) => void
 }
 
-export default function TransactionListFilter({filterData = {} , onFilter }: ITransactionListFilterProps) {
-  const [filter, setFilters] = useState<TransactionFilter>(filterData);
+export default function TransactionListFilter({defaultFilter = {} , onFilter }: ITransactionListFilterProps) {
+  const [filter, setFilters] = useState<TransactionFilter>(defaultFilter);
 
   const { accountsApi, categoriesApi } = useApisContext();
 
@@ -134,7 +134,7 @@ export default function TransactionListFilter({filterData = {} , onFilter }: ITr
           />
         </div>
 
-        <input type='submit' />
+        <button type='submit'>Filter</button>
       </form>
     </div>
   );

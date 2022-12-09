@@ -5,7 +5,7 @@ import { useApisContext } from '../contexts/api-context';
 import TransactionApi, { FetchTransactions } from '../http/transaction-api';
 import { Transaction } from '../interfaces/transaction';
 
-export async function useCreateTransaction(transaction: Transaction, api: TransactionApi) : Promise<Transaction> {
+export async function UseCreateTransaction(transaction: Transaction, api: TransactionApi) : Promise<Transaction> {
   try {
     const result = await api.PostAsync(transaction);
     return result.data;
@@ -15,7 +15,7 @@ export async function useCreateTransaction(transaction: Transaction, api: Transa
   }
 }
 
-export async function useUpdateTransaction(transaction: Transaction, api: TransactionApi) {
+export async function UseUpdateTransaction(transaction: Transaction, api: TransactionApi) {
   try {
     if(transaction.id){
       await api.PutAsync(transaction.id,transaction);

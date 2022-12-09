@@ -6,7 +6,7 @@ const randTimeOut = getRandomInt(10, 100);
 
 export function MockUseCreateTransaction(transaction: Transaction, timeout: number = randTimeOut) {
 
-  return jest.spyOn(hooks, 'useCreateTransaction').mockImplementation(
+  return jest.spyOn(hooks, 'UseCreateTransaction').mockImplementation(
     () => {
       jest.setTimeout(timeout);
       return Promise.resolve(transaction);
@@ -39,7 +39,7 @@ export function MockUseDeleteTransaction() {
 
 export function MockUseUpdateTransaction(account?: Transaction, timeout: number = randTimeOut) {
 
-  return jest.spyOn(hooks, 'useUpdateTransaction').mockImplementation(
+  return jest.spyOn(hooks, 'UseUpdateTransaction').mockImplementation(
     async () => {
       setTimeout(() => {
         Promise.resolve(account);

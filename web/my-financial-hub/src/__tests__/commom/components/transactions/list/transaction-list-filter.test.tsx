@@ -1,7 +1,10 @@
-import { render, screen } from '@testing-library/react';
+import { render } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
 import { act } from 'react-dom/test-utils';
 import TransactionListFilter from '../../../../../commom/components/transactions/list/filter/transaction-list-filter';
+import { TransactionFilter } from '../../../../../commom/components/transactions/list/types/transaction-filter';
+import { TransactionType } from '../../../../../commom/interfaces/transaction';
 
 describe('on start', () => {
   describe('without value',() => {
@@ -25,18 +28,55 @@ describe('on start', () => {
 });
 
 describe('on submit', () => {
-  it('should send all filtered values', ()=>{
+  //TODO: make the test by changing the fields instead of the defaultFilter prop
+  it('should send all filtered values on filter', ()=>{
+    const filter = {
+      types: [
+        TransactionType.Earn
+      ],
+      startDate: new Date(),
+      targetDate: new Date(),
+      categories: [
+        'category'
+      ],
+      accounts: [
+        'account'
+      ]
+    } as TransactionFilter;
     const onFilter = jest.fn();
-    render(
-      <TransactionListFilter onFilter={onFilter} />
+    
+    const { getByText } = render(
+      <TransactionListFilter
+        defaultFilter={filter} 
+        onFilter={onFilter} 
+      />
     );
-    expect(true).toBe(false);
+    
+    act(
+      ()=>{
+        userEvent.click(getByText('Filter'));
+      }
+    );
+
+    expect(onFilter).toBeCalledWith(filter);
   });
   it('should call "onFilter" method', ()=>{
+    const filter = {};
     const onFilter = jest.fn();
-    render(
-      <TransactionListFilter onFilter={onFilter} />
+    
+    const { getByText } = render(
+      <TransactionListFilter
+        defaultFilter={filter} 
+        onFilter={onFilter} 
+      />
     );
-    expect(true).toBe(false);
+    
+    act(
+      ()=>{
+        userEvent.click(getByText('Filter'));
+      }
+    );
+
+    expect(onFilter).toBeCalledTimes(1);
   });
 });
