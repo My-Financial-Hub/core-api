@@ -195,6 +195,8 @@ describe('on change filter', () => {
         const { rerender } = render(
           <TransactionList/>
         );
+        jest.advanceTimersByTime(timeout + 1);
+        
         rerender(
           <TransactionList filter={filter} />
         );

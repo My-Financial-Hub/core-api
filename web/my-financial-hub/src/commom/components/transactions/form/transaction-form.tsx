@@ -1,11 +1,11 @@
-import { FormEvent, useEffect, useState } from 'react';
 import { useApisContext } from '../../../contexts/api-context';
-import { UseCreateTransaction, UseUpdateTransaction } from '../../../hooks/transactions-hooks';
+import { UseTransactionForm } from './hooks/transaction-form-hook';
+
 import { defaultTransaction, Transaction, TransactionStatus, TransactionType } from '../../../interfaces/transaction';
+
 import FormFieldLabel from '../../forms/form-field';
 import EnumFormSelect from '../../forms/form-select/enum-form-select';
 import HttpFormSelect from '../../forms/form-select/http-form-select';
-import SelectOption from '../../forms/form-select/types/select-option';
 
 type FormProps = {
   formData?: Transaction,
@@ -17,62 +17,16 @@ export default function TransactionForm(
     formData = defaultTransaction,
     onSubmit
   }: FormProps) {
-  const [transaction, setTransaction] = useState<Transaction>(formData);
-  const [isLoading, setLoading] = useState(false);
-  const { transactionsApi, accountsApi, categoriesApi } = useApisContext();
+  const { accountsApi, categoriesApi } = useApisContext();
 
-  const submitTransaction = async function (event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    setLoading(true);
+  const { 
+    isLoading ,transaction,
+    changeField, toggleIsPaid,
+    changeAmount, changeCategory, changeType,
+    changeAccount,
 
-    let tra: Transaction;
-    
-    if (transaction.id) {
-      await UseUpdateTransaction(transaction,transactionsApi);
-      tra = transaction;
-    } else {
-      tra = await UseCreateTransaction(transaction,transactionsApi);
-    }
-
-    onSubmit?.(tra);
-    setTransaction(defaultTransaction); 
-    setLoading(false);
-  };
-
-  const selectCategory = function (option?: SelectOption) {
-    if(option?.value){
-      setTransaction({
-        ...transaction,
-        categoryId: option?.value
-      });
-    }
-  };
-
-  const selectAccount = function (option?: SelectOption) {
-    if(option?.value){
-      setTransaction({
-        ...transaction,
-        accountId: option?.value
-      });
-    }
-  };
-
-  const toggleIsPaid = function () {
-    const commited = transaction.status === TransactionStatus.Committed;
-    setTransaction(
-      {
-        ...transaction,
-        status: commited ? TransactionStatus.NotCommitted : TransactionStatus.Committed
-      }
-    );
-  };
-
-  useEffect(
-    ()=>{
-      setTransaction(formData);
-    }, 
-    [formData]
-  );
+    submitTransaction,
+  } = UseTransactionForm({formData, onSubmit });
 
   return (
     <form onSubmit={submitTransaction}>
@@ -81,14 +35,7 @@ export default function TransactionForm(
           <EnumFormSelect
             options={TransactionType}
             value={transaction.type}
-            onChangeOption={(type)=>{
-              if(type){
-                setTransaction({
-                  ...transaction,
-                  type
-                });
-              }
-            }}
+            onChangeOption={changeType}
             placeholder='Select a type'
             disabled={isLoading}
           />
@@ -98,14 +45,10 @@ export default function TransactionForm(
         <FormFieldLabel name='description' title='description'>
           <textarea 
             title='description'
+            name='description'
             disabled={isLoading}
             value={transaction.description}
-            onChange={
-              (event) => setTransaction({
-                ...transaction,
-                description: event.target.value
-              })
-            }
+            onChange={changeField}
           >
           </textarea>
         </FormFieldLabel>
@@ -118,7 +61,7 @@ export default function TransactionForm(
             placeholder='Select a category'
             disabled={isLoading}
             value={transaction.categoryId}
-            onChangeOption={selectCategory}
+            onChangeOption={changeCategory}
           />
         </FormFieldLabel>
       </div>
@@ -130,7 +73,7 @@ export default function TransactionForm(
             placeholder='Select an account'
             disabled={isLoading}
             value={transaction.accountId}
-            onChangeOption={selectAccount}
+            onChangeOption={changeAccount}
           />
         </FormFieldLabel>
       </div>
@@ -145,12 +88,7 @@ export default function TransactionForm(
             placeholder='Insert Transaction Amount'
             disabled={isLoading}
             value={transaction.amount}
-            onChange={
-              (event) => setTransaction({
-                ...transaction,
-                amount: parseFloat(event.target.value)
-              })
-            }
+            onChange={changeAmount}
           />
         </FormFieldLabel>
       </div>
@@ -159,15 +97,11 @@ export default function TransactionForm(
         <FormFieldLabel name='targetdate' title='target date'>
           <input
             title='targetdate'
+            name='targetDate'
             type='date'
             disabled={isLoading}
             value={transaction.targetDate.split('T')[0]}
-            onChange={
-              (event) => setTransaction({
-                ...transaction,
-                targetDate: event.target.value
-              })
-            }
+            onChange={changeField}
           />
         </FormFieldLabel>
       </div>
@@ -179,29 +113,25 @@ export default function TransactionForm(
               <FormFieldLabel name='finishdate' title='finish date'>
                 <input
                   title='finishdate'
+                  name='finishDate'
                   type='date'
                   disabled={isLoading}
                   value={transaction.finishDate.split('T')[0]}
-                  onChange={
-                    (event) => setTransaction({
-                      ...transaction,
-                      finishDate: event.target.value
-                    })
-                  }
+                  onChange={changeField}
                 />
               </FormFieldLabel>
             </div>
           ) :
           (
-            <div>
-
-            </div>
+            <>
+            </>
           )
       }
       <div className='row my-2'>
         <FormFieldLabel name='ispaid' title='is Paid'>
           <input
             title='ispaid'
+            name='isPaid'
             type="checkbox"
             disabled={isLoading}
             checked={transaction.status === TransactionStatus.Committed}
