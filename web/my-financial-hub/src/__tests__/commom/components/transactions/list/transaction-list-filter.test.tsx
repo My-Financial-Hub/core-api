@@ -3,12 +3,11 @@ import userEvent from '@testing-library/user-event';
 
 import { act } from 'react-dom/test-utils';
 import TransactionListFilter from '../../../../../commom/components/transactions/list/filter/transaction-list-filter';
-import { TransactionFilter } from '../../../../../commom/components/transactions/list/types/transaction-filter';
 import { TransactionType } from '../../../../../commom/interfaces/transaction';
 
 describe('on start', () => {
   describe('without value',() => {
-    it('should set all fields as defaul value', () => {
+    it('should set all fields as default value', () => {
       render(
         <TransactionListFilter onFilter={jest.fn()} />
       );
@@ -42,7 +41,7 @@ describe('on submit', () => {
       accounts: [
         'account'
       ]
-    } as TransactionFilter;
+    };
     const onFilter = jest.fn();
     
     const { getByText } = render(

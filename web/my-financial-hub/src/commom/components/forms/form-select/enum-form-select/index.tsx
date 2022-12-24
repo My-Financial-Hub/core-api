@@ -11,8 +11,10 @@ type EnumFormSelectProps = {
   onChangeOption?: (selectedOption?: number) => void
 }
 
+const defaultValue = '-1';
+
 /**
-* @deprecated This component is notworking (fix OnChangeOption)
+* @deprecated This component is not working (fix OnChangeOption)
 **/
 export default function EnumFormSelect(
   {
@@ -23,11 +25,10 @@ export default function EnumFormSelect(
   EnumFormSelectProps
 ) {
   const [optionsList, setOptionsList] = useState<SelectOption[]>([]);
-  const [enumValue, setValue] = useState<string>('-1');
+  const [enumValue, setValue] = useState<string>(defaultValue);
 
   const changeOption = function (option?: SelectOption) {
-    console.log(option);
-    setValue(option?.value ?? '-1');
+    setValue(option?.value ?? defaultValue);
     onChangeOption?.(parseInt(enumValue));
   };
 
@@ -42,9 +43,9 @@ export default function EnumFormSelect(
   }, [options]);
 
   useEffect(() =>{
-    setValue(value?.toString() ?? '-1');
+    setValue(value?.toString() ?? defaultValue);
   }, [value]);
-
+  
   return (
     <FormSelect 
       options={optionsList}

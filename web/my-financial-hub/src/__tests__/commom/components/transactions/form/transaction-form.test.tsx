@@ -387,7 +387,9 @@ describe('on submit', () => {
       });
 
       it('should not call "UseUpdateTransaction" hook', async () => {
-        const transaction = CreateTransaction();
+        const transaction =  CreateTransaction({
+          amount: -10
+        });
         const timeout = 100;
 
         const mockHook = MockUseUpdateTransaction(transaction, timeout);
@@ -499,7 +501,7 @@ describe('on loading', () => {
     expect(descriptionInput).toBeDisabled();
 
     // const categoryInput = getByTitle('category');
-    // expect(categoryInput)..toBeDisabled();
+    // expect(categoryInput).toBeDisabled();
 
     // const accountInput = getByTitle('account');
     // expect(accountInput).toBeDisabled();

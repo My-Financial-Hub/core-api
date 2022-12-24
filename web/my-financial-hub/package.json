@@ -46,10 +46,11 @@
   },
   "devDependencies": {
     "@faker-js/faker": "^7.2.0",
+    "@testing-library/react-hooks": "^8.0.1",
     "@typescript-eslint/eslint-plugin": "^5.27.0",
     "@typescript-eslint/parser": "^5.27.0",
     "eslint": "^8.19.0",
-    "eslint-plugin-react": "^7.30.0",
-    "eslint-plugin-jest": "^26.5.3"
+    "eslint-plugin-jest": "^26.5.3",
+    "eslint-plugin-react": "^7.30.0"
   }
 }

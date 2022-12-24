@@ -2,9 +2,9 @@ import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 
 import { useApisContext } from '../../../../contexts/api-context';
 import { UseCreateTransaction, UseUpdateTransaction } from '../../../../hooks/transactions-hooks';
+import UseTransactionValidator from '../../../../hooks/validators/transaction-validator-hooks';
 
 import { defaultTransaction, Transaction, TransactionStatus } from '../../../../interfaces/transaction';
-
 import SelectOption from '../../../forms/form-select/types/select-option';
 
 interface ITransactionFormHook {
@@ -15,6 +15,7 @@ interface ITransactionFormHook {
   changeType: (type? : number) => void,
   toggleIsPaid: () => void,
   submitTransaction: (event: FormEvent<HTMLFormElement>) => Promise<void>,
+  getErrorMessage: (field: string) => string | undefined,
 
   isLoading: boolean,
   transaction: Transaction
@@ -31,46 +32,49 @@ export function UseTransactionForm(
     onSubmit
   } : ITransactionFormHookProps
 )   : ITransactionFormHook{
-  const [transaction, setTransaction] = useState<Transaction>(formData);
-  const [isLoading, setLoading] = useState(false);
+  const [ transaction, setTransaction ] = useState<Transaction>(formData);
+  const [ isLoading, setLoading ] = useState(false);
   const { transactionsApi } = useApisContext();
+  const { hasError ,getErrorMessage ,validate } = UseTransactionValidator();
 
   const submitTransaction = async function (event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setLoading(true);
 
-    let tra: Transaction;
-    
-    if (transaction.id) {
-      await UseUpdateTransaction(transaction,transactionsApi);
-      tra = transaction;
-    } else {
-      tra = await UseCreateTransaction(transaction,transactionsApi);
+    validate(transaction);
+    if(!hasError){
+      let tra: Transaction;
+      
+      if (transaction.id) {
+        await UseUpdateTransaction(transaction,transactionsApi);
+        tra = transaction;
+      } else {
+        tra = await UseCreateTransaction(transaction,transactionsApi);
+      }
+  
+      onSubmit?.(tra);
+      setTransaction(defaultTransaction); 
     }
 
-    onSubmit?.(tra);
-    setTransaction(defaultTransaction); 
     setLoading(false);
   };
 
-  const changeField = function(event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>){
-    // if(Object.keys(transaction).includes(event.target.name)){
+  const changeField = function(event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) : void{
+    const { name, value } = event.target;
     setTransaction({
       ...transaction,
-      [event.target.name]: event.target.value
+      [name]: value
     });
-    // }
-    console.log(transaction);
   };
 
-  const changeAmount = function(event: ChangeEvent<HTMLInputElement>){
+  const changeAmount = function(event: ChangeEvent<HTMLInputElement>) : void{
     setTransaction({
       ...transaction,
       amount: parseFloat(event.target.value)
     });
   };
 
-  const changeType = function (type? : number) {
+  const changeType = function (type? : number) : void{
     if(type){
       setTransaction({
         ...transaction,
@@ -80,7 +84,7 @@ export function UseTransactionForm(
   };
 
   //TODO: join changeCategory with changeAccount
-  const changeCategory = function (option?: SelectOption) {
+  const changeCategory = function (option?: SelectOption) : void{
     if(option?.value){
       setTransaction({
         ...transaction,
@@ -89,7 +93,7 @@ export function UseTransactionForm(
     }
   };
 
-  const changeAccount = function (option?: SelectOption) {
+  const changeAccount = function (option?: SelectOption) : void{
     if(option?.value){
       setTransaction({
         ...transaction,
@@ -98,7 +102,7 @@ export function UseTransactionForm(
     }
   };
 
-  const toggleIsPaid = function () {
+  const toggleIsPaid = function () : void{
     const commited = transaction.status === TransactionStatus.Committed;
     setTransaction(
       {
@@ -118,7 +122,8 @@ export function UseTransactionForm(
   return {
     isLoading,
     transaction,
-    
+    getErrorMessage,
+
     changeField,
     changeType,
     changeAmount,

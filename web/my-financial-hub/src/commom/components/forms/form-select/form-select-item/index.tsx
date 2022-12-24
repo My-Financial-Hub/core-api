@@ -12,7 +12,6 @@ export default function FormSelectItem(
     onSelect,onDelete
   }:FormSelectItemProps
 ) {
-
   return (
     <li
       role="option"

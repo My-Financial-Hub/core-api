@@ -1,7 +1,11 @@
-import { useEffect, useState } from 'react';
-import FormSelectItem from './form-select-item';
 import style from './form-select.module.scss';
+
+import FormSelectItem from './form-select-item';
+
 import SelectOption from './types/select-option';
+
+import UseToggleState from '../../../hooks/components/toggle-state';
+import UseFormSelectOption from './hooks/form-select-option-hook';
 
 type FormSelectProps = {
   placeholder?: string,
@@ -21,41 +25,13 @@ export default function FormSelect(
   }:
     FormSelectProps
 ) {
-  const [isOpen, setOpen] = useState<boolean>(false);
-  const [optionsList, setOptionsList] = useState<SelectOption[]>(options);
-  const [selectedOption, setSelectedOption] = useState(-1);
-
-  const selectOption = function (option?: SelectOption) {
-    const index = option === undefined ? -1 : optionsList.indexOf(option);
-    setSelectedOption(index);
-    setOpen(false);
-    onChangeOption?.(option);
-  };
-
-  const deleteOption = function (option: string) {
-    setOptionsList(optionsList.filter(x => x.value != option));
-    selectOption();
-    onDeleteOption?.(option);
-  };
-
-  useEffect(() => {
-    setOptionsList(options);
-    
-    const find = options.filter(x => x.value === value);
-    const index = value === undefined ? -1 : optionsList.indexOf(find[0]);
-
-    setSelectedOption(index);
-  }, [options]);
-
-  useEffect(() => {
-    const find = optionsList.filter(x => x.value === value);
-    if (find.length > 0) {
-      const index = optionsList.indexOf(find[0]);
-      setSelectedOption(index);
-    } else {
-      setSelectedOption(-1);
+  const [isOpen, toggle] = UseToggleState(false);
+  const { selectedOption, optionsList, selectOption, deleteOption} = UseFormSelectOption(
+    {
+      options, value,
+      onChangeOption, onDeleteOption
     }
-  }, [value]);
+  );
 
   return (
     <div>
@@ -66,21 +42,20 @@ export default function FormSelect(
           aria-expanded={isOpen}
           className={isOpen ? 'expanded' : ''}
           disabled={disabled}
-          onClick={() => setOpen(!isOpen)}
+          onClick={() => toggle()}
         >
           {selectedOption == -1 ? placeholder : optionsList[selectedOption].label}
         </button>
         <button
           type='button'
-          onClick={() => selectOption()}
+          onClick={() => isOpen && selectOption()}
           disabled={disabled}
         >
           Clear
         </button>
       </div>
-
       {
-        isOpen ?
+        isOpen &&
           (
             <ul
               className={style[`options-body${isOpen ? '' : '--hiden'}`]}
@@ -100,10 +75,8 @@ export default function FormSelect(
                 )
               }
             </ul>
-          ) :
-          (<div></div>)
+          ) 
       }
-
     </div>
   );
 }
