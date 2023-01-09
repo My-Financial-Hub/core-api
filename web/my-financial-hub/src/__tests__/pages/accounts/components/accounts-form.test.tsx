@@ -1,14 +1,12 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
-import { faker } from '@faker-js/faker';
 
-import {CreateAccount} from '../../../../__mocks__/account-builder';
+import { CreateAccount } from '../../../../__mocks__/types/account-builder';
+import { mockUseCreateAccount, mockUseUpdateAccount } from '../../../../__mocks__/hooks/accounts-page.hook';
 
 import { AccountsProvider } from '../../../../pages/accounts/contexts/accounts-page-context';
+import { Account } from '../../../../commom/interfaces/account';
 
 import AccountsForm from '../../../../pages/accounts/components/accounts-form';
-
-import { Account } from '../../../../commom/interfaces/account';
-import * as hooks from '../../../../pages/accounts/hooks/accounts-page.hooks';
 
 function fieldHasValue(fieldName: string, value: string) {
   const field = screen.getByTitle(fieldName);
@@ -33,6 +31,10 @@ function renderForm(account: Account) {
   const state = {
     accounts: [] as Account[],
     account: account,
+    hasError: false,
+    error: {
+      message: ''
+    }
   };
 
   const component = render(
@@ -56,68 +58,6 @@ function renderForm(account: Account) {
     },
     submitButton
   };
-}
-
-function mockUpdateAccount(account?: Account){
-  const randTimeOut = faker.datatype.number(
-    {
-      min:500,
-      max:5000
-    }
-  );
-
-  return jest.spyOn(hooks, 'useUpdateAccount').mockImplementation(
-    async (context) => {
-      setTimeout(() => {
-        const [state, setState] = context;
-        setState(
-          {
-            ...state,
-            account: account ??
-            {
-              name: '',
-              description: '',
-              currency: '',
-              isActive: false
-            }
-          }
-        );
-
-        Promise.resolve();
-      }, randTimeOut);
-    }
-  );
-}
-
-function mockCreateAccount(account?: Account){
-  const randTimeOut = faker.datatype.number(
-    {
-      min:500,
-      max:5000
-    }
-  );
-
-  return jest.spyOn(hooks, 'useCreateAccount').mockImplementation(
-    async (context) => {
-      setTimeout(() => {
-        const [state, setState] = context;
-        setState(
-          {
-            ...state,
-            account: account ??
-            {
-              name: '',
-              description: '',
-              currency: '',
-              isActive: false
-            }
-          }
-        );
-
-        Promise.resolve();
-      }, randTimeOut);
-    }
-  );
 }
 
 describe('on render', () => {
@@ -146,6 +86,10 @@ describe('on account changes', () => {
     const state = {
       accounts: [] as Account[],
       account: account,
+      hasError: false,
+      error: {
+        message: ''
+      }
     };
 
     render(
@@ -174,7 +118,7 @@ describe('on submit', () => {
     it('should make a put request', () => {
       const account = CreateAccount({});
     
-      const meth = mockUpdateAccount();
+      const meth = mockUseUpdateAccount();
       
       const { submitButton } = renderForm(account);
       fireEvent.click(submitButton);
@@ -187,7 +131,7 @@ describe('on submit', () => {
     it('should make a post request', () => {
       const account = CreateAccount({ id: '' });
     
-      const meth = mockCreateAccount();
+      const meth = mockUseCreateAccount();
       
       const { submitButton } = renderForm(account);
       fireEvent.click(submitButton);
@@ -199,7 +143,7 @@ describe('on submit', () => {
   it('should set all fields empty', async () => {
     const account = CreateAccount({ id: '' });
 
-    mockCreateAccount();
+    mockUseCreateAccount();
     
     const { submitButton } = renderForm(account);
     fireEvent.click(submitButton);
@@ -212,7 +156,7 @@ describe('on submit', () => {
   it('should focus name field', async () => {
     const account = CreateAccount({ id: '' });
 
-    mockCreateAccount();
+    mockUseCreateAccount();
     
     const { submitButton, fields } = renderForm(account);
     fireEvent.click(submitButton);

@@ -1,11 +1,19 @@
 import { createContext, useContext } from 'react';
+
 import AccountApi from '../http/account-api';
+import CategoryApi from '../http/category-api';
+import TransactionApi from '../http/transaction-api';
+
 type ApisContext = {
-  accountsApi: AccountApi
+  accountsApi: AccountApi,
+  categoriesApi: CategoryApi,
+  transactionsApi: TransactionApi,
 };
 
 const defaultContext = {
-  accountsApi: new AccountApi()
+  accountsApi:    new AccountApi(),
+  categoriesApi:  new CategoryApi(),
+  transactionsApi:  new TransactionApi()
 } as ApisContext;
 
 const ApisContext = createContext<ApisContext>(defaultContext);

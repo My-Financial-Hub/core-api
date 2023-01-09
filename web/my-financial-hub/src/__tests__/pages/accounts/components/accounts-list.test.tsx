@@ -1,47 +1,19 @@
-import { faker } from '@faker-js/faker';
 import { render } from '@testing-library/react';
 import { act } from 'react-dom/test-utils';
-import { Account } from '../../../../commom/interfaces/account';
-import AccountsList from '../../../../pages/accounts/components/accounts-list';
+
+import { getRandomInt } from '../../../../__mocks__/utils/number-utils';
+import { CreateAccounts } from '../../../../__mocks__/types/account-builder';
+import { mockUseGetAccounts } from '../../../../__mocks__/hooks/accounts-page.hook';
+
 import { AccountsProvider } from '../../../../pages/accounts/contexts/accounts-page-context';
-import * as hooks from '../../../../pages/accounts/hooks/accounts-page.hooks';
-import { CreateAccounts } from '../../../../__mocks__/account-builder';
 
-let randTimeOut = faker.datatype.number(
-  {
-    min: 500,
-    max: 5000
-  }
-);
+import AccountsList from '../../../../pages/accounts/components/accounts-list';
 
-//https://kentcdodds.com/blog/fix-the-not-wrapped-in-act-warning
-function mockGetAccounts(accounts?: Account[], timeout: number = randTimeOut) {
-  return jest.spyOn(hooks, 'useGetAccounts').mockImplementation(
-    async (context) => {
-      setTimeout(() => {
-        const [state, setState] = context;
-        if (accounts) {
-          setState({
-            ...state,
-            accounts
-          });
-          Promise.resolve();
-        } else {
-          Promise.reject('no accounts');
-        }
-      }, timeout);
-    }
-  );
-}
+let randTimeOut = getRandomInt(500,5000);
 
 beforeAll(
   () => {
-    randTimeOut = faker.datatype.number(
-      {
-        min: 500,
-        max: 5000
-      }
-    );
+    randTimeOut = getRandomInt(500,5000);
     jest.useFakeTimers();
   }
 );
@@ -53,72 +25,96 @@ afterAll(
 );
 
 describe('on render', () => {
-  it.each([
-    'Name', 'Description', 'Currency', 'Is Active'
-  ])('should render %s header', async (name: string) => {
-    const accounts = CreateAccounts({});
-    mockGetAccounts(accounts);
+  describe('with accounts', () => {
+    it.each([
+      'Name', 'Description', 'Currency', 'Is Active'
+    ])('should render %s header', async (name: string) => {
+      const accounts = CreateAccounts({});
+      mockUseGetAccounts(accounts,randTimeOut);
 
-    const { findByText } = render(
-      <AccountsProvider>
-        <AccountsList />
-      </AccountsProvider>
-    );
+      const { findByText } = render(
+        <AccountsProvider>
+          <AccountsList />
+        </AccountsProvider>
+      );
 
-    act(
-      () => {
-        jest.advanceTimersByTime(randTimeOut);
-      }
-    );
-    const header = await findByText(name);
-    expect(header).toBeInTheDocument();
-    expect(header).toBeVisible();
+      act(
+        () => {
+          jest.advanceTimersByTime(randTimeOut);
+        }
+      );
+      const header = await findByText(name);
+      expect(header).toBeInTheDocument();
+      expect(header).toBeVisible();
+    });
+
+    it('should render all lines', async () => {
+      const accounts = CreateAccounts({});
+      mockUseGetAccounts(accounts,randTimeOut);
+
+      const { findByTestId } = render(
+        <AccountsProvider>
+          <AccountsList />
+        </AccountsProvider>
+      );
+
+      jest.advanceTimersByTime(randTimeOut);
+
+      const content = await findByTestId('container-content');
+      expect(content.children.length).toBe(accounts.length);
+    });
+
+    it('should get all accounts', async () => {
+      const accounts = CreateAccounts({});
+      const meth = mockUseGetAccounts(accounts,randTimeOut);
+
+      act(
+        () => {
+          render(
+            <AccountsProvider>
+              <AccountsList />
+            </AccountsProvider>
+          );
+        }
+      );
+
+      act(
+        () => {
+          jest.advanceTimersByTime(randTimeOut);
+        }
+      );
+
+      expect(meth).toBeCalledTimes(1);
+    });
   });
 
-  it('should render all lines', async () => {
-    const accounts = CreateAccounts({});
-    mockGetAccounts(accounts);
+  describe('without accounts', () => {
+    it('should render a "no accounts" message', async () => {
+      mockUseGetAccounts([],randTimeOut);
 
-    const { findByTestId } = render(
-      <AccountsProvider>
-        <AccountsList />
-      </AccountsProvider>
-    );
+      const { findByText } = render(
+        <AccountsProvider>
+          <AccountsList />
+        </AccountsProvider>
+      );
 
-    jest.advanceTimersByTime(randTimeOut);
+      act(
+        () => {
+          jest.advanceTimersByTime(randTimeOut);
+        }
+      );
 
-    const content = await findByTestId('container-content');
-    expect(content.children.length).toBe(accounts.length);
-  });
-
-  it('should get all accounts', async () => {
-    const accounts = CreateAccounts({});
-    const meth = mockGetAccounts(accounts);
-
-    act(
-      () => {
-        render(
-          <AccountsProvider>
-            <AccountsList />
-          </AccountsProvider>
-        );
-      }
-    );
-
-    act(
-      () => {
-        jest.advanceTimersByTime(randTimeOut);
-      }
-    );
-
-    expect(meth).toBeCalledTimes(1);
+      const loading = await findByText('No accounts');
+      expect(loading).toBeInTheDocument();
+      expect(loading).toBeVisible();
+    });
   });
 });
 
 describe('on loading', () => {
   it('should render loading component', async () => {
     const accounts = CreateAccounts({});
-    mockGetAccounts(accounts);
+    mockUseGetAccounts(accounts,randTimeOut);
 
     const { findByText } = render(
       <AccountsProvider>
@@ -127,28 +123,6 @@ describe('on loading', () => {
     );
 
     const loading = await findByText('LOADING...');
-    expect(loading).toBeInTheDocument();
-    expect(loading).toBeVisible();
-  });
-});
-
-describe('without accounts', () => {
-  it('should render a "no accounts" message', async () => {
-    mockGetAccounts([]);
-
-    const { findByText } = render(
-      <AccountsProvider>
-        <AccountsList />
-      </AccountsProvider>
-    );
-
-    act(
-      () => {
-        jest.advanceTimersByTime(randTimeOut);
-      }
-    );
-
-    const loading = await findByText('No accounts');
     expect(loading).toBeInTheDocument();
     expect(loading).toBeVisible();
   });

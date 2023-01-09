@@ -11,6 +11,7 @@
     "@types/react": "^18.0.10",
     "@types/react-dom": "^18.0.5",
     "@types/react-router-dom": "^5.3.3",
+    "eslint-plugin-react-hooks": "^4.6.0",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
     "react-router-dom": "^6.3.0",
@@ -45,9 +46,11 @@
   },
   "devDependencies": {
     "@faker-js/faker": "^7.2.0",
+    "@testing-library/react-hooks": "^8.0.1",
     "@typescript-eslint/eslint-plugin": "^5.27.0",
     "@typescript-eslint/parser": "^5.27.0",
-    "eslint": "^8.17.0",
+    "eslint": "^8.19.0",
+    "eslint-plugin-jest": "^26.5.3",
     "eslint-plugin-react": "^7.30.0"
   }
 }
