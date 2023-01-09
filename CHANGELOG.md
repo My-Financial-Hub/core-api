@@ -8,4 +8,5 @@
 * ### [v0.1.0](https://github.com/Chingling152/my-financial-hub/releases/tag/api%2Fv0.1.0)
 
 ## WEB
+* ### [v0.2.0](https://github.com/Chingling152/my-financial-hub/releases/tag/web%2Fv0.2.0)
 * ### [v0.1.0](https://github.com/Chingling152/my-financial-hub/releases/tag/web%2Fv0.1.0)
