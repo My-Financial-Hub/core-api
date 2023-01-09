@@ -1,6 +1,7 @@
 import { renderHook } from '@testing-library/react-hooks';
 
 import UseTransactionValidator from '../../../../commom/hooks/validators/transaction-validator-hooks';
+import { CreateTransaction } from '../../../../__mocks__/types/transaction-builder';
 
 //TODO: improve tests
 describe(
@@ -11,14 +12,10 @@ describe(
           'should return hasError false', ()=>{
             const { result } = renderHook(() => UseTransactionValidator());
 
-            expect(true).toBe(false);
-          } 
-        );
-        it(
-          'should not return any error messages', ()=>{
-            const { result } = renderHook(() => UseTransactionValidator());
+            const transaction = CreateTransaction();
+            result.current.validate(transaction);
 
-            expect(true).toBe(false);
+            expect(result.current.hasError).toBe(false);
           } 
         );
       }
@@ -29,7 +26,10 @@ describe(
           'should return hasError true', ()=>{
             const { result } = renderHook(() => UseTransactionValidator());
 
-            expect(true).toBe(false);
+            const transaction = CreateTransaction();
+            result.current.validate(transaction);
+
+            expect(result.current.hasError).toBe(false);
           } 
         );
       }

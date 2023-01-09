@@ -7,7 +7,6 @@ import { CreateTransactions } from '../../../../../__mocks__/types/transaction-b
 
 import TransactionList from '../../../../../commom/components/transactions/list/transaction-list';
 import { MockUseGetTransactions } from '../../../../../__mocks__/hooks/transactions-hooks';
-import { TransactionFilter } from '../../../../../commom/components/transactions/list/types/transaction-filter';
 
 describe('on render', () => {
   beforeEach(
