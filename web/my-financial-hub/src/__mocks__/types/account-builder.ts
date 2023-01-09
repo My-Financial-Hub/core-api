@@ -9,13 +9,13 @@ type AccountBuilderArgs = {
   isActive?: boolean
 }
 
-export function CreateAccount(args:AccountBuilderArgs) : Account {
+export function CreateAccount(args?:AccountBuilderArgs) : Account {
   return {
-    id:           args.id          ?? faker.datatype.uuid(),
-    name:         args.name        ?? faker.finance.accountName(),
-    description:  args.description ?? faker.finance.currencyCode(),
-    currency:     args.currency    ?? faker.finance.currencyCode(),
-    isActive:     args.isActive    ?? faker.datatype.boolean()
+    id:           args?.id          ?? faker.datatype.uuid(),
+    name:         args?.name        ?? faker.finance.accountName(),
+    description:  args?.description ?? faker.finance.currencyCode(),
+    currency:     args?.currency    ?? faker.finance.currencyCode(),
+    isActive:     args?.isActive    ?? faker.datatype.boolean()
   } as Account;
 }
 

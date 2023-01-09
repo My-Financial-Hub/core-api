@@ -4,10 +4,9 @@ import { CreateAccount } from '../../../../__mocks__/types/account-builder';
 import { mockUseCreateAccount, mockUseUpdateAccount } from '../../../../__mocks__/hooks/accounts-page.hook';
 
 import { AccountsProvider } from '../../../../pages/accounts/contexts/accounts-page-context';
+import { Account } from '../../../../commom/interfaces/account';
 
 import AccountsForm from '../../../../pages/accounts/components/accounts-form';
-
-import { Account } from '../../../../commom/interfaces/account';
 
 function fieldHasValue(fieldName: string, value: string) {
   const field = screen.getByTitle(fieldName);

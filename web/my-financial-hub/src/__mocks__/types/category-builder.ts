@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker';
-import { Category } from '../commom/interfaces/category';
+import { Category } from '../../commom/interfaces/category';
 
 type CategoryBuilderArgs = {
   id?: string, 
@@ -11,7 +11,7 @@ type CategoryBuilderArgs = {
 export function CreateCategory(args? :CategoryBuilderArgs) : Category {
   return {
     id:           args?.id          ?? faker.datatype.uuid(),
-    name:         args?.name        ?? faker.finance.accountName(),
+    name:         args?.name        ?? faker.commerce.product(),
     description:  args?.description ?? faker.finance.currencyCode(),
     isActive:     args?.isActive    ?? faker.datatype.boolean()
   };

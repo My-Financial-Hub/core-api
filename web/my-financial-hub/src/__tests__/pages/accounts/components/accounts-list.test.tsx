@@ -1,9 +1,9 @@
 import { render } from '@testing-library/react';
 import { act } from 'react-dom/test-utils';
 
-import { mockUseGetAccounts } from '../../../../__mocks__/hooks/accounts-page.hook';
+import { getRandomInt } from '../../../../__mocks__/utils/number-utils';
 import { CreateAccounts } from '../../../../__mocks__/types/account-builder';
-import { getRandomInt } from '../../../../__mocks__/commom/utils/number-utils';
+import { mockUseGetAccounts } from '../../../../__mocks__/hooks/accounts-page.hook';
 
 import { AccountsProvider } from '../../../../pages/accounts/contexts/accounts-page-context';
 

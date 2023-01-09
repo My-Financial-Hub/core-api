@@ -1,16 +1,17 @@
 import SelectOption from '../types/select-option';
 
+type FormSelectItemProps = {
+  option: SelectOption, isSelected: boolean,
+  onSelect: (option: SelectOption) => void,
+  onDelete?: (id:string) => void
+}
+
 export default function FormSelectItem(
   {
     option, isSelected,
     onSelect,onDelete
-  }:
-  {
-    option: SelectOption, isSelected: boolean,
-    onSelect: (option: SelectOption) => void,onDelete: (id:string) => void
-  }
+  }:FormSelectItemProps
 ) {
-
   return (
     <li
       role="option"
@@ -23,12 +24,17 @@ export default function FormSelectItem(
         >
           {option.label}
         </li>
-        <li 
-          data-testid={'delete-' + option.value}  aria-label={'delete ' + option.label} 
-          onClick={() => onDelete(option.value)}
-        >
-          delete
-        </li>
+        {
+          onDelete?
+            <li 
+              data-testid={'delete-' + option.value}  aria-label={'delete ' + option.label} 
+              onClick={() => onDelete(option.value)}
+            >
+              delete
+            </li>
+            :
+            null
+        }
       </ul>
     </li>
   );

@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker';
-import SelectOption from '../../../commom/components/forms/form-select/types/select-option';
+import SelectOption from '../../commom/components/forms/form-select/types/select-option';
 
 export function CreateSelectOption() : SelectOption {
   return {

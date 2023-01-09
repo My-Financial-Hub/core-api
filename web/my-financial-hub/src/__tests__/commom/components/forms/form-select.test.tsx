@@ -1,27 +1,59 @@
 import { render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import { CreateSelectOptions } from '../../../../__mocks__/commom/forms/select-option-builder';
-import { getRandomItem } from '../../../../__mocks__/commom/utils/array-utils';
+import { CreateSelectOptions } from '../../../../__mocks__/forms/select-option-builder';
+import { getRandomItem } from '../../../../__mocks__/utils/array-utils';
 
 import FormSelect from '../../../../commom/components/forms/form-select';
 
 describe('on render', () => {
+  describe('when does not have a start value',()=>{
+    it('should show the placeholder', () => {
+      const expectedResult = 'placeholder';
+      const { getByText } = render(
+        <FormSelect
+          placeholder={expectedResult}
+          disabled={false}
+          options={[]}
+        />
+      );
+      const val = getByText(expectedResult);
+    
+      expect(val).toBeInTheDocument();
+      expect(val).toHaveTextContent(expectedResult);
+    });
+  });
 
-  it('should show default value', () => {
-    const expectedResult = 'placeholder';
-    const { getByText } = render(
-      <FormSelect
-        placeholder={expectedResult}
-        disabled={false}
-        options={[]}
-      />
-    );
+  describe('when has a start value', ()=>{
+    it('should show the value', ()=>{
+      const options = CreateSelectOptions(5);
+      const expectedResult = options[0].label;
+      const { getByText } = render(
+        <FormSelect
+          value={expectedResult}
+          disabled={false}
+          options={options}
+        />
+      );
+      const val = getByText(expectedResult);
+    
+      expect(val).toBeInTheDocument();
+      expect(val).toHaveTextContent(expectedResult);
+    });
+  });
+  
+  describe('when onDelete is null',() => {
+    it('should not show delete option',() => {
+      const { queryByText } = render(
+        <FormSelect
+          disabled={false}
+          options={[]}
+        />
+      );
 
-    const val = getByText(expectedResult);
-
-    expect(val).toBeInTheDocument();
-    expect(val).toHaveTextContent(expectedResult);
+      const res = queryByText('Delete');
+      expect(res).not.toBeInTheDocument();
+    });
   });
 
 });
@@ -100,7 +132,7 @@ describe('on click', () => {
 });
 
 describe('on select', () => {
-  it('should set the selected value on the default value', () => {
+  it('should set the selected value', () => {
     const options = CreateSelectOptions();
     const placeholder = 'placeholder';
 
@@ -159,6 +191,7 @@ describe('on delete', () => {
         placeholder={placeholder}
         disabled={false}
         options={options}
+        onDeleteOption={jest.fn()}
       />
     );
 
@@ -182,6 +215,7 @@ describe('on delete', () => {
         placeholder={placeholder}
         disabled={false}
         options={options}
+        onDeleteOption={jest.fn()}
       />
     );
 
