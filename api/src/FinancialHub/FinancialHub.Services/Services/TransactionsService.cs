@@ -58,11 +58,11 @@ namespace FinancialHub.Services.Services
             }
 
             entity = await this.repository.CreateAsync(entity);
-
+            /*
             if (entity.Status == TransactionStatus.Committed && entity.IsActive)
             {
                 await this.balancesRepository.ChangeAmountAsync(entity.BalanceId,entity.Amount,entity.Type);
-            }
+            }*/
 
             return mapper.Map<TransactionModel>(entity);
         }
@@ -114,6 +114,7 @@ namespace FinancialHub.Services.Services
 
             newTransaction = await this.repository.UpdateAsync(newTransaction);
 
+            /*
             if (transaction.IsPaid && oldTransaction.IsPaid)
             {
                 if (transaction.BalanceId != oldTransaction.BalanceId)
@@ -135,6 +136,7 @@ namespace FinancialHub.Services.Services
             {
                 await this.balancesRepository.ChangeAmountAsync(transaction.BalanceId, transaction.Amount, transaction.Type, true);
             }
+            */
 
             return mapper.Map<TransactionModel>(newTransaction);
         }

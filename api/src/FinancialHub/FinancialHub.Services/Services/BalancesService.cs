@@ -100,5 +100,18 @@ namespace FinancialHub.Services.Services
 
             return mapper.Map<BalanceModel>(entity);
         }
+
+        public async Task<ServiceResult<BalanceModel>> UpdateAmountAsync(Guid id, decimal newAmount)
+        {
+            var balanceResult = await this.GetByIdAsync(id);
+            if (balanceResult.HasError)
+            {
+                return balanceResult.Error;
+            }
+
+            var newBalance = await repository.ChangeAmountAsync(id, newAmount);
+
+            return mapper.Map<BalanceModel>(newBalance);
+        }
     }
 }

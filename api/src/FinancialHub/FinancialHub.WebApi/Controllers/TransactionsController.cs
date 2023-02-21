@@ -15,10 +15,12 @@ namespace FinancialHub.WebApi.Controllers
     public class TransactionsController : Controller
     {
         private readonly ITransactionsService service;
+        private readonly ITransactionBalanceService transactionBalanceService;
 
-        public TransactionsController(ITransactionsService service)
+        public TransactionsController(ITransactionsService service, ITransactionBalanceService transactionBalanceService)
         {
             this.service = service;
+            this.transactionBalanceService = transactionBalanceService;
         }
 
         [HttpGet]
@@ -41,7 +43,7 @@ namespace FinancialHub.WebApi.Controllers
         /// <param name="category">Transaction to be created</param>
         public async Task<IActionResult> CreateTransaction([FromBody] TransactionModel transaction)
         {
-            var result = await this.service.CreateAsync(transaction);
+            var result = await this.transactionBalanceService.CreateTransactionAsync(transaction);
 
             if (result.HasError)
             {

@@ -16,6 +16,8 @@ namespace FinancialHub.Domain.Interfaces.Services
 
         Task<ServiceResult<BalanceModel>> UpdateAsync(Guid id, BalanceModel balance);
 
+        Task<ServiceResult<BalanceModel>> UpdateAmountAsync(Guid id, decimal newAmount);
+
         Task<ServiceResult<int>> DeleteAsync(Guid id);
     }
 }
