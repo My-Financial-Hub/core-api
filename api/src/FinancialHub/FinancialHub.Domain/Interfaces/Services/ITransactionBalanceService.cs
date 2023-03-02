@@ -8,5 +8,6 @@ namespace FinancialHub.Domain.Interfaces.Services
     public interface ITransactionBalanceService
     {
         public Task<ServiceResult<TransactionModel>> CreateTransactionAsync(TransactionModel transaction);
+        public Task<ServiceResult<TransactionModel>> UpdateTransactionAsync(Guid id,TransactionModel transaction);
     }
 }

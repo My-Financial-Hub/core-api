@@ -77,7 +77,6 @@ namespace FinancialHub.WebApi.Controllers
             }
 
             return Ok(new SaveResponse<TransactionModel>(result.Data));
-
         }
 
         [HttpDelete("{id}")]
