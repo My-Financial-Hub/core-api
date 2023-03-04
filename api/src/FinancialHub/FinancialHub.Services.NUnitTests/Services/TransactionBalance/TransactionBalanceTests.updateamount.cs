@@ -15,8 +15,8 @@ namespace FinancialHub.Services.NUnitTests.Services
 
             var transaction = this.transactionModelBuilder
                 .WithBalance(balance)
-                .WithType(Domain.Enums.TransactionType.Earn)
-                .WithStatus(Domain.Enums.TransactionStatus.Committed)
+                .WithType(TransactionType.Earn)
+                .WithStatus(TransactionStatus.Committed)
                 .WithActiveStatus(true)
                 .Generate();
 
@@ -40,8 +40,8 @@ namespace FinancialHub.Services.NUnitTests.Services
 
             var transaction = this.transactionModelBuilder
                 .WithBalance(balance)
-                .WithType(Domain.Enums.TransactionType.Earn)
-                .WithStatus(Domain.Enums.TransactionStatus.NotCommitted)
+                .WithType(TransactionType.Earn)
+                .WithStatus(TransactionStatus.NotCommitted)
                 .Generate();
 
             balance.Amount += transaction.Amount;
@@ -66,8 +66,8 @@ namespace FinancialHub.Services.NUnitTests.Services
 
             var transaction = this.transactionModelBuilder
                 .WithBalance(balance)
-                .WithType(Domain.Enums.TransactionType.Expense)
-                .WithStatus(Domain.Enums.TransactionStatus.Committed)
+                .WithType(TransactionType.Expense)
+                .WithStatus(TransactionStatus.Committed)
                 .WithActiveStatus(true)
                 .Generate();
 
