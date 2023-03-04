@@ -2,8 +2,6 @@
 using FinancialHub.Domain.Results;
 using FinancialHub.Domain.Interfaces.Services;
 using FinancialHub.Domain.Enums;
-using FinancialHub.Domain.Interfaces.Repositories;
-using FinancialHub.Domain.Results.Errors;
 
 namespace FinancialHub.Services.Services
 {
@@ -18,16 +16,25 @@ namespace FinancialHub.Services.Services
             this.balancesService = balancesService;
         }
 
-        private async Task UpdateAmountAsync(TransactionModel transaction, BalanceModel balance)
+        public async Task UpdateAmountAsync(TransactionModel transaction, BalanceModel balance, bool undo = false)
         {
-            decimal newAmount;
-            if (transaction.Type == TransactionType.Earn)
+            decimal newAmount = balance.Amount;
+
+            if(!undo && !transaction.IsPaid)
             {
-                newAmount = balance.Amount + transaction.Amount;
+                return;
+            }
+
+            if (
+                transaction.Type == TransactionType.Earn && !undo ||
+                transaction.Type == TransactionType.Expense && undo
+            )
+            {
+                newAmount += transaction.Amount;
             }
             else
             {
-                newAmount = balance.Amount - transaction.Amount;
+                newAmount -= transaction.Amount;
             }
 
             await balancesService.UpdateAmountAsync(transaction.BalanceId, newAmount);
@@ -76,13 +83,15 @@ namespace FinancialHub.Services.Services
 
                 if (oldTransaction.IsPaid != newTransaction.IsPaid)
                 {
+                     await this.UpdateAmountAsync(newTransaction, balanceResult.Data);
+
                     if (newTransaction.IsPaid)
                     {
-                        await balancesService.UpdateAmountAsync(newTransaction.BalanceId, oldAmount + newTransaction.Amount);
+                        //await balancesService.UpdateAmountAsync(newTransaction.BalanceId, oldAmount + newTransaction.Amount);
                     }
                     else
                     {
-                        await balancesService.UpdateAmountAsync(newTransaction.BalanceId, oldAmount - oldTransaction.Amount);
+                        //await balancesService.UpdateAmountAsync(newTransaction.BalanceId, oldAmount - oldTransaction.Amount);
                     }
                 }
                 else if (oldAmount != newAmount && newTransaction.IsPaid)
@@ -94,20 +103,21 @@ namespace FinancialHub.Services.Services
             else
             {
                 var oldBalanceResult = await balancesService.GetByIdAsync(oldTransaction.BalanceId);
-                var oldAmount = oldBalanceResult.Data.Amount;
-                var newAmount = balanceResult.Data.Amount;
 
                 if (oldTransaction.IsPaid)
                 {
-                    await balancesService.UpdateAmountAsync(oldTransaction.BalanceId, oldAmount - oldTransaction.Amount);
+                    await this.UpdateAmountAsync(oldTransaction, oldBalanceResult.Data);
+                    //await balancesService.UpdateAmountAsync(oldTransaction.BalanceId, oldAmount - oldTransaction.Amount);
                     if (newTransaction.IsPaid)
                     {
-                        await balancesService.UpdateAmountAsync(newTransaction.BalanceId, newAmount + newTransaction.Amount);
+                        await this.UpdateAmountAsync(newTransaction, balanceResult.Data);
+                        //await balancesService.UpdateAmountAsync(newTransaction.BalanceId, newAmount + newTransaction.Amount);
                     }
                 }
                 else if(newTransaction.IsPaid)
                 {
-                    await balancesService.UpdateAmountAsync(newTransaction.BalanceId, newAmount + newTransaction.Amount);
+                    await this.UpdateAmountAsync(newTransaction, balanceResult.Data);
+                    //await balancesService.UpdateAmountAsync(newTransaction.BalanceId, newAmount + newTransaction.Amount);
                 }
             }
 
