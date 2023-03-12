@@ -235,6 +235,148 @@ namespace FinancialHub.Services.NUnitTests.Services
                     this.balancesService.Verify(x => x.UpdateAmountAsync(balanceId, expectedResult), Times.Once);
                 }
             }
+
+            class DifferenteBalance : BaseTransactionBalanceTests
+            {
+                [TestCase(TransactionType.Expense, TransactionType.Expense)]
+                [TestCase(TransactionType.Expense, TransactionType.Earn)]
+                [TestCase(TransactionType.Earn, TransactionType.Earn)]
+                [TestCase(TransactionType.Earn, TransactionType.Expense)]
+                public async Task NotPaidToPaid_AppliesAmountChangesOnNewBalance(TransactionType oldType, TransactionType type)
+                {
+                    var oldBalance = this.balanceModelBuilder.Generate();
+                    var newBalance = this.balanceModelBuilder.Generate();
+
+                    var oldTransaction = this.transactionModelBuilder
+                        .WithBalance(oldBalance)
+                        .WithType(oldType)
+                        .WithStatus(TransactionStatus.NotCommitted)
+                        .WithActiveStatus(true)
+                        .Generate();
+
+                    var newTransaction = this.transactionModelBuilder
+                        .WithBalance(newBalance)
+                        .WithType(type)
+                        .WithStatus(TransactionStatus.Committed)
+                        .WithActiveStatus(true)
+                        .Generate();
+                    var expectedResult = 
+                        type == TransactionType.Earn? 
+                        newBalance.Amount + newTransaction.Amount:
+                        newBalance.Amount - newTransaction.Amount;
+
+                    this.balancesService.Setup(x => x.UpdateAmountAsync(oldTransaction.BalanceId, It.IsAny<decimal>()));
+                    this.balancesService.Setup(x => x.UpdateAmountAsync(newTransaction.BalanceId, expectedResult));
+
+                    await this.service.UpdateAmountAsync(oldTransaction, newTransaction);
+
+                    this.balancesService.Verify(x => x.UpdateAmountAsync(oldTransaction.BalanceId, It.IsAny<decimal>()), Times.Never);
+                    this.balancesService.Verify(x => x.UpdateAmountAsync(newTransaction.BalanceId, expectedResult), Times.Once);
+                }
+
+                [TestCase(TransactionType.Expense, TransactionType.Expense)]
+                [TestCase(TransactionType.Expense, TransactionType.Earn)]
+                [TestCase(TransactionType.Earn, TransactionType.Earn)]
+                [TestCase(TransactionType.Earn, TransactionType.Expense)]
+                public async Task NotPaidToPaid_RemoveAmountChangesFromOldBalance(TransactionType oldType, TransactionType type)
+                {
+                    var oldStartValue = 0;
+                    var oldBalance = this.balanceModelBuilder.WithAmount(oldStartValue).Generate();
+                    var newBalance = this.balanceModelBuilder.WithAmount(oldStartValue).Generate();
+
+                    var oldTransaction = this.transactionModelBuilder
+                        .WithAmount(10)
+                        .WithBalance(oldBalance)
+                        .WithType(oldType)
+                        .WithStatus(TransactionStatus.Committed)
+                        .WithActiveStatus(true)
+                        .Generate();
+
+                    var newTransaction = this.transactionModelBuilder
+                        .WithAmount(10)
+                        .WithBalance(newBalance)
+                        .WithType(type)
+                        .WithStatus(TransactionStatus.NotCommitted)
+                        .WithActiveStatus(true)
+                        .Generate();
+                    var expectedResult =
+                        oldType == TransactionType.Earn ?
+                        oldBalance.Amount - oldTransaction.Amount :
+                        oldBalance.Amount + oldTransaction.Amount;
+
+                    this.balancesService.Setup(x => x.UpdateAmountAsync(oldTransaction.BalanceId, expectedResult));
+                    this.balancesService.Setup(x => x.UpdateAmountAsync(newTransaction.BalanceId, It.IsAny<decimal>()));
+
+                    await this.service.UpdateAmountAsync(oldTransaction, newTransaction);
+
+                    this.balancesService.Verify(x => x.UpdateAmountAsync(oldTransaction.BalanceId, expectedResult), Times.Once);
+                    this.balancesService.Verify(x => x.UpdateAmountAsync(newTransaction.BalanceId, It.IsAny<decimal>()), Times.Never);
+                }
+
+                [Test]
+                public async Task EarnTransactions_RemovesAmountFromOldBalanceAndSentToNewBalance()
+                {
+                    var oldBalance = this.balanceModelBuilder.Generate();
+                    var newBalance = this.balanceModelBuilder.Generate();
+
+                    var oldTransaction = this.transactionModelBuilder
+                        .WithBalance(oldBalance)
+                        .WithType(TransactionType.Earn)
+                        .WithStatus(TransactionStatus.Committed)
+                        .WithActiveStatus(true)
+                        .Generate();
+
+                    var newTransaction = this.transactionModelBuilder
+                        .WithBalance(newBalance)
+                        .WithType(TransactionType.Earn)
+                        .WithStatus(TransactionStatus.Committed)
+                        .WithActiveStatus(true)
+                        .Generate();
+
+                    var expectedOldBalanceAmount = oldBalance.Amount - oldTransaction.Amount;
+                    var expectedNewBalanceAmount = newBalance.Amount + newTransaction.Amount;
+
+                    this.balancesService.Setup(x => x.UpdateAmountAsync(oldTransaction.BalanceId, expectedOldBalanceAmount));
+                    this.balancesService.Setup(x => x.UpdateAmountAsync(newTransaction.BalanceId, expectedNewBalanceAmount));
+
+                    await this.service.UpdateAmountAsync(oldTransaction, newTransaction);
+
+                    this.balancesService.Verify(x => x.UpdateAmountAsync(oldTransaction.BalanceId, expectedOldBalanceAmount), Times.Once);
+                    this.balancesService.Verify(x => x.UpdateAmountAsync(newTransaction.BalanceId, expectedNewBalanceAmount), Times.Once);
+                }
+
+                [Test]
+                public async Task ExpenseTransactions_RemovesAmountFromOldBalanceAndSentToNewBalance()
+                {
+                    var oldBalance = this.balanceModelBuilder.Generate();
+                    var newBalance = this.balanceModelBuilder.Generate();
+
+                    var oldTransaction = this.transactionModelBuilder
+                        .WithBalance(oldBalance)
+                        .WithType(TransactionType.Expense)
+                        .WithStatus(TransactionStatus.Committed)
+                        .WithActiveStatus(true)
+                        .Generate();
+
+                    var newTransaction = this.transactionModelBuilder
+                        .WithBalance(newBalance)
+                        .WithType(TransactionType.Expense)
+                        .WithStatus(TransactionStatus.Committed)
+                        .WithActiveStatus(true)
+                        .Generate();
+
+                    var expectedOldBalanceAmount = oldBalance.Amount + oldTransaction.Amount;
+                    var expectedNewBalanceAmount = newBalance.Amount - newTransaction.Amount;
+
+                    this.balancesService.Setup(x => x.UpdateAmountAsync(oldTransaction.BalanceId, expectedOldBalanceAmount));
+                    this.balancesService.Setup(x => x.UpdateAmountAsync(newTransaction.BalanceId, expectedNewBalanceAmount));
+
+                    await this.service.UpdateAmountAsync(oldTransaction, newTransaction);
+
+                    this.balancesService.Verify(x => x.UpdateAmountAsync(oldTransaction.BalanceId, expectedOldBalanceAmount), Times.Once);
+                    this.balancesService.Verify(x => x.UpdateAmountAsync(newTransaction.BalanceId, expectedNewBalanceAmount), Times.Once);
+                }
+            }
         }
     }
 }

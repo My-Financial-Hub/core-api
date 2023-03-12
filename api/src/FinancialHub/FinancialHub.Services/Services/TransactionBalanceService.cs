@@ -22,7 +22,29 @@ namespace FinancialHub.Services.Services
             {
                 if (oldTransaction.BalanceId != newTransaction.BalanceId)
                 {
+                    var oldAmount = oldTransaction.Balance.Amount;
+                    var newAmount = newTransaction.Balance.Amount;
 
+                    if (oldTransaction.IsPaid)
+                    {
+                        oldAmount =
+                            oldTransaction.Type == TransactionType.Earn ?
+                            oldAmount - oldTransaction.Amount :
+                            oldAmount + oldTransaction.Amount ;
+                    }
+
+                    if (newTransaction.IsPaid)
+                    {
+                        newAmount =
+                            newTransaction.Type == TransactionType.Earn ?
+                            newAmount + newTransaction.Amount :
+                            newAmount - newTransaction.Amount;
+                    }
+
+                    if (oldAmount != oldTransaction.Balance.Amount)
+                        await this.balancesService.UpdateAmountAsync(oldTransaction.BalanceId, oldAmount);
+                    if (newAmount != newTransaction.Balance.Amount)
+                        await this.balancesService.UpdateAmountAsync(newTransaction.BalanceId, newAmount);
                 }
                 else
                 {
@@ -34,14 +56,14 @@ namespace FinancialHub.Services.Services
                         {
                             newAmount =
                                 newTransaction.Type == TransactionType.Earn ?
-                                newAmount + newTransaction.Amount :
+                                newAmount + newTransaction.Amount:
                                 newAmount - newTransaction.Amount;
                         }
                         else
                         {
                             newAmount =
                                newTransaction.Type == TransactionType.Earn ?
-                               newAmount - newTransaction.Amount :
+                               newAmount - newTransaction.Amount:
                                newAmount + newTransaction.Amount;
                         }
                     }
