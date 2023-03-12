@@ -3,7 +3,6 @@ using FinancialHub.Domain.Models;
 using FinancialHub.Domain.Results;
 using Moq;
 using NUnit.Framework;
-using System;
 using System.Threading.Tasks;
 
 namespace FinancialHub.Services.NUnitTests.Services

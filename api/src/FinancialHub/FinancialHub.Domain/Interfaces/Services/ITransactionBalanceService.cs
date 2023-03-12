@@ -9,6 +9,6 @@ namespace FinancialHub.Domain.Interfaces.Services
     {
         Task<ServiceResult<TransactionModel>> CreateTransactionAsync(TransactionModel transaction);
         Task<ServiceResult<TransactionModel>> UpdateTransactionAsync(Guid id,TransactionModel transaction);
-        Task UpdateAmountAsync(TransactionModel transaction, BalanceModel balance, bool undo = false);
+        Task UpdateAmountAsync(TransactionModel oldTransaction, TransactionModel newTransaction);
     }
 }
