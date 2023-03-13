@@ -103,7 +103,6 @@ namespace FinancialHub.Services.Services
             {
                 return oldTransactionResult.Error;
             }
-            var oldTransaction = oldTransactionResult.Data;
             var newTransaction = this.mapper.Map<TransactionEntity>(transaction);
 
             var validation = await this.ValidateTransaction(newTransaction);
@@ -113,30 +112,6 @@ namespace FinancialHub.Services.Services
             }
 
             newTransaction = await this.repository.UpdateAsync(newTransaction);
-
-            /*
-            if (transaction.IsPaid && oldTransaction.IsPaid)
-            {
-                if (transaction.BalanceId != oldTransaction.BalanceId)
-                {
-                    await this.balancesRepository.ChangeAmountAsync(oldTransaction.BalanceId, oldTransaction.Amount, oldTransaction.Type, true);
-                    await this.balancesRepository.ChangeAmountAsync(transaction.BalanceId, transaction.Amount, transaction.Type);
-                }
-                else if(transaction.Amount != oldTransaction.Amount)
-                {
-                    var amountDifference = oldTransaction.Amount - transaction.Amount;
-                    await this.balancesRepository.ChangeAmountAsync(transaction.BalanceId, amountDifference, transaction.Type);
-                }
-            }
-            else if (transaction.IsPaid && (!oldTransaction.IsActive || transaction.Status != oldTransaction.Status))
-            {
-                await this.balancesRepository.ChangeAmountAsync(transaction.BalanceId, transaction.Amount, transaction.Type);
-            }
-            else if (oldTransaction.IsPaid && (!transaction.IsActive || transaction.Status != oldTransaction.Status))
-            {
-                await this.balancesRepository.ChangeAmountAsync(transaction.BalanceId, transaction.Amount, transaction.Type, true);
-            }
-            */
 
             return mapper.Map<TransactionModel>(newTransaction);
         }

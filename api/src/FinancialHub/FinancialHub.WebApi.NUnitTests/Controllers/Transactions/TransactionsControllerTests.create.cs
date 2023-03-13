@@ -20,8 +20,8 @@ namespace FinancialHub.WebApi.NUnitTests.Controllers
             var body = this.transactionModelBuilder.Generate();
             var mockResult = new ServiceResult<TransactionModel>(body);
 
-            this.mockService
-                .Setup(x => x.CreateAsync(body))
+            this.mockTransactionBalanceServiceService
+                .Setup(x => x.CreateTransactionAsync(body))
                 .ReturnsAsync(mockResult)
                 .Verifiable();
 
@@ -35,7 +35,7 @@ namespace FinancialHub.WebApi.NUnitTests.Controllers
             var listResponse = result?.Value as SaveResponse<TransactionModel>;
             Assert.AreEqual(mockResult.Data, listResponse?.Data);
 
-            this.mockService.Verify(x => x.CreateAsync(body), Times.Once);
+            this.mockTransactionBalanceServiceService.Verify(x => x.CreateTransactionAsync(body), Times.Once);
         }
 
         [Test]
@@ -47,8 +47,8 @@ namespace FinancialHub.WebApi.NUnitTests.Controllers
 
             var mockResult = new ServiceResult<TransactionModel>(body, new InvalidDataError(errorMessage));
 
-            this.mockService
-                .Setup(x => x.CreateAsync(body))
+            this.mockTransactionBalanceServiceService
+                .Setup(x => x.CreateTransactionAsync(body))
                 .ReturnsAsync(mockResult)
                 .Verifiable();
 
@@ -63,7 +63,7 @@ namespace FinancialHub.WebApi.NUnitTests.Controllers
             Assert.AreEqual(mockResult.Error.Code, listResponse?.Code);
             Assert.AreEqual(mockResult.Error.Message, listResponse?.Message);
 
-            this.mockService.Verify(x => x.CreateAsync(body), Times.Once);
+            this.mockTransactionBalanceServiceService.Verify(x => x.CreateTransactionAsync(body), Times.Once);
         }
     }
 }
