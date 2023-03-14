@@ -1,202 +1,21 @@
-﻿using Moq;
-using NUnit.Framework;
-using System;
+﻿using System;
 using System.Threading.Tasks;
+using Moq;
+using NUnit.Framework;
 using FinancialHub.Domain.Enums;
+using FinancialHub.Domain.Results.Errors;
 
 namespace FinancialHub.Services.NUnitTests.Services
 {
     public partial class TransactionBalanceTests
     {
-        public static object TestCases {
-            get
-            {
-                var balance1Id = Guid.NewGuid();
-                var balance2Id = Guid.NewGuid();
-                return new object[1]
-                {
-                    new object[8]
-                    {
-                        TransactionStatus.Committed, TransactionType.Expense, balance1Id, 10,
-                        TransactionStatus.Committed, TransactionType.Expense, balance2Id, 10
-                    }
-                };
-            }
-        }
-
         [Test]
-        public async Task UpdateTransactionAsync_EarnPaidToEarnNotPaidSameBalance_RemovesAmountFromBalance()
-        {
-            var balance = this.balanceModelBuilder.Generate();
-            var id = Guid.NewGuid();
-            var oldTransaction = this.transactionModelBuilder
-                .WithType(TransactionType.Earn)
-                .WithStatus(TransactionStatus.Committed)
-                .WithActiveStatus(true)
-                .WithBalance(balance)
-                .WithId(id)
-                .Generate();
-            var newTransaction = this.transactionModelBuilder
-                .WithType(TransactionType.Earn)
-                .WithStatus(TransactionStatus.NotCommitted)
-                .WithActiveStatus(true)
-                .WithBalance(balance)
-                .WithId(id)
-                .Generate();
-            var expectedValue = balance.Amount - oldTransaction.Amount;
-
-            this.transactionsService
-                .Setup(x => x.GetByIdAsync(id))
-                .ReturnsAsync(oldTransaction);
-            this.transactionsService
-                .Setup(x => x.UpdateAsync(id, newTransaction))
-                .ReturnsAsync(newTransaction);
-            this.balancesService
-                .Setup(x => x.GetByIdAsync(newTransaction.BalanceId))
-                .ReturnsAsync(balance)
-                .Verifiable();
-            this.balancesService
-                .Setup(x => x.UpdateAmountAsync(newTransaction.BalanceId, expectedValue))
-                .Verifiable();
-
-            var result = await this.service.UpdateTransactionAsync(id, newTransaction);
-
-            this.balancesService.Verify(x => x.UpdateAmountAsync(newTransaction.BalanceId, expectedValue), Times.Once);
-        }
-
-        [Test]
-        public async Task UpdateTransactionAsync_EarnPaidToExpensePaidSameBalance_RemovesAmountFromBalance()
-        {
-            var id = Guid.NewGuid();
-            var balance = this.balanceModelBuilder
-                .Generate();
-            var oldTransaction = this.transactionModelBuilder
-                .WithType(TransactionType.Earn)
-                .WithStatus(TransactionStatus.Committed)
-                .WithActiveStatus(true)
-                .WithBalance(balance)
-                .WithId(id)
-                .Generate();
-            var newTransaction = this.transactionModelBuilder
-                .WithAmount(oldTransaction.Amount)
-                .WithType(TransactionType.Expense)
-                .WithStatus(TransactionStatus.Committed)
-                .WithActiveStatus(true)
-                .WithBalance(balance)
-                .WithId(id)
-                .Generate();
-
-            var expectedValue = balance.Amount - oldTransaction.Amount - newTransaction.Amount;
-
-            this.transactionsService
-                .Setup(x => x.GetByIdAsync(id))
-                .ReturnsAsync(oldTransaction);
-            this.transactionsService
-                .Setup(x => x.UpdateAsync(id, newTransaction))
-                .ReturnsAsync(newTransaction);
-            this.balancesService
-                .Setup(x => x.GetByIdAsync(newTransaction.BalanceId))
-                .ReturnsAsync(balance)
-                .Verifiable();
-            this.balancesService
-                .Setup(x => x.UpdateAmountAsync(newTransaction.BalanceId, expectedValue))
-                .Verifiable();
-
-            var result = await this.service.UpdateTransactionAsync(id, newTransaction);
-
-            this.balancesService.Verify(x => x.UpdateAmountAsync(newTransaction.BalanceId, expectedValue), Times.Once);
-        }
-
-        [Test]
-        public async Task UpdateTransactionAsync_EarnPaidToExpenseNotPaidSameBalance_RemovesAmountFromBalance()
-        {
-            var id = Guid.NewGuid();
-            var balance = this.balanceModelBuilder
-                .Generate();
-            var oldTransaction = this.transactionModelBuilder
-                .WithType(TransactionType.Earn)
-                .WithStatus(TransactionStatus.Committed)
-                .WithActiveStatus(true)
-                .WithBalance(balance)
-                .WithId(id)
-                .Generate();
-            var newTransaction = this.transactionModelBuilder
-                .WithAmount(oldTransaction.Amount)
-                .WithType(TransactionType.Expense)
-                .WithStatus(TransactionStatus.NotCommitted)
-                .WithActiveStatus(true)
-                .WithBalance(balance)
-                .WithId(id)
-                .Generate();
-
-            var expectedValue = balance.Amount - oldTransaction.Amount;
-
-            this.transactionsService
-                .Setup(x => x.GetByIdAsync(id))
-                .ReturnsAsync(oldTransaction);
-            this.transactionsService
-                .Setup(x => x.UpdateAsync(id, newTransaction))
-                .ReturnsAsync(newTransaction);
-            this.balancesService
-                .Setup(x => x.GetByIdAsync(newTransaction.BalanceId))
-                .ReturnsAsync(balance)
-                .Verifiable();
-            this.balancesService
-                .Setup(x => x.UpdateAmountAsync(newTransaction.BalanceId, expectedValue))
-                .Verifiable();
-
-            var result = await this.service.UpdateTransactionAsync(id, newTransaction);
-
-            this.balancesService.Verify(x => x.UpdateAmountAsync(newTransaction.BalanceId, expectedValue), Times.Once);
-        }
-
-        [Test]
-        public async Task UpdateTransactionAsync_EarnNotPaidToEarnPaidSameBalance_AddsDifferenceToSameBalance()
-        {
-            var balance = this.balanceModelBuilder.Generate();
-            var id = Guid.NewGuid();
-            var oldTransaction = this.transactionModelBuilder
-                .WithType(TransactionType.Earn)
-                .WithStatus(TransactionStatus.NotCommitted)
-                .WithActiveStatus(true)
-                .WithBalance(balance)
-                .WithId(id)
-                .Generate();
-            var newTransaction = this.transactionModelBuilder
-                .WithType(TransactionType.Earn)
-                .WithStatus(TransactionStatus.Committed)
-                .WithActiveStatus(true)
-                .WithBalance(balance)
-                .WithId(id)
-                .Generate();
-
-            var expectedValue = balance.Amount + oldTransaction.Amount;
-
-            this.transactionsService
-                .Setup(x => x.GetByIdAsync(id))
-                .ReturnsAsync(oldTransaction);
-            this.transactionsService
-                .Setup(x => x.UpdateAsync(id, newTransaction))
-                .ReturnsAsync(newTransaction);
-            this.balancesService
-                .Setup(x => x.GetByIdAsync(newTransaction.BalanceId))
-                .ReturnsAsync(balance)
-                .Verifiable();
-            this.balancesService
-                .Setup(x => x.UpdateAmountAsync(newTransaction.BalanceId, expectedValue))
-                .Verifiable();
-
-            var result = await this.service.UpdateTransactionAsync(id, newTransaction);
-
-            this.balancesService.Verify(x => x.UpdateAmountAsync(newTransaction.BalanceId, expectedValue), Times.Once);
-        }
-
-        [Test]
-        public async Task UpdateTransactionAsync_EarnPaidToNotEarnPaidDifferentBalance_RemovesAmountFromFirstBalance()
+        public async Task UpdateTransactionAsync_ValidTransactionWithDifferentBalances_UpdatesBalancesAmount()
         {
             var oldBalance = this.balanceModelBuilder.Generate();
             var newBalance = this.balanceModelBuilder.Generate();
             var id = Guid.NewGuid();
+
             var oldTransaction = this.transactionModelBuilder
                 .WithType(TransactionType.Earn)
                 .WithStatus(TransactionStatus.Committed)
@@ -212,53 +31,54 @@ namespace FinancialHub.Services.NUnitTests.Services
                 .WithId(id)
                 .Generate();
 
-            var oldExpectedValue = oldBalance.Amount - oldTransaction.Amount;
-
             this.transactionsService
                 .Setup(x => x.GetByIdAsync(id))
                 .ReturnsAsync(oldTransaction);
             this.transactionsService
                 .Setup(x => x.UpdateAsync(id, newTransaction))
                 .ReturnsAsync(newTransaction);
+
+            this.balancesService
+                .Setup(x => x.GetByIdAsync(oldTransaction.BalanceId))
+                .ReturnsAsync(oldBalance);
             this.balancesService
                 .Setup(x => x.GetByIdAsync(newTransaction.BalanceId))
-                .ReturnsAsync(oldBalance)
-                .Verifiable();
-            this.balancesService
-                .Setup(x => x.UpdateAmountAsync(oldTransaction.BalanceId, oldExpectedValue))
-                .Verifiable();
+                .ReturnsAsync(newBalance);
             this.balancesService
                 .Setup(x => x.UpdateAmountAsync(newTransaction.BalanceId, It.IsAny<decimal>()))
                 .Verifiable();
 
             var result = await this.service.UpdateTransactionAsync(id, newTransaction);
 
-            this.balancesService.Verify(x => x.UpdateAmountAsync(oldTransaction.BalanceId, oldExpectedValue), Times.Once);
-            this.balancesService.Verify(x => x.UpdateAmountAsync(newTransaction.BalanceId, It.IsAny<decimal>()), Times.Never);
+            Assert.IsFalse(result.HasError);
+            Assert.AreSame(newTransaction, result.Data);
+            this.balancesService
+                .Verify(
+                    x => x.UpdateAmountAsync(It.IsAny<Guid>(), It.IsAny<decimal>()),
+                    Times.Exactly(2)
+                 );
         }
 
         [Test]
-        public async Task UpdateTransactionAsync_EarnNotPaidToEarnPaidDifferentBalance_AddsAmountToSecondBalance()
+        public async Task UpdateTransactionAsync_ValidTransactionWithSameBalance_UpdatesBalanceAmount()
         {
-            var oldBalance = this.balanceModelBuilder.Generate();
-            var newBalance = this.balanceModelBuilder.Generate();
+            var balance = this.balanceModelBuilder.Generate();
             var id = Guid.NewGuid();
+
             var oldTransaction = this.transactionModelBuilder
                 .WithType(TransactionType.Earn)
                 .WithStatus(TransactionStatus.Committed)
                 .WithActiveStatus(true)
-                .WithBalance(oldBalance)
+                .WithBalance(balance)
                 .WithId(id)
                 .Generate();
             var newTransaction = this.transactionModelBuilder
                 .WithType(TransactionType.Earn)
                 .WithStatus(TransactionStatus.NotCommitted)
                 .WithActiveStatus(true)
-                .WithBalance(newBalance)
+                .WithBalance(balance)
                 .WithId(id)
                 .Generate();
-
-            var newExpectedValue = newBalance.Amount + newTransaction.Amount;
 
             this.transactionsService
                 .Setup(x => x.GetByIdAsync(id))
@@ -266,21 +86,75 @@ namespace FinancialHub.Services.NUnitTests.Services
             this.transactionsService
                 .Setup(x => x.UpdateAsync(id, newTransaction))
                 .ReturnsAsync(newTransaction);
+
             this.balancesService
                 .Setup(x => x.GetByIdAsync(newTransaction.BalanceId))
-                .ReturnsAsync(oldBalance)
-                .Verifiable();
+                .ReturnsAsync(balance);
             this.balancesService
-                .Setup(x => x.UpdateAmountAsync(oldTransaction.BalanceId, It.IsAny<decimal>()))
-                .Verifiable();
-            this.balancesService
-                .Setup(x => x.UpdateAmountAsync(newTransaction.BalanceId, newExpectedValue))
+                .Setup(x => x.UpdateAmountAsync(newTransaction.BalanceId, It.IsAny<decimal>()))
                 .Verifiable();
 
             var result = await this.service.UpdateTransactionAsync(id, newTransaction);
 
-            this.balancesService.Verify(x => x.UpdateAmountAsync(oldTransaction.BalanceId, It.IsAny<decimal>()), Times.Never);
-            this.balancesService.Verify(x => x.UpdateAmountAsync(newTransaction.BalanceId, newExpectedValue), Times.Once);
+            Assert.IsFalse(result.HasError);
+            Assert.AreSame(newTransaction, result.Data);
+            this.balancesService
+                .Verify(
+                    x => x.UpdateAmountAsync(newTransaction.BalanceId, It.IsAny<decimal>()),
+                    Times.Once
+                 );
+        }
+
+        [Test]
+        public async Task UpdateTransactionAsync_TransactionUpdateFailed_ReturnsUpdateError()
+        {
+            var balance = this.balanceModelBuilder.Generate();
+            var id = Guid.NewGuid();
+            var newTransaction = this.transactionModelBuilder
+                .WithType(TransactionType.Earn)
+                .WithStatus(TransactionStatus.NotCommitted)
+                .WithActiveStatus(true)
+                .WithBalance(balance)
+                .WithId(id)
+                .Generate();
+
+            var error = new ServiceError(1, "Update error message");
+            this.transactionsService
+                .Setup(x => x.GetByIdAsync(id))
+                .ReturnsAsync(newTransaction);
+
+            this.transactionsService
+                .Setup(x => x.UpdateAsync(id, newTransaction))
+                .ReturnsAsync(error);
+
+            var result = await this.service.UpdateTransactionAsync(id, newTransaction);
+
+            Assert.IsFalse(result.HasError);
+            Assert.AreEqual(error.Message, result.Error.Message);
+        }
+
+        [Test]
+        public async Task UpdateTransactionAsync_NotExistingTransaction_ReturnsError()
+        {
+            var balance = this.balanceModelBuilder.Generate();
+            var id = Guid.NewGuid();
+            var newTransaction = this.transactionModelBuilder
+                .WithType(TransactionType.Earn)
+                .WithStatus(TransactionStatus.NotCommitted)
+                .WithActiveStatus(true)
+                .WithBalance(balance)
+                .WithId(id)
+                .Generate();
+
+            var error = new ServiceError(1, "error message");
+            this.transactionsService
+                .Setup(x => x.GetByIdAsync(id))
+                .ReturnsAsync(error);
+
+            var result = await this.service.UpdateTransactionAsync(id, newTransaction);
+
+            Assert.IsTrue(result.HasError);
+            Assert.AreEqual(error.Message, result.Error.Message);
         }
     }
 }

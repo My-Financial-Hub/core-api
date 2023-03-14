@@ -16,30 +16,79 @@ namespace FinancialHub.Services.Services
             this.balancesService = balancesService;
         }
 
+        private static (decimal oldAmount, decimal newAmount) UpdateAmountDifferentBalances(TransactionModel oldTransaction, TransactionModel newTransaction)
+        {
+            var oldAmount = oldTransaction.Balance.Amount; 
+            var newAmount = newTransaction.Balance.Amount;
+
+            if (oldTransaction.IsPaid)
+            {
+                oldAmount =
+                    oldTransaction.Type == TransactionType.Earn ?
+                    oldAmount - oldTransaction.Amount :
+                    oldAmount + oldTransaction.Amount;
+            }
+
+            if (newTransaction.IsPaid)
+            {
+                newAmount =
+                    newTransaction.Type == TransactionType.Earn ?
+                    newAmount + newTransaction.Amount :
+                    newAmount - newTransaction.Amount;
+            }
+
+            return (oldAmount, newAmount);
+        }
+
+        private static decimal UpdateAmountSameBalance(TransactionModel oldTransaction, TransactionModel newTransaction)
+        {
+            var newAmount = newTransaction.Balance.Amount;
+            if (oldTransaction.IsPaid != newTransaction.IsPaid)
+            {
+                if (newTransaction.IsPaid)
+                {
+                    newAmount =
+                        newTransaction.Type == TransactionType.Earn ?
+                        newAmount + newTransaction.Amount :
+                        newAmount - newTransaction.Amount;
+                }
+                else
+                {
+                    newAmount =
+                       newTransaction.Type == TransactionType.Earn ?
+                       newAmount - newTransaction.Amount :
+                       newAmount + newTransaction.Amount;
+                }
+            }
+            else if (oldTransaction.IsPaid && newTransaction.IsPaid)
+            {
+                if (newTransaction.Type == oldTransaction.Type)
+                {
+                    var difference =
+                        oldTransaction.Type == TransactionType.Earn ?
+                        newTransaction.Amount - oldTransaction.Amount :
+                        oldTransaction.Amount - newTransaction.Amount;
+                    newAmount += difference;
+                }
+                else
+                {
+                    var difference = oldTransaction.Amount + newTransaction.Amount;
+                    newAmount =
+                        oldTransaction.Type == TransactionType.Earn ?
+                        newAmount - difference :
+                        newAmount + difference;
+                }
+            }
+            return newAmount;
+        }
+
         public async Task UpdateAmountAsync(TransactionModel oldTransaction, TransactionModel newTransaction)
         {
             if(oldTransaction.IsPaid || newTransaction.IsPaid)
             {
                 if (oldTransaction.BalanceId != newTransaction.BalanceId)
                 {
-                    var oldAmount = oldTransaction.Balance.Amount;
-                    var newAmount = newTransaction.Balance.Amount;
-
-                    if (oldTransaction.IsPaid)
-                    {
-                        oldAmount =
-                            oldTransaction.Type == TransactionType.Earn ?
-                            oldAmount - oldTransaction.Amount :
-                            oldAmount + oldTransaction.Amount ;
-                    }
-
-                    if (newTransaction.IsPaid)
-                    {
-                        newAmount =
-                            newTransaction.Type == TransactionType.Earn ?
-                            newAmount + newTransaction.Amount :
-                            newAmount - newTransaction.Amount;
-                    }
+                    var (oldAmount, newAmount) = UpdateAmountDifferentBalances(oldTransaction, newTransaction);
 
                     if (oldAmount != oldTransaction.Balance.Amount)
                         await this.balancesService.UpdateAmountAsync(oldTransaction.BalanceId, oldAmount);
@@ -48,44 +97,7 @@ namespace FinancialHub.Services.Services
                 }
                 else
                 {
-                    var newAmount = newTransaction.Balance.Amount;
-
-                    if (oldTransaction.IsPaid != newTransaction.IsPaid)
-                    {
-                        if (newTransaction.IsPaid)
-                        {
-                            newAmount =
-                                newTransaction.Type == TransactionType.Earn ?
-                                newAmount + newTransaction.Amount:
-                                newAmount - newTransaction.Amount;
-                        }
-                        else
-                        {
-                            newAmount =
-                               newTransaction.Type == TransactionType.Earn ?
-                               newAmount - newTransaction.Amount:
-                               newAmount + newTransaction.Amount;
-                        }
-                    }
-                    else if (oldTransaction.IsPaid && newTransaction.IsPaid)
-                    {
-                        if (newTransaction.Type == oldTransaction.Type)
-                        {
-                            var difference = 
-                                oldTransaction.Type == TransactionType.Earn ?
-                                newTransaction.Amount - oldTransaction.Amount :
-                                oldTransaction.Amount - newTransaction.Amount ;
-                            newAmount += difference;
-                        }
-                        else
-                        {
-                            var difference = oldTransaction.Amount + newTransaction.Amount;
-                            newAmount =
-                                oldTransaction.Type == TransactionType.Earn ?
-                                newAmount - difference:
-                                newAmount + difference;
-                        }
-                    }
+                    var newAmount = UpdateAmountSameBalance(oldTransaction, newTransaction);
 
                     if(newAmount != newTransaction.Balance.Amount)
                     {
@@ -123,7 +135,6 @@ namespace FinancialHub.Services.Services
             return transactionResult;
         }
 
-        //TODO: improve this code (and architecture)
         public async Task<ServiceResult<TransactionModel>> UpdateTransactionAsync(Guid id, TransactionModel transaction)
         {
             var oldTransactionResult = await transactionsService.GetByIdAsync(id);
