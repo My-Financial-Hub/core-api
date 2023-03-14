@@ -40,44 +40,60 @@ namespace FinancialHub.Services.Services
             return (oldAmount, newAmount);
         }
 
+        private static decimal UpdateAmountDifferentStatus(TransactionModel newTransaction)
+        {
+            var newAmount = newTransaction.Balance.Amount;
+
+            if (newTransaction.IsPaid)
+            {
+                if (newTransaction.Type == TransactionType.Earn)
+                    return newAmount + newTransaction.Amount;
+                else
+                    return newAmount - newTransaction.Amount;
+            }
+            else
+            {
+                if (newTransaction.Type == TransactionType.Earn)
+                    return newAmount - newTransaction.Amount;
+                else
+                    return newAmount + newTransaction.Amount;
+            }
+        }
+
+        private static decimal UpdateAmountSameStatus(TransactionModel oldTransaction, TransactionModel newTransaction)
+        {
+            var newAmount = newTransaction.Balance.Amount;
+
+            if (newTransaction.Type == oldTransaction.Type)
+            {
+                decimal difference;
+                if (oldTransaction.Type == TransactionType.Earn)
+                    difference = newTransaction.Amount - oldTransaction.Amount;
+                else
+                    difference = oldTransaction.Amount - newTransaction.Amount;
+
+                return newAmount + difference;
+            }
+            else
+            {
+                var difference = oldTransaction.Amount + newTransaction.Amount;
+                if (oldTransaction.Type == TransactionType.Earn)
+                    return newAmount - difference;
+                else
+                    return newAmount + difference;
+            }
+        }
+
         private static decimal UpdateAmountSameBalance(TransactionModel oldTransaction, TransactionModel newTransaction)
         {
             var newAmount = newTransaction.Balance.Amount;
             if (oldTransaction.IsPaid != newTransaction.IsPaid)
             {
-                if (newTransaction.IsPaid)
-                {
-                    newAmount =
-                        newTransaction.Type == TransactionType.Earn ?
-                        newAmount + newTransaction.Amount :
-                        newAmount - newTransaction.Amount;
-                }
-                else
-                {
-                    newAmount =
-                       newTransaction.Type == TransactionType.Earn ?
-                       newAmount - newTransaction.Amount :
-                       newAmount + newTransaction.Amount;
-                }
+                return UpdateAmountDifferentStatus(newTransaction);
             }
             else if (oldTransaction.IsPaid && newTransaction.IsPaid)
             {
-                if (newTransaction.Type == oldTransaction.Type)
-                {
-                    var difference =
-                        oldTransaction.Type == TransactionType.Earn ?
-                        newTransaction.Amount - oldTransaction.Amount :
-                        oldTransaction.Amount - newTransaction.Amount;
-                    newAmount += difference;
-                }
-                else
-                {
-                    var difference = oldTransaction.Amount + newTransaction.Amount;
-                    newAmount =
-                        oldTransaction.Type == TransactionType.Earn ?
-                        newAmount - difference :
-                        newAmount + difference;
-                }
+                return UpdateAmountSameStatus(oldTransaction, newTransaction);
             }
             return newAmount;
         }
