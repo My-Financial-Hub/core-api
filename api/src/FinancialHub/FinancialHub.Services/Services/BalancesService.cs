@@ -74,9 +74,7 @@ namespace FinancialHub.Services.Services
         {
             var entities = await this.repository.GetAsync(x => x.AccountId == accountId);
 
-            var list = this.mapper.Map<ICollection<BalanceModel>>(entities);
-
-            return list.ToArray();
+            return this.mapper.Map<ICollection<BalanceModel>>(entities).ToArray();
         }
 
         public async Task<ServiceResult<BalanceModel>> UpdateAsync(Guid id, BalanceModel balance)
