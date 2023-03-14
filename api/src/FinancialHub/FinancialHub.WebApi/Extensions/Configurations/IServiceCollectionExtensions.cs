@@ -50,6 +50,7 @@ namespace FinancialHub.WebApi.Extensions.Configurations
             services.AddScoped<IBalancesService, BalancesService>();
 
             services.AddScoped<IAccountBalanceService, AccountBalanceService>();
+            services.AddScoped<ITransactionBalanceService, TransactionBalanceService>();
             return services;
         }
 

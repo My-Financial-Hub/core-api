@@ -74,9 +74,7 @@ namespace FinancialHub.Services.Services
         {
             var entities = await this.repository.GetAsync(x => x.AccountId == accountId);
 
-            var list = this.mapper.Map<ICollection<BalanceModel>>(entities);
-
-            return list.ToArray();
+            return this.mapper.Map<ICollection<BalanceModel>>(entities).ToArray();
         }
 
         public async Task<ServiceResult<BalanceModel>> UpdateAsync(Guid id, BalanceModel balance)
@@ -99,6 +97,19 @@ namespace FinancialHub.Services.Services
             entity = await this.repository.UpdateAsync(entity);
 
             return mapper.Map<BalanceModel>(entity);
+        }
+
+        public async Task<ServiceResult<BalanceModel>> UpdateAmountAsync(Guid id, decimal newAmount)
+        {
+            var balanceResult = await this.GetByIdAsync(id);
+            if (balanceResult.HasError)
+            {
+                return balanceResult.Error;
+            }
+
+            var newBalance = await repository.ChangeAmountAsync(id, newAmount);
+
+            return mapper.Map<BalanceModel>(newBalance);
         }
     }
 }

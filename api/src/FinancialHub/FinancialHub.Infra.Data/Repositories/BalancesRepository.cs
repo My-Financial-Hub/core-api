@@ -53,5 +53,16 @@ namespace FinancialHub.Infra.Data.Repositories
 
             return balance;
         }
+
+        public async Task<BalanceEntity> ChangeAmountAsync(Guid balanceId, decimal value)
+        {
+            var balance = await this.GetByIdAsync(balanceId);
+            balance.Amount = value;
+            balance.UpdateTime = DateTimeOffset.Now;
+
+            context.Update(balance);
+            await context.SaveChangesAsync();
+            return balance;
+        }
     }
 }

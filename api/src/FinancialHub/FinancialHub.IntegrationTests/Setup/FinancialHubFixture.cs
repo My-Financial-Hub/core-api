@@ -9,6 +9,7 @@ using FinancialHub.Domain.Entities;
 using System.Collections;
 using FinancialHub.IntegrationTests.Extensions;
 using System.Collections.Generic;
+using FinancialHub.Services.Mappers;
 
 namespace FinancialHub.IntegrationTests.Setup
 {

@@ -3,7 +3,6 @@ using FinancialHub.Domain.Models;
 using FinancialHub.Domain.Results;
 using Moq;
 using NUnit.Framework;
-using System;
 using System.Threading.Tasks;
 
 namespace FinancialHub.Services.NUnitTests.Services
@@ -19,10 +18,14 @@ namespace FinancialHub.Services.NUnitTests.Services
                 .Setup(x => x.GetByIdAsync(model.AccountId))
                 .ReturnsAsync(this.mapper.Map<AccountEntity>(model.Account))
                 .Verifiable();
+            this.repository
+                .Setup(x => x.GetByIdAsync(model.Id.GetValueOrDefault()))
+                .ReturnsAsync(this.mapper.Map<BalanceEntity>(model))
+                .Verifiable();
 
             this.SetUpMapper();
 
-            var result = await this.service.CreateAsync(model);
+            var result = await this.service.UpdateAsync(model.Id.GetValueOrDefault(), model);
 
             this.accountsRepository.Verify(x => x.GetByIdAsync(model.AccountId), Times.Once);
         }
@@ -31,15 +34,17 @@ namespace FinancialHub.Services.NUnitTests.Services
         public async Task UpdateAsync_ValidatesIfBalanceExists()
         {
             var model = this.balanceModelBuilder.Generate();
-
+            var id = model.Id.GetValueOrDefault();
             this.repository
-                .Setup(x => x.GetByIdAsync(model.Id.GetValueOrDefault()))
+                .Setup(x => x.GetByIdAsync(id))
                 .ReturnsAsync(default(BalanceEntity))
                 .Verifiable();
 
-            var result = await this.service.UpdateAsync(model.Id.GetValueOrDefault(), model);
+            var result = await this.service.UpdateAsync(id, model);
 
-            this.repository.Verify(x => x.GetByIdAsync(model.Id.GetValueOrDefault()), Times.Once);
+            Assert.IsTrue(result.HasError);
+            Assert.AreEqual($"Not found Balance with id {id}", result.Error.Message);
+            this.repository.Verify(x => x.GetByIdAsync(id), Times.Once);
         }
 
         [Test]

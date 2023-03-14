@@ -5,7 +5,6 @@ using NUnit.Framework;
 using FinancialHub.Domain.Entities;
 using FinancialHub.Domain.Models;
 using FinancialHub.Domain.Results;
-using FinancialHub.Domain.Enums;
 
 namespace FinancialHub.Services.NUnitTests.Services
 {
@@ -34,67 +33,6 @@ namespace FinancialHub.Services.NUnitTests.Services
             await this.service.CreateAsync(model);
 
             this.repository.Verify(x => x.CreateAsync(It.IsAny<TransactionEntity>()), Times.Once);
-        }
-
-        [Test]
-        public async Task CreateAsync_CommitedActiveTransaction_UpdatesBalance()
-        {
-            var model = this.transactionModelBuilder
-                .WithStatus(TransactionStatus.Committed)
-                .WithActiveStatus(true)
-                .Generate();
-            var balanceEntity = this.mapper.Map<BalanceEntity>(model.Balance);
-
-            this.categoriesRepository
-                .Setup(x => x.GetByIdAsync(model.CategoryId))
-                .ReturnsAsync(this.mapper.Map<CategoryEntity>(model.Category))
-                .Verifiable();
-
-            this.balancesRepository
-                .Setup(x => x.GetByIdAsync(model.BalanceId))
-                .ReturnsAsync(balanceEntity)
-                .Verifiable();
-
-            this.repository
-                .Setup(x => x.CreateAsync(It.IsAny<TransactionEntity>()))
-                .Returns<TransactionEntity>(async (x) => await Task.FromResult(x))
-                .Verifiable();
-
-            this.SetUpMapper();
-
-            await this.service.CreateAsync(model);
-
-            this.balancesRepository.Verify(x => x.ChangeAmountAsync(model.BalanceId, model.Amount,model.Type,false), Times.Once);
-        }
-
-        [Test]
-        public async Task CreateAsync_NotCommitedTransaction_DoesNotUpdatesBalance()
-        {
-            var model = this.transactionModelBuilder
-                .WithStatus(TransactionStatus.NotCommitted)
-                .Generate();
-            var balanceEntity = this.mapper.Map<BalanceEntity>(model.Balance);
-
-            this.categoriesRepository
-                .Setup(x => x.GetByIdAsync(model.CategoryId))
-                .ReturnsAsync(this.mapper.Map<CategoryEntity>(model.Category))
-                .Verifiable();
-
-            this.balancesRepository
-                .Setup(x => x.GetByIdAsync(model.BalanceId))
-                .ReturnsAsync(balanceEntity)
-                .Verifiable();
-
-            this.repository
-                .Setup(x => x.CreateAsync(It.IsAny<TransactionEntity>()))
-                .Returns<TransactionEntity>(async (x) => await Task.FromResult(x))
-                .Verifiable();
-
-            this.SetUpMapper();
-
-            await this.service.CreateAsync(model);
-
-            this.balancesRepository.Verify(x => x.ChangeAmountAsync(It.IsAny<Guid>(), It.IsAny<decimal>(), It.IsAny<TransactionType>(), It.IsAny<bool>()), Times.Never);
         }
 
         [Test]
