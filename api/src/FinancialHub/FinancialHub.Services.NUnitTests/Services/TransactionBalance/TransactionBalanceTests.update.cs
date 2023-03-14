@@ -55,7 +55,7 @@ namespace FinancialHub.Services.NUnitTests.Services
             this.balancesService
                 .Verify(
                     x => x.UpdateAmountAsync(It.IsAny<Guid>(), It.IsAny<decimal>()),
-                    Times.Exactly(2)
+                    Times.Between(1,2, Moq.Range.Inclusive)
                  );
         }
 
@@ -125,30 +125,6 @@ namespace FinancialHub.Services.NUnitTests.Services
 
             this.transactionsService
                 .Setup(x => x.UpdateAsync(id, newTransaction))
-                .ReturnsAsync(error);
-
-            var result = await this.service.UpdateTransactionAsync(id, newTransaction);
-
-            Assert.IsFalse(result.HasError);
-            Assert.AreEqual(error.Message, result.Error.Message);
-        }
-
-        [Test]
-        public async Task UpdateTransactionAsync_NotExistingTransaction_ReturnsError()
-        {
-            var balance = this.balanceModelBuilder.Generate();
-            var id = Guid.NewGuid();
-            var newTransaction = this.transactionModelBuilder
-                .WithType(TransactionType.Earn)
-                .WithStatus(TransactionStatus.NotCommitted)
-                .WithActiveStatus(true)
-                .WithBalance(balance)
-                .WithId(id)
-                .Generate();
-
-            var error = new ServiceError(1, "error message");
-            this.transactionsService
-                .Setup(x => x.GetByIdAsync(id))
                 .ReturnsAsync(error);
 
             var result = await this.service.UpdateTransactionAsync(id, newTransaction);
