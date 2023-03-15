@@ -5,15 +5,15 @@ on:
     branches: 
       - 'main'
     paths:
-      - 'api/src/FinancialHub/*' 
-      - 'api/src/FinancialHub/**'
+      - 'src/FinancialHub/*' 
+      - 'src/FinancialHub/**'
   pull_request:
     branches: 
       - 'main'
       - 'release/**'
     paths:
-      - 'api/src/FinancialHub/*' 
-      - 'api/src/FinancialHub/**'
+      - 'src/FinancialHub/*' 
+      - 'src/FinancialHub/**'
   
 permissions:
     pull-requests: read
@@ -25,7 +25,7 @@ jobs:
     
     defaults:
       run:
-        working-directory: ./api/src/FinancialHub/
+        working-directory: ./src/FinancialHub/
             
     steps:
       - name: Set up JDK 11
