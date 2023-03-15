@@ -5,15 +5,15 @@ on:
     branches: 
       - 'main'
     paths:
-      - 'api/src/FinancialHub/*' 
-      - 'api/src/FinancialHub/**'
+      - 'src/FinancialHub/*' 
+      - 'src/FinancialHub/**'
   pull_request:
     branches: 
       - 'main'
       - 'release/**'
     paths:
-      - 'api/src/FinancialHub/*' 
-      - 'api/src/FinancialHub/**'
+      - 'src/FinancialHub/*' 
+      - 'src/FinancialHub/**'
 
 jobs:
   build:
@@ -39,12 +39,12 @@ jobs:
         
     - name: Restore dependencies
       run: dotnet restore
-      working-directory: './api/src/FinancialHub/'
+      working-directory: './src/FinancialHub/'
       
     - name: Build
       run: dotnet build --no-restore
-      working-directory: './api/src/FinancialHub/'
+      working-directory: './src/FinancialHub/'
       
     - name: Test
       run: dotnet test --no-build --verbosity normal
-      working-directory: './api/src/FinancialHub/'
+      working-directory: './src/FinancialHub/'
