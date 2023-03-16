@@ -154,6 +154,7 @@ namespace FinancialHub.IntegrationTests
         }
 
         [Test]
+        [Ignore("Endpoint disabled")]
         public async Task Delete_ReturnNoContent()
         {
             var id = Guid.NewGuid();
@@ -166,6 +167,7 @@ namespace FinancialHub.IntegrationTests
         }
 
         [Test]
+        [Ignore("Endpoint disabled")]
         public async Task Delete_RemovesAccountFromDatabase()
         {
             var id = Guid.NewGuid();

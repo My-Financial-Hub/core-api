@@ -94,6 +94,7 @@ namespace FinancialHub.WebApi.Controllers
         /// Deletes an existing account on database
         /// </summary>
         /// <param name="id">id of the account</param>
+        [NonAction]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAccount([FromRoute] Guid id)
         {
