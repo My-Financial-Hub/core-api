@@ -1,12 +1,12 @@
-using FinancialHub.Infra.Data.Contexts;
-using FinancialHub.WebApi.Extensions.Configurations;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using FinancialHub.WebApi.Extensions.Configurations;
+using FinancialHub.Infra.Data.Extensions.Configurations;
+using FinancialHub.Services.Extensions.Configurations;
 
 namespace FinancialHub.WebApi
 {
@@ -21,29 +21,11 @@ namespace FinancialHub.WebApi
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<FinancialHubContext>(
-                provider =>{ 
-                    provider.UseSqlServer(
-                        Configuration.GetConnectionString("default"),
-                        x => x
-                            .MigrationsAssembly("FinancialHub.Infra.Migrations")
-                            .MigrationsHistoryTable("migrations")
-                    );
-                }
-            );
-
-            //services.AddLogging();
-
-            services.AddRepositories();
-            services.AddServices();
-            services.AddValidators();
             services.AddApiConfigurations();
 
-            //services.AddHealthCheck();
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Financial Hub WebApi", Version = "v1" });
-            });
+            services.AddValidators();
+            services.AddServices();
+            services.AddRepositories(Configuration);
 
             services.AddMvc().AddNewtonsoftJson();
         }
@@ -58,8 +40,6 @@ namespace FinancialHub.WebApi
             }
 
             app.UseRouting();
-
-            //app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
