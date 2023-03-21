@@ -13,12 +13,14 @@ namespace FinancialHub.Infra.Data.Extensions.Configurations
         {
             services.AddDbContext<FinancialHubContext>(
                 provider =>
+                {
                     provider.UseSqlServer(
                         configuration.GetConnectionString("default"),
                         x => x
                             .MigrationsAssembly("FinancialHub.Infra.Migrations")
                             .MigrationsHistoryTable("migrations")
-                    )
+                    );
+                }
             );
             services.AddScoped<IAccountsRepository, AccountsRepository>();
             services.AddScoped<ICategoriesRepository, CategoriesRepository>();
