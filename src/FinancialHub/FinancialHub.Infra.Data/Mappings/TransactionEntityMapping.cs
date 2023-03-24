@@ -6,54 +6,54 @@ namespace FinancialHub.Infra.Data.Mappings
 {
     internal class TransactionEntityMapping : IEntityTypeConfiguration<TransactionEntity>
     {
-        public void Configure(EntityTypeBuilder<TransactionEntity> table)
+        public void Configure(EntityTypeBuilder<TransactionEntity> builder)
         {
-            table.HasKey(t => t.Id);
-            table.HasIndex(t => t.Id).IsUnique(true);
+            builder.HasKey(t => t.Id);
+            builder.HasIndex(t => t.Id).IsUnique(true);
 
-            table.Property(t => t.Description)
+            builder.Property(t => t.Description)
                 .HasColumnName("description")
                 .HasMaxLength(500);
-            table.Property(t => t.Amount)
+            builder.Property(t => t.Amount)
                 .HasColumnType("money")
                 .IsRequired();
-            table.Property(t => t.TargetDate)
+            builder.Property(t => t.TargetDate)
                 .HasColumnName("target_date")
                 .IsRequired();
-            table.Property(t => t.FinishDate)
+            builder.Property(t => t.FinishDate)
                 .HasColumnName("finish_date");
 
-            table.Property(t => t.BalanceId)
+            builder.Property(t => t.BalanceId)
                 .HasColumnName("balance_id")
-                .IsRequired(true);
-            table.HasOne(x => x.Balance)
+                .IsRequired();
+            builder.HasOne(x => x.Balance)
                 .WithMany(x => x.Transactions)
                 .HasForeignKey(x => x.BalanceId)
                 .HasPrincipalKey(x => x.Id)
-                .IsRequired(true);
-            table.Navigation(t => t.Balance).AutoInclude();
+                .IsRequired();
+            builder.Navigation(t => t.Balance).AutoInclude();
 
-            table.Property(t => t.CategoryId)
+            builder.Property(t => t.CategoryId)
                 .HasColumnName("category_id")
-                .IsRequired(true);
-            table.HasOne(x => x.Category)
+                .IsRequired();
+            builder.HasOne(x => x.Category)
                 .WithMany(x => x.Transactions)
                 .HasForeignKey(x => x.CategoryId)
                 .HasPrincipalKey(x => x.Id)
-                .IsRequired(true);
-            table.Navigation(t => t.Category).AutoInclude();
+                .IsRequired();
+            builder.Navigation(t => t.Category).AutoInclude();
 
-            table.Property(t => t.IsActive)
+            builder.Property(t => t.IsActive)
                 .HasColumnName("active")
-                .IsRequired(true);
-            table.Property(t => t.Status)
+                .IsRequired();
+            builder.Property(t => t.Status)
                 .HasColumnName("status")
-                .IsRequired(true);
-            table.Property(t => t.Type)
+                .IsRequired();
+            builder.Property(t => t.Type)
                 .HasColumnName("type")
-                .IsRequired(true);
+                .IsRequired();
 
-            table.ToTable("transactions");
+            builder.ToTable("transactions");
         }
     }
 }
