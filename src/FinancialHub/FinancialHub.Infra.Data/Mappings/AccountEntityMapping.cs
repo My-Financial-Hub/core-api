@@ -13,7 +13,7 @@ namespace FinancialHub.Infra.Data.Mappings
                 .HasMaxLength(200)
                 .IsRequired();
 
-            builder.Property(t => t.Name)
+            builder.Property(t => t.Description)
                 .HasColumnName("description")
                 .HasMaxLength(500)
                 .IsRequired();
