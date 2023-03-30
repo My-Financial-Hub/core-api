@@ -1,8 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using FinancialHub.Auth.Infra.Data.Contexts;
-using FinancialHub.Auth.Domain.Interfaces.Repositories;
 using FinancialHub.Auth.Tests.Commom.Builders.Entities;
 using FinancialHub.Auth.Domain.Entities;
+using FinancialHub.Auth.Domain.Interfaces.Repositories;
+using FinancialHub.Auth.Infra.Data.Contexts;
+using FinancialHub.Auth.Infra.Data.Repositories;
 
 namespace FinancialHub.Auth.Infra.Data.Tests.Repositories
 {
@@ -25,22 +26,25 @@ namespace FinancialHub.Auth.Infra.Data.Tests.Repositories
         [SetUp]
         public void SetUp()
         {
-            //this.repository = new IUserRepository();
             this.builder = new UserEntityBuilder();
             this.context = this.GetContext();
+            this.repository = new UserRepository(this.context);
         }
 
         protected virtual void AssertCreated(UserEntity createdItem)
         {
-            Assert.IsNotNull(createdItem);
-            Assert.IsNotNull(createdItem.Id);
-            Assert.IsNotNull(createdItem.FirstName);
-            Assert.IsNotNull(createdItem.Email);
-            Assert.IsNotNull(createdItem.Password);
-            Assert.IsNotNull(createdItem.CreationTime);
-            Assert.IsNotNull(createdItem.UpdateTime);
+            Assert.Multiple(() =>
+            {
+                Assert.That(createdItem, Is.Not.Null);
+                Assert.That(createdItem.Id, Is.Not.Null);
+                Assert.That(createdItem.FirstName, Is.Not.Null);
+                Assert.That(createdItem.Email, Is.Not.Null);
+                Assert.That(createdItem.Password, Is.Not.Null);
+                Assert.That(createdItem.CreationTime, Is.Not.Null);
+                Assert.That(createdItem.UpdateTime, Is.Not.Null);
 
-            Assert.IsNotEmpty(context.Users.ToList());
+                Assert.That(context.Users.ToList(), Is.Not.Empty);
+            });
         }
     }
 }

@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using FinancialHub.Auth.Domain.Interfaces.Repositories;
 using FinancialHub.Auth.Infra.Data.Contexts;
+using FinancialHub.Auth.Infra.Data.Repositories;
 
 namespace FinancialHub.Auth.Infra.Data.Extensions.Configurations
 {
@@ -15,11 +16,11 @@ namespace FinancialHub.Auth.Infra.Data.Extensions.Configurations
                     provider.UseSqlServer(
                         configuration.GetConnectionString("auth"),
                         x => x
-                            .MigrationsAssembly("FinancialHub.Infra.Migrations")
-                            .MigrationsHistoryTable("migrations")
+                            .MigrationsAssembly("FinancialHub.Auth.Infra.Data.Migrations")
+                            .MigrationsHistoryTable("auth-migrations")
                     )
             );
-            services.AddScoped<IUserRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
 
             return services;
         }

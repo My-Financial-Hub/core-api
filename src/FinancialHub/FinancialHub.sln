@@ -61,6 +61,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinancialHub.Auth.Infra.Dat
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinancialHub.Auth.Tests.Commom", "FinancialHub.Auth.Tests.Commom\FinancialHub.Auth.Tests.Commom.csproj", "{0C91E0F6-D144-4A09-9068-EFF111AF3B59}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinancialHub.Auth.Services.Tests", "FinancialHub.Auth.Services.Tests\FinancialHub.Auth.Services.Tests.csproj", "{D492BE93-0520-4529-82B4-456376B9DD64}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -135,6 +137,10 @@ Global
 		{0C91E0F6-D144-4A09-9068-EFF111AF3B59}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0C91E0F6-D144-4A09-9068-EFF111AF3B59}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0C91E0F6-D144-4A09-9068-EFF111AF3B59}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D492BE93-0520-4529-82B4-456376B9DD64}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D492BE93-0520-4529-82B4-456376B9DD64}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D492BE93-0520-4529-82B4-456376B9DD64}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D492BE93-0520-4529-82B4-456376B9DD64}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -164,6 +170,7 @@ Global
 		{23B8FA7D-EA45-4006-BA1A-18AAC68A9B68} = {7CF52440-3820-40A7-B0B0-55E56F4FFF35}
 		{3975688B-BF51-4DEB-8E19-777322865E83} = {74BFDE19-E416-46A1-B9C2-878DA41B249A}
 		{0C91E0F6-D144-4A09-9068-EFF111AF3B59} = {7F00D819-7B4C-4A71-B9DB-E56ED20ADA0D}
+		{D492BE93-0520-4529-82B4-456376B9DD64} = {1488D2AC-39E7-414A-9B0A-344EBDA0E4E9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9A4C4A77-82DC-47E2-AA98-E741B329A3E8}

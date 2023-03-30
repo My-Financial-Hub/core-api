@@ -5,9 +5,7 @@ namespace FinancialHub.Auth.Infra.Data.Contexts
 {
     public class FinancialHubAuthContext : DbContext
     {
-        public FinancialHubAuthContext(DbContextOptions options) : base(options)
-        {
-        }
+        public FinancialHubAuthContext(DbContextOptions options) : base(options){}
 
         public DbSet<UserEntity> Users { get; set; }
     }
