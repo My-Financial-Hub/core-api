@@ -7,11 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Entities\Extensions\" />
-    <Folder Include="Models\Extensions\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\FinancialHub.Domain\FinancialHub.Domain.csproj" />
   </ItemGroup>
 
