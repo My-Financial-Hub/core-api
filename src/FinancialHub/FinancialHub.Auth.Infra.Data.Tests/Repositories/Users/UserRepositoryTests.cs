@@ -1,4 +1,6 @@
-﻿using FinancialHub.Auth.Domain.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using FinancialHub.Auth.Tests.Commom.Builders.Entities;
+using FinancialHub.Auth.Domain.Entities;
 using FinancialHub.Auth.Domain.Interfaces.Repositories;
 using FinancialHub.Auth.Infra.Data.Contexts;
 using FinancialHub.Auth.Infra.Data.Repositories;

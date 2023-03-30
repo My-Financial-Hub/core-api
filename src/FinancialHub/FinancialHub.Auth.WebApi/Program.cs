@@ -6,28 +6,29 @@ public partial class Program
 {
     public static void Main(string[] args)
     {
-        var builder = WebApplication.CreateBuilder(args);
+var builder = WebApplication.CreateBuilder(args);
 
-        // Add services to the container.
+// Add services to the container.
         builder.Services.AddAuthApplication(builder.Configuration);
-        builder.Services.AddControllers();
+builder.Services.AddControllers();
         builder.Services.AddAuthDocs();
 
-        var app = builder.Build();
+var app = builder.Build();
 
-        if (app.Environment.IsDevelopment())
-        {
-            app.UseSwagger();
-            app.UseSwaggerUI();
-        }
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
 
-        app.UseHttpsRedirection();
+app.UseHttpsRedirection();
 
-        app.UseAuthentication();
-        app.UseAuthorization();
+app.UseAuthentication();
+app.UseAuthorization();
 
-        app.MapControllers();
+app.MapControllers();
 
-        app.Run();
+app.Run();
     }
 }
