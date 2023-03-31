@@ -31,6 +31,11 @@ namespace FinancialHub.Auth.Infra.Data.Repositories
             return await this.context.Users.FirstOrDefaultAsync(x => x.Id == id);
         }
 
+        public Task<UserEntity> GetAsync(string email, string password)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<UserEntity> UpdateAsync(UserEntity user)
         {
             user.UpdateTime = DateTimeOffset.Now;

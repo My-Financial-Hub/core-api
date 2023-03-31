@@ -9,7 +9,7 @@ namespace FinancialHub.Auth.Infra.Data.Extensions.Configurations
 {
     public static class IServiceCollectionExtensions
     {
-        public static IServiceCollection AddRepositories(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddAuthRepositories(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<FinancialHubAuthContext>(
                 provider =>
@@ -22,6 +22,11 @@ namespace FinancialHub.Auth.Infra.Data.Extensions.Configurations
             );
             services.AddScoped<IUserRepository, UserRepository>();
 
+            return services;
+        }
+
+        internal static IServiceCollection Configure(this IServiceCollection services, IConfiguration configuration)
+        {
             return services;
         }
     }
