@@ -4,6 +4,7 @@ namespace FinancialHub.Auth.Domain.Interfaces.Services
 {
     public interface ITokenService
     {
-        TokenModel GenerateToken(UserModel user);
+        //TokenModel GenerateToken(UserModel user);
+        string GenerateToken(UserModel user);
     }
 }

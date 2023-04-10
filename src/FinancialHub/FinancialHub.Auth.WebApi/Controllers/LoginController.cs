@@ -9,27 +9,23 @@ namespace FinancialHub.Auth.WebApi.Controllers
     [Produces("application/json")]
     public class LoginController : Controller
     {
-        private readonly ITokenService tokenService;
-        private readonly IUserService userService;
+        private readonly IAuthService authService;
 
-        public LoginController(ITokenService tokenService,IUserService userService)
+        public LoginController(IAuthService authService)
         {
-            this.tokenService = tokenService;
-            this.userService = userService;
+            this.authService = authService;
         }
 
         [HttpPost]
         [ProducesResponseType(typeof(TokenModel), StatusCodes.Status200OK)]
         public async Task<IActionResult> Index(LoginModel login)
         {
-            var userResult = await this.userService.GetAsync(login);
+            var tokenResult = await this.authService.GenerateToken(login);
 
-            if(userResult.HasError)
+            if (tokenResult.HasError)
                 return Unauthorized();
-            
-            var token = this.tokenService.GenerateToken(userResult.Data);
 
-            return Ok(token);
+            return Ok(tokenResult.Data);
         }
     }
 }

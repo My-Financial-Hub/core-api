@@ -1,11 +1,11 @@
 ﻿using System.Text;
+using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using FinancialHub.Auth.Domain.Interfaces.Services;
 using FinancialHub.Auth.Domain.Models;
+using FinancialHub.Auth.Domain.Interfaces.Services;
 using FinancialHub.Auth.Services.Configurations;
-using System.Security.Claims;
 
 namespace FinancialHub.Auth.Services.Services
 {
@@ -38,9 +38,9 @@ namespace FinancialHub.Auth.Services.Services
             );
         }
 
-        public TokenModel GenerateToken(UserModel user)
+        public string GenerateToken(UserModel user)
         {
-            var expires = DateTime.UtcNow.AddMinutes(60);
+            var expires = DateTime.UtcNow.AddMinutes(this.settings.Expires);
             var handler = new JwtSecurityTokenHandler();
             var tokenDescriptor = new SecurityTokenDescriptor()
             {
@@ -50,9 +50,7 @@ namespace FinancialHub.Auth.Services.Services
             };
 
             var securityToken = handler.CreateToken(tokenDescriptor);
-            var token = handler.WriteToken(securityToken);
-
-            return new TokenModel(token, expires);
+            return handler.WriteToken(securityToken);
         }
     }
 }
