@@ -1,5 +1,4 @@
 ﻿using FinancialHub.Domain.Entities;
-using FinancialHub.Infra.Data.Mappings;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics.CodeAnalysis;
 

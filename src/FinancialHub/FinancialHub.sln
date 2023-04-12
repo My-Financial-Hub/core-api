@@ -55,13 +55,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinancialHub.Auth.Infra.Mig
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinancialHub.Auth.Infra.Data", "FinancialHub.Auth.Infra.Data\FinancialHub.Auth.Infra.Data.csproj", "{17554B01-6387-48E9-93E1-557F2404FB53}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinancialHub.Auth.WebApi", "FinancialHub.Auth.WebApi\FinancialHub.Auth.WebApi.csproj", "{23B8FA7D-EA45-4006-BA1A-18AAC68A9B68}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinancialHub.Auth.WebApi", "FinancialHub.Auth.WebApi\FinancialHub.Auth.WebApi.csproj", "{23B8FA7D-EA45-4006-BA1A-18AAC68A9B68}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinancialHub.Auth.Infra.Data.Tests", "FinancialHub.Auth.Infra.Data.Tests\FinancialHub.Auth.Infra.Data.Tests.csproj", "{3975688B-BF51-4DEB-8E19-777322865E83}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinancialHub.Auth.Infra.Data.Tests", "FinancialHub.Auth.Infra.Data.Tests\FinancialHub.Auth.Infra.Data.Tests.csproj", "{3975688B-BF51-4DEB-8E19-777322865E83}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinancialHub.Auth.Tests.Commom", "FinancialHub.Auth.Tests.Commom\FinancialHub.Auth.Tests.Commom.csproj", "{0C91E0F6-D144-4A09-9068-EFF111AF3B59}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinancialHub.Auth.Tests.Commom", "FinancialHub.Auth.Tests.Commom\FinancialHub.Auth.Tests.Commom.csproj", "{0C91E0F6-D144-4A09-9068-EFF111AF3B59}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinancialHub.Auth.Services.Tests", "FinancialHub.Auth.Services.Tests\FinancialHub.Auth.Services.Tests.csproj", "{D492BE93-0520-4529-82B4-456376B9DD64}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinancialHub.Auth.Services.Tests", "FinancialHub.Auth.Services.Tests\FinancialHub.Auth.Services.Tests.csproj", "{D492BE93-0520-4529-82B4-456376B9DD64}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
