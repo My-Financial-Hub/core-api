@@ -22,9 +22,7 @@ namespace FinancialHub.Auth.Services.Services
             if (userResult.HasError)
                 return userResult.Error;
 
-            var token = this.tokenService.GenerateToken(userResult.Data);
-
-            return new TokenModel(token);
+            return this.tokenService.GenerateToken(userResult.Data);
         }
     }
 }

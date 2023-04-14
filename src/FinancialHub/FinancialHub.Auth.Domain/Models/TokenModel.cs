@@ -5,9 +5,10 @@
         public string Token { get; }
         public DateTime ExpiresIn { get; }
 
-        public TokenModel(string token)
+        public TokenModel(string token, DateTime expiresIn)
         {
             Token = token;
+            ExpiresIn = expiresIn;
         }
     }
 }

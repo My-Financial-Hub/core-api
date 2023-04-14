@@ -38,19 +38,23 @@ namespace FinancialHub.Auth.Services.Services
             );
         }
 
-        public string GenerateToken(UserModel user)
+        public TokenModel GenerateToken(UserModel user)
         {
             var expires = DateTime.UtcNow.AddMinutes(this.settings.Expires);
             var handler = new JwtSecurityTokenHandler();
             var tokenDescriptor = new SecurityTokenDescriptor()
             {
                 Expires = expires,
+                //Issuer = this.settings.Issuer,
+                //Audience = this.settings.Audience,
                 SigningCredentials = this.Credentials,
-                Subject = GenerateUserClaims(user)
+                Subject = GenerateUserClaims(user),
             };
 
             var securityToken = handler.CreateToken(tokenDescriptor);
-            return handler.WriteToken(securityToken);
+            var token = handler.WriteToken(securityToken);
+
+            return new TokenModel(token, expires);
         }
     }
 }

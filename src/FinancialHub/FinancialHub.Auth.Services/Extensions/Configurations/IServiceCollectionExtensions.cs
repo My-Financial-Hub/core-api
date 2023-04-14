@@ -1,12 +1,13 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using System.Text;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using FinancialHub.Auth.Domain.Interfaces.Services;
 using FinancialHub.Auth.Services.Mappers;
 using FinancialHub.Auth.Services.Services;
 using FinancialHub.Auth.Services.Configurations;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using System.Text;
-using Microsoft.IdentityModel.Tokens;
 
 namespace FinancialHub.Auth.Services.Extensions.Configurations
 {
@@ -14,27 +15,35 @@ namespace FinancialHub.Auth.Services.Extensions.Configurations
     {
         private static IServiceCollection AddAuthConfiguration(this IServiceCollection services, IConfiguration configuration)
         {
-            var settings = configuration.GetValue<TokenServiceSettings>("TokenServiceSettings");
+            var settings = configuration.GetRequiredSection("TokenServiceSettings").Get<TokenServiceSettings>();
             services
-                .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddAuthentication(options =>
+                {
+                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
                 .AddJwtBearer(
-                    "user",
                     options =>
                     {
-                        var jwtSettings = configuration.GetSection("JwtSettings");
-                        var key = Encoding.ASCII.GetBytes(jwtSettings["SecurityKey"]);
-                        options.Authority = jwtSettings["Authority"];
-                        options.Audience = jwtSettings["Audience"];
+                        var key = Encoding.ASCII.GetBytes(settings.SecurityKey);
+
+                        options.RequireHttpsMetadata = false;
+                        options.SaveToken = true;
                         options.TokenValidationParameters = new()
                         {
-                            ValidateIssuer = true,
+                            //ValidAudience = settings.Audience,
+                            ValidateAudience = false,
+
+                            //ValidAlgorithms = new[] { SecurityAlgorithms.HmacSha256Signature },
                             IssuerSigningKey = new SymmetricSecurityKey(key),
+                            ValidateIssuerSigningKey = true,
 
-                            ValidIssuer = jwtSettings["Issuer"],
+                            //ValidIssuer = settings.Issuer,
+                            ValidateIssuer = false,
 
-                            ValidateLifetime = true,
-                            RequireExpirationTime = true,
-                            ClockSkew = TimeSpan.FromMinutes(60),
+                            //ValidateLifetime = true,
+                            //RequireExpirationTime = true,
+                            //ClockSkew = TimeSpan.FromMinutes(60),
                         };
                     }
                 );
@@ -46,8 +55,8 @@ namespace FinancialHub.Auth.Services.Extensions.Configurations
             services.AddAutoMapper(typeof(FinancialHubAuthProfile));
 
             services.AddSettings(configuration);
-            services.AddServices();
             services.AddAuthConfiguration(configuration);
+            services.AddServices();
 
             return services;
         }
@@ -63,13 +72,8 @@ namespace FinancialHub.Auth.Services.Extensions.Configurations
 
         private static IServiceCollection AddSettings(this IServiceCollection services, IConfiguration configuration)
         {
-            services.BindSettings<TokenServiceSettings>(configuration, "TokenServiceSettings");
+            services.Configure<TokenServiceSettings>(configuration.GetSection("TokenServiceSettings"));
             return services;
-        }
-
-        private static IServiceCollection BindSettings<T>(this IServiceCollection services, IConfiguration configuration, string section) where T: class
-        {
-            return services.Configure<T>(configuration.GetSection(section)); 
         }
     }
 }
