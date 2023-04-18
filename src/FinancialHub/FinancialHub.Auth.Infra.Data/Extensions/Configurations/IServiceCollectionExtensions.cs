@@ -1,9 +1,9 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using FinancialHub.Auth.Domain.Interfaces.Repositories;
-using FinancialHub.Auth.Infra.Data.Contexts;
-using Microsoft.EntityFrameworkCore;
 using FinancialHub.Auth.Infra.Data.Repositories;
+using FinancialHub.Auth.Infra.Data.Contexts;
 
 namespace FinancialHub.Auth.Infra.Data.Extensions.Configurations
 {

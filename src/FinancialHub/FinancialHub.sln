@@ -59,9 +59,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinancialHub.Auth.WebApi", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinancialHub.Auth.Infra.Data.Tests", "FinancialHub.Auth.Infra.Data.Tests\FinancialHub.Auth.Infra.Data.Tests.csproj", "{3975688B-BF51-4DEB-8E19-777322865E83}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinancialHub.Auth.Tests.Commom", "FinancialHub.Auth.Tests.Commom\FinancialHub.Auth.Tests.Commom.csproj", "{0C91E0F6-D144-4A09-9068-EFF111AF3B59}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinancialHub.Auth.Tests.Common", "FinancialHub.Auth.Tests.Commom\FinancialHub.Auth.Tests.Common.csproj", "{0C91E0F6-D144-4A09-9068-EFF111AF3B59}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinancialHub.Auth.Services.Tests", "FinancialHub.Auth.Services.Tests\FinancialHub.Auth.Services.Tests.csproj", "{D492BE93-0520-4529-82B4-456376B9DD64}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinancialHub.Auth.Infra", "FinancialHub.Auth.Infra\FinancialHub.Auth.Infra.csproj", "{F32C1BDA-B655-4E56-96A6-F8BD335707C6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinancialHub.Auth.Infra.Tests", "FinancialHub.Auth.Infra.Tests\FinancialHub.Auth.Infra.Tests.csproj", "{68050FF0-6836-434A-850C-CA164E45A078}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -141,6 +145,14 @@ Global
 		{D492BE93-0520-4529-82B4-456376B9DD64}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D492BE93-0520-4529-82B4-456376B9DD64}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D492BE93-0520-4529-82B4-456376B9DD64}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F32C1BDA-B655-4E56-96A6-F8BD335707C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F32C1BDA-B655-4E56-96A6-F8BD335707C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F32C1BDA-B655-4E56-96A6-F8BD335707C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F32C1BDA-B655-4E56-96A6-F8BD335707C6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{68050FF0-6836-434A-850C-CA164E45A078}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68050FF0-6836-434A-850C-CA164E45A078}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68050FF0-6836-434A-850C-CA164E45A078}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68050FF0-6836-434A-850C-CA164E45A078}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -171,6 +183,8 @@ Global
 		{3975688B-BF51-4DEB-8E19-777322865E83} = {74BFDE19-E416-46A1-B9C2-878DA41B249A}
 		{0C91E0F6-D144-4A09-9068-EFF111AF3B59} = {7F00D819-7B4C-4A71-B9DB-E56ED20ADA0D}
 		{D492BE93-0520-4529-82B4-456376B9DD64} = {1488D2AC-39E7-414A-9B0A-344EBDA0E4E9}
+		{F32C1BDA-B655-4E56-96A6-F8BD335707C6} = {B918D713-0701-447C-B403-10DE0C769581}
+		{68050FF0-6836-434A-850C-CA164E45A078} = {B918D713-0701-447C-B403-10DE0C769581}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9A4C4A77-82DC-47E2-AA98-E741B329A3E8}

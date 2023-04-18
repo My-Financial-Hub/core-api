@@ -3,18 +3,17 @@ using FinancialHub.Domain.Results;
 using FinancialHub.Auth.Domain.Interfaces.Repositories;
 using FinancialHub.Auth.Domain.Interfaces.Services;
 using FinancialHub.Auth.Domain.Models;
+using FinancialHub.Auth.Domain.Interfaces.Providers;
 
 namespace FinancialHub.Auth.Services.Services
 {
     public class UserService : IUserService
     {
-        private readonly IUserRepository repository;
-        private readonly IMapper mapper;
+        private readonly IUserProvider provider;
 
-        public UserService(IUserRepository repository, IMapper mapper)
+        public UserService(IUserProvider provider)
         {
-            this.repository = repository;
-            this.mapper = mapper;
+            this.provider = provider;
         }
 
         public async Task<ServiceResult<UserModel>> CreateAsync(UserModel user)
