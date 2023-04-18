@@ -1,9 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-using FinancialHub.Auth.Tests.Commom.Builders.Entities;
-using FinancialHub.Auth.Domain.Entities;
+﻿using FinancialHub.Auth.Domain.Entities;
 using FinancialHub.Auth.Domain.Interfaces.Repositories;
 using FinancialHub.Auth.Infra.Data.Contexts;
 using FinancialHub.Auth.Infra.Data.Repositories;
+using FinancialHub.Auth.Tests.Common.Builders.Entities;
 
 namespace FinancialHub.Auth.Infra.Data.Tests.Repositories
 {
@@ -13,9 +12,9 @@ namespace FinancialHub.Auth.Infra.Data.Tests.Repositories
         private IUserRepository repository;
         private UserEntityBuilder builder;
 
-        protected FinancialHubAuthContext GetContext()
+        protected static FinancialHubAuthContext GetContext()
         {
-            var cfg = new DbContextOptionsBuilder<FinancialHubAuthContext>().UseSqlServer("Server=localhost,1450;Database=financial_hub;user=sa;pwd=P@ssw0rd!;");
+            var cfg = new DbContextOptionsBuilder<FinancialHubAuthContext>().UseSqlServer("Server=localhost,1450;Database=financial_hub;user=sa;pwd=P@ssw0rd!");
             cfg.EnableSensitiveDataLogging(true);
 
             return new FinancialHubAuthContext(
@@ -27,7 +26,7 @@ namespace FinancialHub.Auth.Infra.Data.Tests.Repositories
         public void SetUp()
         {
             this.builder = new UserEntityBuilder();
-            this.context = this.GetContext();
+            this.context = GetContext();
             this.repository = new UserRepository(this.context);
         }
 
@@ -35,15 +34,10 @@ namespace FinancialHub.Auth.Infra.Data.Tests.Repositories
         {
             Assert.Multiple(() =>
             {
-                Assert.That(createdItem, Is.Not.Null);
-                Assert.That(createdItem.Id, Is.Not.Null);
-                Assert.That(createdItem.FirstName, Is.Not.Null);
-                Assert.That(createdItem.Email, Is.Not.Null);
-                Assert.That(createdItem.Password, Is.Not.Null);
-                Assert.That(createdItem.CreationTime, Is.Not.Null);
-                Assert.That(createdItem.UpdateTime, Is.Not.Null);
-
                 Assert.That(context.Users.ToList(), Is.Not.Empty);
+
+                var datebaseUser = context.Users.First(u => u.Id == createdItem.Id);
+                Assert.That(datebaseUser, Is.EqualTo(createdItem));
             });
         }
     }

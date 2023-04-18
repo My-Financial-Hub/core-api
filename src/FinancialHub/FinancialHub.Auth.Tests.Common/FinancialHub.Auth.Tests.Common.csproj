@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FinancialHub.Auth.Domain\FinancialHub.Auth.Domain.csproj" />
+    <ProjectReference Include="..\FinancialHub.Domain.Tests\FinancialHub.Domain.Tests.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,11 +1,11 @@
-﻿using Bogus;
-using FinancialHub.Auth.Domain.Models;
+﻿using FinancialHub.Auth.Domain.Entities;
+using FinancialHub.Domain.Tests.Builders.Entities;
 
-namespace FinancialHub.Auth.Tests.Commom.Builders.Entities
+namespace FinancialHub.Auth.Tests.Common.Builders.Entities
 {
-    public class UserModelBuilder : Faker<UserModel>
+    public class UserEntityBuilder : BaseEntityBuilder<UserEntity>
     {
-        public UserModelBuilder()
+        public UserEntityBuilder()
         {
             this.RuleFor(x => x.FirstName, x => x.Person.FirstName);
             this.RuleFor(x => x.LastName, x => x.Person.LastName);
@@ -14,31 +14,31 @@ namespace FinancialHub.Auth.Tests.Commom.Builders.Entities
             this.RuleFor(x => x.Password, x => x.Random.AlphaNumeric(12));
         }
 
-        public UserModelBuilder WithName(string name)
+        public UserEntityBuilder WithName(string name)
         {
             this.RuleFor(x => x.FirstName, name);
             return this;
         }
 
-        public UserModelBuilder WithLastName(string name)
+        public UserEntityBuilder WithLastName(string name)
         {
             this.RuleFor(x => x.LastName, name);
             return this;
         }
 
-        public UserModelBuilder WithBirthDate(DateTime date)
+        public UserEntityBuilder WithBirthDate(DateTime date)
         {
             this.RuleFor(x => x.BirthDate, date);
             return this;
         }
 
-        public UserModelBuilder WithEmail(string email)
+        public UserEntityBuilder WithEmail(string email)
         {
             this.RuleFor(x => x.Email, email);
             return this;
         }
 
-        public UserModelBuilder WithPassword(string password)
+        public UserEntityBuilder WithPassword(string password)
         {
             this.RuleFor(x => x.Password, password);
             return this;

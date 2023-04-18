@@ -3,7 +3,7 @@
     public partial class UserRepositoryTests
     {
         [Test]
-        public async Task CreateAsync_ValidUser_InsertsIntoDatabase()
+        public async Task CreateAsync_ValidUser_InsertsUser()
         {
             var user = this.builder.Generate();
 
@@ -13,7 +13,7 @@
         }
 
         [Test]
-        public async Task CreateAsync_ValidUser_ReturnsFromDatabase()
+        public async Task CreateAsync_ValidUser_ReturnsCreatedUser()
         {
             var user = this.builder.Generate();
 
