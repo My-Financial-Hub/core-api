@@ -10,8 +10,4 @@
     <Folder Include="Migrations\" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\FinancialHub.Auth.Infra.Data\FinancialHub.Auth.Infra.Data.csproj" />
-  </ItemGroup>
-
 </Project>
