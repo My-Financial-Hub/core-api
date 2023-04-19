@@ -4,7 +4,7 @@ using FinancialHub.Auth.Domain.Models;
 
 namespace FinancialHub.Auth.Infra.Mappers
 {
-    internal class FinancialHubAuthProviderProfile : Profile
+    public class FinancialHubAuthProviderProfile : Profile
     {
         public FinancialHubAuthProviderProfile()
         {

@@ -17,17 +17,13 @@ namespace FinancialHub.Auth.Infra.Providers
             this.mapper = mapper;
         }
 
-        public async Task<UserModel?> CreateAsync(UserModel user)
+        public async Task<UserModel> CreateAsync(UserModel user)
         {
             var entity = this.mapper.Map<UserEntity>(user);
 
-            if(entity == null) { 
-                return null;
-            }
+            var createdEntity = await this.repository.CreateAsync(entity);
 
-            var model = await this.repository.CreateAsync(entity);
-
-            return this.mapper.Map<UserModel>(model);
+            return this.mapper.Map<UserModel>(createdEntity);
         }
 
         public async Task<ICollection<UserModel>> GetAllAsync()

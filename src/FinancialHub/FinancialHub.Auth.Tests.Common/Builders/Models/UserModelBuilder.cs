@@ -11,7 +11,6 @@ namespace FinancialHub.Auth.Tests.Common.Builders.Entities
             this.RuleFor(x => x.LastName, x => x.Person.LastName);
             this.RuleFor(x => x.BirthDate, x => x.Person.DateOfBirth);
             this.RuleFor(x => x.Email, x => x.Person.Email);
-            this.RuleFor(x => x.Password, x => x.Random.AlphaNumeric(12));
         }
 
         public UserModelBuilder WithName(string name)
@@ -35,12 +34,6 @@ namespace FinancialHub.Auth.Tests.Common.Builders.Entities
         public UserModelBuilder WithEmail(string email)
         {
             this.RuleFor(x => x.Email, email);
-            return this;
-        }
-
-        public UserModelBuilder WithPassword(string password)
-        {
-            this.RuleFor(x => x.Password, password);
             return this;
         }
     }
