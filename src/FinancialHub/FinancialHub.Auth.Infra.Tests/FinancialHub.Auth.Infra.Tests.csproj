@@ -18,7 +18,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\FinancialHub.Auth.Domain\FinancialHub.Auth.Domain.csproj" />
     <ProjectReference Include="..\FinancialHub.Auth.Infra\FinancialHub.Auth.Infra.csproj" />
     <ProjectReference Include="..\FinancialHub.Auth.Tests.Common\FinancialHub.Auth.Tests.Common.csproj" />
   </ItemGroup>
