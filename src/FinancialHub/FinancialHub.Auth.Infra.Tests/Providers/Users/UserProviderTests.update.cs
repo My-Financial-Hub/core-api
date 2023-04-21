@@ -5,31 +5,31 @@ namespace FinancialHub.Auth.Infra.Tests.Providers
     public partial class UserProviderTests
     {
         [Test]
-        public async Task CreateAsync_ValidUser_ReturnsCreatedUser()
+        public async Task UpdateAsync_ValidUser_ReturnsUpdatedUser()
         {
             var user = this.builder.Generate();
 
             var userEntity = this.mapper.Map<UserEntity>(user);
             mockRepository
-                .Setup(x => x.CreateAsync(It.IsAny<UserEntity>()))
+                .Setup(x => x.UpdateAsync(It.IsAny<UserEntity>()))
                 .ReturnsAsync(userEntity);
 
-            var createdUser = await this.provider.CreateAsync(user);
-            
-            this.AssertEqual(user, createdUser);
+            var updatedUser = await this.provider.UpdateAsync(user);
+
+            this.AssertEqual(user, updatedUser);
         }
 
         [Test]
-        public void CreateAsync_RepositoryException_ThrowsException()
+        public void UpdateAsync_RepositoryException_ThrowsException()
         {
             var user = this.builder.Generate();
             var exc = new Exception("Exception Message");
 
             mockRepository
-                .Setup(x => x.CreateAsync(It.IsAny<UserEntity>()))
+                .Setup(x => x.UpdateAsync(It.IsAny<UserEntity>()))
                 .ThrowsAsync(exc);
 
-            Assert.ThrowsAsync<Exception>(async () => await this.provider.CreateAsync(user));
+            Assert.ThrowsAsync<Exception>(async () => await this.provider.UpdateAsync(user));
         }
     }
 }

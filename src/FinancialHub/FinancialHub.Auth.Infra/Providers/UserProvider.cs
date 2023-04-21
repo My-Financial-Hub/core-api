@@ -26,19 +26,19 @@ namespace FinancialHub.Auth.Infra.Providers
             return this.mapper.Map<UserModel>(createdEntity);
         }
 
-        public async Task<ICollection<UserModel>> GetAllAsync()
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<UserModel> GetAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var user = await this.repository.GetAsync(id);
+            return this.mapper.Map<UserModel>(user);
         }
 
         public async Task<UserModel> UpdateAsync(UserModel user)
         {
-            throw new NotImplementedException();
+            var entity = this.mapper.Map<UserEntity>(user);
+
+            var updatedEntity = await this.repository.UpdateAsync(entity);
+
+            return this.mapper.Map<UserModel>(updatedEntity);
         }
     }
 }

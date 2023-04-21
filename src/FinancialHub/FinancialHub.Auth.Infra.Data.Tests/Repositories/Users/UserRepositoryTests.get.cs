@@ -21,25 +21,5 @@
             Assert.That(user, Is.Null);
         }
         #endregion
-
-        #region GetAll
-        [Test]
-        public async Task GetAllAsync_ExistingUsers_ReturnsAllUser()
-        {
-            context.Users.AddRange(builder.Generate(10));
-
-            var users = await repository.GetAllAsync();
-
-            Assert.That(users, Is.EqualTo(context.Users));
-        }
-
-        [Test]
-        public async Task GetAllAsync_NotExistingUsers_ReturnsEmptyList()
-        {
-            var user = await repository.GetAllAsync();
-
-            Assert.That(user, Is.Empty);
-        }
-        #endregion
     }
 }

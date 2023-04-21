@@ -1,6 +1,4 @@
-﻿using AutoMapper;
-using FinancialHub.Domain.Results;
-using FinancialHub.Auth.Domain.Interfaces.Repositories;
+﻿using FinancialHub.Domain.Results;
 using FinancialHub.Auth.Domain.Interfaces.Services;
 using FinancialHub.Auth.Domain.Models;
 using FinancialHub.Auth.Domain.Interfaces.Providers;
@@ -17,11 +15,6 @@ namespace FinancialHub.Auth.Services.Services
         }
 
         public async Task<ServiceResult<UserModel>> CreateAsync(UserModel user)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<ServiceResult<ICollection<UserModel>>> GetAllAsync()
         {
             throw new NotImplementedException();
         }

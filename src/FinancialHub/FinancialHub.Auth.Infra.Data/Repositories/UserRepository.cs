@@ -21,12 +21,7 @@ namespace FinancialHub.Auth.Infra.Data.Repositories
             return entry.Entity;
         }
 
-        public async Task<ICollection<UserEntity>> GetAllAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<UserEntity> GetAsync(Guid id)
+        public async Task<UserEntity?> GetAsync(Guid id)
         {
             throw new NotImplementedException();
         }
