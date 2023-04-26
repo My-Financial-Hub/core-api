@@ -16,7 +16,7 @@ namespace FinancialHub.Auth.Infra.Tests.Providers
 
             var updatedUser = await this.provider.UpdateAsync(user);
 
-            this.AssertEqual(user, updatedUser);
+            AssertEqual(user, updatedUser);
         }
 
         [Test]

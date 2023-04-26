@@ -16,7 +16,7 @@ namespace FinancialHub.Auth.Infra.Tests.Providers
 
         private UserModelBuilder builder;
 
-        [SetUp] 
+        [SetUp]
         public void SetUp() 
         {
             this.builder = new UserModelBuilder();
@@ -30,7 +30,7 @@ namespace FinancialHub.Auth.Infra.Tests.Providers
             this.provider = new UserProvider(this.mockRepository.Object, this.mapper);
         }
 
-        private void AssertEqual(UserModel expected,UserModel actual)
+        private static void AssertEqual(UserModel expected,UserModel actual)
         {
             Assert.Multiple(() =>
             {

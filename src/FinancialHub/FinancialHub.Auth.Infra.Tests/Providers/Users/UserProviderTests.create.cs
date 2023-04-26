@@ -15,8 +15,8 @@ namespace FinancialHub.Auth.Infra.Tests.Providers
                 .ReturnsAsync(userEntity);
 
             var createdUser = await this.provider.CreateAsync(user);
-            
-            this.AssertEqual(user, createdUser);
+
+            AssertEqual(user, createdUser);
         }
 
         [Test]
