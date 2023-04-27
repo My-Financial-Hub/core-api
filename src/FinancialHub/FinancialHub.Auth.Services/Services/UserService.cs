@@ -2,6 +2,7 @@
 using FinancialHub.Auth.Domain.Interfaces.Services;
 using FinancialHub.Auth.Domain.Models;
 using FinancialHub.Auth.Domain.Interfaces.Providers;
+using FinancialHub.Domain.Results.Errors;
 
 namespace FinancialHub.Auth.Services.Services
 {
@@ -16,22 +17,33 @@ namespace FinancialHub.Auth.Services.Services
 
         public async Task<ServiceResult<UserModel>> CreateAsync(UserModel user)
         {
-            throw new NotImplementedException();
+            return await provider.CreateAsync(user);
         }
 
         public async Task<ServiceResult<UserModel>> GetAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var user = await provider.GetAsync(id);
+
+            if(user == null)
+            {
+                return new ServiceError(404, "User not found");
+            }
+
+            return user;
         }
 
-        public async Task<ServiceResult<UserModel>> LoginAsync(LoginModel user)
+        public async Task<ServiceResult<UserModel>> UpdateAsync(Guid id,UserModel user)
         {
-            throw new NotImplementedException();
-        }
+            var getByIdResult = await GetAsync(id);
+            if (getByIdResult.HasError)
+            {
+                return getByIdResult;
+            }
 
-        public async Task<ServiceResult<UserModel>> UpdateAsync(UserModel user)
-        {
-            throw new NotImplementedException();
+            user.Id = id;
+            var updatedUser = await provider.UpdateAsync(user);
+
+            return updatedUser;
         }
     }
 }

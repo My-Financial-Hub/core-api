@@ -7,6 +7,6 @@ namespace FinancialHub.Auth.Domain.Interfaces.Services
     {
         Task<ServiceResult<UserModel>> GetAsync(Guid id);
         Task<ServiceResult<UserModel>> CreateAsync(UserModel user);
-        Task<ServiceResult<UserModel>> UpdateAsync(UserModel user);
+        Task<ServiceResult<UserModel>> UpdateAsync(Guid id, UserModel user);
     }
 }

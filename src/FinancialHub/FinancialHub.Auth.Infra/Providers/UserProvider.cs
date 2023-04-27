@@ -26,9 +26,14 @@ namespace FinancialHub.Auth.Infra.Providers
             return this.mapper.Map<UserModel>(createdEntity);
         }
 
-        public async Task<UserModel> GetAsync(Guid id)
+        public async Task<UserModel?> GetAsync(Guid id)
         {
             var user = await this.repository.GetAsync(id);
+            if(user == null)
+            {
+                return null;
+            }
+
             return this.mapper.Map<UserModel>(user);
         }
 
