@@ -19,10 +19,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Validators\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\FinancialHub.Auth.Domain\FinancialHub.Auth.Domain.csproj" />
     <ProjectReference Include="..\FinancialHub.Auth.Services\FinancialHub.Auth.Services.csproj" />
     <ProjectReference Include="..\FinancialHub.Auth.Tests.Common\FinancialHub.Auth.Tests.Common.csproj" />

@@ -25,11 +25,6 @@ namespace FinancialHub.Auth.Infra.Data.Mapping
                 .HasMaxLength(300)
                 .IsRequired();
 
-            builder.Property(t => t.Password)
-                .HasColumnName("email")
-                .HasMaxLength(300)
-                .IsRequired();
-
             builder.ToTable("users");
         }
     }
