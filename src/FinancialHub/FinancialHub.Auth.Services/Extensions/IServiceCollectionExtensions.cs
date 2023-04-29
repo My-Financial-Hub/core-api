@@ -3,11 +3,12 @@ using FinancialHub.Auth.Domain.Models;
 using FinancialHub.Auth.Services.Services;
 using FinancialHub.Auth.Services.Validators;
 using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
-namespace FinancialHub.Auth.Services.Extensions.Configurations
+namespace FinancialHub.Auth.Services.Extensions
 {
     public static class IServiceCollectionExtensions
     {
@@ -20,8 +21,13 @@ namespace FinancialHub.Auth.Services.Extensions.Configurations
 
         private static IServiceCollection AddAuthValidators(this IServiceCollection services)
         {
-            services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+            services.AddFluentValidation(x =>
+            {
+                x.AutomaticValidationEnabled = true;
+                x.DisableDataAnnotationsValidation = true;
+            });
             services.AddScoped<IValidator<UserModel>, UserValidator>();
+
             return services;
         }
     }

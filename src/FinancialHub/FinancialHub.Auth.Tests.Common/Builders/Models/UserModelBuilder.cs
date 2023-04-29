@@ -25,7 +25,7 @@ namespace FinancialHub.Auth.Tests.Common.Builders.Entities
             return this;
         }
 
-        public UserModelBuilder WithBirthDate(DateTime date)
+        public UserModelBuilder WithBirthDate(DateTime? date)
         {
             this.RuleFor(x => x.BirthDate, date);
             return this;

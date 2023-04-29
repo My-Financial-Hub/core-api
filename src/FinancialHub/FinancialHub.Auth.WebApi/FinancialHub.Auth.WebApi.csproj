@@ -17,13 +17,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
+    <ProjectReference Include="..\FinancialHub.Auth.Infra.Data\FinancialHub.Auth.Infra.Data.csproj" />
+    <ProjectReference Include="..\FinancialHub.Auth.Infra\FinancialHub.Auth.Infra.csproj" />
+    <ProjectReference Include="..\FinancialHub.Auth.Resources\FinancialHub.Auth.Resources.csproj" />
+    <ProjectReference Include="..\FinancialHub.Auth.Services\FinancialHub.Auth.Services.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\FinancialHub.Auth.Infra.Data\FinancialHub.Auth.Infra.Data.csproj" />
-    <ProjectReference Include="..\FinancialHub.Auth.Infra\FinancialHub.Auth.Infra.csproj" />
-    <ProjectReference Include="..\FinancialHub.Auth.Services\FinancialHub.Auth.Services.csproj" />
+    <Folder Include="Controllers\" />
   </ItemGroup>
 
 </Project>

@@ -1,17 +1,23 @@
-﻿using FinancialHub.Auth.Services.Validators;
+﻿using FinancialHub.Auth.Domain.Interfaces.Resources;
+using FinancialHub.Auth.Resources.Providers;
+using FinancialHub.Auth.Services.Validators;
 using FinancialHub.Auth.Tests.Common.Builders.Entities;
+using System.Globalization;
 
 namespace FinancialHub.Auth.Services.Tests.Validators
 {
     public class UserValidatorTests
     {
+        private IErrorMessageProvider errorMessageProvider;
+
         private UserValidator validator;
         private UserModelBuilder builder;
 
         [SetUp]
         public void SetUp()
         {
-            validator = new UserValidator();
+            errorMessageProvider = new ErrorMessageProvider(CultureInfo.InvariantCulture);
+            validator = new UserValidator(errorMessageProvider);
             builder = new UserModelBuilder();
         }
 
@@ -32,11 +38,13 @@ namespace FinancialHub.Auth.Services.Tests.Validators
                 .WithEmail(string.Empty)
                 .Generate();
 
+            var expectedMessage = "Email is required";
+
             var result = validator.Validate(user);
             Assert.Multiple(() =>
             {
                 Assert.That(result.IsValid, Is.False);
-                Assert.That(result.Errors[0].ErrorMessage, Is.EqualTo("Email is required"));
+                Assert.That(result.Errors[0].ErrorMessage, Is.EqualTo(expectedMessage));
             });
         }
 
@@ -47,11 +55,13 @@ namespace FinancialHub.Auth.Services.Tests.Validators
                 .WithEmail(new string('a', 3))
                 .Generate();
 
+            var expectedMessage = "Email is invalid";
+
             var result = validator.Validate(user);
             Assert.Multiple(() =>
             {
                 Assert.That(result.IsValid, Is.False);
-                Assert.That(result.Errors[0].ErrorMessage, Is.EqualTo("Email is invalid"));
+                Assert.That(result.Errors[0].ErrorMessage, Is.EqualTo(expectedMessage));
             });
         }
 
@@ -62,12 +72,14 @@ namespace FinancialHub.Auth.Services.Tests.Validators
                 .WithEmail(new string('a', 301) + "@test.com")
                 .Generate();
 
+            var expectedMessage = "Email exceeds the max length of 300";
+
             var result = validator.Validate(user);
 
             Assert.Multiple(() =>
             {
                 Assert.That(result.IsValid, Is.False);
-                Assert.That(result.Errors[0].ErrorMessage, Is.EqualTo("Email exceeds the max length of 300"));
+                Assert.That(result.Errors[0].ErrorMessage, Is.EqualTo(expectedMessage));
             });
         }
 
@@ -78,12 +90,14 @@ namespace FinancialHub.Auth.Services.Tests.Validators
                 .WithName(string.Empty)
                 .Generate();
 
+            var expectedMessage = "First Name is required";
+
             var result = validator.Validate(user);
 
             Assert.Multiple(() =>
             {
                 Assert.That(result.IsValid, Is.False);
-                Assert.That(result.Errors[0].ErrorMessage, Is.EqualTo("FirstName is required"));
+                Assert.That(result.Errors[0].ErrorMessage, Is.EqualTo(expectedMessage));
             });
         }
 
@@ -94,12 +108,14 @@ namespace FinancialHub.Auth.Services.Tests.Validators
                 .WithName(new string('a', 301))
                 .Generate();
 
+            var expectedMessage = "First Name exceeds the max length of 300";
+
             var result = validator.Validate(user);
 
             Assert.Multiple(() =>
             {
                 Assert.That(result.IsValid, Is.False);
-                Assert.That(result.Errors[0].ErrorMessage, Is.EqualTo("FirstName exceeds the max length of 300"));
+                Assert.That(result.Errors[0].ErrorMessage, Is.EqualTo(expectedMessage));
             });
         }
 
@@ -110,9 +126,15 @@ namespace FinancialHub.Auth.Services.Tests.Validators
                 .WithLastName(string.Empty)
                 .Generate();
 
+            var expectedMessage = "Last Name is required";
+
             var result = validator.Validate(user);
 
-            Assert.That(result.IsValid, Is.False);
+            Assert.Multiple(() =>
+            {
+                Assert.That(result.IsValid, Is.False);
+                Assert.That(result.Errors[0].ErrorMessage, Is.EqualTo(expectedMessage));
+            });
         }
 
         [Test]
@@ -122,12 +144,32 @@ namespace FinancialHub.Auth.Services.Tests.Validators
                 .WithLastName(new string('a', 301))
                 .Generate();
 
+            var expectedMessage = "Last Name exceeds the max length of 300";
+
             var result = validator.Validate(user);
 
             Assert.Multiple(() =>
             {
                 Assert.That(result.IsValid, Is.False);
-                Assert.That(result.Errors[0].ErrorMessage, Is.EqualTo("LastName exceeds the max length of 300"));
+                Assert.That(result.Errors[0].ErrorMessage, Is.EqualTo(expectedMessage));
+            });
+        }
+
+        [Test]
+        public void Validate_BirthDateEmpty_ReturnsFalse()
+        {
+            var user = builder
+                .WithBirthDate(default)
+                .Generate();
+
+            var expectedMessage = "Birth Date is required";
+
+            var result = validator.Validate(user);
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(result.IsValid, Is.False);
+                Assert.That(result.Errors[0].ErrorMessage, Is.EqualTo(expectedMessage));
             });
         }
     }

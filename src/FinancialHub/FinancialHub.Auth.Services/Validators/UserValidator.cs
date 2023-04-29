@@ -1,35 +1,36 @@
 ﻿using FluentValidation;
 using FinancialHub.Auth.Domain.Models;
+using FinancialHub.Auth.Domain.Interfaces.Resources;
 
 namespace FinancialHub.Auth.Services.Validators
 {
     public class UserValidator : AbstractValidator<UserModel>
     {
-        public UserValidator()
+        public UserValidator(IErrorMessageProvider provider)
         {
             RuleFor(x => x.Email)
                 .NotEmpty()
-                .WithMessage("Email is required")
+                .WithMessage(provider.Required)
                 .EmailAddress()
-                .WithMessage("Email is invalid")
+                .WithMessage(provider.Invalid)
                 .MaximumLength(300)
-                .WithMessage("Email exceeds the max length of 300");
+                .WithMessage(provider.MaxLength);
 
             RuleFor(x => x.FirstName)
-                .MaximumLength(300)
-                .WithMessage("FirstName exceeds the max length of 300")
                 .NotEmpty()
-                .WithMessage("FirstName is required");
+                .WithMessage(provider.Required)
+                .MaximumLength(300)
+                .WithMessage(provider.MaxLength);
 
             RuleFor(x => x.LastName)
-                .MaximumLength(300)
-                .WithMessage("LastName exceeds the max length of 300")
                 .NotEmpty()
-                .WithMessage("LastName is required");
+                .WithMessage(provider.Required)
+                .MaximumLength(300)
+                .WithMessage(provider.MaxLength);
 
             RuleFor(x => x.BirthDate)
-                .NotNull()
-                .WithMessage("LastName exceeds the max length of 300");
+                .NotEmpty()
+                .WithMessage(provider.Required);
         }
     }
 }

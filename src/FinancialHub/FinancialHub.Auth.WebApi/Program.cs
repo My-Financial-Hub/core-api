@@ -1,13 +1,16 @@
-using FinancialHub.Auth.Services.Extensions.Configurations;
+using FinancialHub.Auth.Services.Extensions;
+using FinancialHub.Auth.Resources.Extensions;
 using FinancialHub.Auth.Infra.Extensions;
-using FinancialHub.Auth.Infra.Data.Extensions.Configurations;
+using FinancialHub.Auth.Infra.Data.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddAuthServices(builder.Configuration);
-builder.Services.AddAuthProviders(builder.Configuration);
-builder.Services.AddAuthRepositories(builder.Configuration);
+builder.Services
+    .AddAuthServices(builder.Configuration)
+    .AddAuthResources()
+    .AddAuthProviders(builder.Configuration)
+    .AddAuthRepositories(builder.Configuration);
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
