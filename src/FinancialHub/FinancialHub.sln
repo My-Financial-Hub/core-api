@@ -69,6 +69,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinancialHub.Auth.Application", "FinancialHub.Auth.Application\FinancialHub.Auth.Application.csproj", "{B3FAC69E-A3DD-4947-AD6A-89E683421D0A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinancialHub.Auth.Application.Tests", "FinancialHub.Auth.Application.Tests\FinancialHub.Auth.Application.Tests.csproj", "{89795B5A-58F2-4614-9EE7-12468940114A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -159,6 +161,10 @@ Global
 		{B3FAC69E-A3DD-4947-AD6A-89E683421D0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B3FAC69E-A3DD-4947-AD6A-89E683421D0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B3FAC69E-A3DD-4947-AD6A-89E683421D0A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{89795B5A-58F2-4614-9EE7-12468940114A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{89795B5A-58F2-4614-9EE7-12468940114A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{89795B5A-58F2-4614-9EE7-12468940114A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{89795B5A-58F2-4614-9EE7-12468940114A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -192,6 +198,7 @@ Global
 		{8B091A42-5BE6-49A4-8086-C8761E0CE769} = {7F00D819-7B4C-4A71-B9DB-E56ED20ADA0D}
 		{421DB63D-B9E6-4069-8B79-6C956506F3C5} = {7CF52440-3820-40A7-B0B0-55E56F4FFF35}
 		{B3FAC69E-A3DD-4947-AD6A-89E683421D0A} = {421DB63D-B9E6-4069-8B79-6C956506F3C5}
+		{89795B5A-58F2-4614-9EE7-12468940114A} = {421DB63D-B9E6-4069-8B79-6C956506F3C5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9A4C4A77-82DC-47E2-AA98-E741B329A3E8}
