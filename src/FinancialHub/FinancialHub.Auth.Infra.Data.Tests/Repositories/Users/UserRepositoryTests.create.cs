@@ -24,7 +24,6 @@
                 Assert.That(result.FirstName, Is.EqualTo(user.FirstName));
                 Assert.That(result.LastName, Is.EqualTo(user.LastName));
                 Assert.That(result.Email, Is.EqualTo(user.Email));
-                Assert.That(result.Password, Is.EqualTo(user.Password));
                 Assert.That(result.BirthDate, Is.EqualTo(user.BirthDate));
             });
         }

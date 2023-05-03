@@ -30,7 +30,7 @@ namespace FinancialHub.Auth.Infra.Tests.Providers
             this.provider = new UserProvider(this.mockRepository.Object, this.mapper);
         }
 
-        private static void AssertEqual(UserModel expected,UserModel actual)
+        protected static void AssertEqual(UserModel expected,UserModel actual)
         {
             Assert.Multiple(() =>
             {

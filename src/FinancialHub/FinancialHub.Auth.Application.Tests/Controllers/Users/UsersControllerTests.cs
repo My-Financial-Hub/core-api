@@ -20,12 +20,12 @@ namespace FinancialHub.Auth.Application.Tests.Controllers
             builder = new UserModelBuilder();
         }
 
-        public static void AssertValidResponse<T>(BaseResponse<T> expected, BaseResponse<T> response)
+        protected static void AssertValidResponse<T>(BaseResponse<T> expected, BaseResponse<T> response)
         {
             Assert.That(response.Data, Is.EqualTo(expected.Data));
         }
 
-        public static void AssertErrorResponse<T>(BaseErrorResponse expected, BaseErrorResponse response)
+        protected static void AssertErrorResponse<T>(BaseErrorResponse expected, BaseErrorResponse response)
         {
             Assert.Multiple(() =>
             {

@@ -16,6 +16,7 @@ namespace FinancialHub.Auth.Infra.Tests.Providers
                 .ReturnsAsync(userEntity);
             var resultUser = await this.provider.GetAsync(id);
 
+            Assert.That(resultUser, Is.Not.Null);
             AssertEqual(userModel, resultUser);
         }
 

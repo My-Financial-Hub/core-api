@@ -21,7 +21,7 @@ namespace FinancialHub.Auth.Services.Tests.Services
             this.service = new UserService(this.mockProvider.Object);
         }
 
-        private static void AssertEqual(UserModel expected, UserModel actual)
+        protected static void AssertEqual(UserModel expected, UserModel actual)
         {
             Assert.Multiple(() =>
             {
