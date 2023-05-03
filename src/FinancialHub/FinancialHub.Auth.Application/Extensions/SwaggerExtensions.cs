@@ -29,10 +29,5 @@ namespace FinancialHub.Auth.Application.Extensions
             });
             return services;
         }
-
-        public static void A()
-        {
-
-        }
     }
 }

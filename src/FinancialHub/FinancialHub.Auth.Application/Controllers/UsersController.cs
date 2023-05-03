@@ -33,10 +33,15 @@ namespace FinancialHub.Auth.WebApi.Controllers
 
             if(userResult.HasError) 
             {
-                return StatusCode(userResult.Error.Code, userResult.Error);
+                return StatusCode(
+                    userResult.Error.Code, 
+                    new NotFoundErrorResponse(userResult.Error.Message)                    
+                );
             }
 
-            return Ok(userResult);
+            return Ok(
+                new ItemResponse<UserModel>(userResult.Data)
+            );
         }
 
         /// <summary>
@@ -54,10 +59,13 @@ namespace FinancialHub.Auth.WebApi.Controllers
 
             if (userResult.HasError)
             {
-                return StatusCode(userResult.Error.Code, userResult.Error);
+                return StatusCode(
+                    userResult.Error.Code,
+                    new ValidationErrorResponse(userResult.Error.Message)
+                );
             }
 
-            return Ok(userResult);
+            return Ok(new SaveResponse<UserModel>(userResult.Data));
         }
 
         /// <summary>
@@ -78,10 +86,19 @@ namespace FinancialHub.Auth.WebApi.Controllers
 
             if (userResult.HasError)
             {
-                return StatusCode(userResult.Error.Code, userResult.Error);
+                if(userResult.Error.Code == 404)
+                {
+                    return NotFound(
+                        new NotFoundErrorResponse(userResult.Error.Message)
+                    );
+                }
+
+                return BadRequest(
+                    new ValidationErrorResponse(userResult.Error.Message)
+                );
             }
 
-            return Ok(userResult);
+            return Ok(new SaveResponse<UserModel>(userResult.Data));
         }
     }
 }
