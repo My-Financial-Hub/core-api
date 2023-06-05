@@ -1,11 +1,4 @@
-﻿using FinancialHub.Auth.Domain.Models;
-using FinancialHub.Domain.Responses.Errors;
-using FinancialHub.Domain.Responses.Success;
-using FinancialHub.Domain.Results;
-using FinancialHub.Domain.Results.Errors;
-using Microsoft.AspNetCore.Mvc;
-
-namespace FinancialHub.Auth.Application.Tests.Controllers
+﻿namespace FinancialHub.Auth.Application.Tests.Controllers
 {
     public partial class UsersControllerTests
     {

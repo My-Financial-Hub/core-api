@@ -1,4 +1,6 @@
-﻿namespace FinancialHub.Auth.Infra.Data.Tests.Repositories
+﻿using FinancialHub.Auth.Tests.Common.Assertions;
+
+namespace FinancialHub.Auth.Infra.Data.Tests.Repositories
 {
     public partial class UserRepositoryTests
     {
@@ -19,13 +21,7 @@
 
             var result = await this.repository.CreateAsync(user);
 
-            Assert.Multiple(() =>
-            {
-                Assert.That(result.FirstName, Is.EqualTo(user.FirstName));
-                Assert.That(result.LastName, Is.EqualTo(user.LastName));
-                Assert.That(result.Email, Is.EqualTo(user.Email));
-                Assert.That(result.BirthDate, Is.EqualTo(user.BirthDate));
-            });
+            EntityAssert.Equal(user, result);
         }
 
         [Test]

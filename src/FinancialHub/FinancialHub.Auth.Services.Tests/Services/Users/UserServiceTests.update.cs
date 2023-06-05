@@ -20,7 +20,7 @@
             var updatedUserResult = await this.service.UpdateAsync(id, user);
 
             Assert.That(updatedUserResult.HasError, Is.False);
-            AssertEqual(user, updatedUserResult.Data);
+            ModelAssert.Equal(user, updatedUserResult.Data);
         }
 
         [Test]

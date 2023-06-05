@@ -3,7 +3,6 @@ using FinancialHub.Auth.Domain.Interfaces.Repositories;
 using FinancialHub.Auth.Infra.Data.Contexts;
 using FinancialHub.Auth.Infra.Data.Repositories;
 using FinancialHub.Auth.Tests.Common.Builders.Entities;
-using FinancialHub.Domain.Entities;
 using Microsoft.Data.Sqlite;
 
 namespace FinancialHub.Auth.Infra.Data.Tests.Repositories
@@ -44,19 +43,6 @@ namespace FinancialHub.Auth.Infra.Data.Tests.Repositories
                 var datebaseUser = context.Users.First(u => u.Id == createdItem.Id);
                 Assert.That(datebaseUser, Is.EqualTo(createdItem));
             });
-        }
-
-        protected virtual async Task<ICollection<UserEntity>> InsertData(ICollection<UserEntity> items)
-        {
-            var list = new List<UserEntity>();
-            foreach (var item in items)
-            {
-                var entity = await this.context.Users.AddAsync(item);
-                await this.context.SaveChangesAsync();
-                list.Add(entity.Entity);
-            }
-            await this.context.SaveChangesAsync();
-            return list;
         }
 
         protected virtual async Task<UserEntity> InsertData(UserEntity item)

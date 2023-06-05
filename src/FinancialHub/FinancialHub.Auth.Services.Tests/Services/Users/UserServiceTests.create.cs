@@ -1,6 +1,4 @@
-﻿using FinancialHub.Auth.Domain.Models;
-
-namespace FinancialHub.Auth.Services.Tests.Services
+﻿namespace FinancialHub.Auth.Services.Tests.Services
 {
     public partial class UserServiceTests
     {
@@ -16,7 +14,7 @@ namespace FinancialHub.Auth.Services.Tests.Services
             var createdUserResult = await this.service.CreateAsync(user);
 
             Assert.That(createdUserResult.HasError, Is.False);
-            AssertEqual(user, createdUserResult.Data);
+            ModelAssert.Equal(user, createdUserResult.Data);
             mockProvider.Verify(x => x.CreateAsync(It.IsAny<UserModel>()), Times.Once());
         }
 

@@ -1,6 +1,4 @@
-﻿using FinancialHub.Auth.Domain.Models;
-
-namespace FinancialHub.Auth.Services.Tests.Services
+﻿namespace FinancialHub.Auth.Services.Tests.Services
 {
     public partial class UserServiceTests
     {
@@ -18,7 +16,7 @@ namespace FinancialHub.Auth.Services.Tests.Services
             var userResult = await this.service.GetAsync(id);
 
             Assert.That(userResult.HasError, Is.False);
-            AssertEqual(user, userResult.Data);
+            ModelAssert.Equal(user, userResult.Data);
         }
 
         [Test]

@@ -11,7 +11,7 @@
 
             var user = await repository.GetAsync(expectedUser.Id.GetValueOrDefault());
 
-            Assert.That(user,Is.EqualTo(expectedUser));
+            EntityAssert.Equal(expectedUser, user!);
         }
 
         [Test]

@@ -10,7 +10,7 @@
             var newUser = builder.WithId(item.Id.GetValueOrDefault()).Generate();
             var updated = await repository.UpdateAsync(newUser);
 
-            Assert.That(updated, Is.EqualTo(newUser));
+            EntityAssert.Equal(newUser, updated);
         }
 
         [Test]
@@ -29,8 +29,8 @@
 
             Assert.ThrowsAsync<DbUpdateConcurrencyException>(async () => await this.repository.UpdateAsync(newUser));
 
-            var datebaseUser = context.Users.FirstOrDefault(u => u.Id == newUser.Id);
-            Assert.That(datebaseUser, Is.Null);
+            var databaseUser = context.Users.FirstOrDefault(u => u.Id == newUser.Id);
+            Assert.That(databaseUser, Is.Null);
         }
 
         [Test]

@@ -1,8 +1,6 @@
 ﻿using FinancialHub.Auth.WebApi.Controllers;
 using FinancialHub.Auth.Domain.Interfaces.Services;
 using FinancialHub.Auth.Tests.Common.Builders.Entities;
-using FinancialHub.Domain.Responses.Success;
-using FinancialHub.Domain.Responses.Errors;
 
 namespace FinancialHub.Auth.Application.Tests.Controllers
 {

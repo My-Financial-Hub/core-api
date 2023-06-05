@@ -1,6 +1,4 @@
-﻿using FinancialHub.Auth.Domain.Entities;
-
-namespace FinancialHub.Auth.Infra.Tests.Providers
+﻿namespace FinancialHub.Auth.Infra.Tests.Providers
 {
     public partial class UserProviderTests
     {
@@ -17,7 +15,7 @@ namespace FinancialHub.Auth.Infra.Tests.Providers
             var resultUser = await this.provider.GetAsync(id);
 
             Assert.That(resultUser, Is.Not.Null);
-            AssertEqual(userModel, resultUser);
+            ModelAssert.Equal(userModel, resultUser);
         }
 
         [Test]
