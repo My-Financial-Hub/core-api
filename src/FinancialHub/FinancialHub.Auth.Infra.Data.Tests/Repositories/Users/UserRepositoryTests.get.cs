@@ -7,6 +7,7 @@
         public async Task GetAsync_ExistingUser_ReturnsUser()
         {
             var expectedUser = context.Users.Add(builder.Generate()).Entity;
+            context.SaveChanges();
 
             var user = await repository.GetAsync(expectedUser.Id.GetValueOrDefault());
 

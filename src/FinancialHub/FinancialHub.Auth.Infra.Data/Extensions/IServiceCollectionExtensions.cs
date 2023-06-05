@@ -15,9 +15,7 @@ namespace FinancialHub.Auth.Infra.Data.Extensions
                 provider =>
                     provider.UseSqlServer(
                         configuration.GetConnectionString("auth"),
-                        x => x
-                            .MigrationsAssembly("FinancialHub.Auth.Infra.Migrations")
-                            .MigrationsHistoryTable("auth-migrations")
+                        x => x.MigrationsHistoryTable("auth-migrations")
                     )
             );
 

@@ -5,9 +5,9 @@
         [Test]
         public async Task UpdateAsync_ExistingUser_ReturnsUpdatedUser()
         {
-            var oldUser = context.Users.Add(builder.Generate()).Entity;
+            var item = await this.InsertData(builder.Generate());
 
-            var newUser = builder.WithId(oldUser.Id.GetValueOrDefault()).Generate();
+            var newUser = builder.WithId(item.Id.GetValueOrDefault()).Generate();
             var updated = await repository.UpdateAsync(newUser);
 
             Assert.That(updated, Is.EqualTo(newUser));
@@ -16,18 +16,18 @@
         [Test]
         public async Task UpdateAsync_ExistingUser_UpdatesUser() 
         {
-            var oldUser = context.Users.Add(builder.Generate()).Entity;
+            var oldUser = await this.InsertData(builder.Generate());
 
             var newUser = builder.WithId(oldUser.Id.GetValueOrDefault()).Generate();
             await repository.UpdateAsync(newUser);
         }
 
         [Test]
-        public async Task UpdateAsync_NotExistingUser_DoesNotUpdatesUser()
+        public void UpdateAsync_NotExistingUser_DoesNotUpdatesUser()
         {
             var newUser = builder.Generate();
 
-            await repository.UpdateAsync(newUser);
+            Assert.ThrowsAsync<DbUpdateConcurrencyException>(async () => await this.repository.UpdateAsync(newUser));
 
             var datebaseUser = context.Users.FirstOrDefault(u => u.Id == newUser.Id);
             Assert.That(datebaseUser, Is.Null);

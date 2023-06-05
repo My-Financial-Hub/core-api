@@ -1,4 +1,5 @@
-﻿using FinancialHub.Auth.Domain.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using FinancialHub.Auth.Domain.Entities;
 using FinancialHub.Auth.Domain.Interfaces.Repositories;
 using FinancialHub.Auth.Infra.Data.Contexts;
 
@@ -15,6 +16,10 @@ namespace FinancialHub.Auth.Infra.Data.Repositories
 
         public async Task<UserEntity> CreateAsync(UserEntity user)
         {
+            user.Id = null;
+            user.CreationTime = DateTimeOffset.Now;
+            user.UpdateTime = DateTimeOffset.Now;
+
             var entry = this.context.Users.Add(user);
             await this.context.SaveChangesAsync();
 
@@ -23,12 +28,19 @@ namespace FinancialHub.Auth.Infra.Data.Repositories
 
         public async Task<UserEntity?> GetAsync(Guid id)
         {
-            throw new NotImplementedException();
+            return await this.context.Users.FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<UserEntity> UpdateAsync(UserEntity user)
         {
-            throw new NotImplementedException();
+            user.UpdateTime = DateTimeOffset.Now;
+
+            var res = context.Users.Update(user);
+            this.context.Entry(res.Entity).Property(x => x.CreationTime).IsModified = false;
+
+            await context.SaveChangesAsync();
+
+            return res.Entity;
         }
     }
 }

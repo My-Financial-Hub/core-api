@@ -3,6 +3,8 @@ using FinancialHub.Auth.Domain.Interfaces.Repositories;
 using FinancialHub.Auth.Infra.Data.Contexts;
 using FinancialHub.Auth.Infra.Data.Repositories;
 using FinancialHub.Auth.Tests.Common.Builders.Entities;
+using FinancialHub.Domain.Entities;
+using Microsoft.Data.Sqlite;
 
 namespace FinancialHub.Auth.Infra.Data.Tests.Repositories
 {
@@ -14,7 +16,9 @@ namespace FinancialHub.Auth.Infra.Data.Tests.Repositories
 
         protected static FinancialHubAuthContext GetContext()
         {
-            var cfg = new DbContextOptionsBuilder<FinancialHubAuthContext>().UseSqlServer("Server=localhost,1450;Database=financial_hub;user=sa;pwd=P@ssw0rd!");
+            var conn = new SqliteConnection("DataSource=:memory:");
+            conn.Open();
+            var cfg = new DbContextOptionsBuilder<FinancialHubAuthContext>().UseSqlite(conn);
             cfg.EnableSensitiveDataLogging(true);
 
             return new FinancialHubAuthContext(
@@ -27,6 +31,7 @@ namespace FinancialHub.Auth.Infra.Data.Tests.Repositories
         {
             this.builder = new UserEntityBuilder();
             this.context = GetContext();
+            this.context.Database.EnsureCreated();
             this.repository = new UserRepository(this.context);
         }
 
@@ -39,6 +44,29 @@ namespace FinancialHub.Auth.Infra.Data.Tests.Repositories
                 var datebaseUser = context.Users.First(u => u.Id == createdItem.Id);
                 Assert.That(datebaseUser, Is.EqualTo(createdItem));
             });
+        }
+
+        protected virtual async Task<ICollection<UserEntity>> InsertData(ICollection<UserEntity> items)
+        {
+            var list = new List<UserEntity>();
+            foreach (var item in items)
+            {
+                var entity = await this.context.Users.AddAsync(item);
+                await this.context.SaveChangesAsync();
+                list.Add(entity.Entity);
+            }
+            await this.context.SaveChangesAsync();
+            return list;
+        }
+
+        protected virtual async Task<UserEntity> InsertData(UserEntity item)
+        {
+            var res = await this.context.Users.AddAsync(item);
+            item.Id = res.Entity.Id;
+            await this.context.SaveChangesAsync();
+            res.State = EntityState.Detached;
+
+            return res.Entity;
         }
     }
 }
