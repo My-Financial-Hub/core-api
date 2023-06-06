@@ -20,6 +20,9 @@
 
             var newUser = builder.WithId(oldUser.Id.GetValueOrDefault()).Generate();
             await repository.UpdateAsync(newUser);
+
+            var data = context.Users.FirstOrDefault(x => x.Id == oldUser.Id.GetValueOrDefault());
+            EntityAssert.Equal(newUser, data!);
         }
 
         [Test]
