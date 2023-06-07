@@ -1,5 +1,4 @@
 ﻿using FinancialHub.Auth.Domain.Models;
-using NUnit.Framework;
 
 namespace FinancialHub.Auth.Tests.Common.Assertions
 {
