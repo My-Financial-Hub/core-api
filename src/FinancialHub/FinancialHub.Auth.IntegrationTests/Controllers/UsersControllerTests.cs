@@ -7,27 +7,6 @@ using FinancialHub.Domain.Responses.Errors;
 using FinancialHub.Domain.Responses.Success;
 using System.Net;
 
-/*
-{
-  "type": "https://tools.ietf.org/html/rfc7231#section-6.5.1",
-  "title": "One or more validation errors occurred.",
-  "status": 400,
-  "traceId": "00-68384f7fb6ba140dbd5d1b80776ba492-59c3ed69db805c8c-00",
-  "errors": {
-    "Email": [
-      "Email é obrigatório",
-      "Email é invalido"
-    ],
-    "LastName": [
-      "Last Name é obrigatório"
-    ],
-    "FirstName": [
-      "First Name é obrigatório"
-    ]
-  }
-}
-*/
-
 namespace FinancialHub.Auth.IntegrationTests.Controllers.Users
 {
     public class UsersControllerTests : BaseControllerTests
@@ -96,9 +75,9 @@ namespace FinancialHub.Auth.IntegrationTests.Controllers.Users
                     .Generate();
 
                 var response = await Client.PostAsync(baseEndpoint, data.ToHttpContent());
-                var jsonResponse = await response.ReadContentAsync<ValidationErrorResponse>();
+                var jsonResponse = await response.ReadContentAsync<ValidationsErrorResponse>();
 
-                Assert.That(false);
+                Assert.That(jsonResponse?.Errors.Count, Is.EqualTo(4));
             }
 
             [Test]
@@ -208,8 +187,9 @@ namespace FinancialHub.Auth.IntegrationTests.Controllers.Users
                     .WithId(id)
                     .Generate();
                 var response = await Client.PatchAsync(baseEndpoint + $"/{id}", data.ToHttpContent());
+                var jsonResponse = await response.ReadContentAsync<ValidationsErrorResponse>();
 
-                Assert.That(false, "TODO: add message verification");
+                Assert.That(jsonResponse?.Errors.Count, Is.EqualTo(4));
             }
 
             [Test]

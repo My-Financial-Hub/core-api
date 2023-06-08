@@ -24,6 +24,7 @@ namespace FinancialHub.Auth.Services.Extensions
             {
                 x.AutomaticValidationEnabled = true;
                 x.DisableDataAnnotationsValidation = true;
+                x.ValidatorOptions.DefaultRuleLevelCascadeMode = CascadeMode.Stop;
             });
             services.AddScoped<IValidator<UserModel>, UserValidator>();
 
