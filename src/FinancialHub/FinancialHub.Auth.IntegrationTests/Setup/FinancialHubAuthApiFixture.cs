@@ -4,6 +4,7 @@ using FinancialHub.Domain.Entities;
 using System.Collections;
 using FinancialHub.Auth.Infra.Data.Contexts;
 using FinancialHub.Auth.IntegrationTests.Extensions;
+using FinancialHub.Auth.WebApi;
 
 namespace FinancialHub.Auth.IntegrationTests.Setup
 {
