@@ -8,11 +8,12 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\FinancialHub.Domain\FinancialHub.Domain.csproj" />
+    <ProjectReference Include="..\FinancialHub.Auth.Domain\FinancialHub.Auth.Domain.csproj" />
   </ItemGroup>
 
 </Project>
