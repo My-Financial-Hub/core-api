@@ -1,7 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using FinancialHub.Auth.Domain.Entities;
+﻿using FinancialHub.Auth.Domain.Entities;
 using FinancialHub.Auth.Infra.Data.Contexts;
 using FinancialHub.Auth.Infra.Data.Repositories;
+using FinancialHub.Auth.Domain.Interfaces.Repositories;
 using FinancialHub.Auth.Tests.Common.Builders.Entities;
 using Microsoft.Data.Sqlite;
 
