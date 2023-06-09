@@ -1,18 +1,28 @@
-﻿using System.Text;
-using Microsoft.IdentityModel.Tokens;
+﻿using FinancialHub.Auth.Domain.Interfaces.Services;
+using FinancialHub.Auth.Services.Configurations;
+using FinancialHub.Auth.Services.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using FinancialHub.Auth.Domain.Interfaces.Services;
-using FinancialHub.Auth.Services.Mappers;
-using FinancialHub.Auth.Services.Services;
-using FinancialHub.Auth.Services.Configurations;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
-namespace FinancialHub.Auth.Services.Extensions.Configurations
+namespace FinancialHub.Auth.Services.Extensions
 {
-    public static class IServiceCollectionExtensions
+    public static partial class IServiceCollectionExtensions
     {
+        public static IServiceCollection AddAuthentication(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddSettings(configuration);
+
+            services.AddScoped<ITokenService, TokenService>();
+            services.AddScoped<IAuthService, AuthService>();
+
+            services.AddAuthConfiguration(configuration);
+
+            return services;
+        }
+
         private static IServiceCollection AddAuthConfiguration(this IServiceCollection services, IConfiguration configuration)
         {
             var settings = configuration.GetRequiredSection("TokenServiceSettings").Get<TokenServiceSettings>();
@@ -47,26 +57,6 @@ namespace FinancialHub.Auth.Services.Extensions.Configurations
                         };
                     }
                 );
-            return services;
-        }
-
-        public static IServiceCollection AddAuthServices(this IServiceCollection services, IConfiguration configuration)
-        {
-            services.AddAutoMapper(typeof(FinancialHubAuthProfile));
-
-            services.AddSettings(configuration);
-            services.AddAuthConfiguration(configuration);
-            services.AddServices();
-
-            return services;
-        }
-
-        private static IServiceCollection AddServices(this IServiceCollection services)
-        {
-            services.AddScoped<IAuthService, AuthService>();
-            services.AddScoped<IUserService, UserService>();
-            services.AddScoped<ITokenService, TokenService>();
-
             return services;
         }
 
