@@ -1,10 +1,4 @@
-﻿using AutoMapper;
-using FinancialHub.Auth.Domain.Entities;
-using FinancialHub.Auth.Domain.Interfaces.Providers;
-using FinancialHub.Auth.Domain.Interfaces.Repositories;
-using FinancialHub.Auth.Domain.Models;
-
-namespace FinancialHub.Auth.Infra.Providers
+﻿namespace FinancialHub.Auth.Infra.Providers
 {
     public class UserProvider : IUserProvider
     {
