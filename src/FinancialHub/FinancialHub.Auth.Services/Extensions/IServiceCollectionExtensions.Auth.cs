@@ -1,5 +1,4 @@
-﻿using FinancialHub.Auth.Domain.Interfaces.Services;
-using FinancialHub.Auth.Services.Configurations;
+﻿using FinancialHub.Auth.Services.Configurations;
 using FinancialHub.Auth.Services.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;

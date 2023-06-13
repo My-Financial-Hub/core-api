@@ -1,8 +1,4 @@
-﻿using FinancialHub.Auth.Domain.Interfaces.Services;
-using FinancialHub.Auth.Domain.Models;
-using FinancialHub.Domain.Results;
-
-namespace FinancialHub.Auth.Services.Services
+﻿namespace FinancialHub.Auth.Services.Services
 {
     public class AuthService : IAuthService
     {

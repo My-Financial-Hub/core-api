@@ -3,8 +3,6 @@ using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using FinancialHub.Auth.Domain.Models;
-using FinancialHub.Auth.Domain.Interfaces.Services;
 using FinancialHub.Auth.Services.Configurations;
 
 namespace FinancialHub.Auth.Services.Services
