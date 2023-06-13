@@ -1,9 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using FinancialHub.Auth.Domain.Entities;
-using FinancialHub.Auth.Domain.Interfaces.Repositories;
-using FinancialHub.Auth.Infra.Data.Contexts;
-
-namespace FinancialHub.Auth.Infra.Data.Repositories
+﻿namespace FinancialHub.Auth.Infra.Data.Repositories
 {
     public class UserRepository : IUserRepository
     {
@@ -29,11 +24,6 @@ namespace FinancialHub.Auth.Infra.Data.Repositories
         public async Task<UserEntity?> GetAsync(Guid id)
         {
             return await this.context.Users.FirstOrDefaultAsync(x => x.Id == id);
-        }
-
-        public Task<UserEntity> GetAsync(string email, string password)
-        {
-            throw new NotImplementedException();
         }
 
         public async Task<UserEntity> UpdateAsync(UserEntity user)
