@@ -1,7 +1,4 @@
-﻿using FinancialHub.Auth.Domain.Entities;
-using Microsoft.EntityFrameworkCore;
-
-namespace FinancialHub.Auth.Infra.Data.Contexts
+﻿namespace FinancialHub.Auth.Infra.Data.Contexts
 {
     public class FinancialHubAuthContext : DbContext
     {
@@ -14,5 +11,6 @@ namespace FinancialHub.Auth.Infra.Data.Contexts
         }
 
         public DbSet<UserEntity> Users { get; set; }
+        public DbSet<CredentialEntity> Credentials { get; set; }
     }
 }

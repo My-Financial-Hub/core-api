@@ -4,6 +4,7 @@ using FinancialHub.Auth.Infra.Data.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FinancialHub.Auth.Infra.Data.Migrations
 {
     [DbContext(typeof(FinancialHubAuthContext))]
-    partial class FinancialHubAuthContextModelSnapshot : ModelSnapshot
+    [Migration("20230615215715_Add_Credential_Table")]
+    partial class Add_Credential_Table
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
