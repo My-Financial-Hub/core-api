@@ -11,17 +11,22 @@
 
         public async Task<CredentialEntity> CreateAsync(CredentialEntity credential)
         {
-            var entry = await this.context.AddAsync(credential);
+            credential.Id = null;
+            credential.CreationTime = DateTimeOffset.Now;
+            credential.UpdateTime = DateTimeOffset.Now;
+            credential.User = default!;
+
+            var entry = await this.context.Credentials.AddAsync(credential);
             await this.context.SaveChangesAsync();
             return entry.Entity;
         }
 
-        public async Task<CredentialEntity?> DeleteAsync(string username, string password)
+        public async Task<int> DeleteAsync(string username, string password)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<CredentialEntity?> DeleteAsync(Guid userId)
+        public async Task<int> DeleteAsync(Guid userId)
         {
             throw new NotImplementedException();
         }
