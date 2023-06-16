@@ -1,6 +1,4 @@
-﻿using FinancialHub.Auth.Tests.Common.Assertions;
-
-namespace FinancialHub.Auth.Infra.Data.Tests.Repositories
+﻿namespace FinancialHub.Auth.Infra.Data.Tests.Repositories
 {
     public partial class UserRepositoryTests
     {
@@ -11,7 +9,7 @@ namespace FinancialHub.Auth.Infra.Data.Tests.Repositories
 
             await this.repository.CreateAsync(user);
 
-            AssertCreated(user);
+            DbContextAssert.AssertCreated(fixture.Context, user);
         }
 
         [Test]
@@ -32,7 +30,7 @@ namespace FinancialHub.Auth.Infra.Data.Tests.Repositories
             await this.repository.CreateAsync(user);
             await this.repository.CreateAsync(user);
 
-            AssertCreated(user);
+            DbContextAssert.AssertCreated(fixture.Context, user);
         }
     }
 }
