@@ -21,16 +21,6 @@
             return entry.Entity;
         }
 
-        public async Task<int> DeleteAsync(string username, string password)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<int> DeleteAsync(Guid userId)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<CredentialEntity?> GetAsync(string username)
         {
             return await this.context.Credentials.FirstOrDefaultAsync(x => x.Login == username);
@@ -41,9 +31,9 @@
             return await this.context.Credentials.FirstOrDefaultAsync(x => x.Login == username && x.Password == password);
         }
 
-        public async Task<CredentialEntity> GetAsync(Guid userId)
+        public async Task<IEnumerable<CredentialEntity>> GetAsync(Guid userId)
         {
-            throw new NotImplementedException();
+            return await this.context.Credentials.Where(x => x.UserId == userId).ToArrayAsync();
         }
     }
 }
