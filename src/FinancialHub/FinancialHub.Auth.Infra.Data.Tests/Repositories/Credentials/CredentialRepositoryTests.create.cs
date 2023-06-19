@@ -6,7 +6,7 @@
         public async Task CreateAsync_ValidCredeential_InsertsCredential()
         {
             var user = await this.fixture.InsertData(this.userBuilder.Generate());
-            var credential = this.builder.WithUser(user).Generate();
+            var credential = this.builder.WithUserId(user.Id).Generate();
 
             await this.repository.CreateAsync(credential);
 
@@ -17,7 +17,7 @@
         public async Task CreateAsync_ValidCredential_ReturnsCreatedCredential()
         {
             var user = await this.fixture.InsertData(this.userBuilder.Generate());
-            var credential = this.builder.WithUser(user).Generate();
+            var credential = this.builder.WithUserId(user.Id).Generate();
 
             var result = await this.repository.CreateAsync(credential);
 
@@ -28,7 +28,7 @@
         public async Task CreateAsync_CredentialWithExistingId_InsertsIntoDatabaseWithDifferentId()
         {
             var user = await this.fixture.InsertData(this.userBuilder.Generate());
-            var credential = this.builder.WithUser(user).Generate();
+            var credential = this.builder.WithUserId(user.Id).Generate();
 
             await this.repository.CreateAsync(credential);
             await this.repository.CreateAsync(credential);
