@@ -28,5 +28,16 @@ namespace FinancialHub.Auth.Tests.Common.Assertions
                 Assert.That(result.BirthDate, Is.EqualTo(expected.BirthDate));
             });
         }
+
+        public static void Equal(CredentialEntity expected, CredentialEntity result)
+        {
+            Assert.Multiple(() =>
+            {
+                Assert.That(result.Id, Is.EqualTo(expected.Id));
+                Assert.That(result.Password, Is.EqualTo(expected.Password));
+                Assert.That(result.Login, Is.EqualTo(expected.Login));
+                Assert.That(result.UserId, Is.EqualTo(expected.UserId));
+            });
+        }
     }
 }
