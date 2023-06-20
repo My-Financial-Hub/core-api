@@ -14,6 +14,16 @@
             });
         }
 
+        public static void Equal(CredentialModel expected, CredentialModel result)
+        {
+            Assert.Multiple(() =>
+            {
+                Assert.That(result.Password, Is.EqualTo(expected.Password));
+                Assert.That(result.Login, Is.EqualTo(expected.Login));
+                Assert.That(result.UserId, Is.EqualTo(expected.UserId));
+            });
+        }
+
         public static void Equal(CredentialModel expected, CredentialEntity result)
         {
             Assert.Multiple(() =>
