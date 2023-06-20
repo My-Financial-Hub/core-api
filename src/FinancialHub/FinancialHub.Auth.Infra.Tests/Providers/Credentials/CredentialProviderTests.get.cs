@@ -1,4 +1,4 @@
-﻿namespace FinancialHub.Auth.Infra.Tests.Providers.Credentials
+﻿namespace FinancialHub.Auth.Infra.Tests.Providers
 {
     public partial class CredentialProviderTests
     {
