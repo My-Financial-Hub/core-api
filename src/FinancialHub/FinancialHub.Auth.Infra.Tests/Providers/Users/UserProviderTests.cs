@@ -1,11 +1,4 @@
-﻿using AutoMapper;
-using FinancialHub.Auth.Domain.Interfaces.Providers;
-using FinancialHub.Auth.Infra.Providers;
-using FinancialHub.Auth.Domain.Interfaces.Repositories;
-using FinancialHub.Auth.Tests.Common.Builders.Entities;
-using FinancialHub.Auth.Infra.Mappers;
-
-namespace FinancialHub.Auth.Infra.Tests.Providers
+﻿namespace FinancialHub.Auth.Infra.Tests.Providers
 {
     public partial class UserProviderTests
     {
