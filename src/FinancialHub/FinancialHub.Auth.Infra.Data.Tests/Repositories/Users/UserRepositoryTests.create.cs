@@ -19,6 +19,7 @@
 
             var result = await this.repository.CreateAsync(user);
 
+            Assert.That(result, Is.Not.Null);
             EntityAssert.Equal(user, result);
         }
 

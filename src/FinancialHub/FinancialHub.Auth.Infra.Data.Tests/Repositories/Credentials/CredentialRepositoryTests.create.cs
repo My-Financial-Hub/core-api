@@ -21,6 +21,7 @@
 
             var result = await this.repository.CreateAsync(credential);
 
+            Assert.That(result, Is.Not.Null);
             EntityAssert.Equal(credential, result);
         }
 
