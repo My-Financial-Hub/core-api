@@ -1,7 +1,4 @@
-﻿using FinancialHub.Auth.Domain.Entities;
-using FinancialHub.Auth.Domain.Models;
-
-namespace FinancialHub.Auth.Tests.Common.Assertions
+﻿namespace FinancialHub.Auth.Tests.Common.Assertions
 {
     public static class EntityAssert
     {
