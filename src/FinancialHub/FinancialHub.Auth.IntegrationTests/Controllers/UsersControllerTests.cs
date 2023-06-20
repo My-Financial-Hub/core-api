@@ -3,6 +3,7 @@ using FinancialHub.Auth.Domain.Models;
 using FinancialHub.Auth.IntegrationTests.Extensions;
 using FinancialHub.Auth.Tests.Common.Assertions;
 using FinancialHub.Auth.Tests.Common.Builders.Entities;
+using FinancialHub.Auth.Tests.Common.Builders.Models;
 using FinancialHub.Domain.Responses.Errors;
 using FinancialHub.Domain.Responses.Success;
 using System.Net;
