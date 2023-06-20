@@ -2,7 +2,7 @@
 
 namespace FinancialHub.Auth.Infra.Mappers
 {
-    internal class FinancialHubAuthCredentialProfile : Profile
+    public class FinancialHubAuthCredentialProfile : Profile
     {
         public FinancialHubAuthCredentialProfile(IPasswordHelper helper) : base()
         {

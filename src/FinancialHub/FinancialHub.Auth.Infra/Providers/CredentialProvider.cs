@@ -5,10 +5,10 @@
         private readonly IMapper mapper;
         private readonly ICredentialRepository credentialRepository;
 
-        public CredentialProvider(IMapper mapper,ICredentialRepository credentialRepository)
+        public CredentialProvider(ICredentialRepository credentialRepository, IMapper mapper)
         {
-            this.mapper = mapper;
             this.credentialRepository = credentialRepository;
+            this.mapper = mapper;
         }
 
         public async Task<CredentialModel> CreateAsync(CredentialModel signup)
