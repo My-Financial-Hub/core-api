@@ -4,6 +4,7 @@ global using AutoMapper;
 global using NUnit.Framework;
 global using FinancialHub.Auth.Tests.Common.Assertions;
 global using FinancialHub.Auth.Tests.Common.Builders.Entities;
+global using FinancialHub.Auth.Tests.Common.Builders.Models;
 
 global using FinancialHub.Auth.Domain.Entities;
 global using FinancialHub.Auth.Domain.Interfaces.Providers;
