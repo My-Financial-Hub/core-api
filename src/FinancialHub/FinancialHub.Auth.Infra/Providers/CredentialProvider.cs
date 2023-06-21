@@ -11,15 +11,11 @@
             this.mapper = mapper;
         }
 
-        public async Task<CredentialModel?> CreateAsync(CredentialModel signup)
+        public async Task<CredentialModel> CreateAsync(CredentialModel signup)
         {
             var entity = this.mapper.Map<CredentialEntity>(signup);
 
             var result = await this.credentialRepository.CreateAsync(entity);
-            if(result == null)
-            {
-                return null;
-            }
 
             return this.mapper.Map<CredentialModel>(result);
         }

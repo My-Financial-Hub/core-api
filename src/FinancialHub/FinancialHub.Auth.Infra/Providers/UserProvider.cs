@@ -11,15 +11,11 @@
             this.mapper = mapper;
         }
 
-        public async Task<UserModel?> CreateAsync(UserModel user)
+        public async Task<UserModel> CreateAsync(UserModel user)
         {
             var entity = this.mapper.Map<UserEntity>(user);
 
             var createdEntity = await this.repository.CreateAsync(entity);
-            if (createdEntity == null)
-            {
-                return null;
-            }
 
             return this.mapper.Map<UserModel>(createdEntity);
         }
@@ -35,15 +31,11 @@
             return this.mapper.Map<UserModel>(user);
         }
 
-        public async Task<UserModel?> UpdateAsync(UserModel user)
+        public async Task<UserModel> UpdateAsync(UserModel user)
         {
             var entity = this.mapper.Map<UserEntity>(user);
 
             var updatedEntity = await this.repository.UpdateAsync(entity);
-            if (updatedEntity == null)
-            {
-                return null;
-            }
 
             return this.mapper.Map<UserModel>(updatedEntity);
         }
