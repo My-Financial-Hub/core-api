@@ -1,7 +1,6 @@
 ﻿using FinancialHub.Auth.Domain.Interfaces.Providers;
 using FinancialHub.Auth.Domain.Interfaces.Services;
 using FinancialHub.Auth.Services.Services;
-using FinancialHub.Auth.Tests.Common.Builders.Models;
 
 namespace FinancialHub.Auth.Services.Tests.Services
 {
