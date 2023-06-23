@@ -14,7 +14,9 @@ namespace FinancialHub.Auth.Resources.Providers
         }
 
         public string? Required  => ErrorMessages.ResourceManager.GetString("Required", this.cultureInfo);
+        public string? MinLength => ErrorMessages.ResourceManager.GetString("MinLength", this.cultureInfo);
         public string? MaxLength => ErrorMessages.ResourceManager.GetString("MaxLength", this.cultureInfo);
+        public string? ConfirmPassword => ErrorMessages.ResourceManager.GetString("ConfirmPassword", this.cultureInfo);
         public string? Invalid   => ErrorMessages.ResourceManager.GetString("Invalid", this.cultureInfo);
     }
 }
