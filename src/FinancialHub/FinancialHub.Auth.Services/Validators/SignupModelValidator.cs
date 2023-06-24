@@ -18,7 +18,7 @@ namespace FinancialHub.Auth.Services.Validators
                 .ValidName(provider);
 
             RuleFor(x => x.BirthDate)
-                .NotEmpty()
+                .NotNull()
                 .WithMessage(provider.Required);
 
             RuleFor(x => x.Password)
