@@ -1,8 +1,12 @@
-﻿namespace FinancialHub.Auth.Application.Tests.Controllers
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace FinancialHub.Auth.Application.Tests.Controllers
 {
     public partial class UsersControllerTests
     {
         [Test]
+        [Obsolete("Obsolete while CreateUserAsync is Obsolete")]
+        [SuppressMessage("Info Code Smell", "S1133:Deprecated code should be removed", Justification = "Remove with CreateUserAsync")]
         public async Task CreateAsync_SuccessfulCreation_Returns200Ok()
         {
             var user = this.builder.Generate();
@@ -26,6 +30,8 @@
         }
 
         [Test]
+        [Obsolete("Obsolete while CreateUserAsync is Obsolete")]
+        [SuppressMessage("Info Code Smell", "S1133:Deprecated code should be removed", Justification = "Remove with CreateUserAsync")]
         public async Task CreateAsync_FailedCreation_Returns400BadRequest()
         {
             var user = this.builder.Generate();
