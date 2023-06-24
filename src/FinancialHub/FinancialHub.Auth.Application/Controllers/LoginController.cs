@@ -1,8 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using FinancialHub.Auth.Domain.Models;
-using FinancialHub.Auth.Domain.Interfaces.Services;
-
-namespace FinancialHub.Auth.WebApi.Controllers
+﻿namespace FinancialHub.Auth.Application.Controllers
 {
     [ApiController]
     [Route("[controller]")]
@@ -17,7 +13,7 @@ namespace FinancialHub.Auth.WebApi.Controllers
         }
 
         [HttpPost]
-        [ProducesResponseType(typeof(TokenModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(TokenModel), 200)]
         public async Task<IActionResult> Index(LoginModel login)
         {
             var tokenResult = await this.authService.GenerateToken(login);
