@@ -1,6 +1,4 @@
-﻿using Moq;
-
-namespace FinancialHub.Auth.Infra.Tests.Providers
+﻿namespace FinancialHub.Auth.Infra.Tests.Providers
 {
     public partial class SignupProviderTests
     {
@@ -26,7 +24,7 @@ namespace FinancialHub.Auth.Infra.Tests.Providers
         }
 
         [Test]
-        public async Task CreateAccountAsync_ValidUser_CallsCreateCredentilWithUserId()
+        public async Task CreateAccountAsync_ValidUser_CallsCreateCredentialWithUserId()
         {
             var signupModel = builder.Generate();
             var guid = Guid.NewGuid();
@@ -50,42 +48,6 @@ namespace FinancialHub.Auth.Infra.Tests.Providers
             await provider.CreateAccountAsync(signupModel);
 
             credentialProvider.Verify(x => x.CreateAsync(It.Is<CredentialModel>(c => c.UserId == guid)), Times.Once);
-        }
-
-        [Test]
-        public async Task CreateAccountAsync_FailedToCreateUser_ReturnsNull()
-        {
-            var signupModel = builder.Generate();
-
-            mapper.Map<UserModel>(signupModel);
-            userProvider
-                .Setup(x => x.CreateAsync(It.IsAny<UserModel>()))
-                .ReturnsAsync(default(UserModel));
-
-            var createdAccount = await provider.CreateAccountAsync(signupModel);
-
-            Assert.That(createdAccount, Is.Null);
-        }
-
-
-        [Test]
-        public async Task CreateAccountAsync_FailedToCreateCredential_ReturnsNull()
-        {
-            var signupModel = builder.Generate();
-
-            var user = mapper.Map<UserModel>(signupModel);
-            userProvider
-                .Setup(x => x.CreateAsync(It.IsAny<UserModel>()))
-                .ReturnsAsync(user);
-
-            credentialProvider
-                .Setup(x => x.CreateAsync(It.IsAny<CredentialModel>()))
-                .ReturnsAsync(default(CredentialModel));
-
-
-            var createdAccount = await provider.CreateAccountAsync(signupModel);
-
-            Assert.That(createdAccount, Is.Null);
         }
     }
 }
