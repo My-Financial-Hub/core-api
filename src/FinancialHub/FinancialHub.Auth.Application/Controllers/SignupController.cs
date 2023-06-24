@@ -15,7 +15,7 @@
         [HttpPost]
         [ProducesResponseType(typeof(ItemResponse<UserModel>), 200)]
         [ProducesResponseType(typeof(ValidationErrorResponse), 400)]
-        public async Task<IActionResult> Signup([FromBody] SignupModel signup)
+        public async Task<IActionResult> SignupAsync([FromBody] SignupModel signup)
         {
             var result = await signupService.CreateAccountAsync(signup);
 
