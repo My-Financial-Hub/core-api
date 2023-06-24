@@ -16,6 +16,7 @@ namespace FinancialHub.Auth.Services.Extensions
 
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<ISignupService, SignupService>();
 
             services.AddAuthConfiguration(configuration);
 
