@@ -9,7 +9,7 @@
         protected readonly string baseEndpoint;
         protected readonly Random random;
 
-        public BaseControllerTests(FinancialHubAuthApiFixture fixture, string endpoint)
+        protected BaseControllerTests(FinancialHubAuthApiFixture fixture, string endpoint)
         {
             this.fixture = fixture;
             this.baseEndpoint = endpoint;
