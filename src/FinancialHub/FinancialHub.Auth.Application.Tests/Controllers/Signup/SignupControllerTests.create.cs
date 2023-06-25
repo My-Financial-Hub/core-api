@@ -14,7 +14,7 @@ namespace FinancialHub.Auth.Application.Tests.Controllers
                 .WithEmail(signup.Email)
                 .WithBirthDate(signup.BirthDate)
                 .Generate();
-            var expectedResponse = new SaveResponse<UserModel>(user);
+            var expectedResponse = new ItemResponse<UserModel>(user);
 
             serviceMock
                 .Setup(x => x.CreateAccountAsync(signup))
