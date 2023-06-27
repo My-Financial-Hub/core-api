@@ -1,9 +1,11 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using FinancialHub.Auth.Infra.Data.Repositories;
+using System.Diagnostics.CodeAnalysis;
 
 namespace FinancialHub.Auth.Infra.Data.Extensions
 {
+    [ExcludeFromCodeCoverage]
     public static class IServiceCollectionExtensions
     {
         private static IServiceCollection AddAuthDatabase(this IServiceCollection services, IConfiguration configuration)

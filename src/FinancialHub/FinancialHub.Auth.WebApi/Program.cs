@@ -1,7 +1,9 @@
 using FinancialHub.Auth.Application.Extensions;
+using System.Diagnostics.CodeAnalysis;
 
 namespace FinancialHub.Auth.WebApi;
 
+[ExcludeFromCodeCoverage]
 public partial class Program
 {
     protected Program()
