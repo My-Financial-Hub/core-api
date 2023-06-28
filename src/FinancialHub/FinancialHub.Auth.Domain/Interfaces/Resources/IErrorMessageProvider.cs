@@ -4,6 +4,8 @@
     {
         string? Required { get; }
         string? Invalid { get; }
+        string? MinLength { get; }
+        string? ConfirmPassword { get; }
         string? MaxLength { get; }
     }
 }

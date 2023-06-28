@@ -1,5 +1,4 @@
-﻿using FinancialHub.Auth.IntegrationTests.Setup;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace FinancialHub.Auth.IntegrationTests.Extensions

@@ -1,5 +1,4 @@
-﻿using FinancialHub.Domain.Responses.Success;
-using System.Text.Json;
+﻿using System.Text.Json;
 
 namespace FinancialHub.Auth.IntegrationTests.Extensions
 {

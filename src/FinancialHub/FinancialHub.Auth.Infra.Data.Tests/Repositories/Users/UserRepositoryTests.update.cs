@@ -5,7 +5,7 @@
         [Test]
         public async Task UpdateAsync_ExistingUser_ReturnsUpdatedUser()
         {
-            var item = await this.InsertData(builder.Generate());
+            var item = await this.fixture.InsertData(builder.Generate());
 
             var newUser = builder.WithId(item.Id.GetValueOrDefault()).Generate();
             var updated = await repository.UpdateAsync(newUser);
@@ -16,12 +16,12 @@
         [Test]
         public async Task UpdateAsync_ExistingUser_UpdatesUser() 
         {
-            var oldUser = await this.InsertData(builder.Generate());
+            var oldUser = await this.fixture.InsertData(builder.Generate());
 
             var newUser = builder.WithId(oldUser.Id.GetValueOrDefault()).Generate();
             await repository.UpdateAsync(newUser);
 
-            var data = context.Users.FirstOrDefault(x => x.Id == oldUser.Id.GetValueOrDefault());
+            var data = fixture.Context.Users.FirstOrDefault(x => x.Id == oldUser.Id.GetValueOrDefault());
             EntityAssert.Equal(newUser, data!);
         }
 
@@ -32,7 +32,7 @@
 
             Assert.ThrowsAsync<DbUpdateConcurrencyException>(async () => await this.repository.UpdateAsync(newUser));
 
-            var databaseUser = context.Users.FirstOrDefault(u => u.Id == newUser.Id);
+            var databaseUser = fixture.Context.Users.FirstOrDefault(u => u.Id == newUser.Id);
             Assert.That(databaseUser, Is.Null);
         }
 

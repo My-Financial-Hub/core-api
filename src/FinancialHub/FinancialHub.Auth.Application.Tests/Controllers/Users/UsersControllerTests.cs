@@ -1,8 +1,4 @@
-﻿using FinancialHub.Auth.WebApi.Controllers;
-using FinancialHub.Auth.Domain.Interfaces.Services;
-using FinancialHub.Auth.Tests.Common.Builders.Entities;
-
-namespace FinancialHub.Auth.Application.Tests.Controllers
+﻿namespace FinancialHub.Auth.Application.Tests.Controllers
 {
     public partial class UsersControllerTests
     {

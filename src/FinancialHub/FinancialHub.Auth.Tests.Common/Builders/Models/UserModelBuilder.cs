@@ -1,7 +1,4 @@
-﻿using FinancialHub.Auth.Domain.Models;
-using FinancialHub.Domain.Tests.Builders.Models;
-
-namespace FinancialHub.Auth.Tests.Common.Builders.Entities
+﻿namespace FinancialHub.Auth.Tests.Common.Builders.Models
 {
     public class UserModelBuilder : BaseModelBuilder<UserModel>
     {

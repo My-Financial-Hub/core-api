@@ -9,11 +9,14 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace FinancialHub.Auth.Services.Extensions
 {
-    public static class IServiceCollectionExtensions
+    public static partial class IServiceCollectionExtensions
     {
         public static IServiceCollection AddAuthServices(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddScoped<IUserService, UserService>();
+
+            services.AddAuthentication(configuration);
+
             services.AddAuthValidators();
             return services;
         }
@@ -27,6 +30,7 @@ namespace FinancialHub.Auth.Services.Extensions
                 x.ValidatorOptions.DefaultRuleLevelCascadeMode = CascadeMode.Stop;
             });
             services.AddScoped<IValidator<UserModel>, UserValidator>();
+            services.AddScoped<IValidator<SignupModel>, SignupModelValidator>();
 
             return services;
         }

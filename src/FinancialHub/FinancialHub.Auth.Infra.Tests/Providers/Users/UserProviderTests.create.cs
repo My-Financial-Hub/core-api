@@ -14,6 +14,7 @@
 
             var createdUser = await this.provider.CreateAsync(user);
 
+            Assert.That(createdUser, Is.Not.Null);
             ModelAssert.Equal(user, createdUser);
         }
 

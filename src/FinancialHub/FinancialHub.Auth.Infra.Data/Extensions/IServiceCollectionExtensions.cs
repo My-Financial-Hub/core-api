@@ -1,12 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using FinancialHub.Auth.Domain.Interfaces.Repositories;
 using FinancialHub.Auth.Infra.Data.Repositories;
-using FinancialHub.Auth.Infra.Data.Contexts;
+using System.Diagnostics.CodeAnalysis;
 
 namespace FinancialHub.Auth.Infra.Data.Extensions
 {
+    [ExcludeFromCodeCoverage]
     public static class IServiceCollectionExtensions
     {
         private static IServiceCollection AddAuthDatabase(this IServiceCollection services, IConfiguration configuration)
@@ -15,7 +14,7 @@ namespace FinancialHub.Auth.Infra.Data.Extensions
                 provider =>
                     provider.UseSqlServer(
                         configuration.GetConnectionString("auth"),
-                        x => x.MigrationsHistoryTable("auth-migrations")
+                        x => x.MigrationsHistoryTable("auth_migrations")
                     )
             );
 
@@ -25,7 +24,9 @@ namespace FinancialHub.Auth.Infra.Data.Extensions
         public static IServiceCollection AddAuthRepositories(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddAuthDatabase(configuration);
+
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<ICredentialRepository, CredentialRepository>();
 
             return services;
         }

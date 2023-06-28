@@ -1,13 +1,4 @@
-﻿using FinancialHub.Auth.Domain.Entities;
-using FinancialHub.Auth.Domain.Models;
-using FinancialHub.Auth.IntegrationTests.Extensions;
-using FinancialHub.Auth.Tests.Common.Assertions;
-using FinancialHub.Auth.Tests.Common.Builders.Entities;
-using FinancialHub.Domain.Responses.Errors;
-using FinancialHub.Domain.Responses.Success;
-using System.Net;
-
-namespace FinancialHub.Auth.IntegrationTests.Controllers.Users
+﻿namespace FinancialHub.Auth.IntegrationTests.Controllers.Users
 {
     public class UsersControllerTests : BaseControllerTests
     {

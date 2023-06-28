@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
-using FinancialHub.Auth.Domain.Models;
 using FinancialHub.Auth.Domain.Interfaces.Resources;
+using FinancialHub.Auth.Services.Validators.Rules;
 
 namespace FinancialHub.Auth.Services.Validators
 {
@@ -9,24 +9,13 @@ namespace FinancialHub.Auth.Services.Validators
         public UserValidator(IErrorMessageProvider provider)
         {
             RuleFor(x => x.Email)
-                .NotEmpty()
-                .WithMessage(provider.Required)
-                .EmailAddress()
-                .WithMessage(provider.Invalid)
-                .MaximumLength(300)
-                .WithMessage(provider.MaxLength);
+                .ValidEmail(provider);
 
             RuleFor(x => x.FirstName)
-                .NotEmpty()
-                .WithMessage(provider.Required)
-                .MaximumLength(300)
-                .WithMessage(provider.MaxLength);
+                .ValidName(provider);
 
             RuleFor(x => x.LastName)
-                .NotEmpty()
-                .WithMessage(provider.Required)
-                .MaximumLength(300)
-                .WithMessage(provider.MaxLength);
+                .ValidName(provider);
 
             RuleFor(x => x.BirthDate)
                 .NotEmpty()

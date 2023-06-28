@@ -1,9 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using FinancialHub.Auth.Domain.Entities;
-using FinancialHub.Auth.Domain.Interfaces.Repositories;
-using FinancialHub.Auth.Infra.Data.Contexts;
-
-namespace FinancialHub.Auth.Infra.Data.Repositories
+﻿namespace FinancialHub.Auth.Infra.Data.Repositories
 {
     public class UserRepository : IUserRepository
     {
