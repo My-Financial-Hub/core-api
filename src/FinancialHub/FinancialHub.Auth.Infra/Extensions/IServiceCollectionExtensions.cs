@@ -15,6 +15,7 @@ namespace FinancialHub.Auth.Infra.Extensions
 
             services.AddScoped<ICredentialProvider, CredentialProvider>();
             services.AddScoped<ISignupProvider, SignupProvider>();
+            services.AddScoped<ISigninProvider, SigninProvider>();
             services.AddScoped<IPasswordHelper, PasswordHelper>();
 
             services.AddSingleton(provider => 
