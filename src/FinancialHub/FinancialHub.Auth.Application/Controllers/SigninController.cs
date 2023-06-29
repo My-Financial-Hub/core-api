@@ -3,18 +3,19 @@
     [ApiController]
     [Route("[controller]")]
     [Produces("application/json")]
-    public class LoginController : Controller
+    public class SigninController : Controller
     {
-        private readonly IAuthService authService;
+        private readonly ISigninService authService;
 
-        public LoginController(IAuthService authService)
+        public SigninController(ISigninService authService)
         {
             this.authService = authService;
         }
 
         [HttpPost]
         [ProducesResponseType(typeof(TokenModel), 200)]
-        public async Task<IActionResult> Index(LoginModel login)
+        [ProducesResponseType(401)]
+        public async Task<IActionResult> SigninAsync([FromBody]LoginModel login)
         {
             var tokenResult = await this.authService.GenerateToken(login);
 

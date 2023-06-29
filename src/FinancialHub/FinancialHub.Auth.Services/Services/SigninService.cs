@@ -1,11 +1,11 @@
 ﻿namespace FinancialHub.Auth.Services.Services
 {
-    public class AuthService : IAuthService
+    public class SigninService : ISigninService
     {
         private readonly ITokenService tokenService;
         private readonly IUserService userService;
 
-        public AuthService(ITokenService tokenService, IUserService userService)
+        public SigninService(ITokenService tokenService, IUserService userService)
         {
             this.tokenService = tokenService;
             this.userService = userService;
