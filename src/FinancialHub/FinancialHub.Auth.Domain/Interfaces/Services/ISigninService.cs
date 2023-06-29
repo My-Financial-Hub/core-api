@@ -4,6 +4,6 @@ namespace FinancialHub.Auth.Domain.Interfaces.Services
 {
     public interface ISigninService
     {
-        Task<ServiceResult<TokenModel>> GenerateToken(LoginModel login);
+        Task<ServiceResult<TokenModel>> GenerateToken(SigninModel login);
     }
 }

@@ -13,16 +13,19 @@
         }
 
         [HttpPost]
-        [ProducesResponseType(typeof(TokenModel), 200)]
+        [ProducesResponseType(typeof(ItemResponse<TokenModel>), 200)]
+        [ProducesResponseType(typeof(ValidationErrorResponse), 400)]
         [ProducesResponseType(401)]
-        public async Task<IActionResult> SigninAsync([FromBody]LoginModel login)
+        public async Task<IActionResult> SigninAsync([FromBody]SigninModel login)
         {
             var tokenResult = await this.authService.GenerateToken(login);
 
             if (tokenResult.HasError)
                 return Unauthorized();
 
-            return Ok(tokenResult.Data);
+            return Ok(
+                new ItemResponse<TokenModel>(tokenResult.Data)
+            );
         }
     }
 }

@@ -22,13 +22,7 @@ namespace FinancialHub.Auth.Services.Validators
                 .WithMessage(provider.Required);
 
             RuleFor(x => x.Password)
-                .NotNull()
-                .NotEmpty()
-                .WithMessage(provider.Required)
-                .MinimumLength(8)
-                .WithMessage(provider.MinLength)
-                .MaximumLength(80)
-                .WithMessage(provider.MaxLength);
+                .ValidPassword(provider);
 
             RuleFor(x => x.ConfirmPassword)
                 .Equal(x => x.Password)

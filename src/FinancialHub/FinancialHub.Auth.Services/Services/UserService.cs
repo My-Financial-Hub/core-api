@@ -26,7 +26,7 @@
             return user;
         }
 
-        public Task<ServiceResult<UserModel>> GetAsync(LoginModel user)
+        public Task<ServiceResult<UserModel>> GetAsync(SigninModel user)
         {
             throw new NotImplementedException();
         }

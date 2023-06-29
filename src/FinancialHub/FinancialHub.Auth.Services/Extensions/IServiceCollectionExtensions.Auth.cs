@@ -1,5 +1,7 @@
 ﻿using FinancialHub.Auth.Services.Configurations;
 using FinancialHub.Auth.Services.Services;
+using FinancialHub.Auth.Services.Validators;
+using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,6 +17,10 @@ namespace FinancialHub.Auth.Services.Extensions
             services.AddSettings(configuration);
 
             services.AddScoped<ITokenService, TokenService>();
+
+            services.AddScoped<IValidator<SigninModel>, SigninModelValidator>();
+            services.AddScoped<IValidator<SignupModel>, SignupModelValidator>();
+
             services.AddScoped<ISigninService, SigninService>();
             services.AddScoped<ISignupService, SignupService>();
 

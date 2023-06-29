@@ -11,7 +11,7 @@
             this.userService = userService;
         }
 
-        public async Task<ServiceResult<TokenModel>> GenerateToken(LoginModel login)
+        public async Task<ServiceResult<TokenModel>> GenerateToken(SigninModel login)
         {
             var userResult = await this.userService.GetAsync(login);
 
