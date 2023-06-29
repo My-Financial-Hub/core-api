@@ -13,9 +13,17 @@
             this.mapper = mapper;
         }
 
-        public async Task<UserModel> GetAccountAsync(SigninModel signin)
+        public async Task<UserModel?> GetAccountAsync(SigninModel signin)
         {
-            throw new NotImplementedException();
+            var credential = mapper.Map<CredentialModel>(signin);
+            var existingCredential = await credentialProvider.GetAsync(credential);
+
+            if(existingCredential == null)
+            {
+                return null;
+            }
+            
+            return await userProvider.GetAsync(existingCredential.UserId);
         }
     }
 }
