@@ -3,22 +3,22 @@
     public class SigninService : ISigninService
     {
         private readonly ITokenService tokenService;
-        private readonly IUserProvider userProvider;
+        private readonly ISigninProvider signinProvider;
 
-        public SigninService(ITokenService tokenService, IUserProvider userService)
+        public SigninService(ITokenService tokenService, ISigninProvider signinProvider)
         {
             this.tokenService = tokenService;
-            this.userProvider = userService;
+            this.signinProvider = signinProvider;
         }
 
         public async Task<ServiceResult<TokenModel>> GenerateToken(SigninModel login)
         {
-            var userResult = await this.userProvider.GetAsync(login);
+            var uer = await this.signinProvider.GetAccountAsync(login);
 
-            if (userResult.HasError)
-                return userResult.Error;
+            if (uer == null)
+                return new ServiceError(401, "Failed to login");
 
-            return this.tokenService.GenerateToken(userResult.Data);
+            return this.tokenService.GenerateToken(uer);
         }
     }
 }
