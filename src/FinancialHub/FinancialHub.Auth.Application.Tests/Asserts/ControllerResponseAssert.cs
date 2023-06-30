@@ -14,11 +14,11 @@
             });
         }
 
-        public static void HasError(BaseErrorResponse expectedResponse, ObjectResult result)
+        public static void HasError(BaseErrorResponse expectedResponse, ObjectResult result, int expectedStatusCode = 400)
         {
             Assert.Multiple(() =>
             {
-                Assert.That(result.StatusCode, Is.EqualTo(400));
+                Assert.That(result.StatusCode, Is.EqualTo(expectedStatusCode));
                 Assert.That(result.Value, Is.TypeOf(expectedResponse.GetType()));
 
                 var response = result.Value as ValidationErrorResponse;
