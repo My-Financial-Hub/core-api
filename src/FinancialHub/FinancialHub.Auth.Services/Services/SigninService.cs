@@ -11,7 +11,7 @@
             this.signinProvider = signinProvider;
         }
 
-        public async Task<ServiceResult<TokenModel>> GenerateToken(SigninModel login)
+        public async Task<ServiceResult<TokenModel>> AuthenticateAsync(SigninModel login)
         {
             var uer = await this.signinProvider.GetAccountAsync(login);
 

@@ -18,7 +18,7 @@
         [ProducesResponseType(401)]
         public async Task<IActionResult> SigninAsync([FromBody]SigninModel login)
         {
-            var tokenResult = await this.authService.GenerateToken(login);
+            var tokenResult = await this.authService.AuthenticateAsync(login);
 
             if (tokenResult.HasError)
                 return Unauthorized();
