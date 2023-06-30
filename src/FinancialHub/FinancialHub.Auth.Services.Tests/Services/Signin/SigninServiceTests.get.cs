@@ -63,7 +63,7 @@
             Assert.Multiple(() =>
             {
                 Assert.That(tokenResult.HasError, Is.True);
-                Assert.That(tokenResult.Error.Message, Is.EqualTo("Failed to login"));
+                Assert.That(tokenResult.Error.Message, Is.EqualTo("Wrong e-mail or password"));
             });
         }
     }

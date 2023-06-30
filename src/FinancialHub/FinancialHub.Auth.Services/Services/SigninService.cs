@@ -16,7 +16,7 @@
             var uer = await this.signinProvider.GetAccountAsync(login);
 
             if (uer == null)
-                return new ServiceError(401, "Failed to login");
+                return new ServiceError(401, "Wrong e-mail or password");
 
             return this.tokenService.GenerateToken(uer);
         }

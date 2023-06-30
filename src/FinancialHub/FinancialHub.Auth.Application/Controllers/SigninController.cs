@@ -21,7 +21,9 @@
             var tokenResult = await this.authService.AuthenticateAsync(login);
 
             if (tokenResult.HasError)
-                return Unauthorized();
+                return Unauthorized(
+                    new ValidationErrorResponse(tokenResult.Error.Message)    
+                );
 
             return Ok(
                 new ItemResponse<TokenModel>(tokenResult.Data)
