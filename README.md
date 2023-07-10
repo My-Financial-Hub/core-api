@@ -1,6 +1,6 @@
 # My Financial Hub
 This is a completely experimental project, a lot of stuff here was not made with the purpose of being used in production environment.
-Until v1 release, it's everything of this project could be changed.
+Until v1 release, everything of this project could be changed.
 
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Chingling152_my-financial-hub&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Chingling152_my-financial-hub)  
 
