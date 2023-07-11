@@ -28,5 +28,19 @@ namespace FinancialHub.Auth.Services.Validators.Rules
                 .MaximumLength(300)
                 .WithMessage(provider.MaxLength);
         }
+
+        public static IRuleBuilderOptions<T, string> ValidPassword<T>(
+            this IRuleBuilderInitial<T, string> builder, IErrorMessageProvider provider
+        )
+        {
+            return builder
+                .NotNull()
+                .NotEmpty()
+                .WithMessage(provider.Required)
+                .MinimumLength(8)
+                .WithMessage(provider.MinLength)
+                .MaximumLength(80)
+                .WithMessage(provider.MaxLength);
+        }
     }
 }

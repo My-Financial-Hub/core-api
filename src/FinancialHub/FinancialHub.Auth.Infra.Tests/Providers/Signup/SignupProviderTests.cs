@@ -12,22 +12,17 @@ namespace FinancialHub.Auth.Infra.Tests.Providers
         private ISignupProvider provider;
 
         private SignupModelBuilder builder;
-        private UserCredentialModelBuilder credentialBuilder;
-        private UserModelBuilder userBuilder;
 
         [SetUp]
         public void SetUp()
         {
             this.builder = new SignupModelBuilder();
-            this.credentialBuilder = new UserCredentialModelBuilder();
-            this.userBuilder = new UserModelBuilder();
 
             this.passwordHelper = new Mock<IPasswordHelper>();
             this.mapper = new MapperConfiguration(mc =>
             {
                 mc.AddProfile(new FinancialHubAuthCredentialProfile(this.passwordHelper.Object));
-            }
-            ).CreateMapper();
+            }).CreateMapper();
 
             this.userProvider = new Mock<IUserProvider>();
             this.credentialProvider = new Mock<ICredentialProvider>();

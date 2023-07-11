@@ -30,7 +30,6 @@ namespace FinancialHub.Auth.Services.Extensions
                 x.ValidatorOptions.DefaultRuleLevelCascadeMode = CascadeMode.Stop;
             });
             services.AddScoped<IValidator<UserModel>, UserValidator>();
-            services.AddScoped<IValidator<SignupModel>, SignupModelValidator>();
 
             return services;
         }

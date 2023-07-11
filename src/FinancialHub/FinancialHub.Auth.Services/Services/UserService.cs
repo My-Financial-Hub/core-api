@@ -26,11 +26,6 @@
             return user;
         }
 
-        public Task<ServiceResult<UserModel>> GetAsync(LoginModel user)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<ServiceResult<UserModel>> UpdateAsync(Guid id,UserModel user)
         {
             var getByIdResult = await GetAsync(id);

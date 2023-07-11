@@ -6,5 +6,6 @@ namespace FinancialHub.Auth.Domain.Interfaces.Providers
     {
         Task<CredentialModel> CreateAsync(CredentialModel signup);
         Task<CredentialModel?> GetAsync(string email);
+        Task<CredentialModel?> GetAsync(CredentialModel signup);
     }
 }

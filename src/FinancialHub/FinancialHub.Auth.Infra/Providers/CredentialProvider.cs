@@ -30,5 +30,16 @@
 
             return this.mapper.Map<CredentialModel>(result);
         }
+
+        public async Task<CredentialModel?> GetAsync(CredentialModel signup)
+        {
+            var result = await this.credentialRepository.GetAsync(signup.Login, signup.Password);
+            if (result == null)
+            {
+                return null;
+            }
+
+            return this.mapper.Map<CredentialModel>(result);
+        }
     }
 }

@@ -12,6 +12,10 @@ namespace FinancialHub.Auth.Infra.Mappers
             this.CreateMap<SignupModel, CredentialModel>()
                 .ForMember(x => x.Login, y => y.MapFrom(z => z.Email))
                 .ForMember(x => x.Password, y => y.MapFrom(z => helper.Encrypt(z.Password)));
+
+            this.CreateMap<SigninModel, CredentialModel>()
+                .ForMember(x => x.Login, y => y.MapFrom(z => z.Email))
+                .ForMember(x => x.Password, y => y.MapFrom(z => helper.Encrypt(z.Password)));
         }
     }
 }

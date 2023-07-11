@@ -1,6 +1,4 @@
-﻿using AutoBogus;
-
-namespace FinancialHub.Auth.Tests.Common.Builders.Models
+﻿namespace FinancialHub.Auth.Tests.Common.Builders.Models
 {
     public class UserCredentialModelBuilder : AutoFaker<CredentialModel>
     {
