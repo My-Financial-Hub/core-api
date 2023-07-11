@@ -13,12 +13,12 @@
 
         public async Task<ServiceResult<TokenModel>> AuthenticateAsync(SigninModel login)
         {
-            var uer = await this.signinProvider.GetAccountAsync(login);
+            var user = await this.signinProvider.GetAccountAsync(login);
 
-            if (uer == null)
+            if (user == null)
                 return new ServiceError(401, "Wrong e-mail or password");
 
-            return this.tokenService.GenerateToken(uer);
+            return this.tokenService.GenerateToken(user);
         }
     }
 }

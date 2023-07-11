@@ -15,7 +15,7 @@
         [HttpPost]
         [ProducesResponseType(typeof(ItemResponse<TokenModel>), 200)]
         [ProducesResponseType(typeof(ValidationErrorResponse), 400)]
-        [ProducesResponseType(401)]
+        [ProducesResponseType(typeof(ValidationErrorResponse), 401)]
         public async Task<IActionResult> SigninAsync([FromBody]SigninModel login)
         {
             var tokenResult = await this.authService.AuthenticateAsync(login);
