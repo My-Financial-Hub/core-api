@@ -1,9 +1,16 @@
 using FinancialHub.Auth.Application.Extensions;
+using System.Diagnostics.CodeAnalysis;
 
 namespace FinancialHub.Auth.WebApi;
 
-public partial class Program 
+[ExcludeFromCodeCoverage]
+public partial class Program
 {
+    protected Program()
+    {
+
+    }
+
     public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
@@ -15,6 +22,7 @@ public partial class Program
 
         var app = builder.Build();
 
+        // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
         {
             app.UseSwagger();

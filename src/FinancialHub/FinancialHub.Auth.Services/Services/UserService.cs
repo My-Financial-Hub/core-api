@@ -1,10 +1,4 @@
-﻿using FinancialHub.Domain.Results;
-using FinancialHub.Auth.Domain.Interfaces.Services;
-using FinancialHub.Auth.Domain.Models;
-using FinancialHub.Auth.Domain.Interfaces.Providers;
-using FinancialHub.Domain.Results.Errors;
-
-namespace FinancialHub.Auth.Services.Services
+﻿namespace FinancialHub.Auth.Services.Services
 {
     public class UserService : IUserService
     {

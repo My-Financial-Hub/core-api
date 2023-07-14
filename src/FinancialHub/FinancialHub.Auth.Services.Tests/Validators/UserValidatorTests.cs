@@ -1,7 +1,6 @@
 ﻿using FinancialHub.Auth.Domain.Interfaces.Resources;
 using FinancialHub.Auth.Resources.Providers;
 using FinancialHub.Auth.Services.Validators;
-using FinancialHub.Auth.Tests.Common.Builders.Entities;
 using System.Globalization;
 
 namespace FinancialHub.Auth.Services.Tests.Validators

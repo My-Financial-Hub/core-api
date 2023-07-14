@@ -61,6 +61,15 @@ namespace FinancialHub.Auth.Resources.Resources.Errors {
         }
         
         /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a {PropertyName} needs to be equal to Password.
+        /// </summary>
+        internal static string ConfirmPassword {
+            get {
+                return ResourceManager.GetString("ConfirmPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a {PropertyName} is invalid.
         /// </summary>
         internal static string Invalid {
@@ -75,6 +84,15 @@ namespace FinancialHub.Auth.Resources.Resources.Errors {
         internal static string MaxLength {
             get {
                 return ResourceManager.GetString("MaxLength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a {PropertyName} needs to have at least the lenght of {MinLength}.
+        /// </summary>
+        internal static string MinLength {
+            get {
+                return ResourceManager.GetString("MinLength", resourceCulture);
             }
         }
         

@@ -1,7 +1,4 @@
-﻿using FinancialHub.Auth.Domain.Entities;
-using FinancialHub.Domain.Tests.Builders.Entities;
-
-namespace FinancialHub.Auth.Tests.Common.Builders.Entities
+﻿namespace FinancialHub.Auth.Tests.Common.Builders.Entities
 {
     public class UserEntityBuilder : BaseEntityBuilder<UserEntity>
     {

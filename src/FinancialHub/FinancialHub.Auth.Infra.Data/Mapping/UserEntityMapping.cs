@@ -1,6 +1,4 @@
-﻿using FinancialHub.Auth.Domain.Entities;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace FinancialHub.Auth.Infra.Data.Mapping
 {

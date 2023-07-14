@@ -3,8 +3,8 @@ using Microsoft.Extensions.DependencyInjection;
 using FinancialHub.Domain.Entities;
 using System.Collections;
 using FinancialHub.Auth.Infra.Data.Contexts;
-using FinancialHub.Auth.IntegrationTests.Extensions;
 using FinancialHub.Auth.WebApi;
+using Microsoft.AspNetCore.Hosting;
 
 namespace FinancialHub.Auth.IntegrationTests.Setup
 {
@@ -19,12 +19,7 @@ namespace FinancialHub.Auth.IntegrationTests.Setup
                 .WithWebHostBuilder(
                     builder =>
                     {
-                        builder.ConfigureServices(
-                            services =>
-                            {
-                                services.AddTestDbContext<FinancialHubAuthContext>();
-                            }
-                        );
+                        builder.UseEnvironment("Testing");
                     }
                 );
 

@@ -1,6 +1,4 @@
-﻿using FinancialHub.Domain.Model;
-
-namespace FinancialHub.Auth.Domain.Models
+﻿namespace FinancialHub.Auth.Domain.Models
 {
     public class UserModel : BaseModel
     {
