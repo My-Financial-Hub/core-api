@@ -1,11 +1,14 @@
 # My Financial Hub
+This is a completely experimental project, a lot of stuff here was not made with the purpose of being used in production environment.
+Until v1 release, everything of this project could be changed.
 
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Chingling152_my-financial-hub&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Chingling152_my-financial-hub)  
 
 ## What's planned for the future
 - **[Monthly Milestones](https://github.com/Chingling152/my-financial-hub/issues/9)**
 - **[Earns/Expenses Portion](https://github.com/Chingling152/my-financial-hub/issues/10)**
-- **Transaction exports (xlsx, pdf)**
+- **Transaction relatories**
+- **Dashboards**
 - **Earns/Expenses average**
 - **Earns/Expenses predictions**
 
