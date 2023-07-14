@@ -23,7 +23,9 @@
 
         public async Task<UserEntity?> GetAsync(Guid id)
         {
-            return await this.context.Users.FirstOrDefaultAsync(x => x.Id == id);
+            return await this.context.Users
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<UserEntity> UpdateAsync(UserEntity user)
