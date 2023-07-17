@@ -25,17 +25,6 @@ namespace FinancialHub.Auth.Services.Services
             }
         }
 
-        private static ClaimsIdentity GenerateUserClaims(UserModel user)
-        {
-            return new ClaimsIdentity(
-                new[]
-                {
-                    new Claim(ClaimTypes.Email, user.Email),
-                    new Claim(JwtRegisteredClaimNames.Jti, user.Id.ToString()!)
-                }
-            );
-        }
-
         public TokenModel GenerateToken(UserModel user)
         {
             var expires = DateTime.UtcNow.AddMinutes(this.settings.Expires);
@@ -43,10 +32,17 @@ namespace FinancialHub.Auth.Services.Services
             var tokenDescriptor = new SecurityTokenDescriptor()
             {
                 Expires = expires,
-                //Issuer = this.settings.Issuer,
-                //Audience = this.settings.Audience,
+                Issuer = this.settings.Issuer,
+                Audience = this.settings.Audience,
                 SigningCredentials = this.Credentials,
-                Subject = GenerateUserClaims(user),
+                Subject = new ClaimsIdentity(
+                    new[]
+                    {
+                        new Claim(ClaimTypes.Name, user.FirstName),
+                        new Claim(ClaimTypes.Email, user.Email),
+                        new Claim(JwtRegisteredClaimNames.Jti, user.Id.ToString()!)
+                    }
+                ),
             };
 
             var securityToken = handler.CreateToken(tokenDescriptor);

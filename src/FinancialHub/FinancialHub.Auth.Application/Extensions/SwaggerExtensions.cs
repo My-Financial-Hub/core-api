@@ -1,7 +1,10 @@
 ﻿using System.Reflection;
+using System.Reflection.Metadata;
+using FinancialHub.Auth.Services.Extensions;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
-using Microsoft.AspNetCore.Builder;
+using Newtonsoft.Json.Linq;
 
 namespace FinancialHub.Auth.Application.Extensions
 {
@@ -26,6 +29,19 @@ namespace FinancialHub.Auth.Application.Extensions
                         Version = "v1"
                     }
                 );
+
+                var schemes = services.GetAuthSecuritySchemes();
+
+                var requeriments = new OpenApiSecurityRequirement();
+
+                foreach (var scheme in schemes)
+                {
+                    c.AddSecurityDefinition(scheme.Reference.Id, scheme);
+
+                    requeriments.Add(scheme, Array.Empty<string>());
+                }
+
+                c.AddSecurityRequirement(requeriments);
             });
             return services;
         }

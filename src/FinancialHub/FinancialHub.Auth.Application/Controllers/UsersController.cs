@@ -1,5 +1,8 @@
-﻿namespace FinancialHub.Auth.Application.Controllers
+﻿using Microsoft.AspNetCore.Authorization;
+
+namespace FinancialHub.Auth.Application.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("[controller]")]
     [Produces("application/json")]

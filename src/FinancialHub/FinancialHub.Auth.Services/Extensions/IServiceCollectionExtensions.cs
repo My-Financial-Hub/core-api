@@ -1,6 +1,4 @@
-﻿using FinancialHub.Auth.Domain.Interfaces.Services;
-using FinancialHub.Auth.Domain.Models;
-using FinancialHub.Auth.Services.Services;
+﻿using FinancialHub.Auth.Services.Services;
 using FinancialHub.Auth.Services.Validators;
 using FluentValidation;
 using FluentValidation.AspNetCore;
@@ -13,11 +11,19 @@ namespace FinancialHub.Auth.Services.Extensions
     {
         public static IServiceCollection AddAuthServices(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddScoped<IUserService, UserService>();
+            services.AddAuthServices();
 
             services.AddAuthentication(configuration);
 
             services.AddAuthValidators();
+
+            return services;
+        }
+
+        private static IServiceCollection AddAuthServices(this IServiceCollection services)
+        {
+            services.AddScoped<IUserService, UserService>();
+
             return services;
         }
 
