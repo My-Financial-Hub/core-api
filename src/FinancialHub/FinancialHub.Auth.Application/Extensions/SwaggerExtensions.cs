@@ -1,13 +1,12 @@
-﻿using System.Reflection;
-using System.Reflection.Metadata;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
 using FinancialHub.Auth.Services.Extensions;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
-using Newtonsoft.Json.Linq;
 
 namespace FinancialHub.Auth.Application.Extensions
 {
+    [ExcludeFromCodeCoverage]
     public static class SwaggerExtensions
     {
         public static IServiceCollection AddAuthDocs(this IServiceCollection services)
