@@ -24,6 +24,7 @@ namespace FinancialHub.Auth.Application.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(ItemResponse<UserModel>), 200)]
         [ProducesResponseType(typeof(NotFoundErrorResponse), 404)]
+        [ProducesResponseType(typeof(ValidationErrorResponse), 401)]
         public async Task<IActionResult> GetUserAsync([FromRoute]Guid id)
         {
             var userResult = await service.GetAsync(id);
@@ -48,8 +49,11 @@ namespace FinancialHub.Auth.Application.Controllers
         /// <response code="200">Successful user creation</response>
         /// <response code="400">Failed user creation</response>
         [HttpPost]
+        [Obsolete("removed : use /sign-up")]
         [ProducesResponseType(typeof(SaveResponse<UserModel>), 200)]
         [ProducesResponseType(typeof(ValidationErrorResponse), 400)]
+        [ProducesResponseType(typeof(ValidationErrorResponse), 401)]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Info Code Smell", "S1133:Deprecated code should be removed", Justification = "In Progress")]
         public async Task<IActionResult> CreateUserAsync([FromBody] UserModel user)
         {
             var userResult = await service.CreateAsync(user);
@@ -77,6 +81,7 @@ namespace FinancialHub.Auth.Application.Controllers
         [ProducesResponseType(typeof(SaveResponse<UserModel>), 200)]
         [ProducesResponseType(typeof(ValidationErrorResponse), 400)]
         [ProducesResponseType(typeof(NotFoundErrorResponse), 404)]
+        [ProducesResponseType(typeof(ValidationErrorResponse), 401)]
         public async Task<IActionResult> UpdateUserAsync([FromRoute] Guid id, [FromBody]UserModel user)
         {
             var userResult = await service.UpdateAsync(id, user);
