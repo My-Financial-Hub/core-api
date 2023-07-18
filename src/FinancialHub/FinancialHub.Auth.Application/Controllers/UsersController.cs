@@ -47,11 +47,9 @@ namespace FinancialHub.Auth.Application.Controllers
         /// <param name="user">User data to be saved</param>
         /// <response code="200">Successful user creation</response>
         /// <response code="400">Failed user creation</response>
-        [Obsolete("removed : use /sign-up")]
         [HttpPost]
         [ProducesResponseType(typeof(SaveResponse<UserModel>), 200)]
         [ProducesResponseType(typeof(ValidationErrorResponse), 400)]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Info Code Smell", "S1133:Deprecated code should be removed", Justification = "In Progress")]
         public async Task<IActionResult> CreateUserAsync([FromBody] UserModel user)
         {
             var userResult = await service.CreateAsync(user);
