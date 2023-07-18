@@ -3,7 +3,7 @@ using System.Text.Json;
 
 namespace FinancialHub.Auth.IntegrationTests.Extensions
 {
-    public static class HttpClientExtensions
+    public static class HttpContentExtensions
     {
         public static HttpContent ToHttpContent<T>(this T content)
         {
