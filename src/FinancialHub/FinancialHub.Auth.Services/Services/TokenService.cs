@@ -21,7 +21,10 @@ namespace FinancialHub.Auth.Services.Services
             {
                 var key = Encoding.ASCII.GetBytes(this.settings.SecurityKey);
                 var securityKey = new SymmetricSecurityKey(key);
-                return new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature);
+                return new SigningCredentials(
+                    key: securityKey,
+                    algorithm: SecurityAlgorithms.HmacSha256Signature
+                );
             }
         }
 
@@ -38,9 +41,9 @@ namespace FinancialHub.Auth.Services.Services
                 Subject = new ClaimsIdentity(
                     new[]
                     {
-                        new Claim(ClaimTypes.Name, user.FirstName),
                         new Claim(ClaimTypes.Email, user.Email),
-                        new Claim(JwtRegisteredClaimNames.Jti, user.Id.ToString()!)
+                        new Claim(JwtRegisteredClaimNames.Jti, user.Id.ToString()!),
+                        new Claim(JwtRegisteredClaimNames.Name, user.FirstName)
                     }
                 ),
             };
