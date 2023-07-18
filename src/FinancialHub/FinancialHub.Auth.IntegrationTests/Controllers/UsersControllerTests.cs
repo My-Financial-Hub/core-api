@@ -26,6 +26,20 @@
             }
 
             [Test]
+            public async Task CreateUser_InvalidToken_Returns401Unauthorized()
+            {
+                var data = modelBuilder.Generate();
+
+                var response = await Client.PostAsync(baseEndpoint, data, "token");
+
+                Assert.Multiple(() =>
+                {
+                    Assert.That(response.IsSuccessStatusCode, Is.False);
+                    Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.Unauthorized));
+                });
+            }
+
+            [Test]
             public async Task CreateUser_ValidUser_ReturnsCreatedUser()
             {
                 var data = modelBuilder.Generate();
@@ -99,9 +113,21 @@
             }
 
             [Test]
+            public async Task CreateUser_InvalidToken_Returns401Unauthorized()
+            {
+                var response = await Client.GetAsync(baseEndpoint + $"/{Guid.NewGuid()}", "token");
+
+                Assert.Multiple(() =>
+                {
+                    Assert.That(response.IsSuccessStatusCode, Is.False);
+                    Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.Unauthorized));
+                });
+            }
+
+            [Test]
             public async Task GetUser_NotExistingUser_ReturnsNotFound()
             {
-                string token = this.fixture.GetAuthToken(modelBuilder.Generate());
+                var token = this.fixture.GetAuthToken(modelBuilder.Generate());
 
                 var id = Guid.NewGuid().ToString();
                 var response = await Client.GetAsync(baseEndpoint + $"/{id}", token);
@@ -134,6 +160,24 @@
         {
             public UpdateUser(FinancialHubAuthApiFixture fixture) : base(fixture)
             {
+            }
+
+            [Test]
+            public async Task CreateUser_InvalidToken_Returns401Unauthorized()
+            {
+                var id = Guid.NewGuid();
+                var entity = entityBuilder.WithId(id).Generate();
+                fixture.AddData(entity);
+
+                var data = modelBuilder.WithId(id).Generate();
+
+                var response = await Client.PatchAsync(baseEndpoint + $"/{id}", data, "token");
+
+                Assert.Multiple(() =>
+                {
+                    Assert.That(response.IsSuccessStatusCode, Is.False);
+                    Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.Unauthorized));
+                });
             }
 
             [Test]
