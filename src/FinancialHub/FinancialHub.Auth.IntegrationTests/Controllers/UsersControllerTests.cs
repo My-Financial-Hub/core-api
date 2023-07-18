@@ -1,4 +1,4 @@
-﻿namespace FinancialHub.Auth.IntegrationTests.Controllers.Users
+﻿namespace FinancialHub.Auth.IntegrationTests.Controllers
 {
     public class UsersControllerTests : BaseControllerTests
     {
@@ -29,8 +29,9 @@
             public async Task CreateUser_ValidUser_ReturnsCreatedUser()
             {
                 var data = modelBuilder.Generate();
+                var token = this.fixture.GetAuthToken(data);
 
-                var response = await Client.PostAsync(baseEndpoint, data.ToHttpContent());
+                var response = await Client.PostAsync(baseEndpoint, data, token);
                 var jsonResponse = await response.ReadContentAsync<SaveResponse<UserModel>>();
 
                 Assert.Multiple(() =>
@@ -46,8 +47,9 @@
             public async Task CreateUser_ValidUser_CreatesUser()
             {
                 var data = modelBuilder.Generate();
+                var token = this.fixture.GetAuthToken(data);
 
-                var response = await Client.PostAsync(baseEndpoint, data.ToHttpContent());
+                var response = await Client.PostAsync(baseEndpoint, data, token);
                 var jsonResponse = await response.ReadContentAsync<SaveResponse<UserModel>>();
 
                 var id = jsonResponse!.Data.Id;
@@ -64,8 +66,9 @@
                     .WithEmail(string.Empty)
                     .WithBirthDate(default)
                     .Generate();
+                var token = this.fixture.GetAuthToken(data);
 
-                var response = await Client.PostAsync(baseEndpoint, data.ToHttpContent());
+                var response = await Client.PostAsync(baseEndpoint, data, token);
                 var jsonResponse = await response.ReadContentAsync<ValidationsErrorResponse>();
 
                 Assert.That(jsonResponse?.Errors.Count, Is.EqualTo(4));
@@ -80,8 +83,9 @@
                     .WithEmail(string.Empty)
                     .WithBirthDate(default)
                     .Generate();
+                var token = this.fixture.GetAuthToken(data);
 
-                await Client.PostAsync(baseEndpoint, data.ToHttpContent());
+                await Client.PostAsync(baseEndpoint, data, token);
 
                 var user = fixture.GetData<UserEntity>().FirstOrDefault();
                 Assert.That(user, Is.Null);
@@ -97,8 +101,10 @@
             [Test]
             public async Task GetUser_NotExistingUser_ReturnsNotFound()
             {
+                string token = this.fixture.GetAuthToken(modelBuilder.Generate());
+
                 var id = Guid.NewGuid().ToString();
-                var response = await Client.GetAsync(baseEndpoint + $"/{id}");
+                var response = await Client.GetAsync(baseEndpoint + $"/{id}", token);
 
                 Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.NotFound));
             }
@@ -110,7 +116,9 @@
                 var entity = entityBuilder.WithId(id).Generate();
                 fixture.AddData(entity);
 
-                var response = await Client.GetAsync(baseEndpoint + $"/{id}");
+                var token = this.fixture.GetAuthToken(modelBuilder.Generate());
+
+                var response = await Client.GetAsync(baseEndpoint + $"/{id}", token);
                 var jsonResponse = await response.ReadContentAsync<ItemResponse<UserModel>>();
 
                 Assert.Multiple(() =>
@@ -136,7 +144,9 @@
                 fixture.AddData(entity);
 
                 var data = modelBuilder.WithId(id).Generate();
-                await Client.PatchAsync(baseEndpoint + $"/{id}", data.ToHttpContent());
+                var token = this.fixture.GetAuthToken(data);
+
+                await Client.PatchAsync(baseEndpoint + $"/{id}", data, token);
 
                 var databaseUsers = fixture.GetData<UserEntity>();
                 var databaseUser = databaseUsers.FirstOrDefault(x => x.Id == id);
@@ -156,7 +166,9 @@
                 fixture.AddData(entity);
 
                 var data = modelBuilder.WithId(id).Generate();
-                var response = await Client.PatchAsync(baseEndpoint + $"/{id}", data.ToHttpContent());
+                var token = this.fixture.GetAuthToken(data);
+
+                var response = await Client.PatchAsync(baseEndpoint + $"/{id}", data, token);
                 var jsonResponse = await response.ReadContentAsync<SaveResponse<UserModel>>();
 
                 Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
@@ -177,7 +189,9 @@
                     .WithBirthDate(default)
                     .WithId(id)
                     .Generate();
-                var response = await Client.PatchAsync(baseEndpoint + $"/{id}", data.ToHttpContent());
+                var token = this.fixture.GetAuthToken(data);
+
+                var response = await Client.PatchAsync(baseEndpoint + $"/{id}", data, token);
                 var jsonResponse = await response.ReadContentAsync<ValidationsErrorResponse>();
 
                 Assert.That(jsonResponse?.Errors.Count, Is.EqualTo(4));
@@ -194,8 +208,9 @@
                     .WithBirthDate(default)
                     .WithId(id)
                     .Generate();
+                var token = this.fixture.GetAuthToken(data);
 
-                await Client.PatchAsync(baseEndpoint + $"/{id}", data.ToHttpContent());
+                await Client.PatchAsync(baseEndpoint + $"/{id}", data, token);
 
                 var databaseUsers = fixture.GetData<UserEntity>();
                 var databaseUser = databaseUsers.FirstOrDefault(x => x.Id == id);
@@ -211,7 +226,9 @@
             {
                 var id = Guid.NewGuid();
                 var data = modelBuilder.WithId(id).Generate();
-                var response = await Client.PatchAsync(baseEndpoint + $"/{id}", data.ToHttpContent());
+                var token = this.fixture.GetAuthToken(data);
+                
+                var response = await Client.PatchAsync(baseEndpoint + $"/{id}", data, token);
 
                 Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.NotFound));
             }
@@ -221,7 +238,9 @@
             {
                 var id = Guid.NewGuid();
                 var data = modelBuilder.WithId(id).Generate();
-                await Client.PatchAsync(baseEndpoint + $"/{id}", data.ToHttpContent());
+                var token = this.fixture.GetAuthToken(data);
+
+                await Client.PatchAsync(baseEndpoint + $"/{id}", data, token);
 
                 var databaseUsers = fixture.GetData<UserEntity>();
                 var databaseUser = databaseUsers.FirstOrDefault(x => x.Id == id);
