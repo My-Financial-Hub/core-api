@@ -57,9 +57,9 @@ namespace FinancialHub.Auth.Services.Extensions
                             //ValidIssuer = settings.Issuer,
                             ValidateIssuer = false,
 
-                            //ValidateLifetime = true,
-                            //RequireExpirationTime = true,
-                            //ClockSkew = TimeSpan.FromMinutes(60),
+                            ValidateLifetime = true,
+                            RequireExpirationTime = true,
+                            ClockSkew = TimeSpan.FromMinutes(settings.Expires),
                         };
                     }
                 );

@@ -1,7 +1,7 @@
 ﻿using FinancialHub.Auth.Domain.Interfaces.Helpers;
 using FinancialHub.Auth.Domain.Models;
 
-namespace FinancialHub.Auth.Infra.Tests.Providers.Signin
+namespace FinancialHub.Auth.Infra.Tests.Providers
 {
     public partial class SigninProviderTests
     {

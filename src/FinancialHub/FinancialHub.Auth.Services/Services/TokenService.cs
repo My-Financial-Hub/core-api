@@ -21,19 +21,11 @@ namespace FinancialHub.Auth.Services.Services
             {
                 var key = Encoding.ASCII.GetBytes(this.settings.SecurityKey);
                 var securityKey = new SymmetricSecurityKey(key);
-                return new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature);
+                return new SigningCredentials(
+                    key: securityKey,
+                    algorithm: SecurityAlgorithms.HmacSha256Signature
+                );
             }
-        }
-
-        private static ClaimsIdentity GenerateUserClaims(UserModel user)
-        {
-            return new ClaimsIdentity(
-                new[]
-                {
-                    new Claim(ClaimTypes.Email, user.Email),
-                    new Claim(JwtRegisteredClaimNames.Jti, user.Id.ToString()!)
-                }
-            );
         }
 
         public TokenModel GenerateToken(UserModel user)
@@ -43,10 +35,17 @@ namespace FinancialHub.Auth.Services.Services
             var tokenDescriptor = new SecurityTokenDescriptor()
             {
                 Expires = expires,
-                //Issuer = this.settings.Issuer,
-                //Audience = this.settings.Audience,
+                Issuer = this.settings.Issuer,
+                Audience = this.settings.Audience,
                 SigningCredentials = this.Credentials,
-                Subject = GenerateUserClaims(user),
+                Subject = new ClaimsIdentity(
+                    new[]
+                    {
+                        new Claim(ClaimTypes.Email, user.Email),
+                        new Claim(JwtRegisteredClaimNames.Jti, user.Id.ToString()!),
+                        new Claim(JwtRegisteredClaimNames.Name, user.FirstName)
+                    }
+                ),
             };
 
             var securityToken = handler.CreateToken(tokenDescriptor);
