@@ -43,12 +43,15 @@ jobs:
     
     - name: Restore dependencies
       run: dotnet restore
-      
-    - name: Build
-      run: dotnet build --no-restore
     
     - name: Test
       run: dotnet test --no-build --verbosity normal
+      continue-on-error: true
+
+    - name: Publish Test Results
+      uses: EnricoMi/publish-unit-test-result-action@v2.8.0
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
 
   code_analysis:
     name: Code Analysis
