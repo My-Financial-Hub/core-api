@@ -16,14 +16,10 @@ on:
     #  - 'src/FinancialHub/**'
 
 jobs: 
-  tests:
-    name: Build & Test
+  build:
+    name: Build and Test
     runs-on: ubuntu-latest
-
-    defaults:
-      run:
-        working-directory: ./src/FinancialHub/
-
+    
     services:
       sql-database: 
         image: mcr.microsoft.com/mssql/server:2019-latest    
@@ -32,12 +28,23 @@ jobs:
           ACCEPT_EULA: "Y"
         ports: 
           - 1450:1433
-
+              
     steps:
     - uses: actions/checkout@v3
-    - name: Build
-      uses: "./.github/workflows/api_build.yml"
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v2
       with:
-        project-name: default
+        dotnet-version: 6.0.x
+        
+    - name: Restore dependencies
+      run: dotnet restore
+      working-directory: './src/FinancialHub/'
+      
+    - name: Build
+      run: dotnet build --no-restore
+      working-directory: './src/FinancialHub/'
+      
     - name: Test
       run: dotnet test --no-build --verbosity normal
+      working-directory: './src/FinancialHub/'
