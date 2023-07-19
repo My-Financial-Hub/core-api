@@ -1,0 +1,62 @@
+name: "Base API Routine"
+
+on:
+  push:
+    branches: 
+      - 'main'
+    paths:
+      - 'src/FinancialHub/*' 
+      - 'src/FinancialHub/**'
+  pull_request:
+    branches: 
+      - 'main'
+      - 'release/**'
+    paths:
+      - 'src/FinancialHub/*' 
+      - 'src/FinancialHub/**'
+
+jobs: 
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    
+    defaults:
+      run:
+        working-directory: ./src/FinancialHub/
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: 6.0.x
+        
+    - name: Restore dependencies
+      run: dotnet restore
+      
+    - name: Build
+      run: dotnet build --no-restore
+
+  tests:
+    name: Test
+    needs: build
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: ./src/FinancialHub/
+
+    services:
+      sql-database: 
+        image: mcr.microsoft.com/mssql/server:2019-latest    
+        env: 
+          SA_PASSWORD: "P@ssw0rd!"
+          ACCEPT_EULA: "Y"
+        ports: 
+          - 1450:1433
+
+    steps:
+    - name: Test
+      run: dotnet test --no-build --verbosity normal
+      working-directory: './src/FinancialHub/'
