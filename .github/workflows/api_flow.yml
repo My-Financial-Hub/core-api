@@ -17,19 +17,10 @@ on:
 
 jobs: 
   build:
-    name: Build & Test
-    needs: build
-    runs-on: ubuntu-latest
-
-    defaults:
-      run:
-        working-directory: ./src/FinancialHub/
-
-    steps:
-      - name: Build
-        uses: "./.github/workflows/api_build.yml"
-        with:
-          project-name: default
+    uses: "./.github/workflows/api_build.yml"
+    with:
+      project-name: default
+      working-directory: ./src/FinancialHub/
 
   tests:
     name: Test
