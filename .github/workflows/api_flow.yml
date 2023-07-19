@@ -16,14 +16,8 @@ on:
     #  - 'src/FinancialHub/**'
 
 jobs: 
-  build:
-    uses: "./.github/workflows/api_build.yml"
-    with:
-      project-name: default
-
   tests:
-    name: Test
-    needs: build
+    name: Build & Test
     runs-on: ubuntu-latest
 
     defaults:
@@ -40,6 +34,7 @@ jobs:
           - 1450:1433
 
     steps:
+    - uses: actions/checkout@v3
     - name: Build
       uses: "./.github/workflows/api_build.yml"
       with:
