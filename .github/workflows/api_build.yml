@@ -7,7 +7,6 @@ on:
         type: string
         required: false
         description: used to decide wich project will build
-        deprecationMessage: does nothing for now
 
 jobs: 
   build:
