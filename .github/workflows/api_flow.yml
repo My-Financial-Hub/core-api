@@ -17,14 +17,9 @@ on:
 
 jobs: 
   build:
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v3
-    - name: Build
-      uses: './.github/workflows/api_build.yml'
-      with:
-        project-name: default
+    uses: "${{ github.event.repository.owner }}/${{ github.event.repository.name }}/api_build.yml@main"
+    with:
+      project-name: default
 
   tests:
     name: Test
