@@ -27,12 +27,12 @@ jobs:
           - 1450:1433
 
     steps:
+    - uses: actions/checkout@v2
+
     - name: Build
       uses: "./.github/workflows/api_build.yml"
       with:
         project-name: default
-  
-    - uses: actions/checkout@v2
     
     - name: Test
       run: dotnet test --no-build --verbosity normal  
