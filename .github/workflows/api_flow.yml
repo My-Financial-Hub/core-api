@@ -127,7 +127,7 @@ jobs:
           /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
       - name: Publish Test Results
         if: always()
-        uses: EnricoMi/publish-unit-test-result-action@v2.8.0
+        uses: EnricoMi/publish-unit-test-result-action/composite@v2
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           action_fail: true
