@@ -49,4 +49,7 @@ jobs:
     
     - name: Test
       run: dotnet test --no-build --verbosity normal  
+
+    - name: Build
+      uses: "./.github/workflows/sonarcloud_2.yml"
   
