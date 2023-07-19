@@ -17,7 +17,7 @@ on:
 
 jobs: 
   build:
-    uses: "${{ github.event.repository.owner }}/${{ github.event.repository.name }}/.github/workflows/api_build.yml@feature/api-flow"
+    uses: "./.github/workflows/api_build.yml"
     with:
       project-name: default
 
