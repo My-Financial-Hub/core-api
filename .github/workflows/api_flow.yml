@@ -19,32 +19,13 @@ jobs:
   build:
     name: Build and Test
     runs-on: ubuntu-latest
-    
-    services:
-      sql-database: 
-        image: mcr.microsoft.com/mssql/server:2019-latest    
-        env: 
-          SA_PASSWORD: "P@ssw0rd!"
-          ACCEPT_EULA: "Y"
-        ports: 
-          - 1450:1433
-              
+
+    defaults:
+      run:
+        working-directory: ./src/FinancialHub/              
     steps:
     - uses: actions/checkout@v3
-    
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v2
-      with:
-        dotnet-version: 6.0.x
-        
-    - name: Restore dependencies
-      run: dotnet restore
-      working-directory: './src/FinancialHub/'
-      
     - name: Build
-      run: dotnet build --no-restore
-      working-directory: './src/FinancialHub/'
-      
-    - name: Test
-      run: dotnet test --no-build --verbosity normal
-      working-directory: './src/FinancialHub/'
+      uses: "./.github/workflows/api_build.yml"
+      with:
+        project-name: default
