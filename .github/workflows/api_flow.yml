@@ -17,9 +17,14 @@ on:
 
 jobs: 
   build:
-    uses: './.github/workflows/api_build.yml'
-    with:
-      project-name: default
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build
+      uses: './.github/workflows/api_build.yml'
+      with:
+        project-name: default
 
   tests:
     name: Test
@@ -40,6 +45,5 @@ jobs:
           - 1450:1433
 
     steps:
-    - uses: jobs.build
     - name: Test
       run: dotnet test --no-build --verbosity normal
