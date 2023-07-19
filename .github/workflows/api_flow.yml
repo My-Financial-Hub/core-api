@@ -55,7 +55,6 @@ jobs:
         --results-directory TestResults/ `
         --configuration release `
         -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover `
-      continue-on-error: true
 
     - name: Publish Test Results
       if: always()
