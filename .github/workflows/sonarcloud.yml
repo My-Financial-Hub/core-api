@@ -21,7 +21,7 @@ permissions:
 jobs:
   code_analysis:
     name: Code Analysis
-    runs-on: ubuntu-latest   
+    runs-on: windows-latest 
     
     defaults:
       run:
