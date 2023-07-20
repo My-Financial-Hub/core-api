@@ -56,7 +56,6 @@ jobs:
       run: dotnet test 
         --logger:"trx;logfilename=Results.xml" 
         --configuration release
-        --no-build
   
     - name: Publish Test Results
       if: always()
@@ -72,7 +71,6 @@ jobs:
         --collect:"XPlat Code Coverage;Format=opencover" 
         --results-directory TestResults/ 
         --configuration release 
-        --no-build
 
   code_analysis:
     name: Code Analysis
