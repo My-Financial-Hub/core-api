@@ -1,4 +1,4 @@
-name: "Base API Routine"
+name: "API Tests & Analisys"
 
 on:
   push:
@@ -11,9 +11,9 @@ on:
     branches: 
       - 'main'
       - 'release/**'
-    #paths:
-    #  - 'src/FinancialHub/*' 
-    #  - 'src/FinancialHub/**'
+    paths:
+      - 'src/FinancialHub/*' 
+      - 'src/FinancialHub/**'
 
 permissions:
   checks: write
@@ -94,7 +94,6 @@ jobs:
           
       - name: Install SonarCloud scanner
         if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
-        shell: powershell
         run: |
           New-Item -Path .\.sonar\scanner -ItemType Directory
           dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner
@@ -111,7 +110,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        shell: powershell
         run: |
           .\.sonar\scanner\dotnet-sonarscanner begin `
           /k:"Chingling152_my-financial-hub" `
@@ -120,9 +118,6 @@ jobs:
           /d:sonar.host.url="https://sonarcloud.io" `
           /d:sonar.coverage.exclusions="**/Migrations/." `
           /d:sonar.cs.opencover.reportsPaths="/TestResults/**/coverage.opencover.xml" 
-          
-          echo "build project"
-          dotnet build --configuration Release --no-restore
     
           echo "running code coverage"
           dotnet test `
