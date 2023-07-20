@@ -48,11 +48,15 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
     
+    - name: Build project
+      run: dotnet restore
+      
     - name: Run Tests
       continue-on-error: true 
       run: dotnet test 
         --logger:"trx;logfilename=Results.xml" 
         --configuration release
+        --no-build
 
     - name: Run Coverage Report
       continue-on-error: true 
@@ -60,6 +64,7 @@ jobs:
         --collect:"XPlat Code Coverage;Format=opencover" 
         --results-directory TestResults/ 
         --configuration release 
+        --no-build
 
     - name: Publish Test Results
       if: always()
