@@ -92,6 +92,13 @@ jobs:
         with:
           fetch-depth: 0
 
+      - uses: actions/cache/restore@v3
+        with:
+          path: ./src/FinancialHub/TestResults/
+          key: cache-coverage-report
+          enableCrossOsArchive: true
+          fail-on-cache-miss: true
+      
       - name: Analyze with SonarCloud
         uses: sonarsource/sonarcloud-github-action@master
         env:
