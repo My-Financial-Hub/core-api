@@ -206,7 +206,7 @@ namespace FinancialHub.Domain.Tests.Queries
                 x => x.IsActive && status.Contains(x.Status)
             );
 
-            Assert.AreNotEqual(expectedResult, result);
+            Assert.AreEqual(expectedResult, result);
         }
     }
 }
