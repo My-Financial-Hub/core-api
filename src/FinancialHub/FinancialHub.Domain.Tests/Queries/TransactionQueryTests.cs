@@ -36,7 +36,7 @@ namespace FinancialHub.Domain.Tests.Queries
             var expectedResult = entities.Where(x => x.IsActive);
             var result = entities.Where(query);
 
-            Assert.AreNotEqual(expectedResult, result);
+            Assert.AreEqual(expectedResult, result);
         }
 
         [Test]
