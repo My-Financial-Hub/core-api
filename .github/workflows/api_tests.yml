@@ -74,8 +74,10 @@ jobs:
       uses: actions/cache/save@v3
       id: cache
       with:
-        path: ./TestResults/
+        path: /TestResults/
         key: ${{ runner.os }}-coverage-report
+        enableCrossOsArchive: true
+
 
   code_analysis:
     name: Code Analysis
