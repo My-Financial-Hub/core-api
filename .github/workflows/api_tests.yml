@@ -124,8 +124,12 @@ jobs:
         with:
           dotnet-version: 6.0.x
     
-      - name: Restore dependencies
-        run: dotnet restore
+      - uses: actions/cache/restore@v3
+        id: cache
+        with:
+          path: ./src/FinancialHub/TestResults/
+          key: ${{ runner.os }}-coverage-report
+          fail-on-cache-miss: true
                       
       - name: Build and analyze
         env:
@@ -139,10 +143,7 @@ jobs:
           /d:sonar.host.url="https://sonarcloud.io" `
           /d:sonar.coverage.exclusions="**/Migrations/." `
           /d:sonar.cs.opencover.reportsPaths="/TestResults/**/coverage.opencover.xml" 
-    
-          echo "running code coverage"
-          dotnet build
-    
+          echo "sending coverage files to sonar cloud"
           .\.sonar\scanner\dotnet-sonarscanner end `
           /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
     
