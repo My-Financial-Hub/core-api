@@ -72,9 +72,8 @@ jobs:
 
     - name: Publish Coverage Report
       uses: actions/cache/save@v3
-      id: cache
       with:
-        path: TestResults/
+        path: ./src/FinancialHub/TestResults
         key: ${{ runner.os }}-coverage-report
         enableCrossOsArchive: true
 
