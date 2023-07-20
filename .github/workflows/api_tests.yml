@@ -49,7 +49,7 @@ jobs:
       run: dotnet restore
     
     - name: Build project
-      run: dotnet restore
+      run: dotnet build
       
     - name: Run Tests
       continue-on-error: true 
