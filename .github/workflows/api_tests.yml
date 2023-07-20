@@ -75,7 +75,7 @@ jobs:
       id: cache
       with:
         path: ./src/FinancialHub/TestResults/
-        key: ${{ runner.os }}-coverage-report
+        key: cache-coverage-report
         enableCrossOsArchive: true
 
 
@@ -128,7 +128,7 @@ jobs:
         id: cache
         with:
           path: ./src/FinancialHub/TestResults/
-          key: ${{ runner.os }}-coverage-report
+          key: cache-coverage-report
           fail-on-cache-miss: true
                       
       - name: Build and analyze
