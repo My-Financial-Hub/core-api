@@ -50,12 +50,7 @@ jobs:
     
     - name: Test
       continue-on-error: true 
-      run:
-        dotnet test
-        --collect:"XPlat Code Coverage"
-        --results-directory TestResults/
-        --configuration release
-        -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
+      run: dotnet test --logger "trx;logfilename=Results.xml" --configuration release
 
     - name: List
       run: ls TestResults
