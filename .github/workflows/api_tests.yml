@@ -108,10 +108,14 @@ jobs:
         with:
           dotnet-version: 6.0.x
                       
+      - name: Restore dependencies
+        run: dotnet restore
+                      
       - name: Build and analyze
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        shell: powershell
         run: |
           .\.sonar\scanner\dotnet-sonarscanner begin `
           /k:"Chingling152_my-financial-hub" `
@@ -121,9 +125,6 @@ jobs:
           /d:sonar.coverage.exclusions="**/Migrations/." `
           /d:sonar.cs.opencover.reportsPaths="/TestResults/**/coverage.opencover.xml" 
           
-          echo "Restore dependencies"
-          dotnet restore
-
           echo "build project"
           dotnet build --configuration Release --no-restore
 
