@@ -107,7 +107,7 @@ jobs:
         with:
           projectBaseDir: ./src/FinancialHub/
           args: >
-            -Dsonar.host.url="https://sonarcloud.io"
+            -Dsonar.host.url=https://sonarcloud.io
             -Dsonar.organization=chingling-152
             -Dsonar.projectKey=Chingling152_my-financial-hub
             -Dsonar.cs.opencover.reportsPaths="/TestResults/**/coverage.opencover.xml"
