@@ -49,8 +49,13 @@ jobs:
       run: dotnet restore
     
     - name: Test
-      run: dotnet test
       continue-on-error: true 
+      run:
+        dotnet test `
+        --collect:"XPlat Code Coverage" `
+        --results-directory TestResults/ `
+        --configuration release `
+        -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover `
 
     - name: List
       run: cd TestResults | ls
