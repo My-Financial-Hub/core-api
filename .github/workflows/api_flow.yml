@@ -58,7 +58,7 @@ jobs:
         -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
 
     - name: List
-      run: cd TestResults | ls
+      run: ls TestResults
 
     - name: Publish Test Results
       if: always()
