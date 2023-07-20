@@ -81,7 +81,7 @@ jobs:
   code_analysis:
     name: Code Analysis
     needs: tests
-    runs-on: windows-latest   
+    runs-on: ubuntu-latest   
     
     defaults:
       run:
