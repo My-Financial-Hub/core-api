@@ -67,7 +67,7 @@ jobs:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         action_fail: true
         files: |
-          /TestResults/**/coverage.opencover.xml
+          TestResults/**/coverage.opencover.xml
 
   code_analysis:
     name: Code Analysis
