@@ -61,21 +61,6 @@ jobs:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         action_fail: true
         files: "**/TestResults/Results.xml"
-  
-    - name: Run Coverage Report
-      continue-on-error: true 
-      run: dotnet test 
-        --collect:"XPlat Code Coverage;Format=opencover" 
-        --results-directory TestResults/ 
-        --configuration release 
-        --no-build
-
-    - name: Publish Coverage Report
-      uses: actions/cache/save@v3
-      with:
-        path: ./src/FinancialHub/TestResults/
-        key: cache-coverage-report
-        enableCrossOsArchive: true
 
 
   code_analysis:
@@ -88,84 +73,61 @@ jobs:
         working-directory: ./src/FinancialHub/
             
     steps:
+      - name: Set up JDK 11
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.11
+      
       - uses: actions/checkout@v2
         with:
-          fetch-depth: 0
-
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+      
+      - name: Cache SonarCloud packages
+        uses: actions/cache@v1
+        with:
+          path: ~\sonar\cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+        
+      - name: Cache SonarCloud scanner
+        id: cache-sonar-scanner
+        uses: actions/cache@v1
+        with:
+          path: .\.sonar\scanner
+          key: ${{ runner.os }}-sonar-scanner
+          restore-keys: ${{ runner.os }}-sonar-scanner
+          
+      - name: Install SonarCloud scanner
+        if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
+        run: |
+          New-Item -Path .\.sonar\scanner -ItemType Directory
+          dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner
+          
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: 6.0.x
+    
       - uses: actions/cache/restore@v3
         with:
           path: ./src/FinancialHub/TestResults/
           key: cache-coverage-report
           enableCrossOsArchive: true
           fail-on-cache-miss: true
-
-      - name: Analyze with SonarCloud
-        uses: sonarsource/sonarcloud-github-action@master
+                      
+      - name: Build and analyze
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        with:
-          projectBaseDir: ./src/FinancialHub/
-          args: >
-            -Dsonar.host.url=https://sonarcloud.io
-            -Dsonar.organization=chingling-152
-            -Dsonar.projectKey=Chingling152_my-financial-hub
-            -Dsonar.cs.opencover.reportsPaths="/TestResults/**/coverage.opencover.xml"
-            -Dsonar.verbose=true
-    #steps:
-    #  - name: Set up JDK 11
-    #    uses: actions/setup-java@v1
-    #    with:
-    #      java-version: 1.11
-    #  - uses: actions/checkout@v2
-    #    with:
-    #      fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
-    #  - name: Cache SonarCloud packages
-    #    uses: actions/cache@v1
-    #    with:
-    #      path: ~\sonar\cache
-    #      key: ${{ runner.os }}-sonar
-    #      restore-keys: ${{ runner.os }}-sonar
-    #    
-    #  - name: Cache SonarCloud scanner
-    #    id: cache-sonar-scanner
-    #    uses: actions/cache@v1
-    #    with:
-    #      path: .\.sonar\scanner
-    #      key: ${{ runner.os }}-sonar-scanner
-    #      restore-keys: ${{ runner.os }}-sonar-scanner
-    #      
-    #  - name: Install SonarCloud scanner
-    #    if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
-    #    run: |
-    #      New-Item -Path .\.sonar\scanner -ItemType Directory
-    #      dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner
-    #      
-    #  - name: Setup .NET
-    #    uses: actions/setup-dotnet@v2
-    #    with:
-    #      dotnet-version: 6.0.x
-    #
-    #  - uses: actions/cache/restore@v3
-    #    with:
-    #      path: ./src/FinancialHub/TestResults/
-    #      key: cache-coverage-report
-    #      enableCrossOsArchive: true
-    #      fail-on-cache-miss: true
-    #                  
-    #  - name: Build and analyze
-    #    env:
-    #      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
-    #      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-    #    run: |
-    #      .\.sonar\scanner\dotnet-sonarscanner begin `
-    #      /k:"Chingling152_my-financial-hub" `
-    #      /o:"chingling-152" `
-    #      /d:sonar.token="${{ secrets.SONAR_TOKEN }}" `
-    #      /d:sonar.host.url="https://sonarcloud.io" `
-    #      /d:sonar.coverage.exclusions="**/Migrations/." `
-    #      /d:sonar.cs.opencover.reportsPaths="/TestResults/**/coverage.opencover.xml" 
-    #      echo "sending coverage files to sonar cloud"
-    #      .\.sonar\scanner\dotnet-sonarscanner end `
-    #      /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
+        run: |
+          .\.sonar\scanner\dotnet-sonarscanner begin `
+          /k:"Chingling152_my-financial-hub" `
+          /o:"chingling-152" `
+          /d:sonar.token="${{ secrets.SONAR_TOKEN }}" `
+          /d:sonar.host.url="https://sonarcloud.io" `
+          /d:sonar.coverage.exclusions="**/Migrations/." `
+          /d:sonar.cs.opencover.reportsPaths="/TestResults/**/coverage.opencover.xml" 
+          echo "sending coverage files to sonar cloud"
+          .\.sonar\scanner\dotnet-sonarscanner end `
+          /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
     
