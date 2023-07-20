@@ -70,6 +70,13 @@ jobs:
         --configuration release 
         --no-build
 
+    - name: Publish Coverage Report
+      uses: actions/cache/save@v3
+      id: cache
+      with:
+        path: TestResults/**
+        key: ${{ runner.os }}-coverage-report
+
   code_analysis:
     name: Code Analysis
     needs: tests
