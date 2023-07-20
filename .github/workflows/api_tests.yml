@@ -47,10 +47,7 @@ jobs:
     
     - name: Restore dependencies
       run: dotnet restore
-    
-    - name: Build project
-      run: dotnet build
-      
+          
     - name: Run Tests
       continue-on-error: true 
       run: dotnet test 
@@ -71,6 +68,7 @@ jobs:
         --collect:"XPlat Code Coverage;Format=opencover" 
         --results-directory TestResults/ 
         --configuration release 
+        --no-build
 
   code_analysis:
     name: Code Analysis
