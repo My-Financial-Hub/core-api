@@ -57,15 +57,7 @@ jobs:
         --logger:"trx;logfilename=Results.xml" 
         --configuration release
         --no-build
-
-    - name: Run Coverage Report
-      continue-on-error: true 
-      run: dotnet test 
-        --collect:"XPlat Code Coverage;Format=opencover" 
-        --results-directory TestResults/ 
-        --configuration release 
-        --no-build
-
+  
     - name: Publish Test Results
       if: always()
       uses: EnricoMi/publish-unit-test-result-action/composite@v2
@@ -73,6 +65,14 @@ jobs:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         action_fail: true
         files: "**/TestResults/Results.xml"
+  
+    - name: Run Coverage Report
+      continue-on-error: true 
+      run: dotnet test 
+        --collect:"XPlat Code Coverage;Format=opencover" 
+        --results-directory TestResults/ 
+        --configuration release 
+        --no-build
 
   code_analysis:
     name: Code Analysis
