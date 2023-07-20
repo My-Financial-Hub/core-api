@@ -48,9 +48,18 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
     
-    - name: Test
+    - name: Run Tests
       continue-on-error: true 
-      run: dotnet test --logger "trx;logfilename=Results.xml" --configuration release
+      run: dotnet test 
+        --logger:"trx;logfilename=Results.xml" 
+        --configuration release
+
+    - name: Run Coverage Report
+      continue-on-error: true 
+      run: dotnet test 
+        --collect:"XPlat Code Coverage;Format=opencover" 
+        --results-directory TestResults/ 
+        --configuration release 
 
     - name: Publish Test Results
       if: always()
