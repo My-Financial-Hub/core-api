@@ -52,16 +52,13 @@ jobs:
       continue-on-error: true 
       run: dotnet test --logger "trx;logfilename=Results.xml" --configuration release
 
-    - name: List
-      run: ls TestResults
-
     - name: Publish Test Results
       if: always()
       uses: EnricoMi/publish-unit-test-result-action/composite@v2
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         action_fail: true
-        files: "**/TestResults/**/*.opencover.xml"
+        files: "**/TestResults/Results.xml"
 
   code_analysis:
     name: Code Analysis
