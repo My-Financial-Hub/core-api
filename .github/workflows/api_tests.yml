@@ -61,6 +61,22 @@ jobs:
         action_fail: true
         files: "**/TestResults/Results.xml"
 
+    - name: Run Coverage Report
+      continue-on-error: true 
+      run: dotnet test 
+        --collect:"XPlat Code Coverage;Format=opencover" 
+        --results-directory TestResults/ 
+        --configuration release 
+        --no-build
+
+    - name: Publish Coverage Report
+      uses: actions/cache/save@v3
+      id: cache
+      with:
+        path: TestResults/**
+        enableCrossOsArchive: true
+        key: ${{ runner.os }}-coverage-report
+
 
   code_analysis:
     name: Code Analysis
@@ -98,9 +114,7 @@ jobs:
           
       - name: Install SonarCloud scanner
         if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
-        run: |
-          New-Item -Path .\.sonar\scanner -ItemType Directory
-          dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner
+        run: dotnet tool update dotnet-sonarscanner 
           
       - name: Setup .NET
         uses: actions/setup-dotnet@v2
@@ -109,6 +123,13 @@ jobs:
                       
       - name: Restore dependencies
         run: dotnet restore
+
+      - uses: actions/cache/restore@v3
+        with:
+          path: ./src/FinancialHub/TestResults/
+          key: cache-coverage-report
+          enableCrossOsArchive: true
+          fail-on-cache-miss: true
                       
       ## TODO: need to fix it
       - name: Build and analyze
@@ -117,7 +138,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         shell: powershell
         run: |
-          .\.sonar\scanner\dotnet-sonarscanner begin `
+          dotnet dotnet-sonarscanner begin `
           /k:"Chingling152_my-financial-hub" `
           /o:"chingling-152" `
           /d:sonar.token="${{ secrets.SONAR_TOKEN }}" `
@@ -128,13 +149,6 @@ jobs:
           echo "build project"
           dotnet build --configuration Release --no-restore
 
-          echo "running code coverage"
-          dotnet test `
-          --collect:"XPlat Code Coverage" `
-          --results-directory TestResults/ `
-          --configuration release `
-          -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover `
-
-          .\.sonar\scanner\dotnet-sonarscanner end `
+          dotnet dotnet-sonarscanner end `
           /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
     
