@@ -114,7 +114,7 @@ jobs:
           
       - name: Install SonarCloud scanner
         if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
-        run: dotnet tool restore dotnet-sonarscanner 
+        run: dotnet tool restore 
           
       - name: Setup .NET
         uses: actions/setup-dotnet@v2
