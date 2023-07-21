@@ -136,7 +136,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
-          dotnet dotnet-sonarscanner begin 
+          dotnet dotnet-sonarscanner begin `
           /k:"Chingling152_my-financial-hub" `
           /o:"chingling-152" `
           /d:sonar.token="${{ secrets.SONAR_TOKEN }}" `
