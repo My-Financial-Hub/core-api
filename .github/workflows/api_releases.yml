@@ -2,10 +2,12 @@ name: "API Release"
 
 on:
   workflow_dispatch:
-  push:
+  pull_request:
+    types:
+      - synchronize
+      - closed
     branches: 
-      - 'feature/**'
-      #- 'main'
+      - 'release/**'
     #paths:
     #  - 'src/FinancialHub/*' 
     #  - 'src/FinancialHub/**'
@@ -25,9 +27,9 @@ jobs:
       shell: bash
 
     - name: Test 2 
-      run: echo ${{ github.event.head_commit.message }}
+      run: echo ${{ github.event.pull_request.title }}
       shell: bash
 
     - name: Test 3
-      run: echo ${{ github.event.head_commit }}
+      run: echo ${{ github.event.pull_request.body }}
       shell: bash
