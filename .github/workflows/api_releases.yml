@@ -38,4 +38,4 @@ jobs:
       env:
         BRANCH: ${{ github.event.pull_request.base.ref }}
       id: split
-      run: echo "::set-output name=fragment::${BRANCH##*/}"	
+      run: echo "fragment::${BRANCH##*/}"	>> $GITHUB_OUTPUT
