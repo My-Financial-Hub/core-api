@@ -11,7 +11,11 @@ namespace FinancialHub.Auth.Application.Controllers
         [HttpGet]
         public IActionResult TestOk()
         {
-            return Ok();
+            return Ok(
+                new{
+                    value = "a new change to trigger release action"
+                }
+            );
         }
     }
 }
