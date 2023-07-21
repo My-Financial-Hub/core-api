@@ -27,3 +27,7 @@ jobs:
     - name: Test 2 
       run: echo ${{ github.event.head_commit.message }}
       shell: bash
+
+    - name: Test 3
+      run: echo ${{ github.event.head_commit }}
+      shell: bash
