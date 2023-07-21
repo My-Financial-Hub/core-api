@@ -33,3 +33,7 @@ jobs:
     - name: Test 3
       run: echo ${{ github.event.pull_request.body }}
       shell: bash
+
+    - name: Test 4
+      run: echo ${{ github.event.pull_request.commits }}
+      shell: bash
