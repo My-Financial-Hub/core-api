@@ -31,5 +31,5 @@ jobs:
       shell: bash
 
     - name: Test 4
-      run: echo ${{ github.event.pull_request.base.ref }} | ${{ github.event.pull_request.head.ref }}
+      run: echo "${{ github.event.pull_request.base.ref }} ${{ github.event.pull_request.head.ref }}"
       shell: bash
