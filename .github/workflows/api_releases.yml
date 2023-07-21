@@ -22,10 +22,6 @@ jobs:
       with:
         fetch-depth: 0
 
-    - name: Test
-      run: echo ${{ github.sha }}
-      shell: bash
-
     - name: Test 2 
       run: echo ${{ github.event.pull_request.title }}
       shell: bash
@@ -35,5 +31,5 @@ jobs:
       shell: bash
 
     - name: Test 4
-      run: echo ${{ github.event.pull_request.commits }}
+      run: echo ${{ github.event.pull_request.base }}
       shell: bash
