@@ -1,0 +1,24 @@
+name: "API Release"
+
+on:
+  push:
+    branches: 
+      #- 'main'
+      - 'release/**'
+    paths:
+      - 'src/FinancialHub/*' 
+      - 'src/FinancialHub/**'
+
+jobs:
+  releases:
+    name: Build and Test
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+
+    - name: TESTES
+      run: echo ${{github.sha}}
+      shell: bash

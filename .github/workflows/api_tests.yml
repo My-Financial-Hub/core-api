@@ -55,7 +55,6 @@ jobs:
         --configuration release
   
     - name: Publish Test Results
-      if: always()
       uses: EnricoMi/publish-unit-test-result-action/composite@v2
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -80,7 +79,7 @@ jobs:
       
       - uses: actions/checkout@v2
         with:
-          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+          fetch-depth: 0
       
       - name: Cache SonarCloud packages
         uses: actions/cache@v1
@@ -111,6 +110,7 @@ jobs:
       - name: Restore dependencies
         run: dotnet restore
                       
+      ## TODO: need to fix it
       - name: Build and analyze
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
