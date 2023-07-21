@@ -97,23 +97,22 @@ jobs:
         with:
           fetch-depth: 0
       
-      - name: Cache SonarCloud packages
-        uses: actions/cache@v1
-        with:
-          path: ~\sonar\cache
-          key: ${{ runner.os }}-sonar
-          restore-keys: ${{ runner.os }}-sonar
-        
-      - name: Cache SonarCloud scanner
-        id: cache-sonar-scanner
-        uses: actions/cache@v1
-        with:
-          path: .\.sonar\scanner
-          key: ${{ runner.os }}-sonar-scanner
-          restore-keys: ${{ runner.os }}-sonar-scanner
+      #- name: Cache SonarCloud packages
+      #  uses: actions/cache@v1
+      #  with:
+      #    path: ~\sonar\cache
+      #    key: ${{ runner.os }}-sonar
+      #    restore-keys: ${{ runner.os }}-sonar
+      #  
+      #- name: Cache SonarCloud scanner
+      #  id: cache-sonar-scanner
+      #  uses: actions/cache@v1
+      #  with:
+      #    path: .\.sonar\scanner
+      #    key: ${{ runner.os }}-sonar-scanner
+      #    restore-keys: ${{ runner.os }}-sonar-scanner
           
       - name: Install SonarCloud scanner
-        if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
         run: dotnet tool restore 
           
       - name: Setup .NET
@@ -136,18 +135,18 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
-          dotnet tool run dotnet-sonarscanner begin `
-          /k:"Chingling152_my-financial-hub" `
-          /o:"chingling-152" `
-          /d:sonar.token="${{ secrets.SONAR_TOKEN }}" `
-          /d:sonar.host.url="https://sonarcloud.io" `
-          /d:sonar.coverage.exclusions="**/Migrations/." `
-          /d:sonar.verbose=true `
+          dotnet dotnet-sonarscanner begin 
+          /k:"Chingling152_my-financial-hub" 
+          /o:"chingling-152" 
+          /d:sonar.token="${{ secrets.SONAR_TOKEN }}" 
+          /d:sonar.host.url="https://sonarcloud.io" 
+          /d:sonar.coverage.exclusions="**/Migrations/." 
+          /d:sonar.verbose=true 
           /d:sonar.cs.opencover.reportsPaths="/TestResults/**/coverage.opencover.xml" 
           
           echo "build project"
           dotnet build --configuration Release --no-restore --verbose
 
-          dotnet tool run dotnet-sonarscanner `
+          dotnet tool run dotnet-sonarscanner 
           end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
     
