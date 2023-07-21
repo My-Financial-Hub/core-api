@@ -33,3 +33,9 @@ jobs:
     - name: Test 4
       run: echo "${{ github.event.pull_request.base.ref }} ${{ github.event.pull_request.head.ref }}"
       shell: bash
+
+    - name: Split branch name
+      env:
+        BRANCH: ${{ github.event.pull_request.base.ref }}
+      id: split
+      run: echo "::set-output name=fragment::${BRANCH##*/}"	
