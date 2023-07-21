@@ -5,9 +5,9 @@ on:
     branches: 
       #- 'main'
       - 'release/**'
-    paths:
-      - 'src/FinancialHub/*' 
-      - 'src/FinancialHub/**'
+    #paths:
+    #  - 'src/FinancialHub/*' 
+    #  - 'src/FinancialHub/**'
 
 jobs:
   releases:
@@ -19,6 +19,10 @@ jobs:
       with:
         fetch-depth: 0
 
-    - name: TESTES
-      run: echo ${{github.sha}}
+    - name: Test
+      run: echo ${{ github.sha }}
+      shell: bash
+
+    - name: Test 2 
+      run: echo ${{ github.event.head_commit.message }}
       shell: bash
