@@ -135,7 +135,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        shell: powershell
         run: |
           dotnet dotnet-sonarscanner begin `
           /k:"Chingling152_my-financial-hub" `
@@ -146,8 +145,7 @@ jobs:
           /d:sonar.cs.opencover.reportsPaths="/TestResults/**/coverage.opencover.xml" 
           
           echo "build project"
-          dotnet build --configuration Release --no-restore
+          dotnet build --configuration Release --no-restore --verbose
 
-          dotnet dotnet-sonarscanner end `
-          /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
+          dotnet dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
     
