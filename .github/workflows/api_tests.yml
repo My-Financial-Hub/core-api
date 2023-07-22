@@ -97,23 +97,27 @@ jobs:
         with:
           fetch-depth: 0
       
-      #- name: Cache SonarCloud packages
-      #  uses: actions/cache@v1
-      #  with:
-      #    path: ~\sonar\cache
-      #    key: ${{ runner.os }}-sonar
-      #    restore-keys: ${{ runner.os }}-sonar
-      #  
-      #- name: Cache SonarCloud scanner
-      #  id: cache-sonar-scanner
-      #  uses: actions/cache@v1
-      #  with:
-      #    path: .\.sonar\scanner
-      #    key: ${{ runner.os }}-sonar-scanner
-      #    restore-keys: ${{ runner.os }}-sonar-scanner
+      - name: Cache SonarCloud packages
+        uses: actions/cache@v1
+        with:
+          path: ~\sonar\cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+        
+      - name: Cache SonarCloud scanner
+        id: cache-sonar-scanner
+        uses: actions/cache@v1
+        with:
+          path: .\.sonar\scanner
+          key: ${{ runner.os }}-sonar-scanner
+          restore-keys: ${{ runner.os }}-sonar-scanner
           
       - name: Install SonarCloud scanner
-        run: dotnet tool restore 
+        if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
+        shell: powershell
+        run: |
+          New-Item -Path .\.sonar\scanner -ItemType Directory
+          dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner
           
       - name: Setup .NET
         uses: actions/setup-dotnet@v2
@@ -136,7 +140,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
-          dotnet dotnet-sonarscanner begin `
+          .\.sonar\scanner\dotnet-sonarscanner begin `
           /k:"Chingling152_my-financial-hub" `
           /o:"chingling-152" `
           /d:sonar.token="${{ secrets.SONAR_TOKEN }}" `
@@ -148,6 +152,6 @@ jobs:
           echo "build project"
           dotnet build --configuration Release --no-restore --verbose
 
-          dotnet tool run dotnet-sonarscanner `
-          end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
+          .\.sonar\scanner\dotnet-sonarscanner end `
+          /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
     
