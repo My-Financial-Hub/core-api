@@ -150,7 +150,7 @@ jobs:
           /d:sonar.cs.opencover.reportsPaths="/TestResults/**/coverage.opencover.xml" 
           
           echo "build project"
-          dotnet build --configuration Release --no-restore --verbose
+          dotnet build --configuration Release --no-restore
 
           .\.sonar\scanner\dotnet-sonarscanner end `
           /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
