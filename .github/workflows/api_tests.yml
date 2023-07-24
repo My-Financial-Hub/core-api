@@ -123,9 +123,6 @@ jobs:
         uses: actions/setup-dotnet@v2
         with:
           dotnet-version: 6.0.x
-                      
-      - name: Restore dependencies
-        run: dotnet restore
 
       - uses: actions/cache/restore@v3
         with:
@@ -149,6 +146,9 @@ jobs:
           /d:sonar.verbose=true `
           /d:sonar.cs.opencover.reportsPaths="/TestResults/**/coverage.opencover.xml" 
           
+          echo "Restore dependencies"
+          dotnet restore
+
           echo "build project"
           dotnet build --configuration Release --no-restore
 
