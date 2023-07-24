@@ -20,6 +20,7 @@ permissions:
   pull-requests: write
 
 jobs: 
+  
   tests:
     name: Build & Test
     runs-on: ubuntu-latest
@@ -79,8 +80,41 @@ jobs:
 
 
   code_analysis:
-    name: Code Analysis
+    name: Code analysis
     needs: tests
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: ./src/FinancialHub/
+              
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+
+    - uses: actions/cache/restore@v3
+      with:
+        path: /TestResults/
+        key: cache-coverage-report
+        enableCrossOsArchive: true
+        fail-on-cache-miss: true
+
+    - name: SonarCloud Scan
+      uses: sonarsource/sonarcloud-github-action@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SONAR_TOKEN:  ${{ secrets.SONAR_TOKEN }}
+      with:
+        args: >
+          -Dsonar.organization=chingling-152
+          -Dsonar.projectKey=Chingling152_my-financial-hub
+          -Dsonar.cs.opencover.reportsPaths="/TestResults/**/coverage.opencover.xml" 
+          -Dsonar.verbose=true
+
+  code_analysis_2:
+    name: Code Analysis 2
+    needs: code_analysis
     runs-on: windows-latest   
     
     defaults:
