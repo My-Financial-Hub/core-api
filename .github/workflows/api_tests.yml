@@ -117,7 +117,7 @@ jobs:
         args: >
           -Dsonar.organization=chingling-152
           -Dsonar.projectKey=Chingling152_my-financial-hub
-          -Dsonar.cs.opencover.reportsPaths="./TestResults/**/coverage.opencover.xml" 
+          -Dsonar.cs.opencover.reportsPaths="${{ env.project-tests-results-dir }}/**/coverage.opencover.xml" 
           -Dsonar.verbose=true
 
   code_analysis_2:
