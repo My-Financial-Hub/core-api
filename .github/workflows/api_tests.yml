@@ -95,7 +95,7 @@ jobs:
 
     - uses: actions/cache/restore@v3
       with:
-        path: /TestResults/
+        path: ./src/FinancialHub/TestResults/
         key: cache-coverage-report
         enableCrossOsArchive: true
         fail-on-cache-miss: true
