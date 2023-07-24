@@ -106,6 +106,9 @@ jobs:
         key: cache-coverage-report
         enableCrossOsArchive: true
         fail-on-cache-miss: true
+    
+    - name: Search TestResults
+      run: ls TestResults
 
     - name: SonarCloud Scan
       uses: sonarsource/sonarcloud-github-action@master
@@ -117,7 +120,7 @@ jobs:
         args: >
           -Dsonar.organization=chingling-152
           -Dsonar.projectKey=Chingling152_my-financial-hub
-          -Dsonar.cs.opencover.reportsPaths="${{ env.project-tests-results-dir }}/**/coverage.opencover.xml" 
+          -Dsonar.cs.opencover.reportsPaths="**/coverage.opencover.xml" 
           -Dsonar.verbose=true
 
   code_analysis_2:
