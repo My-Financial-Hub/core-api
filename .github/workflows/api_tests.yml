@@ -94,11 +94,16 @@ jobs:
         fetch-depth: 0
 
     - uses: actions/cache/restore@v3
+      id: cache-coverage-report-cache
       with:
         path: ./src/FinancialHub/TestResults/
         key: cache-coverage-report
         enableCrossOsArchive: true
         fail-on-cache-miss: true
+
+    - name: Cache check (?)
+      if: steps.cache-coverage-report-cache.outputs.cache-hit == 'true'
+      run: cd TestResults/ | ls
 
     - name: SonarCloud Scan
       uses: sonarsource/sonarcloud-github-action@master
