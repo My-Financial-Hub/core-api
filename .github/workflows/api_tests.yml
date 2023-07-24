@@ -15,6 +15,12 @@ on:
     #  - 'src/FinancialHub/*' 
     #  - 'src/FinancialHub/**'
 
+
+env:
+  project-dir: ./src/FinancialHub/
+  project-tests-dir: ./src/FinancialHub/ # for now it has no distiction
+  project-tests-results-dir: ./src/FinancialHub/TestResult # for now it has no distiction
+
 permissions:
   checks: write
   pull-requests: write
@@ -27,7 +33,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: ./src/FinancialHub/
+        working-directory: ${{ env.project-dir }}
 
     services:
       sql-database: 
@@ -86,7 +92,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: ./src/FinancialHub/
+        working-directory: ${{ env.project-dir }}
               
     steps:
     - uses: actions/checkout@v2
@@ -96,14 +102,10 @@ jobs:
     - uses: actions/cache/restore@v3
       id: cache-coverage-report-cache
       with:
-        path: ./src/FinancialHub/TestResults/
+        path: ${{ env.project-tests-results-dir }}
         key: cache-coverage-report
         enableCrossOsArchive: true
         fail-on-cache-miss: true
-
-    - name: Cache check (?)
-      if: steps.cache-coverage-report-cache.outputs.cache-hit == 'true'
-      run: cd TestResults/ | ls
 
     - name: SonarCloud Scan
       uses: sonarsource/sonarcloud-github-action@master
@@ -111,6 +113,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         SONAR_TOKEN:  ${{ secrets.SONAR_TOKEN }}
       with:
+        projectBaseDir: ${{ env.project-dir }}
         args: >
           -Dsonar.organization=chingling-152
           -Dsonar.projectKey=Chingling152_my-financial-hub
