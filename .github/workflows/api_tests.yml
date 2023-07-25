@@ -26,7 +26,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - uses: ${{ github.event.repository.owner }}/${{ github.event.repository.name }}/.github/workflows/api_coverage_workflow.yml@${{ github.event.commits[0].id }}
+
+    - uses: ./.github/workflows/api_coverage_workflow.yml
       with:
         dir: ./src/FinancialHub/
         
