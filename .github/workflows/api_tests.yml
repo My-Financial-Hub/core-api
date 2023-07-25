@@ -26,16 +26,9 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-
-    - run : ls /home/runner/work/my-financial-hub-api/my-financial-hub-api/.github/workflows
-
     - uses: ./.github/workflows/api_coverage/
       with:
+        token: ${{ secrets.SONAR_TOKEN }}
         dir: ./src/FinancialHub/
         
     # - uses: "./.github/workflows/api_test.yml"
-
-    - uses: ./.github/actions/api-coverage-workflow
-      with:
-        os: ${{ runner.os }}
-        sonar-token: ${{ secrets.SONAR_TOKEN }}
