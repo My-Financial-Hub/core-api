@@ -68,7 +68,7 @@ jobs:
         action_fail: true
         files: "**/TestResults/Results.xml"
 
-    - uses: api_coverage_report.yml
+    - uses: ./api_coverage_report
 
     - name: Restore Dotnet tests
       run: dotnet tool restore 
