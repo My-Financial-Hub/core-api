@@ -14,6 +14,10 @@ jobs:
     name: Code Tests
     runs-on: ubuntu-latest
 
+    defaults:
+      run:
+        working-directory: ${{ inputs.dir }}
+
     services:
       sql-database: 
         image: mcr.microsoft.com/mssql/server:2019-latest    
