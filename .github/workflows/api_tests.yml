@@ -45,12 +45,12 @@ jobs:
           - 1450:1433
 
     steps:
+    - uses: actions/checkout@v2
+    
     - name: Setup .NET
       uses: actions/setup-dotnet@v2
       with:
         dotnet-version: 6.0.x
-        
-    - uses: actions/checkout@v2
     
     - name: Restore dependencies
       run: dotnet restore
@@ -68,4 +68,4 @@ jobs:
         action_fail: true
         files: "**/TestResults/Results.xml"
     
-    - uses: "api_coverage_workflow.yml@feature/api-flow"
+    - uses: "./.github/api_coverage_workflow"
