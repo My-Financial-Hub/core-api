@@ -1,4 +1,4 @@
-name: "API Tests & Analysis"
+name: "API Basic Workflow"
 
 on:
   push:
@@ -26,7 +26,6 @@ permissions:
   pull-requests: write
 
 jobs: 
-  
   tests:
     name: Build & Test
     runs-on: ubuntu-latest
@@ -67,9 +66,6 @@ jobs:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         action_fail: true
         files: "**/TestResults/Results.xml"
-    
-    - name : ${{ github.event.repository.owner }}/${{ github.event.repository.name }}
-      uses: "api_coverage_report.yml@feature/api-flow"
 
     - name: Restore Dotnet tests
       run: dotnet tool restore 
