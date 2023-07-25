@@ -1,4 +1,5 @@
 name: Api Coverage
+
 on:
   workflow_call:    
     inputs:
@@ -43,16 +44,16 @@ jobs:
         uses: actions/cache@v1
         with:
           path: ~\sonar\cache
-          key: ${{ inputs.os }}-sonar
-          restore-keys: ${{ inputs.os }}-sonar
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
         
       - name: Cache SonarCloud scanner
         id: cache-sonar-scanner
         uses: actions/cache@v1
         with:
           path: .\.sonar\scanner
-          key: ${{ inputs.os }}-sonar-scanner
-          restore-keys: ${{ inputs.os }}-sonar-scanner    
+          key: ${{ runner.os }}-sonar-scanner
+          restore-keys: ${{ runner.os }}-sonar-scanner    
 
       - name: Begin Coverage Report
         run: 
