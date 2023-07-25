@@ -60,8 +60,7 @@ namespace FinancialHub.Auth.Application.Controllers
 
             if (userResult.HasError)
             {
-                return StatusCode(
-                    userResult.Error.Code,
+                return BadRequest(
                     new ValidationErrorResponse(userResult.Error.Message)
                 );
             }
