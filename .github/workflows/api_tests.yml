@@ -15,12 +15,6 @@ on:
     #  - 'src/FinancialHub/*' 
     #  - 'src/FinancialHub/**'
 
-
-env:
-  project-dir: ./src/FinancialHub/
-  project-tests-dir: ./src/FinancialHub/ # for now it has no distiction
-  project-tests-results-dir: ./src/FinancialHub/TestResult # for now it has no distiction
-
 permissions:
   checks: write
   pull-requests: write
@@ -32,5 +26,5 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - uses: "./.github/workflows/api_test"
-    - uses: "./.github/workflows/api_coverage_workflow"
+    - uses: "./.github/workflows/api_test.yml"
+    - uses: "./.github/workflows/api_coverage_workflow.yml"
