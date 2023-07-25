@@ -68,6 +68,20 @@ jobs:
         action_fail: true
         files: "**/TestResults/Results.xml"
 
+    - name: Restore Dotnet tests
+      run: dotnet tool restore 
+
+    - name: Begin Coverage Report
+      run: |
+        dotnet tool run dotnet-sonarscanner begin `
+        /k:"Chingling152_my-financial-hub" `
+        /o:"chingling-152" `
+        /d:sonar.token="${{ secrets.SONAR_TOKEN }}" `
+        /d:sonar.host.url="https://sonarcloud.io" `
+        /d:sonar.coverage.exclusions="**/Migrations/." `
+        /d:sonar.verbose=true `
+        /d:sonar.cs.opencover.reportsPaths="/TestResults/**/coverage.opencover.xml" 
+    
     - name: Run Coverage Report
       continue-on-error: true 
       run: dotnet test 
@@ -76,73 +90,19 @@ jobs:
         --configuration release 
         --no-build
 
-    - name: Publish Coverage Report
-      uses: actions/cache/save@v3
-      id: cache
-      with:
-        path: TestResults/**
-        enableCrossOsArchive: true
-        key: ${{ runner.os }}-coverage-report
-  
-    - name: SonarScanner for .NET 7 with pull request decoration support
-      uses: highbyte/sonarscan-dotnet@v2.2.2
-      with:
-        sonarProjectKey: Chingling152_my-financial-hub
-        sonarProjectName:  my-financial-hub
-        sonarOrganization: chingling-152
-        dotnetTestArguments: --logger trx --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
-        sonarBeginArguments: /d:sonar.cs.opencover.reportsPaths="**/TestResults/**/coverage.opencover.xml"
-      env:
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
+    - name: Send Coverage Report
+      run: |
+        dotnet tool run dotnet-sonarscanner end `
+        /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
 
   code_analysis:
-    name: Code analysis
+    name: Code Analysis
     needs: tests
-    runs-on: ubuntu-latest
-
-    defaults:
-      run:
-        working-directory: ${{ env.project-dir }}
-              
-    steps:
-    - uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
-
-    - uses: actions/cache/restore@v3
-      id: cache-coverage-report-cache
-      with:
-        path: ./src/FinancialHub/TestResults/
-        key: cache-coverage-report
-        enableCrossOsArchive: true
-        fail-on-cache-miss: true
-    
-    - name: Search TestResults
-      run: ls TestResults
-
-    - name: SonarCloud Scan
-      uses: sonarsource/sonarcloud-github-action@master
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        SONAR_TOKEN:  ${{ secrets.SONAR_TOKEN }}
-      with:
-        projectBaseDir: ${{ env.project-dir }}
-        args: >
-          -Dsonar.organization=chingling-152
-          -Dsonar.projectKey=Chingling152_my-financial-hub
-          -Dsonar.cs.opencover.reportsPaths="**/coverage.opencover.xml" 
-          -Dsonar.verbose=true
-
-  code_analysis_2:
-    name: Code Analysis 2
-    needs: code_analysis
     runs-on: windows-latest   
     
     defaults:
       run:
-        working-directory: ./src/FinancialHub/
+        working-directory: ${{ env.project-dir }}
             
     steps:
       - name: Set up JDK 11
