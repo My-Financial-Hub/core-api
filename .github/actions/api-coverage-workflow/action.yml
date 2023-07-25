@@ -1,15 +1,14 @@
 name: Report Coverage
+description: Hello!
 
 inputs:
   os:
     type: string
     required: true
-secrets:
   sonar-token:
     type: string
     required: true
 
-description: Hello!
 jobs:
   using: "composite"
   steps:
@@ -55,4 +54,4 @@ jobs:
     - name: Send Coverage Report
       run: 
         dotnet tool run dotnet-sonarscanner end 
-        /d:sonar.token="${{ secrets.sonar-token }}"
+        /d:sonar.token="${{ inputs.sonar-token }}"

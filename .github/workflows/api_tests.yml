@@ -28,3 +28,6 @@ jobs:
     - uses: actions/checkout@v2
     # - uses: "./.github/workflows/api_test.yml"
     - uses: "./.github/actions/api-coverage-workflow"
+      with:
+        os: ${{ runner.os }}
+        sonar-token: ${{ secrets.SONAR_TOKEN }}
