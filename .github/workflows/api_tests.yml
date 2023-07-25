@@ -26,5 +26,5 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - uses: "./.github/workflows/api_test.yml"
-    - uses: "./.github/workflows/api_coverage_workflow.yml"
+    # - uses: "./.github/workflows/api_test.yml"
+    - uses: "./.github/actions/api-coverage-workflow"
