@@ -45,27 +45,5 @@ jobs:
           - 1450:1433
 
     steps:
-    - uses: actions/checkout@v2
-    
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v2
-      with:
-        dotnet-version: 6.0.x
-    
-    - name: Restore dependencies
-      run: dotnet restore
-          
-    - name: Run Tests
-      continue-on-error: true 
-      run: dotnet test 
-        --logger:"trx;logfilename=Results.xml" 
-        --configuration release
-  
-    - name: Publish Test Results
-      uses: EnricoMi/publish-unit-test-result-action/composite@v2
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        action_fail: true
-        files: "**/TestResults/Results.xml"
-    
-    - uses: "./.github/api_coverage_workflow"
+    - uses: "./.github/workflows/api_test"
+    - uses: "./.github/workflows/api_coverage_workflow"

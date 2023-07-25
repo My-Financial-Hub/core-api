@@ -1,4 +1,4 @@
-name: Python
+name: Api Coverage
 on:
   workflow_call:    
     inputs:
@@ -8,9 +8,6 @@ on:
       dotnet-version: 
         type: string
         default: 6.0.x
-    secrets:
-      AZURE_CREDENTIALS:
-        required: false
 
 jobs:
   code_analysis:

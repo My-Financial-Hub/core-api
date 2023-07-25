@@ -1,21 +1,22 @@
-name: "Test"
-
+name: Api Tests
 on:
-  workflow_call:
+  workflow_call:    
     inputs:
-      project-name:
+      dir:
         type: string
-        required: false
-        description: used to decide wich project will be tested
+        required: true
+      dotnet-version: 
+        type: string
+        default: 6.0.x
 
-jobs: 
+jobs:
   tests:
-    name: Test
+    name: Code Tests
     runs-on: ubuntu-latest
 
     defaults:
       run:
-        working-directory: ./src/FinancialHub/
+        working-directory: ${{ inputs.dir }}
 
     services:
       sql-database: 
@@ -25,14 +26,27 @@ jobs:
           ACCEPT_EULA: "Y"
         ports: 
           - 1450:1433
-
-    steps:
-    - uses: actions/checkout@v2
-
-    - name: Build
-      uses: "./.github/workflows/api_build.yml"
-      with:
-        project-name: default
     
-    - name: Test
-      run: dotnet test --no-build --verbosity normal  
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: 6.0.x
+      
+      - name: Restore dependencies
+        run: dotnet restore
+            
+      - name: Run Tests
+        continue-on-error: true 
+        run: dotnet test 
+          --logger:"trx;logfilename=Results.xml" 
+          --configuration release
+    
+      - name: Publish Test Results
+        uses: EnricoMi/publish-unit-test-result-action/composite@v2
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          action_fail: true
+          files: "**/TestResults/Results.xml"
