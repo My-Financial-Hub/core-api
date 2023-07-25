@@ -32,7 +32,7 @@ jobs:
         
     # - uses: "./.github/workflows/api_test.yml"
 
-    - uses: ${{ github.event.repository.owner }}/${{ github.event.repository.name }}/.github/actions/api-coverage-workflow
+    - uses: ./.github/actions/api-coverage-workflow
       with:
         os: ${{ runner.os }}
         sonar-token: ${{ secrets.SONAR_TOKEN }}
