@@ -27,7 +27,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - run : ls /home/runner/work/my-financial-hub-api/my-financial-hub-api/.github
+    - run : ls /home/runner/work/my-financial-hub-api/my-financial-hub-api/.github/workflows
 
     - uses: ./.github/workflows/api_coverage_workflow.yml
       with:
