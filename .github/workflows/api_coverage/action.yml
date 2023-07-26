@@ -5,15 +5,19 @@ on:
     inputs:
       dir:
         type: string
+        description: "..."
         required: true
       dotnet-version: 
         type: string
+        description: "..."
         default: 6.0.x
       os:
         type: string
+        description: "..."
         required: true
     secrets:
       token:
+        description: "..."
         required: true
 
 jobs:
