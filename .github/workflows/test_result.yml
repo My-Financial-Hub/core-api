@@ -30,14 +30,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v2
-        with:
-          dotnet-version: 6.0.x
-      
-      - name: Restore dependencies
-        run: dotnet restore
-            
+      - name: Setup Project
+        uses: ./.github/actions/build-dotnet-project
+        with: 
+          dir: ${{ inputs.dir }}
+          dotnet-version:  ${{ inputs.dotnet-version }}
+
       - name: Run Tests
         continue-on-error: true 
         run: dotnet test 
