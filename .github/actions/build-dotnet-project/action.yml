@@ -3,6 +3,8 @@ description: Hello!
 
 inputs:
   dotnet-version: 
+    description: 'Yay, dotnet version'
+    required: false
     type: string
     default: 6.0.x
 
