@@ -2,6 +2,10 @@ name: Build Dotnet Project
 description: Hello!
 
 inputs:
+  project-dir: 
+    description: 'Yay, project directory'
+    required: true
+    type: string
   dotnet-version: 
     description: 'Yay, dotnet version'
     required: false
@@ -17,6 +21,6 @@ runs:
         dotnet-version: 6.0.x
     
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet restore ${{ inputs.project-dir }}
       shell: bash
     
