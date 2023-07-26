@@ -16,8 +16,6 @@ jobs:
 
       - name: Get current merge
         run: echo "value=refs/pull/${{ github.event.pull_request.number }}/merge"	>> $GITHUB_OUTPUT
-        env:
-          BRANCH: ${{ github.event.pull_request.base.ref }}
         id: merge
 
       - name: Fetching list of cache key
