@@ -1,4 +1,4 @@
-name: Api Tests
+name: Api Test Result
 on:
   workflow_call:    
     inputs:
@@ -10,7 +10,7 @@ on:
         default: 6.0.x
 
 jobs:
-  tests:
+  test_results:
     name: Code Tests
     runs-on: ubuntu-latest
 

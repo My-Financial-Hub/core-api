@@ -13,8 +13,13 @@ on:
         default: 6.0.x
 
 jobs:
-  api-coverage:
-    uses: ./.github/workflows/api_coverage.yml
+  test-result:
+    uses: ./.github/workflows/ci/tests/test_result.yml
+    secrets: inherit
+    with:
+      dir: ${{ inputs.dir }}
+  coverage-report:
+    uses: ./.github/workflows/ci/tests/coverage_report.yml
     secrets: inherit
     with:
       dir: ${{ inputs.dir }}
