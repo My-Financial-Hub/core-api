@@ -33,10 +33,10 @@ jobs:
       with:
         script: |
           github.rest.git.createRef({
-            owner: ${{ github.repository_owner }},
-            repo: ${{ github.repository }},
+            owner: '${{ github.repository_owner }}',
+            repo: '${{ github.repository }}',
             ref: 'refs/tags/api/${{ steps.version.outputs.value }}',
-            sha: ${{ github.event.pull_request.head.sha }}
+            sha: '${{ github.event.pull_request.head.sha }}'
           })
 
     - name: Create release
