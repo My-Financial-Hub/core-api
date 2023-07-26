@@ -28,7 +28,7 @@ jobs:
     - uses: actions/checkout@v2
   
     - name: Api Coverage
-      uses: ./.github/workflows/api_coverage
+      uses: ./.github/workflows/api_tests_ci
       with:
         dir: ./src/FinancialHub/
         os: ${{ runner.os }}
