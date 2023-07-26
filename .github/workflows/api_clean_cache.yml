@@ -14,16 +14,15 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Set repos variables 
-        run: |
-          REPO=${{ github.repository }}
-          BRANCH="refs/pull/${{ github.event.pull_request.number }}/merge"
+      - name: Get current merge
+        run: echo "value=refs/pull/${{ github.event.pull_request.number }}/merge"	>> $GITHUB_OUTPUT
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: ${{ github.event.pull_request.base.ref }}
+        id: merge
 
       - name: Fetching list of cache key
         run: |
-          cacheKeysForPR=$(gh actions-cache list -R $REPO -B $BRANCH | cut -f 1 )
+          cacheKeysForPR=$(gh actions-cache list -R ${{ github.repository }} -B ${{ steps.merge.outputs.value }} | cut -f 1 )
           set +e
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}      
@@ -32,7 +31,7 @@ jobs:
         run: |
           for cacheKey in $cacheKeysForPR
           do
-            gh actions-cache delete $cacheKey -R $REPO -B $BRANCH --confirm
+            gh actions-cache delete $cacheKey -R ${{ github.repository }} -B ${{ steps.merge.outputs.value }} --confirm
           done
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
