@@ -22,7 +22,7 @@ on:
 
 jobs:
   test-results:
-    uses: ./.github/workflows/api_coverage
+    uses: ./.github/workflows/api_coverage.yml
     secrets: inherit
     with:
       os: ${{ inputs.os }}
