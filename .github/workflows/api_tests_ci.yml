@@ -1,0 +1,27 @@
+name: "API Tests & Analysis"
+
+on:
+  push:
+    branches: 
+      - 'main'
+    paths:
+      - 'src/FinancialHub/*' 
+      - 'src/FinancialHub/**'
+  pull_request:
+    branches: 
+      - 'main'
+      - 'release/**'
+    #paths:
+    #  - 'src/FinancialHub/*' 
+    #  - 'src/FinancialHub/**'
+
+permissions:
+  checks: write
+  pull-requests: write
+
+jobs: 
+  tests:
+    uses: ./.github/workflows/tests_ci.yml
+    with:
+      dir: ./src/FinancialHub/
+    secrets: inherit
