@@ -32,7 +32,5 @@ jobs:
       with:
         dir: ./src/FinancialHub/
         os: ${{ runner.os }}
-      secrets:
-        token: ${{ secrets.SONAR_TOKEN }}
         
     - uses: "./.github/workflows/api_test.yml"
