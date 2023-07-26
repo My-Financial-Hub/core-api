@@ -9,12 +9,6 @@ on:
       dotnet-version: 
         type: string
         default: 6.0.x
-      os:
-        type: string
-        required: true
-    secrets:
-      token:
-        required: true
 
 jobs:
   code_analysis:
@@ -60,7 +54,7 @@ jobs:
           dotnet tool run dotnet-sonarscanner begin 
           /k:"Chingling152_my-financial-hub" 
           /o:"chingling-152" 
-          /d:sonar.token="${{ secrets.token }}" 
+          /d:sonar.token="${{ secrets.SONAR_TOKEN }}" 
           /d:sonar.host.url="https://sonarcloud.io" 
           /d:sonar.coverage.exclusions="**/Migrations/." 
           /d:sonar.cs.opencover.reportsPaths="/TestResults/**/coverage.opencover.xml" 
@@ -80,5 +74,5 @@ jobs:
       - name: Send Coverage Report
         run: 
           dotnet tool run dotnet-sonarscanner end 
-          /d:sonar.token="${{ secrets.token }}"
+          /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
         

@@ -21,14 +21,7 @@ permissions:
 
 jobs: 
   tests:
-    name: Build & Test
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v2
-  
-    - name: Api Coverage
-      uses: ./.github/workflows/api_tests_ci
-      with:
-        dir: ./src/FinancialHub/
-        os: ${{ runner.os }}
+    uses: ./.github/workflows/api_tests_ci.yml
+    with:
+      dir: ./src/FinancialHub/
+    secrets: inherit

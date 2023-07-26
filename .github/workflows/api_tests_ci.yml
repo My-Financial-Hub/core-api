@@ -11,16 +11,14 @@ on:
         type: string
         description: "..."
         default: 6.0.x
-      os:
-        type: string
+    secrets:
+      token:
         description: "..."
         required: true
-    secrets:
 
 jobs:
   api-coverage:
     uses: ./.github/workflows/api_coverage.yml
     secrets: inherit
     with:
-      os: ${{ inputs.os }}
       dir: ${{ inputs.dir }}
