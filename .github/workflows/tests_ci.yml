@@ -19,6 +19,7 @@ jobs:
     with:
       dir: ${{ inputs.dir }}
   coverage-report:
+    needs: test-result
     uses: ./.github/workflows/coverage_report.yml
     secrets: inherit
     with:
