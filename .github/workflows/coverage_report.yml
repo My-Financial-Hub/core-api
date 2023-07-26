@@ -10,6 +10,9 @@ on:
         type: string
         default: 6.0.x
 
+permissions:
+  pull-requests: read
+
 jobs:
   code_analysis:
     name: Code coverage
@@ -36,7 +39,8 @@ jobs:
       - name: Setup Project
         uses: ./.github/actions/build-dotnet-project
         with: 
-          dotnet-version:  ${{ inputs.dotnet-version }}
+          project-dir: ${{ inputs.dir }}
+          dotnet-version: ${{ inputs.dotnet-version }}
 
       - name: Dotnet restore tools
         run: dotnet tool restore 

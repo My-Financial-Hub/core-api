@@ -16,11 +16,14 @@ jobs:
   test-result:
     uses: ./.github/workflows/test_result.yml
     secrets: inherit
-    with:
+    with: 
       dir: ${{ inputs.dir }}
+      dotnet-version: ${{ inputs.dotnet-version }}
+
   coverage-report:
     needs: test-result
     uses: ./.github/workflows/coverage_report.yml
     secrets: inherit
     with:
       dir: ${{ inputs.dir }}
+      dotnet-version: ${{ inputs.dotnet-version }}
