@@ -2,28 +2,37 @@ name: cleanup caches by branch
 on:
   pull_request:
     types:
+      - synchronize
       - closed
 
 jobs:
   cleanup:
     runs-on: ubuntu-latest
     steps:       
-      - name: Cleanup
+      - name: Install Github Action Cache Manager
+        run: gh extension install actions/gh-actions-cache
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set repos variables 
         run: |
-          gh extension install actions/gh-actions-cache
-          
           REPO=${{ github.repository }}
           BRANCH="refs/pull/${{ github.event.pull_request.number }}/merge"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-          echo "Fetching list of cache key"
+      - name: Fetching list of cache key
+        run: |
           cacheKeysForPR=$(gh actions-cache list -R $REPO -B $BRANCH | cut -f 1 )
-
           set +e
-          echo "Deleting caches..."
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}      
+  
+      - name: Deleting caches
+        run: |
           for cacheKey in $cacheKeysForPR
           do
             gh actions-cache delete $cacheKey -R $REPO -B $BRANCH --confirm
           done
-          echo "Done"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
