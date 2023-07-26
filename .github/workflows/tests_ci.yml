@@ -14,12 +14,12 @@ on:
 
 jobs:
   test-result:
-    uses: ./.github/workflows/ci/tests/test_result.yml
+    uses: ./.github/workflows/test_result.yml
     secrets: inherit
     with:
       dir: ${{ inputs.dir }}
   coverage-report:
-    uses: ./.github/workflows/ci/tests/coverage_report.yml
+    uses: ./.github/workflows/coverage_report.yml
     secrets: inherit
     with:
       dir: ${{ inputs.dir }}

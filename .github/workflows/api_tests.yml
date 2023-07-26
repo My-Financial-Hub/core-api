@@ -21,7 +21,7 @@ permissions:
 
 jobs: 
   tests:
-    uses: ./.github/workflows/ci/tests/tests_ci.yml
+    uses: ./.github/workflows/tests_ci.yml
     with:
       dir: ./src/FinancialHub/
     secrets: inherit
