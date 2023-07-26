@@ -22,20 +22,11 @@ on:
 
 jobs:
   test-results:
-    services:
-      sql-database: 
-        image: mcr.microsoft.com/mssql/server:2019-latest    
-        env: 
-          SA_PASSWORD: "P@ssw0rd!"
-          ACCEPT_EULA: "Y"
-        ports: 
-          - 1450:1433
-    steps:
-      uses: ./.github/workflows/api_coverage
-      secrets: inherit
-      with:
-        os: ${{ inputs.os }}
-        dir: ${{ inputs.dir }}
+    uses: ./.github/workflows/api_coverage
+    secrets: inherit
+    with:
+      os: ${{ inputs.os }}
+      dir: ${{ inputs.dir }}
 
-      uses: ./.github/workflows/api_coverage
-      secrets: inherit
+    uses: ./.github/workflows/api_coverage
+    secrets: inherit
