@@ -11,10 +11,6 @@ on:
         type: string
         description: "..."
         default: 6.0.x
-    secrets:
-      token:
-        description: "..."
-        required: true
 
 jobs:
   api-coverage:
