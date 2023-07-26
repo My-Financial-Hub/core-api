@@ -1,0 +1,19 @@
+name: Build Dotnet Project
+description: Hello!
+
+inputs:
+  dotnet-version: 
+    type: string
+    default: 6.0.x
+
+jobs:
+  using: "composite"
+  steps:
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: ${{ inputs.dotnet-version }}
+    
+    - name: Restore dependencies
+      run: dotnet restore
+    
