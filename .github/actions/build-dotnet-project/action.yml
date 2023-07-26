@@ -8,13 +8,9 @@ inputs:
     type: string
     default: 6.0.x
 
-jobs:
+runs:
   using: "composite"
-  steps:
-    - name: dotnet version
-      run: echo dotnet version 6.0.x
-      shell: bash
-    
+  steps:    
     - name: Setup .NET
       uses: actions/setup-dotnet@v2
       with:
@@ -22,5 +18,4 @@ jobs:
     
     - name: Restore dependencies
       run: dotnet restore
-      shell: bash
     
