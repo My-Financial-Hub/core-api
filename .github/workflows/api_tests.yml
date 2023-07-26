@@ -27,7 +27,8 @@ jobs:
     steps:
     - uses: actions/checkout@v2
   
-    - uses: Chingling152/my-financial-hub-api/.github/workflows/api_coverage.yml@feature/api-flow
+    - name: Api Coverage
+      uses: Chingling152/my-financial-hub-api/api_coverage@feature/api-flow
       with:
         dir: ./src/FinancialHub/
         os: ${{ runner.os }}
