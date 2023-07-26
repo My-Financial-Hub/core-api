@@ -22,15 +22,11 @@ jobs:
       with:
         fetch-depth: 0
 
-    - name: Test 4
-      run: echo "${{ github.event.pull_request.base.ref }} ${{ github.event.pull_request.head.ref }}"
-      shell: bash
-
     - name: Get version
+      run: echo "value=${BRANCH##*/}"	>> $GITHUB_OUTPUT
       env:
         BRANCH: ${{ github.event.pull_request.base.ref }}
       id: version
-      run: echo "value=${BRANCH##*/}"	>> $GITHUB_OUTPUT
 
     # - name: Create Release
     #   id: create_release
