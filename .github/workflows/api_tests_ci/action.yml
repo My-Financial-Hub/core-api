@@ -21,12 +21,9 @@ on:
         required: true
 
 jobs:
-  test-results:
+  api-coverage:
     uses: ./.github/workflows/api_coverage.yml
     secrets: inherit
     with:
       os: ${{ inputs.os }}
       dir: ${{ inputs.dir }}
-
-    uses: ./.github/workflows/api_coverage
-    secrets: inherit
