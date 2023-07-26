@@ -36,7 +36,6 @@ jobs:
       - name: Setup Project
         uses: ./.github/actions/build-dotnet-project
         with: 
-          dir: ${{ inputs.dir }}
           dotnet-version:  ${{ inputs.dotnet-version }}
 
       - name: Dotnet restore tools

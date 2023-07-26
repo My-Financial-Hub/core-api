@@ -33,8 +33,7 @@ jobs:
       - name: Setup Project
         uses: ./.github/actions/build-dotnet-project
         with: 
-          dir: ${{ inputs.dir }}
-          dotnet-version:  ${{ inputs.dotnet-version }}
+          dotnet-version: ${{ inputs.dotnet-version }}
 
       - name: Run Tests
         continue-on-error: true 

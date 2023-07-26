@@ -11,6 +11,9 @@ inputs:
 jobs:
   using: "composite"
   steps:
+    - name: dotnet version
+      run: echo dotnet version 6.0.x
+
     - name: Setup .NET
       uses: actions/setup-dotnet@v2
       with:
