@@ -27,7 +27,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
   
-    - uses: ./.github/workflows/api_coverage
+    - uses: ./.github/workflows/api_coverage.yml
       with:
         token: ${{ secrets.SONAR_TOKEN }}
         dir: ./src/FinancialHub/
