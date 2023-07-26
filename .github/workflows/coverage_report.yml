@@ -33,7 +33,10 @@ jobs:
         with:
           fetch-depth: 0
       
-      - name: Restore Dotnet tests
+      - name: Dotnet restore
+        run: dotnet restore 
+
+      - name: Dotnet restore tools
         run: dotnet tool restore 
 
       - name: Cache SonarCloud packages
