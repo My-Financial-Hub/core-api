@@ -39,7 +39,7 @@ jobs:
             sha: ${{ github.event.pull_request.head.sha }}
           })
 
-    - name: Create Release
+    - name: Create release
       id: create_release
       uses: actions/create-release@v1
       env:
