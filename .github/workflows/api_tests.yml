@@ -29,7 +29,6 @@ jobs:
   
     - name: Api Coverage
       uses: ./.github/workflows/api_tests_ci
-      secrets: inherit
       with:
         dir: ./src/FinancialHub/
         os: ${{ runner.os }}
