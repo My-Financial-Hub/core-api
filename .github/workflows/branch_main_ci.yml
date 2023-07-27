@@ -4,6 +4,7 @@ on:
   push:
     branches: 
       - 'main'
+      - 'fix/**'
     paths:
       - 'src/FinancialHub/*' 
       - 'src/FinancialHub/**'
