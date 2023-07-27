@@ -2,7 +2,6 @@ name: Cleanup caches by branch
 on:
   pull_request:
     types:
-      - synchronize
       - closed
 
 jobs:
