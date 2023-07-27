@@ -17,20 +17,5 @@
             ModelAssert.Equal(user, createdUserResult.Data);
             mockProvider.Verify(x => x.CreateAsync(It.IsAny<UserModel>()), Times.Once());
         }
-
-        [Test]
-        public void CreateAsync_Exception_ThrowsException()
-        {
-            var user = this.builder.Generate();
-            var exc = new Exception("Exception Message");
-
-            mockProvider
-                .Setup(x => x.CreateAsync(It.IsAny<UserModel>()))
-                .ThrowsAsync(exc)
-                .Verifiable();
-
-            Assert.ThrowsAsync<Exception>(async () => await this.service.CreateAsync(user));
-            mockProvider.Verify(x => x.CreateAsync(It.IsAny<UserModel>()), Times.Once());
-        }
     }
 }

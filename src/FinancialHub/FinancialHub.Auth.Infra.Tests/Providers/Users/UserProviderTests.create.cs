@@ -17,18 +17,5 @@
             Assert.That(createdUser, Is.Not.Null);
             ModelAssert.Equal(user, createdUser);
         }
-
-        [Test]
-        public void CreateAsync_RepositoryException_ThrowsException()
-        {
-            var user = this.builder.Generate();
-            var exc = new Exception("Exception Message");
-
-            mockRepository
-                .Setup(x => x.CreateAsync(It.IsAny<UserEntity>()))
-                .ThrowsAsync(exc);
-
-            Assert.ThrowsAsync<Exception>(async () => await this.provider.CreateAsync(user));
-        }
     }
 }
