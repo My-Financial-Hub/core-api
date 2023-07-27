@@ -4,10 +4,9 @@ on:
   push:
     branches: 
       - 'main'
-      - 'fix/**'
-    #paths:
-    #  - 'src/FinancialHub/*' 
-    #  - 'src/FinancialHub/**'
+    paths:
+      - 'src/FinancialHub/*' 
+      - 'src/FinancialHub/**'
   pull_request:
     branches: 
       - 'main'
