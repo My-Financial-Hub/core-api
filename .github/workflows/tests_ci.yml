@@ -1,29 +1,27 @@
-name: Api Tests CI
+name: "API Tests & Analysis"
 
 on:
-  workflow_call:    
-    inputs:
-      dir:
-        type: string
-        description: "..."
-        required: true
-      dotnet-version: 
-        type: string
-        description: "..."
-        default: 6.0.x
+  push:
+    branches: 
+      - 'main'
+    paths:
+      - 'src/FinancialHub/*' 
+      - 'src/FinancialHub/**'
+  pull_request:
+    branches: 
+      - 'main'
+      - 'release/**'
+    paths:
+      - 'src/FinancialHub/*' 
+      - 'src/FinancialHub/**'
 
-jobs:
-  test-result:
-    uses: ./.github/workflows/test_result.yml
-    secrets: inherit
-    with: 
-      dir: ${{ inputs.dir }}
-      dotnet-version: ${{ inputs.dotnet-version }}
+permissions:
+  checks: write
+  pull-requests: write
 
-  coverage-report:
-    needs: test-result
-    uses: ./.github/workflows/coverage_report.yml
-    secrets: inherit
+jobs: 
+  tests:
+    uses: ./.github/workflows/tests_workflow.yml
     with:
-      dir: ${{ inputs.dir }}
-      dotnet-version: ${{ inputs.dotnet-version }}
+      dir: ./src/FinancialHub/
+    secrets: inherit
