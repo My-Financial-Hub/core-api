@@ -1,0 +1,60 @@
+name: "API Release"
+
+on:
+  workflow_dispatch:
+  pull_request:
+    types:
+      - closed
+    branches: 
+      - 'release/**'
+
+jobs:
+  releases:
+    name: Release
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+
+    - name: Get version
+      run: echo "value=${BRANCH##*/}"	>> $GITHUB_OUTPUT
+      env:
+        BRANCH: ${{ github.event.pull_request.base.ref }}
+      id: version
+
+    - name: Create tag
+      uses: actions/github-script@v5
+      with:
+        script: |
+          github.rest.git.createRef({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            ref: 'refs/tags/api/${{ steps.version.outputs.value }}',
+            sha: context.sha
+          })
+
+    - name: Create release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: api/${{ steps.version.outputs.value }}
+        release_name: Release ${{ steps.version.outputs.value }}
+        body: Hello World
+        draft: true
+        prerelease: true
+
+    # TODO: zip
+    #- name: Upload Release Asset 
+    #  id: upload-release-asset 
+    #  uses: actions/upload-release-asset@v1
+    #  env:
+    #    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    #  with:
+    #    upload_url: ${{ steps.create_release.outputs.upload_url }} 
+    #    asset_path: ./my-artifact.zip
+    #    asset_name: my-artifact.zip
+    #    asset_content_type: application/zip
