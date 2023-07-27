@@ -1,0 +1,29 @@
+name: Api Tests CI
+
+on:
+  workflow_call:    
+    inputs:
+      dir:
+        type: string
+        description: "..."
+        required: true
+      dotnet-version: 
+        type: string
+        description: "..."
+        default: 6.0.x
+
+jobs:
+  test-result:
+    uses: ./.github/workflows/test_result.yml
+    secrets: inherit
+    with: 
+      dir: ${{ inputs.dir }}
+      dotnet-version: ${{ inputs.dotnet-version }}
+
+  coverage-report:
+    needs: test-result
+    uses: ./.github/workflows/coverage_report.yml
+    secrets: inherit
+    with:
+      dir: ${{ inputs.dir }}
+      dotnet-version: ${{ inputs.dotnet-version }}

@@ -1,0 +1,113 @@
+name: "API Basic Workflow"
+
+on:
+  push:
+    branches: 
+      - 'main'
+    paths:
+      - 'src/FinancialHub/*' 
+      - 'src/FinancialHub/**'
+  pull_request:
+    branches: 
+      - 'main'
+      - 'release/**'
+    #paths:
+    #  - 'src/FinancialHub/*' 
+    #  - 'src/FinancialHub/**'
+
+
+env:
+  project-dir: ./src/FinancialHub/
+  project-tests-dir: ./src/FinancialHub/ # for now it has no distiction
+  project-tests-results-dir: ./src/FinancialHub/TestResult # for now it has no distiction
+
+permissions:
+  checks: write
+  pull-requests: write
+
+jobs: 
+  tests:
+    name: Build & Test
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: ${{ env.project-dir }}
+
+    services:
+      sql-database: 
+        image: mcr.microsoft.com/mssql/server:2019-latest    
+        env: 
+          SA_PASSWORD: "P@ssw0rd!"
+          ACCEPT_EULA: "Y"
+        ports: 
+          - 1450:1433
+
+    steps:
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: 6.0.x
+        
+    - uses: actions/checkout@v2
+    
+    - name: Restore dependencies
+      run: dotnet restore
+          
+    - name: Run Tests
+      continue-on-error: true 
+      run: dotnet test 
+        --logger:"trx;logfilename=Results.xml" 
+        --configuration release
+  
+    - name: Publish Test Results
+      uses: EnricoMi/publish-unit-test-result-action/composite@v2
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        action_fail: true
+        files: "**/TestResults/Results.xml"
+
+    - name: Restore Dotnet tests
+      run: dotnet tool restore 
+
+    - name: Cache SonarCloud packages
+      uses: actions/cache@v1
+      with:
+        path: ~\sonar\cache
+        key: ${{ runner.os }}-sonar
+        restore-keys: ${{ runner.os }}-sonar
+      
+    - name: Cache SonarCloud scanner
+      id: cache-sonar-scanner
+      uses: actions/cache@v1
+      with:
+        path: .\.sonar\scanner
+        key: ${{ runner.os }}-sonar-scanner
+        restore-keys: ${{ runner.os }}-sonar-scanner    
+
+    - name: Begin Coverage Report
+      run: 
+        dotnet tool run dotnet-sonarscanner begin 
+        /k:"Chingling152_my-financial-hub" 
+        /o:"chingling-152" 
+        /d:sonar.token="${{ secrets.SONAR_TOKEN }}" 
+        /d:sonar.host.url="https://sonarcloud.io" 
+        /d:sonar.coverage.exclusions="**/Migrations/." 
+        /d:sonar.cs.opencover.reportsPaths="/TestResults/**/coverage.opencover.xml" 
+    
+    - name: Build Project
+      run: dotnet build 
+        --configuration Release 
+        --no-restore
+
+    - name: Run Coverage Report
+      continue-on-error: true 
+      run: dotnet test 
+        --collect:"XPlat Code Coverage;Format=opencover" 
+        --results-directory TestResults/ 
+        --configuration Release 
+
+    - name: Send Coverage Report
+      run: 
+        dotnet tool run dotnet-sonarscanner end 
+        /d:sonar.token="${{ secrets.SONAR_TOKEN }}"

@@ -1,0 +1,26 @@
+name: Build Dotnet Project
+description: Hello!
+
+inputs:
+  project-dir: 
+    description: 'Yay, project directory'
+    required: true
+    type: string
+  dotnet-version: 
+    description: 'Yay, dotnet version'
+    required: false
+    type: string
+    default: 6.0.x
+
+runs:
+  using: "composite"
+  steps:    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: ${{ inputs.dotnet-version }}
+    
+    - name: Restore dependencies
+      run: dotnet restore ${{ inputs.project-dir }}
+      shell: bash
+    
