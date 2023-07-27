@@ -4,13 +4,9 @@ on:
   workflow_dispatch:
   pull_request:
     types:
-      - synchronize
       - closed
     branches: 
       - 'release/**'
-    #paths:
-    #  - 'src/FinancialHub/*' 
-    #  - 'src/FinancialHub/**'
 
 jobs:
   releases:
@@ -51,7 +47,8 @@ jobs:
         draft: true
         prerelease: true
 
-    #- name: Upload Release Asset
+    # TODO: zip
+    #- name: Upload Release Asset 
     #  id: upload-release-asset 
     #  uses: actions/upload-release-asset@v1
     #  env:
