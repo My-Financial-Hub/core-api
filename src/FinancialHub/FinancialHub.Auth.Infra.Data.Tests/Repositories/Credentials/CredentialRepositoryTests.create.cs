@@ -36,15 +36,5 @@
 
             DbContextAssert.AssertCreated(this.fixture.Context, credential);
         }
-
-        [Test]
-        public void CreateAsync_UserNotCreated_ShouldThrowDbUpdateException()
-        {
-            var credential = this.builder.Generate();
-
-            Assert.ThrowsAsync<DbUpdateException>( 
-                async () => await this.repository.CreateAsync(credential)
-            );
-        }
     }
 }

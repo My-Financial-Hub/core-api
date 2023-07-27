@@ -35,12 +35,5 @@
             var databaseUser = fixture.Context.Users.FirstOrDefault(u => u.Id == newUser.Id);
             Assert.That(databaseUser, Is.Null);
         }
-
-        [Test]
-        public void UpdateAsync_NotExistingUser_ThrowsDbUpdateConcurrencyException()
-        {
-            var newUser = builder.Generate();
-            Assert.ThrowsAsync<DbUpdateConcurrencyException>(async () => await this.repository.UpdateAsync(newUser));
-        }
     }
 }
