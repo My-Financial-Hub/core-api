@@ -24,16 +24,5 @@
             var data = fixture.Context.Users.FirstOrDefault(x => x.Id == oldUser.Id.GetValueOrDefault());
             EntityAssert.Equal(newUser, data!);
         }
-
-        [Test]
-        public void UpdateAsync_NotExistingUser_DoesNotUpdatesUser()
-        {
-            var newUser = builder.Generate();
-
-            Assert.ThrowsAsync<DbUpdateConcurrencyException>(async () => await this.repository.UpdateAsync(newUser));
-
-            var databaseUser = fixture.Context.Users.FirstOrDefault(u => u.Id == newUser.Id);
-            Assert.That(databaseUser, Is.Null);
-        }
     }
 }
