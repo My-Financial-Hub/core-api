@@ -14,7 +14,7 @@ on:
 
 jobs:
   test-result:
-    uses: ./.github/workflows/test_result.yml
+    uses: ./.github/workflows/tests/test_result.yml
     secrets: inherit
     with: 
       dir: ${{ inputs.dir }}
@@ -22,7 +22,7 @@ jobs:
 
   coverage-report:
     needs: test-result
-    uses: ./.github/workflows/coverage_report.yml
+    uses: ./.github/workflows/tests/coverage_report.yml
     secrets: inherit
     with:
       dir: ${{ inputs.dir }}
