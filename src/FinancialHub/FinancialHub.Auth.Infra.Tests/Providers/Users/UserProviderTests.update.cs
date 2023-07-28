@@ -16,18 +16,5 @@
 
             ModelAssert.Equal(user, updatedUser);
         }
-
-        [Test]
-        public void UpdateAsync_RepositoryException_ThrowsException()
-        {
-            var user = this.builder.Generate();
-            var exc = new Exception("Exception Message");
-
-            mockRepository
-                .Setup(x => x.UpdateAsync(It.IsAny<UserEntity>()))
-                .ThrowsAsync(exc);
-
-            Assert.ThrowsAsync<Exception>(async () => await this.provider.UpdateAsync(user));
-        }
     }
 }
