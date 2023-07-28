@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using FinancialHub.Auth.Services.Extensions;
+using FinancialHub.Auth.Application.Extensions;
 using FinancialHub.Auth.Resources.Extensions;
 using FinancialHub.Auth.Infra.Extensions;
 using FinancialHub.Auth.Infra.Data.Extensions;

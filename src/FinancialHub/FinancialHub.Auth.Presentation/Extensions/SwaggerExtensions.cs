@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
-using FinancialHub.Auth.Services.Extensions;
+using FinancialHub.Auth.Application.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 

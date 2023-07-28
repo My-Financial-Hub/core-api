@@ -14,11 +14,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\FinancialHub.Auth.Application\FinancialHub.Auth.Application.csproj" />
     <ProjectReference Include="..\FinancialHub.Auth.Domain\FinancialHub.Auth.Domain.csproj" />
     <ProjectReference Include="..\FinancialHub.Auth.Infra.Data\FinancialHub.Auth.Infra.Data.csproj" />
     <ProjectReference Include="..\FinancialHub.Auth.Infra\FinancialHub.Auth.Infra.csproj" />
     <ProjectReference Include="..\FinancialHub.Auth.Resources\FinancialHub.Auth.Resources.csproj" />
-    <ProjectReference Include="..\FinancialHub.Auth.Services\FinancialHub.Auth.Services.csproj" />
   </ItemGroup>
 
 </Project>
