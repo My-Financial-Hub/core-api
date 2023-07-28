@@ -1,4 +1,4 @@
-using FinancialHub.Auth.Application.Extensions;
+using FinancialHub.Auth.Presentation.Extensions;
 using System.Diagnostics.CodeAnalysis;
 
 namespace FinancialHub.Auth.WebApi;

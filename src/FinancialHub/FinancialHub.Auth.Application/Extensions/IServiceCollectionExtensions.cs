@@ -1,21 +1,43 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using FinancialHub.Auth.Application.Services;
+using FinancialHub.Auth.Application.Validators;
+using FluentValidation;
+using FluentValidation.AspNetCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using FinancialHub.Auth.Services.Extensions;
-using FinancialHub.Auth.Resources.Extensions;
-using FinancialHub.Auth.Infra.Extensions;
-using FinancialHub.Auth.Infra.Data.Extensions;
+using System.Diagnostics.CodeAnalysis;
 
 namespace FinancialHub.Auth.Application.Extensions
 {
-    public static class IServiceCollectionExtensions
+    [ExcludeFromCodeCoverage]
+    public static partial class IServiceCollectionExtensions
     {
-        public static IServiceCollection AddAuthApplication(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddAuthServices(this IServiceCollection services, IConfiguration configuration)
         {
-            services
-                .AddAuthServices(configuration)
-                .AddAuthResources()
-                .AddAuthProviders(configuration)
-                .AddAuthRepositories(configuration);
+            services.AddAuthServices();
+
+            services.AddAuthentication(configuration);
+
+            services.AddAuthValidators();
+
+            return services;
+        }
+
+        private static IServiceCollection AddAuthServices(this IServiceCollection services)
+        {
+            services.AddScoped<IUserService, UserService>();
+
+            return services;
+        }
+
+        private static IServiceCollection AddAuthValidators(this IServiceCollection services)
+        {
+            services.AddFluentValidation(x =>
+            {
+                x.AutomaticValidationEnabled = true;
+                x.DisableDataAnnotationsValidation = true;
+                x.ValidatorOptions.DefaultRuleLevelCascadeMode = CascadeMode.Stop;
+            });
+            services.AddScoped<IValidator<UserModel>, UserValidator>();
 
             return services;
         }
