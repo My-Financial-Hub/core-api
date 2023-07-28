@@ -5,8 +5,8 @@ on:
     branches: 
       - 'release/**'
     paths:
-      - 'src/FinancialHub/*' 
-      - 'src/FinancialHub/**'
+      - 'src/api/*' 
+      - 'src/api/**'
 
 permissions:
   checks: write
@@ -16,5 +16,5 @@ jobs:
   tests:
     uses: ./.github/workflows/tests_workflow.yml
     with:
-      dir: ./src/FinancialHub/
+      dir: ./src/api/
     secrets: inherit
