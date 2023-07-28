@@ -1,6 +1,6 @@
-﻿using FinancialHub.Auth.Application.Tests.Asserts;
+﻿using FinancialHub.Auth.Presentation.Tests.Asserts;
 
-namespace FinancialHub.Auth.Application.Tests.Controllers
+namespace FinancialHub.Auth.Presentation.Tests.Controllers
 {
     public partial class SigninControllerTests
     {

@@ -5,7 +5,7 @@ using FinancialHub.Auth.Resources.Extensions;
 using FinancialHub.Auth.Infra.Extensions;
 using FinancialHub.Auth.Infra.Data.Extensions;
 
-namespace FinancialHub.Auth.Application.Extensions
+namespace FinancialHub.Auth.Presentation.Extensions
 {
     public static class IServiceCollectionExtensions
     {

@@ -16,4 +16,4 @@ global using FinancialHub.Domain.Results.Errors;
 global using FinancialHub.Domain.Responses.Success;
 global using FinancialHub.Domain.Responses.Errors;
 
-global using FinancialHub.Auth.Application.Controllers;
+global using FinancialHub.Auth.Presentation.Controllers;

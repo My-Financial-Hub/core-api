@@ -1,4 +1,4 @@
-﻿namespace FinancialHub.Auth.Application.Tests.Asserts
+﻿namespace FinancialHub.Auth.Presentation.Tests.Asserts
 {
     public static class ControllerResponseAssert
     {

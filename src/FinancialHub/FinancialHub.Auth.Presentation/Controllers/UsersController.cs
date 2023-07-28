@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 
-namespace FinancialHub.Auth.Application.Controllers
+namespace FinancialHub.Auth.Presentation.Controllers
 {
     [Authorize]
     [ApiController]

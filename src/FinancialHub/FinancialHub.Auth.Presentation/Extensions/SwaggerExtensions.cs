@@ -4,7 +4,7 @@ using FinancialHub.Auth.Services.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 
-namespace FinancialHub.Auth.Application.Extensions
+namespace FinancialHub.Auth.Presentation.Extensions
 {
     [ExcludeFromCodeCoverage]
     public static class SwaggerExtensions

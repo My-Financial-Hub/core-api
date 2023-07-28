@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-namespace FinancialHub.Auth.Application.Tests.Controllers
+namespace FinancialHub.Auth.Presentation.Tests.Controllers
 {
     public partial class UsersControllerTests
     {
