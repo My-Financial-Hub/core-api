@@ -1,10 +1,10 @@
-﻿using FinancialHub.Domain.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using FinancialHub.Domain.Results;
+using FinancialHub.Common.Results;
+using FinancialHub.Domain.Models;
 
-namespace FinancialHub.Domain.Interfaces.Services
+namespace FinancialHub.Common.Interfaces.Services
 {
     public interface IAccountsService 
     {

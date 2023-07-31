@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using FinancialHub.Common.Results;
 using FinancialHub.Domain.Models;
-using FinancialHub.Domain.Results;
 
 namespace FinancialHub.Domain.Interfaces.Services
 {
