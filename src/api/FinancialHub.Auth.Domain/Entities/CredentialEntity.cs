@@ -1,4 +1,6 @@
-﻿namespace FinancialHub.Auth.Domain.Entities
+﻿using FinancialHub.Common.Entities;
+
+namespace FinancialHub.Auth.Domain.Entities
 {
     public class CredentialEntity : BaseEntity
     {

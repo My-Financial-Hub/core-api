@@ -1,4 +1,5 @@
-﻿using FinancialHub.Auth.Domain.Models;
+﻿using FinancialHub.Common.Results;
+using FinancialHub.Auth.Domain.Models;
 
 namespace FinancialHub.Auth.Domain.Interfaces.Services
 {

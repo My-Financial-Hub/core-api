@@ -1,4 +1,4 @@
-﻿using FinancialHub.Domain.Entities;
+﻿using FinancialHub.Common.Entities;
 
 namespace FinancialHub.Auth.Domain.Entities
 {
