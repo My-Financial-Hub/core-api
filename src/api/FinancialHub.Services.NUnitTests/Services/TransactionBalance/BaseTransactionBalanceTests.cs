@@ -1,9 +1,5 @@
 ﻿using FinancialHub.Domain.Interfaces.Services;
-using FinancialHub.Domain.Tests.Builders.Models;
 using FinancialHub.Services.Services;
-using Moq;
-using NUnit.Framework;
-using System;
 
 namespace FinancialHub.Services.NUnitTests.Services.TransactionBalance
 {

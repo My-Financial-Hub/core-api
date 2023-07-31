@@ -1,11 +1,4 @@
-﻿using Moq;
-using NUnit.Framework;
-using System.Threading.Tasks;
-using FinancialHub.Common.Results;
-using FinancialHub.Domain.Models;
-using FinancialHub.Common.Results.Errors;
-
-namespace FinancialHub.Services.NUnitTests.Services
+﻿namespace FinancialHub.Services.NUnitTests.Services
 {
     public partial class AccountBalanceServiceTests
     {
@@ -27,7 +20,7 @@ namespace FinancialHub.Services.NUnitTests.Services
                 )
                 .Verifiable();
 
-            var result = await this.service.CreateAsync(account);
+            await this.service.CreateAsync(account);
 
             this.accountsService.Verify(x => x.CreateAsync(account),Times.Once);
         }
@@ -50,7 +43,7 @@ namespace FinancialHub.Services.NUnitTests.Services
                 )
                 .Verifiable();
 
-            var result = await this.service.CreateAsync(account);
+            await this.service.CreateAsync(account);
             this.balanceService.Verify(x => x.CreateAsync(It.IsAny<BalanceModel>()), Times.Once);
         }
 
@@ -75,7 +68,7 @@ namespace FinancialHub.Services.NUnitTests.Services
             var result = await this.service.CreateAsync(account);
 
             Assert.IsFalse(result.HasError);
-            Assert.AreEqual(account.Name,result.Data.Name);
+            Assert.AreEqual(account.Name,result.Data!.Name);
             Assert.AreEqual(account.Description,result.Data.Description);
             Assert.AreEqual(account.IsActive,result.Data.IsActive);
         }
@@ -98,7 +91,7 @@ namespace FinancialHub.Services.NUnitTests.Services
             var result = await this.service.CreateAsync(account);
 
             Assert.IsTrue(result.HasError);
-            Assert.AreEqual(error.Message, result.Error.Message);
+            Assert.AreEqual(error.Message, result.Error!.Message);
         }
 
         [Test]
@@ -123,7 +116,7 @@ namespace FinancialHub.Services.NUnitTests.Services
             var result = await this.service.CreateAsync(account);
 
             Assert.IsTrue(result.HasError);
-            Assert.AreEqual(error.Message, result.Error.Message);
+            Assert.AreEqual(error.Message, result.Error!.Message);
         }
     }
 }

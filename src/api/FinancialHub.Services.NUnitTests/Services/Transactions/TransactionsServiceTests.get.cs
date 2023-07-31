@@ -1,12 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using Moq;
-using NUnit.Framework;
-using FinancialHub.Common.Results;
-using FinancialHub.Domain.Models;
-using FinancialHub.Domain.Entities;
+﻿using System.Linq;
 using FinancialHub.Domain.Filters;
 using FinancialHub.Domain.Queries;
 
