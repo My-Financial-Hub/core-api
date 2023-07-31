@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace FinancialHub.Core.Common.Responses.Success
+namespace FinancialHub.Common.Responses.Success
 {
     public class PaginatedListResponse<T> : BaseResponse<IEnumerable<T>> 
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FinancialHub.Core.Common.Results.Errors
+namespace FinancialHub.Common.Results.Errors
 {
     public class InvalidDataError : ServiceError
     {

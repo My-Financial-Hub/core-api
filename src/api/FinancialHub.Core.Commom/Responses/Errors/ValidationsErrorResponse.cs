@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace FinancialHub.Core.Common.Responses.Errors
+namespace FinancialHub.Common.Responses.Errors
 {
     public class ValidationsErrorResponse : BaseErrorResponse
     {

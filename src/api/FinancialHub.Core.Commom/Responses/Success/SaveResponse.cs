@@ -1,4 +1,4 @@
-﻿namespace FinancialHub.Core.Common.Responses.Success
+﻿namespace FinancialHub.Common.Responses.Success
 {
     public class SaveResponse<T> : BaseResponse<T>
     {

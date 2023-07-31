@@ -73,9 +73,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinancialHub.Auth.Applicati
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinancialHub.Auth.Application.Tests", "FinancialHub.Auth.Application.Tests\FinancialHub.Auth.Application.Tests.csproj", "{22448D38-BA25-4FAE-9337-BEA884C7EC57}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Commom", "Commom", "{B00013E6-DB9F-415A-B542-6D32DA258EB2}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{B00013E6-DB9F-415A-B542-6D32DA258EB2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinancialHub.Core.Common", "FinancialHub.Core.Commom\FinancialHub.Core.Common.csproj", "{D2955290-10DE-4F87-AFDE-DD16605CDBDC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinancialHub.Common", "FinancialHub.Core.Commom\FinancialHub.Common.csproj", "{D2955290-10DE-4F87-AFDE-DD16605CDBDC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -214,7 +214,6 @@ Global
 		{F6C7E760-0264-425B-A935-35C19701B428} = {421DB63D-B9E6-4069-8B79-6C956506F3C5}
 		{C36391AC-AC61-4165-9C00-0B2B4ED78C8D} = {1488D2AC-39E7-414A-9B0A-344EBDA0E4E9}
 		{22448D38-BA25-4FAE-9337-BEA884C7EC57} = {1488D2AC-39E7-414A-9B0A-344EBDA0E4E9}
-		{B00013E6-DB9F-415A-B542-6D32DA258EB2} = {93E5303C-66C1-4BF6-8823-6CBA9C3751BE}
 		{D2955290-10DE-4F87-AFDE-DD16605CDBDC} = {B00013E6-DB9F-415A-B542-6D32DA258EB2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution

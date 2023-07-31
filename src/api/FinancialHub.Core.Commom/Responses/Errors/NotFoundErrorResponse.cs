@@ -1,4 +1,4 @@
-﻿namespace FinancialHub.Core.Common.Responses.Errors
+﻿namespace FinancialHub.Common.Responses.Errors
 {
     public class NotFoundErrorResponse : BaseErrorResponse
     {

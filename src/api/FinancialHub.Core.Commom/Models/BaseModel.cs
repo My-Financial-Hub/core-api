@@ -1,4 +1,4 @@
-﻿namespace FinancialHub.Core.Common.Models
+﻿namespace FinancialHub.Common.Models
 {
     public abstract class BaseModel
     {
