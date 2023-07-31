@@ -11,6 +11,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\FinancialHub.Core.Commom\FinancialHub.Common.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Update="Resources\FinancialHubConcepts.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>

@@ -1,7 +1,7 @@
-﻿using FinancialHub.Domain.Enums;
-using FinancialHub.Domain.Model;
-using System;
+﻿using System;
 using System.Text.Json.Serialization;
+using FinancialHub.Common.Models;
+using FinancialHub.Domain.Enums;
 
 namespace FinancialHub.Domain.Models
 {

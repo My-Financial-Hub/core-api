@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using FinancialHub.Common.Entities;
 
 namespace FinancialHub.Domain.Entities
 {

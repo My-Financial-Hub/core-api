@@ -1,5 +1,6 @@
 ﻿using System;
 using FinancialHub.Domain.Enums;
+using FinancialHub.Common.Entities;
 
 namespace FinancialHub.Domain.Entities
 {

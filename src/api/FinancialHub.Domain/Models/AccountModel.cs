@@ -1,4 +1,4 @@
-﻿using FinancialHub.Domain.Model;
+﻿using FinancialHub.Common.Models;
 
 namespace FinancialHub.Domain.Models
 {
