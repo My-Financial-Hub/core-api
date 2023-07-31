@@ -1,8 +1,9 @@
-﻿using FinancialHub.Domain.Enums;
-using FinancialHub.Domain.Queries;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using System;
 using System.Linq;
+using FinancialHub.Domain.Enums;
+using FinancialHub.Domain.Queries;
+using FinancialHub.Domain.Tests.Builders.Entities;
 
 namespace FinancialHub.Domain.Tests.Queries
 {
