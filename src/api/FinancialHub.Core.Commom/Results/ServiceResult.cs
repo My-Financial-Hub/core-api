@@ -19,7 +19,7 @@ namespace FinancialHub.Common.Results
             return new ServiceResult<T>(result);
         }
 
-        public static implicit operator ServiceResult<T>(ServiceError error)
+        public static implicit operator ServiceResult<T>(ServiceError? error)
         {
             return new ServiceResult<T>(error: error);
         }
@@ -35,7 +35,7 @@ namespace FinancialHub.Common.Results
             this.Error = error;
         }
 
-        public static implicit operator ServiceResult(ServiceError error)
+        public static implicit operator ServiceResult(ServiceError? error)
         {
             return new ServiceResult(error: error);
         }

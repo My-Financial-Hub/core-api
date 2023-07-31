@@ -1,8 +1,4 @@
-﻿using FinancialHub.Domain.Interfaces.Services;
-using FinancialHub.Domain.Models;
-using FinancialHub.Common.Results;
-
-namespace FinancialHub.Services.Services
+﻿namespace FinancialHub.Services.Services
 {
     public class AccountBalanceService : IAccountBalanceService
     {

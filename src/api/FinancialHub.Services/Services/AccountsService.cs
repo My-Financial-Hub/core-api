@@ -1,12 +1,4 @@
-﻿using FinancialHub.Common.Results;
-using FinancialHub.Common.Results.Errors;
-using FinancialHub.Domain.Entities;
-using FinancialHub.Domain.Interfaces.Mappers;
-using FinancialHub.Domain.Interfaces.Repositories;
-using FinancialHub.Domain.Interfaces.Services;
-using FinancialHub.Domain.Models;
-
-namespace FinancialHub.Services.Services
+﻿namespace FinancialHub.Services.Services
 {
     public class AccountsService : IAccountsService
     {
