@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using NUnit.Framework;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Data.Sqlite;
+using NUnit.Framework;
+using FinancialHub.Common.Entities;
+using FinancialHub.Common.Tests.Builders.Entities;
 using FinancialHub.Domain.Interfaces.Repositories;
-using FinancialHub.Domain.Tests.Builders.Entities;
-using FinancialHub.Domain.Entities;
 using FinancialHub.Infra.Data.Contexts;
 
 namespace FinancialHub.Infra.Data.NUnitTests.Repositories.Base

@@ -1,6 +1,6 @@
-﻿using FinancialHub.Domain.Entities;
+﻿using FinancialHub.Common.Results;
+using FinancialHub.Domain.Entities;
 using FinancialHub.Domain.Models;
-using FinancialHub.Domain.Results;
 using Moq;
 using NUnit.Framework;
 using System;

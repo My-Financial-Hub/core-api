@@ -4,11 +4,11 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using Moq;
 using NUnit.Framework;
-using FinancialHub.Domain.Entities;
+using FinancialHub.Common.Results;
 using FinancialHub.Domain.Models;
+using FinancialHub.Domain.Entities;
 using FinancialHub.Domain.Filters;
 using FinancialHub.Domain.Queries;
-using FinancialHub.Domain.Results;
 
 namespace FinancialHub.Services.NUnitTests.Services
 {

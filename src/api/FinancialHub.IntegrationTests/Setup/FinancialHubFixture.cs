@@ -5,11 +5,10 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
 using FinancialHub.WebApi;
 using FinancialHub.Infra.Data.Contexts;
-using FinancialHub.Domain.Entities;
+using FinancialHub.Common.Entities;
 using System.Collections;
 using FinancialHub.IntegrationTests.Extensions;
 using System.Collections.Generic;
-using FinancialHub.Services.Mappers;
 
 namespace FinancialHub.IntegrationTests.Setup
 {

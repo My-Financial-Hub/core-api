@@ -2,8 +2,8 @@
 using System.Threading.Tasks;
 using Moq;
 using NUnit.Framework;
+using FinancialHub.Common.Results.Errors;
 using FinancialHub.Domain.Enums;
-using FinancialHub.Domain.Results.Errors;
 
 namespace FinancialHub.Services.NUnitTests.Services
 {

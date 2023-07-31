@@ -1,10 +1,10 @@
 ﻿using FinancialHub.Domain.Interfaces.Services;
-using FinancialHub.Domain.Responses.Success;
-using FinancialHub.Domain.Responses.Errors;
 using FinancialHub.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using System;
+using FinancialHub.Common.Responses.Success;
+using FinancialHub.Common.Responses.Errors;
 
 namespace FinancialHub.WebApi.Controllers
 {

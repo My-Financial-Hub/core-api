@@ -1,9 +1,9 @@
-﻿using FinancialHub.Domain.Models;
-using FinancialHub.Domain.Results;
-using FinancialHub.Domain.Results.Errors;
-using Moq;
+﻿using Moq;
 using NUnit.Framework;
 using System.Threading.Tasks;
+using FinancialHub.Common.Results;
+using FinancialHub.Domain.Models;
+using FinancialHub.Common.Results.Errors;
 
 namespace FinancialHub.Services.NUnitTests.Services
 {

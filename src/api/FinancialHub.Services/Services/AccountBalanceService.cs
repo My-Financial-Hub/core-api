@@ -1,6 +1,6 @@
 ﻿using FinancialHub.Domain.Interfaces.Services;
 using FinancialHub.Domain.Models;
-using FinancialHub.Domain.Results;
+using FinancialHub.Common.Results;
 
 namespace FinancialHub.Services.Services
 {

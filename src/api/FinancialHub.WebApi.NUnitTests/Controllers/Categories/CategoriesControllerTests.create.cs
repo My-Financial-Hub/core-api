@@ -4,10 +4,10 @@ using System.Threading.Tasks;
 using NUnit.Framework;
 using Microsoft.AspNetCore.Mvc;
 using FinancialHub.Domain.Models;
-using FinancialHub.Domain.Results;
-using FinancialHub.Domain.Responses.Errors;
-using FinancialHub.Domain.Responses.Success;
-using FinancialHub.Domain.Results.Errors;
+using FinancialHub.Common.Results;
+using FinancialHub.Common.Results.Errors;
+using FinancialHub.Common.Responses.Errors;
+using FinancialHub.Common.Responses.Success;
 
 namespace FinancialHub.WebApi.NUnitTests.Controllers
 {

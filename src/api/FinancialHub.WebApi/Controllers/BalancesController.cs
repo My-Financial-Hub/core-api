@@ -3,8 +3,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using FinancialHub.Domain.Interfaces.Services;
 using FinancialHub.Domain.Models;
-using FinancialHub.Domain.Responses.Success;
-using FinancialHub.Domain.Responses.Errors;
+using FinancialHub.Common.Responses.Success;
+using FinancialHub.Common.Responses.Errors;
 
 namespace FinancialHub.WebApi.Controllers
 {

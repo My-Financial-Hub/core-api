@@ -1,5 +1,5 @@
-﻿using FinancialHub.Domain.Enums;
-using FinancialHub.Domain.Results;
+﻿using FinancialHub.Common.Results;
+using FinancialHub.Domain.Enums;
 using Moq;
 using NUnit.Framework;
 using System.Threading.Tasks;

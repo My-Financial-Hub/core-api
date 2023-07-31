@@ -1,5 +1,5 @@
-﻿using FinancialHub.Domain.Responses.Success;
-using FinancialHub.Domain.Results;
+﻿using FinancialHub.Common.Responses.Success;
+using FinancialHub.Common.Results;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 

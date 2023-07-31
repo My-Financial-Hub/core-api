@@ -4,14 +4,14 @@ using System.Threading.Tasks;
 using System.Linq;
 using NUnit.Framework;
 using FinancialHub.Domain.Models;
-using FinancialHub.Domain.Responses.Success;
+using FinancialHub.Common.Responses.Success;
+using FinancialHub.Common.Responses.Errors;
 using FinancialHub.Domain.Tests.Builders.Entities;
 using FinancialHub.Domain.Tests.Builders.Models;
 using FinancialHub.IntegrationTests.Base;
 using FinancialHub.IntegrationTests.Setup;
-using FinancialHub.IntegrationTests.Extensions;
 using FinancialHub.Domain.Entities;
-using FinancialHub.Domain.Responses.Errors;
+using FinancialHub.IntegrationTests.Extensions;
 
 namespace FinancialHub.IntegrationTests
 {

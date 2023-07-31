@@ -1,13 +1,13 @@
-﻿using FinancialHub.Domain.Models;
-using FinancialHub.Domain.Responses.Errors;
-using FinancialHub.Domain.Responses.Success;
-using FinancialHub.Domain.Results;
-using FinancialHub.Domain.Results.Errors;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
 using System;
 using System.Threading.Tasks;
+using FinancialHub.Common.Responses.Errors;
+using FinancialHub.Common.Responses.Success;
+using FinancialHub.Common.Results;
+using FinancialHub.Common.Results.Errors;
+using FinancialHub.Domain.Models;
 
 namespace FinancialHub.WebApi.NUnitTests.Controllers
 {

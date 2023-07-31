@@ -1,10 +1,9 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Moq;
 using NUnit.Framework;
-using FinancialHub.Domain.Entities;
+using FinancialHub.Common.Results;
 using FinancialHub.Domain.Models;
-using FinancialHub.Domain.Results;
+using FinancialHub.Domain.Entities;
 
 namespace FinancialHub.Services.NUnitTests.Services
 {

@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using FinancialHub.Common.Results;
 using FinancialHub.Domain.Models;
 
-namespace FinancialHub.Common.Interfaces.Services
+namespace FinancialHub.Domain.Interfaces.Services
 {
     public interface IAccountsService 
     {

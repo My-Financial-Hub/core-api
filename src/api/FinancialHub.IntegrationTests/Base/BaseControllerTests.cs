@@ -1,17 +1,17 @@
 ﻿using System.Net.Http;
 using NUnit.Framework;
-using FinancialHub.IntegrationTests.Setup;
-using FinancialHub.Domain.Tests.Builders.Models;
-using FinancialHub.Domain.Model;
-using FinancialHub.Domain.Entities;
-using FinancialHub.Domain.Tests.Builders.Entities;
-using System.Threading.Tasks;
-using FinancialHub.Domain.Responses.Success;
-using FinancialHub.Domain.Responses.Errors;
 using System;
 using System.Net;
-using FinancialHub.IntegrationTests.Extensions;
 using System.Linq;
+using System.Threading.Tasks;
+using FinancialHub.Common.Models;
+using FinancialHub.Common.Entities;
+using FinancialHub.Common.Responses.Success;
+using FinancialHub.Common.Responses.Errors;
+using FinancialHub.Common.Tests.Builders.Models;
+using FinancialHub.Common.Tests.Builders.Entities;
+using FinancialHub.IntegrationTests.Setup;
+using FinancialHub.IntegrationTests.Extensions;
 
 namespace FinancialHub.IntegrationTests.Base
 {

@@ -1,13 +1,13 @@
-﻿using FinancialHub.Domain.Entities;
+﻿using FinancialHub.Common.Results;
+using FinancialHub.Common.Results.Errors;
+using FinancialHub.Domain.Entities;
 using FinancialHub.Domain.Filters;
 using FinancialHub.Domain.Models;
 using FinancialHub.Domain.Queries;
+using FinancialHub.Domain.Enums;
 using FinancialHub.Domain.Interfaces.Services;
 using FinancialHub.Domain.Interfaces.Repositories;
 using FinancialHub.Domain.Interfaces.Mappers;
-using FinancialHub.Domain.Results;
-using FinancialHub.Domain.Results.Errors;
-using FinancialHub.Domain.Enums;
 
 namespace FinancialHub.Services.Services
 {

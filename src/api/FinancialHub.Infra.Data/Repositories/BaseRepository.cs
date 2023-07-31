@@ -2,15 +2,14 @@
 using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using FinancialHub.Infra.Data.Contexts;
 using Microsoft.EntityFrameworkCore;
-using FinancialHub.Domain.Entities;
+using FinancialHub.Infra.Data.Contexts;
 using FinancialHub.Domain.Interfaces.Repositories;
+using FinancialHub.Common.Entities;
 
 namespace FinancialHub.Infra.Data.Repositories
 {
-    public class BaseRepository<T> :
-        IBaseRepository<T>
+    public class BaseRepository<T> : IBaseRepository<T>
         where T : BaseEntity
     {
         protected readonly FinancialHubContext context;

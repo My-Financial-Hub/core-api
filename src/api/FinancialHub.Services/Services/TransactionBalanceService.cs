@@ -1,6 +1,6 @@
-﻿using FinancialHub.Domain.Interfaces.Services;
+﻿using FinancialHub.Common.Results;
+using FinancialHub.Domain.Interfaces.Services;
 using FinancialHub.Domain.Models;
-using FinancialHub.Domain.Results;
 using FinancialHub.Domain.Enums;
 
 namespace FinancialHub.Services.Services

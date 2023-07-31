@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using FinancialHub.Domain.Models;
-using FinancialHub.Domain.Responses.Success;
-using FinancialHub.Domain.Results;
+using FinancialHub.Common.Responses.Success;
+using FinancialHub.Common.Results;
 
 namespace FinancialHub.WebApi.NUnitTests.Controllers
 {

@@ -2,11 +2,12 @@
 using System.Linq;
 using NUnit.Framework;
 using System.Threading.Tasks;
-using FinancialHub.Domain.Entities;
+using FinancialHub.Common.Entities;
 
 namespace FinancialHub.Infra.Data.NUnitTests.Repositories.Base
 {
-    public abstract partial class BaseRepositoryTests<T> where T : BaseEntity
+    public abstract partial class BaseRepositoryTests<T> 
+        where T : BaseEntity
     {
         protected virtual void AssertCreated(T createdItem)
         {

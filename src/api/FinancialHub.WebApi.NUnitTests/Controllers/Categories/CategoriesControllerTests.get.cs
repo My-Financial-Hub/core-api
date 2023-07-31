@@ -4,8 +4,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using FinancialHub.Domain.Models;
-using FinancialHub.Domain.Responses.Success;
-using FinancialHub.Domain.Results;
+using FinancialHub.Common.Results;
+using FinancialHub.Common.Responses.Success;
 
 namespace FinancialHub.WebApi.NUnitTests.Controllers
 {

@@ -3,9 +3,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using FinancialHub.Domain.Models;
 using FinancialHub.Domain.Filters;
-using FinancialHub.Domain.Responses.Errors;
-using FinancialHub.Domain.Responses.Success;
 using FinancialHub.Domain.Interfaces.Services;
+using FinancialHub.Common.Responses.Success;
+using FinancialHub.Common.Responses.Errors;
 
 namespace FinancialHub.WebApi.Controllers
 {

@@ -2,7 +2,7 @@
 using NUnit.Framework;
 using System.Threading.Tasks;
 using FinancialHub.Domain.Enums;
-using FinancialHub.Domain.Results.Errors;
+using FinancialHub.Common.Results.Errors;
 
 namespace FinancialHub.Services.NUnitTests.Services
 {

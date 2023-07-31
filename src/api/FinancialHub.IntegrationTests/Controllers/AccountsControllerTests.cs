@@ -7,8 +7,8 @@ using FinancialHub.Domain.Models;
 using FinancialHub.IntegrationTests.Base;
 using FinancialHub.IntegrationTests.Setup;
 using FinancialHub.IntegrationTests.Extensions;
-using FinancialHub.Domain.Responses.Errors;
-using FinancialHub.Domain.Responses.Success;
+using FinancialHub.Common.Responses.Errors;
+using FinancialHub.Common.Responses.Success;
 using FinancialHub.Domain.Tests.Builders.Models;
 using FinancialHub.Domain.Tests.Builders.Entities;
 

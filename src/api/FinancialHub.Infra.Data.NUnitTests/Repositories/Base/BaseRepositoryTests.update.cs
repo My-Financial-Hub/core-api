@@ -1,4 +1,4 @@
-﻿using FinancialHub.Domain.Entities;
+﻿using FinancialHub.Common.Entities;
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
 using System;
@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace FinancialHub.Infra.Data.NUnitTests.Repositories.Base
 {
-    public abstract partial class BaseRepositoryTests<T> where T : BaseEntity
+    public abstract partial class BaseRepositoryTests<T>
+        where T : BaseEntity
     {
         #region Update
         [Test]
