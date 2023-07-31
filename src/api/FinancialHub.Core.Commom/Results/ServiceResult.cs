@@ -5,10 +5,10 @@ namespace FinancialHub.Common.Results
     public class ServiceResult<T>
     {
         public bool HasError => this.Error != null;
-        public ServiceError Error { get; protected set; }
-        public T Data { get; protected set; }
+        public ServiceError? Error { get; protected set; }
+        public T? Data { get; protected set; }
 
-        public ServiceResult(T data = default,ServiceError error = null)
+        public ServiceResult(T? data = default, ServiceError? error = null)
         {
             this.Data = data;
             this.Error = error;
@@ -28,9 +28,9 @@ namespace FinancialHub.Common.Results
     public class ServiceResult
     {
         public bool HasError => this.Error != null;
-        public ServiceError Error { get; protected set; }
+        public ServiceError? Error { get; protected set; }
 
-        public ServiceResult(ServiceError error = null)
+        public ServiceResult(ServiceError? error = null)
         {
             this.Error = error;
         }

@@ -5,7 +5,7 @@
         public int Code { get; protected set; }
         public string Message { get; protected set; }
 
-        public BaseErrorResponse(int code, string message)
+        protected BaseErrorResponse(int code, string message)
         {
             Code = code;
             Message = message;
