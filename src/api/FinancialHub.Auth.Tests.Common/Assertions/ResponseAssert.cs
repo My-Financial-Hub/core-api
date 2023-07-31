@@ -1,5 +1,5 @@
-﻿using FinancialHub.Domain.Responses.Errors;
-using FinancialHub.Domain.Responses.Success;
+﻿using FinancialHub.Common.Responses.Errors;
+using FinancialHub.Common.Responses.Success;
 
 namespace FinancialHub.Auth.Tests.Common.Assertions
 {

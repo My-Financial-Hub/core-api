@@ -1,7 +1,7 @@
 ﻿using Bogus;
 using FinancialHub.Common.Models;
 
-namespace FinancialHub.Domains.Tests.Builders.Models
+namespace FinancialHub.Common.Tests.Builders.Models
 {
     public abstract class BaseModelBuilder<T> : Faker<T>
         where T : BaseModel
