@@ -1,6 +1,5 @@
 ﻿using FinancialHub.Auth.Infra.Data.Contexts;
 using Microsoft.Data.Sqlite;
-using FinancialHub.Domain.Entities;
 using System.Collections;
 
 namespace FinancialHub.Auth.Infra.Data.Tests.Fixtures

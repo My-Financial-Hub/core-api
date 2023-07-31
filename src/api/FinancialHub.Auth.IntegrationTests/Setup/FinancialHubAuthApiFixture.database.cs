@@ -1,5 +1,5 @@
 ﻿using FinancialHub.Auth.Infra.Data.Contexts;
-using FinancialHub.Domain.Entities;
+using FinancialHub.Common.Entities;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace FinancialHub.Auth.IntegrationTests.Setup

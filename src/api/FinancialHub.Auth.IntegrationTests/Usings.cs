@@ -6,8 +6,8 @@ global using FinancialHub.Auth.IntegrationTests.Base;
 global using FinancialHub.Auth.IntegrationTests.Setup;
 global using FinancialHub.Auth.IntegrationTests.Extensions;
 
-global using FinancialHub.Domain.Responses.Errors;
-global using FinancialHub.Domain.Responses.Success;
+global using FinancialHub.Common.Responses.Errors;
+global using FinancialHub.Common.Responses.Success;
 
 global using FinancialHub.Auth.Domain.Entities;
 global using FinancialHub.Auth.Domain.Models;

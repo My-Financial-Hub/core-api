@@ -1,6 +1,4 @@
-﻿using FinancialHub.Domain.Entities;
-
-namespace FinancialHub.Auth.Infra.Data.Tests.Assertions
+﻿namespace FinancialHub.Auth.Infra.Data.Tests.Assertions
 {
     internal static class DbContextAssert
     {
