@@ -1,6 +1,4 @@
-﻿using FinancialHub.Common.Entities;
-
-namespace FinancialHub.Auth.Domain.Entities
+﻿namespace FinancialHub.Auth.Domain.Entities
 {
     public class UserEntity : BaseEntity
     {

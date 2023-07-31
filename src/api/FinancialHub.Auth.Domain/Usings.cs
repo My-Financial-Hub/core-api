@@ -1,3 +1,3 @@
-﻿global using FinancialHub.Domain.Model;
-global using FinancialHub.Domain.Results;
-global using FinancialHub.Domain.Entities;
+﻿global using FinancialHub.Common.Entities;
+global using FinancialHub.Common.Results;
+global using FinancialHub.Common.Models;

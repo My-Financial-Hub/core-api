@@ -1,6 +1,4 @@
-﻿using FinancialHub.Auth.Domain.Models;
-
-namespace FinancialHub.Auth.Domain.Interfaces.Services
+﻿namespace FinancialHub.Auth.Domain.Interfaces.Services
 {
     public interface ITokenService
     {
