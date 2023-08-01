@@ -1,6 +1,4 @@
-﻿using FinancialHub.Domain.Entities;
-
-namespace FinancialHub.Domain.Tests.Builders.Entities
+﻿namespace FinancialHub.Domain.Tests.Builders.Entities
 {
     public class CategoryEntityBuilder : BaseEntityBuilder<CategoryEntity>
     {

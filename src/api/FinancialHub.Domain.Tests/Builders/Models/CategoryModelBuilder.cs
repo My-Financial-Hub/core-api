@@ -1,6 +1,4 @@
-﻿using FinancialHub.Domain.Models;
-
-namespace FinancialHub.Domain.Tests.Builders.Models
+﻿namespace FinancialHub.Domain.Tests.Builders.Models
 {
     public class CategoryModelBuilder : BaseModelBuilder<CategoryModel>
     {

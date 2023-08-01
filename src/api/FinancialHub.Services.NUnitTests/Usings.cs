@@ -7,7 +7,7 @@ global using System.Collections.Generic;
 global using NUnit.Framework;
 global using Moq;
 
-// Domain Project tests namespaces
+// Domain builder tests namespaces
 global using FinancialHub.Domain.Tests.Builders.Models;
 
 // Common Project namespaces

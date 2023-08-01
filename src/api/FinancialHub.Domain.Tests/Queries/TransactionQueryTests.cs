@@ -1,5 +1,4 @@
 ﻿using NUnit.Framework;
-using System;
 using System.Linq;
 using FinancialHub.Domain.Enums;
 using FinancialHub.Domain.Queries;

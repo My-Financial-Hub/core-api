@@ -1,7 +1,4 @@
-﻿using FinancialHub.Domain.Entities;
-using System;
-
-namespace FinancialHub.Domain.Tests.Builders.Entities
+﻿namespace FinancialHub.Domain.Tests.Builders.Entities
 {
     public class BalanceEntityBuilder : BaseEntityBuilder<BalanceEntity>
     {

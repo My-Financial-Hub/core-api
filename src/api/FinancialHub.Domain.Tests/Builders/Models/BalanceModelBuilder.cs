@@ -1,7 +1,4 @@
-﻿using FinancialHub.Domain.Models;
-using System;
-
-namespace FinancialHub.Domain.Tests.Builders.Models
+﻿namespace FinancialHub.Domain.Tests.Builders.Models
 {
     public class BalanceModelBuilder : BaseModelBuilder<BalanceModel>
     {
