@@ -3,7 +3,7 @@ using System.Collections;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
 using FinancialHub.WebApi;
-using FinancialHub.Infra.Data.Contexts;
+using FinancialHub.Core.Infra.Data.Contexts;
 using FinancialHub.IntegrationTests.Extensions;
 
 namespace FinancialHub.IntegrationTests.Setup

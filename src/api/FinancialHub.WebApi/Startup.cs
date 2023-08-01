@@ -4,7 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using FinancialHub.WebApi.Extensions.Configurations;
-using FinancialHub.Infra.Data.Extensions.Configurations;
+using FinancialHub.Core.Infra.Data.Extensions.Configurations;
 using FinancialHub.Services.Extensions.Configurations;
 
 namespace FinancialHub.WebApi

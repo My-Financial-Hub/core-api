@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FinancialHub.Core.Domain.Tests\FinancialHub.Core.Domain.Tests.csproj" />
+    <ProjectReference Include="..\FinancialHub.Core.Infra.Data\FinancialHub.Core.Infra.Data.csproj" />
     <ProjectReference Include="..\FinancialHub.WebApi\FinancialHub.WebApi.csproj" />
   </ItemGroup>
 
