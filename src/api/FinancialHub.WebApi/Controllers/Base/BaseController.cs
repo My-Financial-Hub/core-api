@@ -1,7 +1,4 @@
-﻿using FinancialHub.Common.Responses.Success;
-using FinancialHub.Common.Results;
-using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
+﻿using FinancialHub.Common.Results;
 
 namespace FinancialHub.WebApi.Controllers.Base
 {

@@ -1,15 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Moq;
-using NUnit.Framework;
-using System;
-using System.Threading.Tasks;
-using FinancialHub.Common.Responses.Errors;
-using FinancialHub.Common.Responses.Success;
-using FinancialHub.Common.Results;
-using FinancialHub.Common.Results.Errors;
-using FinancialHub.Domain.Models;
-
-namespace FinancialHub.WebApi.NUnitTests.Controllers
+﻿namespace FinancialHub.WebApi.NUnitTests.Controllers
 {
     public partial class CategoriesControllerTests
     {

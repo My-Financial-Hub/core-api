@@ -1,7 +1,6 @@
 ﻿using FinancialHub.IntegrationTests.Setup;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using System.Linq;
 
 namespace FinancialHub.IntegrationTests.Extensions
 {

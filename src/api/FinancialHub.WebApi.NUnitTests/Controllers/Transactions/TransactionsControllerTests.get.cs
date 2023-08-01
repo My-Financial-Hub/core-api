@@ -1,12 +1,4 @@
 ﻿using FinancialHub.Domain.Filters;
-using FinancialHub.Domain.Models;
-using FinancialHub.Common.Responses.Success;
-using FinancialHub.Common.Results;
-using Microsoft.AspNetCore.Mvc;
-using Moq;
-using NUnit.Framework;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace FinancialHub.WebApi.NUnitTests.Controllers
 {

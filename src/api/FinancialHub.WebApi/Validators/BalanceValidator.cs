@@ -1,5 +1,4 @@
-﻿using FinancialHub.Domain.Models;
-using FinancialHub.WebApi.Resources;
+﻿using FinancialHub.WebApi.Resources;
 using FluentValidation;
 
 namespace FinancialHub.WebApi.Validators

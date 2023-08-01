@@ -1,8 +1,4 @@
-﻿using NUnit.Framework;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-
-namespace FinancialHub.WebApi.NUnitTests.Controllers
+﻿namespace FinancialHub.WebApi.NUnitTests.Controllers
 {
     public partial class CategoriesControllerTests
     {

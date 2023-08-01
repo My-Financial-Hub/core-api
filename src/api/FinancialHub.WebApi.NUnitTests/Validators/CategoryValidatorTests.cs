@@ -1,6 +1,4 @@
-﻿using FinancialHub.Domain.Tests.Builders.Models;
-using FinancialHub.WebApi.Validators;
-using NUnit.Framework;
+﻿using FinancialHub.WebApi.Validators;
 
 namespace FinancialHub.WebApi.NUnitTests.Validators
 {

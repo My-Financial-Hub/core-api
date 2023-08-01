@@ -1,12 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using FinancialHub.Domain.Interfaces.Services;
-using FinancialHub.Domain.Models;
-using FinancialHub.Common.Responses.Success;
-using FinancialHub.Common.Responses.Errors;
-
-namespace FinancialHub.WebApi.Controllers
+﻿namespace FinancialHub.WebApi.Controllers
 {
     [ApiController]
     [Route("[controller]")]

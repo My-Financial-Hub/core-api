@@ -1,14 +1,10 @@
-﻿using System;
-using System.Linq;
-using System.Net.Http;
+﻿using System.Net.Http;
+using System.Collections;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
 using FinancialHub.WebApi;
 using FinancialHub.Infra.Data.Contexts;
-using FinancialHub.Common.Entities;
-using System.Collections;
 using FinancialHub.IntegrationTests.Extensions;
-using System.Collections.Generic;
 
 namespace FinancialHub.IntegrationTests.Setup
 {

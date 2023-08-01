@@ -1,7 +1,5 @@
 ﻿using FinancialHub.Domain.Enums;
-using FinancialHub.Domain.Tests.Builders.Models;
 using FinancialHub.WebApi.Validators;
-using NUnit.Framework;
 
 namespace FinancialHub.WebApi.NUnitTests.Validators
 {
