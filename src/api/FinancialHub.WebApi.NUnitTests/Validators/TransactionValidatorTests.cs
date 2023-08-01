@@ -1,4 +1,4 @@
-﻿using FinancialHub.Domain.Enums;
+﻿using FinancialHub.Core.Domain.Enums;
 using FinancialHub.WebApi.Validators;
 
 namespace FinancialHub.WebApi.NUnitTests.Validators

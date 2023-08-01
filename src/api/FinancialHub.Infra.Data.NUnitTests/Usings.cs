@@ -7,7 +7,7 @@ global using System.Threading.Tasks;
 global using NUnit.Framework;
 
 // Domain Project tests namespaces
-global using FinancialHub.Domain.Tests.Builders.Entities;
+global using FinancialHub.Core.Domain.Tests.Builders.Entities;
 
 // Domain Project namespaces
-global using FinancialHub.Domain.Entities;
+global using FinancialHub.Core.Domain.Entities;

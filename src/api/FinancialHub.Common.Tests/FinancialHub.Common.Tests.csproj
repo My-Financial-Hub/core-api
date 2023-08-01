@@ -10,4 +10,8 @@
     <PackageReference Include="Bogus" Version="34.0.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\FinancialHub.Common\FinancialHub.Common.csproj" />
+  </ItemGroup>
+
 </Project>

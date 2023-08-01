@@ -8,12 +8,12 @@ global using NUnit.Framework;
 global using Moq;
 
 // Domain builder tests namespaces
-global using FinancialHub.Domain.Tests.Builders.Models;
+global using FinancialHub.Core.Domain.Tests.Builders.Models;
 
 // Common Project namespaces
 global using FinancialHub.Common.Results;
 global using FinancialHub.Common.Results.Errors;
 
 // Domain Project namespaces
-global using FinancialHub.Domain.Models;
-global using FinancialHub.Domain.Entities;
+global using FinancialHub.Core.Domain.Models;
+global using FinancialHub.Core.Domain.Entities;

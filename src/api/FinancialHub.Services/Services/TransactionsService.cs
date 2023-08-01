@@ -1,6 +1,6 @@
-﻿using FinancialHub.Domain.Filters;
-using FinancialHub.Domain.Queries;
-using FinancialHub.Domain.Enums;
+﻿using FinancialHub.Core.Domain.Filters;
+using FinancialHub.Core.Domain.Queries;
+using FinancialHub.Core.Domain.Enums;
 
 namespace FinancialHub.Services.Services
 {

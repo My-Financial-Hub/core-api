@@ -1,4 +1,4 @@
-﻿using FinancialHub.Domain.Enums;
+﻿using FinancialHub.Core.Domain.Enums;
 using FinancialHub.Services.NUnitTests.Services.TransactionBalance;
 
 namespace FinancialHub.Services.NUnitTests.Services

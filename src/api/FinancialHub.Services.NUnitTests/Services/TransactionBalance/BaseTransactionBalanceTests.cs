@@ -1,4 +1,4 @@
-﻿using FinancialHub.Domain.Interfaces.Services;
+﻿using FinancialHub.Core.Domain.Interfaces.Services;
 using FinancialHub.Services.Services;
 
 namespace FinancialHub.Services.NUnitTests.Services.TransactionBalance

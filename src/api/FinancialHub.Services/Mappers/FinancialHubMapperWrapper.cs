@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using FinancialHub.Domain.Interfaces.Mappers;
+using FinancialHub.Core.Domain.Interfaces.Mappers;
 
 namespace FinancialHub.Domain.Mappers
 {

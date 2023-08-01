@@ -1,4 +1,4 @@
-﻿using FinancialHub.Domain.Enums;
+﻿using FinancialHub.Core.Domain.Enums;
 
 namespace FinancialHub.Infra.Data.NUnitTests.Repositories
 {

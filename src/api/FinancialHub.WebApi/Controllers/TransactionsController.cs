@@ -1,4 +1,4 @@
-﻿using FinancialHub.Domain.Filters;
+﻿using FinancialHub.Core.Domain.Filters;
 
 namespace FinancialHub.WebApi.Controllers
 {

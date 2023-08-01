@@ -1,8 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using FinancialHub.Domain.Interfaces.Mappers;
-using FinancialHub.Domain.Mappers;
 using FinancialHub.Services.Mappers;
 using FinancialHub.Services.Services;
+using FinancialHub.Domain.Mappers;
 
 namespace FinancialHub.Services.Extensions.Configurations
 {
@@ -20,6 +19,7 @@ namespace FinancialHub.Services.Extensions.Configurations
 
             services.AddScoped<IAccountBalanceService, AccountBalanceService>();
             services.AddScoped<ITransactionBalanceService, TransactionBalanceService>();
+            
             return services;
         }
     }

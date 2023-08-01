@@ -11,10 +11,10 @@ global using Moq;
 global using NUnit.Framework;
 
 // Domain Project tests namespaces
-global using FinancialHub.Domain.Tests.Builders.Models;
+global using FinancialHub.Core.Domain.Tests.Builders.Models;
 
 // Domain Model namespaces
-global using FinancialHub.Domain.Models;
+global using FinancialHub.Core.Domain.Models;
 
 // Common Result namespaces
 global using FinancialHub.Common.Results;

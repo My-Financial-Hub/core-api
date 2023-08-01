@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using FinancialHub.Domain.Interfaces.Mappers;
-using FinancialHub.Domain.Interfaces.Repositories;
-using FinancialHub.Domain.Interfaces.Services;
-using FinancialHub.Domain.Tests.Builders.Entities;
+using FinancialHub.Core.Domain.Interfaces.Mappers;
+using FinancialHub.Core.Domain.Interfaces.Repositories;
+using FinancialHub.Core.Domain.Interfaces.Services;
+using FinancialHub.Core.Domain.Tests.Builders.Entities;
 using FinancialHub.Services.Mappers;
 using FinancialHub.Services.Services;
 

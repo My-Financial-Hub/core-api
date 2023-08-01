@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using FinancialHub.Infra.Data.Contexts;
 using FinancialHub.Common.Entities;
+using FinancialHub.Common.Interfaces.Repositories;
 
 namespace FinancialHub.Infra.Data.Repositories
 {

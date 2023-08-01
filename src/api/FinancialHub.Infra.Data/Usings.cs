@@ -7,7 +7,7 @@ global using System.Threading.Tasks;
 global using Microsoft.EntityFrameworkCore;
 
 // Domain project interface namespaces
-global using FinancialHub.Domain.Interfaces.Repositories;
+global using FinancialHub.Core.Domain.Interfaces.Repositories;
 
 // Domain Project namespaces
-global using FinancialHub.Domain.Entities;
+global using FinancialHub.Core.Domain.Entities;

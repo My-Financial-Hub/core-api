@@ -1,6 +1,6 @@
 ﻿using System.Linq;
-using FinancialHub.Domain.Filters;
-using FinancialHub.Domain.Queries;
+using FinancialHub.Core.Domain.Filters;
+using FinancialHub.Core.Domain.Queries;
 
 namespace FinancialHub.Services.NUnitTests.Services
 {

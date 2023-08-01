@@ -1,6 +1,4 @@
-﻿using FinancialHub.Domain.Entities;
-
-namespace FinancialHub.Services.NUnitTests.Services
+﻿namespace FinancialHub.Services.NUnitTests.Services
 {
     public partial class AccountsServiceTests
     {

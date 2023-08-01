@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\FinancialHub.Core.Commom\FinancialHub.Common.csproj" />
+    <ProjectReference Include="..\FinancialHub.Common\FinancialHub.Common.csproj" />
   </ItemGroup>
 
 </Project>

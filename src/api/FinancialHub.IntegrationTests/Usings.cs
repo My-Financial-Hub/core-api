@@ -13,8 +13,8 @@ global using FinancialHub.Common.Models;
 global using FinancialHub.Common.Entities;
 
 // Domain models namespaces
-global using FinancialHub.Domain.Models;
-global using FinancialHub.Domain.Entities;
+global using FinancialHub.Core.Domain.Models;
+global using FinancialHub.Core.Domain.Entities;
 
 // Common Responses namespaces
 global using FinancialHub.Common.Responses.Success;
@@ -25,6 +25,6 @@ global using FinancialHub.Common.Tests.Builders.Models;
 global using FinancialHub.Common.Tests.Builders.Entities;
 
 // Domain Builders namespaces
-global using FinancialHub.Domain.Tests.Builders.Models;
-global using FinancialHub.Domain.Tests.Builders.Entities;
+global using FinancialHub.Core.Domain.Tests.Builders.Models;
+global using FinancialHub.Core.Domain.Tests.Builders.Entities;
 

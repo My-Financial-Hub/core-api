@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Data.Sqlite;
 using FinancialHub.Common.Entities;
 using FinancialHub.Common.Tests.Builders.Entities;
-using FinancialHub.Domain.Interfaces.Repositories;
+using FinancialHub.Common.Interfaces.Repositories;
 using FinancialHub.Infra.Data.Contexts;
 
 namespace FinancialHub.Infra.Data.NUnitTests.Repositories.Base

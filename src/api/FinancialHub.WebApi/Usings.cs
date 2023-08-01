@@ -7,10 +7,10 @@ global using System.Threading.Tasks;
 global using Microsoft.AspNetCore.Mvc;
 
 // Domain Models namespaces 
-global using FinancialHub.Domain.Models;
+global using FinancialHub.Core.Domain.Models;
 
 // Domain Interfaces namespaces 
-global using FinancialHub.Domain.Interfaces.Services;
+global using FinancialHub.Core.Domain.Interfaces.Services;
 
 // Common Response namespaces
 global using FinancialHub.Common.Responses.Success;
