@@ -1,8 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-using FinancialHub.Domain.Entities;
-using FinancialHub.Domain.Enums;
-using FinancialHub.Domain.Interfaces.Repositories;
+﻿using FinancialHub.Domain.Enums;
 using FinancialHub.Infra.Data.Contexts;
 
 namespace FinancialHub.Infra.Data.Repositories

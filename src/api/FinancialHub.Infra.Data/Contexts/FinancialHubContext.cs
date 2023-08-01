@@ -1,5 +1,4 @@
-﻿using FinancialHub.Domain.Entities;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using System.Diagnostics.CodeAnalysis;
 
 namespace FinancialHub.Infra.Data.Contexts

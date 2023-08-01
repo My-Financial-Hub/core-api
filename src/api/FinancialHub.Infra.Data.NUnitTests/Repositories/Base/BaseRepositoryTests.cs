@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Data.Sqlite;
-using NUnit.Framework;
 using FinancialHub.Common.Entities;
 using FinancialHub.Common.Tests.Builders.Entities;
 using FinancialHub.Domain.Interfaces.Repositories;

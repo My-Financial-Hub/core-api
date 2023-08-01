@@ -1,9 +1,4 @@
-﻿using FinancialHub.Domain.Entities;
-using NUnit.Framework;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace FinancialHub.Infra.Data.NUnitTests.Repositories
+﻿namespace FinancialHub.Infra.Data.NUnitTests.Repositories
 {
     public partial class BalancesRepositoryTests
     {

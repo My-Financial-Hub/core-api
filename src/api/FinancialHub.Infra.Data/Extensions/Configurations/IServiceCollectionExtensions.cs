@@ -1,7 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.EntityFrameworkCore;
-using FinancialHub.Domain.Interfaces.Repositories;
 using FinancialHub.Infra.Data.Contexts;
 using FinancialHub.Infra.Data.Repositories;
 

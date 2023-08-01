@@ -1,8 +1,4 @@
-﻿using System;
-using System.Linq;
-using NUnit.Framework;
-using System.Threading.Tasks;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using FinancialHub.Common.Entities;
 
 namespace FinancialHub.Infra.Data.NUnitTests.Repositories.Base
@@ -10,7 +6,6 @@ namespace FinancialHub.Infra.Data.NUnitTests.Repositories.Base
     public abstract partial class BaseRepositoryTests<T> 
         where T : BaseEntity
     {
-        #region Get All
         [Test]
         [TestCase(TestName = "Get All Items without data",Category = "Get")]
         public virtual async Task GetAllAsync_NoData_ReturnsEmpty()
@@ -34,9 +29,7 @@ namespace FinancialHub.Infra.Data.NUnitTests.Repositories.Base
             Assert.AreEqual(items,list);
             Assert.IsInstanceOf<ICollection<T>>(list);
         }
-        #endregion
 
-        #region Get
         [Test]
         [TestCase(TestName = "Get Items with no filter", Category = "Get")]
         public virtual async Task GetAsync_NoFilter_ReturnsAllItems()
@@ -93,9 +86,7 @@ namespace FinancialHub.Infra.Data.NUnitTests.Repositories.Base
             Assert.IsEmpty(list);
             Assert.IsInstanceOf<ICollection<T>>(list);
         }
-        #endregion
 
-        #region Get By Id
         [Test]
         [TestCase(TestName = "Get By Id with empty id", Category = "Get")]
         public virtual async Task GetByIdAsync_EmptyId_ReturnsNull()
@@ -135,6 +126,5 @@ namespace FinancialHub.Infra.Data.NUnitTests.Repositories.Base
 
             Assert.IsNull(item);
         }
-        #endregion
     }
 }

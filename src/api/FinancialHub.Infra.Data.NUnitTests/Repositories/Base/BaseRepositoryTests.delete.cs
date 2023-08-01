@@ -1,8 +1,4 @@
 ﻿using FinancialHub.Common.Entities;
-using NUnit.Framework;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace FinancialHub.Infra.Data.NUnitTests.Repositories.Base
 {

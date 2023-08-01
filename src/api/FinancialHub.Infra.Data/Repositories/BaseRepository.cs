@@ -1,10 +1,5 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
+﻿using System.Linq;
 using FinancialHub.Infra.Data.Contexts;
-using FinancialHub.Domain.Interfaces.Repositories;
 using FinancialHub.Common.Entities;
 
 namespace FinancialHub.Infra.Data.Repositories

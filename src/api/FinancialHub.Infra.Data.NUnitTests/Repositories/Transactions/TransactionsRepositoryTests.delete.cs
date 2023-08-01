@@ -1,7 +1,4 @@
-﻿using NUnit.Framework;
-using System.Threading.Tasks;
-
-namespace FinancialHub.Infra.Data.NUnitTests.Repositories
+﻿namespace FinancialHub.Infra.Data.NUnitTests.Repositories
 {
     public partial class TransactionsRepositoryTests
     {

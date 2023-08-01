@@ -1,15 +1,11 @@
 ﻿using FinancialHub.Common.Entities;
 using Microsoft.EntityFrameworkCore;
-using NUnit.Framework;
-using System;
-using System.Threading.Tasks;
 
 namespace FinancialHub.Infra.Data.NUnitTests.Repositories.Base
 {
     public abstract partial class BaseRepositoryTests<T>
         where T : BaseEntity
     {
-        #region Update
         [Test]
         [TestCase(TestName = "Update existing Item", Category = "Update")]
         public virtual async Task UpdateAsync_ExistingItem_UpdatesItem()
@@ -38,6 +34,5 @@ namespace FinancialHub.Infra.Data.NUnitTests.Repositories.Base
 
             Assert.ThrowsAsync<DbUpdateConcurrencyException>(async () => await this.repository.UpdateAsync(item));
         }
-        #endregion
     }
 }

@@ -1,8 +1,4 @@
-﻿using FinancialHub.Domain.Entities;
-using FinancialHub.Domain.Interfaces.Repositories;
-using FinancialHub.Infra.Data.Contexts;
-using System;
-using System.Threading.Tasks;
+﻿using FinancialHub.Infra.Data.Contexts;
 
 namespace FinancialHub.Infra.Data.Repositories
 {

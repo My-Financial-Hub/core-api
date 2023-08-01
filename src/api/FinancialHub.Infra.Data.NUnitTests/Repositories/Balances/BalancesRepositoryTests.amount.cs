@@ -1,7 +1,4 @@
 ﻿using FinancialHub.Domain.Enums;
-using NUnit.Framework;
-using System;
-using System.Threading.Tasks;
 
 namespace FinancialHub.Infra.Data.NUnitTests.Repositories
 {
