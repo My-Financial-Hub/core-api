@@ -7,9 +7,9 @@ namespace FinancialHub.Core.Services.NUnitTests.Services
     //TOOD: maybe separate some testcases
     public partial class TransactionBalanceTests
     {
-        class UpdateAmountAsync
+        public class UpdateAmountAsync
         {
-            class SameBalance : BaseTransactionBalanceTests
+            public class SameBalance : BaseTransactionBalanceTests
             {
                 [TestCase(TransactionStatus.NotCommitted, TransactionType.Expense, true)]
                 [TestCase(TransactionStatus.NotCommitted, TransactionType.Earn, true)]
@@ -232,7 +232,7 @@ namespace FinancialHub.Core.Services.NUnitTests.Services
                 }
             }
 
-            class DifferenteBalance : BaseTransactionBalanceTests
+            public class DifferenteBalance : BaseTransactionBalanceTests
             {
                 [TestCase(TransactionType.Expense, TransactionType.Expense)]
                 [TestCase(TransactionType.Expense, TransactionType.Earn)]

@@ -61,7 +61,7 @@ namespace FinancialHub.Core.Services.NUnitTests.Services
 
             Assert.Zero(result.Data);
             Assert.IsTrue(result.HasError);
-            Assert.AreEqual($"Not found Transaction with id {guid}", result.Error.Message);
+            Assert.AreEqual($"Not found Transaction with id {guid}", result.Error!.Message);
         }
 
         [Test]

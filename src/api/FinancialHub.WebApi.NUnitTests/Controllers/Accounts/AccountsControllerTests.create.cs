@@ -49,7 +49,7 @@
             Assert.IsInstanceOf<ValidationErrorResponse>(result?.Value);
 
             var listResponse = result?.Value as ValidationErrorResponse;
-            Assert.AreEqual(mockResult.Error.Code, listResponse?.Code);
+            Assert.AreEqual(mockResult.Error!.Code, listResponse?.Code);
             Assert.AreEqual(mockResult.Error.Message, listResponse?.Message);
 
             this.mockAccountService.Verify(x => x.CreateAsync(body), Times.Once);

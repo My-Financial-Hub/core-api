@@ -18,7 +18,7 @@
 
             this.SetUpMapper();
 
-            var result = await this.service.UpdateAsync(model.Id.GetValueOrDefault(), model);
+            await this.service.UpdateAsync(model.Id.GetValueOrDefault(), model);
 
             this.accountsRepository.Verify(x => x.GetByIdAsync(model.AccountId), Times.Once);
         }
@@ -36,7 +36,7 @@
             var result = await this.service.UpdateAsync(id, model);
 
             Assert.IsTrue(result.HasError);
-            Assert.AreEqual($"Not found Balance with id {id}", result.Error.Message);
+            Assert.AreEqual($"Not found Balance with id {id}", result.Error!.Message);
             this.repository.Verify(x => x.GetByIdAsync(id), Times.Once);
         }
 
@@ -62,7 +62,7 @@
 
             this.SetUpMapper();
 
-            var result = await this.service.UpdateAsync(model.Id.GetValueOrDefault(), model);
+            await this.service.UpdateAsync(model.Id.GetValueOrDefault(), model);
 
             this.repository.Verify(x => x.UpdateAsync(It.IsAny<BalanceEntity>()), Times.Once);
         }
@@ -114,7 +114,7 @@
 
             Assert.IsInstanceOf<ServiceResult<BalanceModel>>(result);
             Assert.IsTrue(result.HasError);
-            Assert.AreEqual($"Not found Balance with id {model.Id}", result.Error.Message);
+            Assert.AreEqual($"Not found Balance with id {model.Id}", result.Error!.Message);
 
             this.repository.Verify(x => x.GetByIdAsync(model.Id.GetValueOrDefault()), Times.Once);
             this.repository.Verify(x => x.UpdateAsync(It.IsAny<BalanceEntity>()), Times.Never);
@@ -141,7 +141,7 @@
 
             Assert.IsInstanceOf<ServiceResult<BalanceModel>>(result);
             Assert.IsTrue(result.HasError);
-            Assert.AreEqual($"Not found Account with id {model.AccountId}", result.Error.Message);
+            Assert.AreEqual($"Not found Account with id {model.AccountId}", result.Error!.Message);
         }
     }
 }

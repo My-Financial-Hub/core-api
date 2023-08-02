@@ -24,7 +24,7 @@
 
             Assert.IsInstanceOf<ServiceResult<ICollection<BalanceModel>>>(result);
             Assert.IsFalse(result.HasError);
-            Assert.AreEqual(entitiesMock.Count, result.Data.Count);
+            Assert.AreEqual(entitiesMock.Count, result.Data!.Count);
 
             this.repository.Verify(x => x.GetAsync(It.IsAny<Func<BalanceEntity, bool>>()), Times.Once);
         }
@@ -45,7 +45,7 @@
 
             Assert.IsInstanceOf<ServiceResult<BalanceModel>>(result);
             Assert.IsFalse(result.HasError);
-            Assert.AreEqual(entity.AccountId    , result.Data.AccountId);
+            Assert.AreEqual(entity.AccountId    , result.Data!.AccountId);
             Assert.AreEqual(entity.Amount       , result.Data.Amount);
             Assert.AreEqual(entity.Name         , result.Data.Name);
             Assert.AreEqual(entity.IsActive     , result.Data.IsActive);

@@ -84,7 +84,7 @@
             var result = await this.service.CreateAsync(model);
 
             Assert.IsTrue(result.HasError);
-            Assert.AreEqual($"Not found Account with id {model.AccountId}", result.Error.Message);
+            Assert.AreEqual($"Not found Account with id {model.AccountId}", result.Error!.Message);
 
             this.repository.Verify(x => x.CreateAsync(It.IsAny<BalanceEntity>()), Times.Never);
         }

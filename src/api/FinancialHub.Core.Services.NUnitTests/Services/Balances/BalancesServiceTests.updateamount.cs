@@ -73,7 +73,7 @@
 
             Assert.IsInstanceOf<ServiceResult<BalanceModel>>(result);
             Assert.IsTrue(result.HasError);
-            Assert.AreEqual($"Not found Balance with id {id}", result.Error.Message);
+            Assert.AreEqual($"Not found Balance with id {id}", result.Error!.Message);
 
             this.repository.Verify(x => x.GetByIdAsync(model.Id.GetValueOrDefault()), Times.Once);
             this.repository.Verify(x => x.UpdateAsync(It.IsAny<BalanceEntity>()), Times.Never);

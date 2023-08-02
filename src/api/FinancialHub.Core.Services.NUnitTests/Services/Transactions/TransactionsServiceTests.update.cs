@@ -102,7 +102,7 @@
             var result = await this.service.UpdateAsync(model.Id.GetValueOrDefault(), model);
 
             Assert.IsTrue(result.HasError);
-            Assert.AreEqual($"Not found Category with id {model.CategoryId}", result.Error.Message);
+            Assert.AreEqual($"Not found Category with id {model.CategoryId}", result.Error!.Message);
         }
 
         [Test]
@@ -124,7 +124,7 @@
             var result = await this.service.UpdateAsync(model.Id.GetValueOrDefault(), model);
 
             Assert.IsTrue(result.HasError);
-            Assert.AreEqual($"Not found Balance with id {model.BalanceId}", result.Error.Message);
+            Assert.AreEqual($"Not found Balance with id {model.BalanceId}", result.Error!.Message);
         }
     }
 }

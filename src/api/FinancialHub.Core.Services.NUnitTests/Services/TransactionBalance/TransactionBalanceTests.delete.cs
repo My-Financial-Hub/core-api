@@ -47,7 +47,7 @@ namespace FinancialHub.Core.Services.NUnitTests.Services
             var result = await this.service.DeleteTransactionAsync(id);
 
             Assert.IsTrue(result.HasError);
-            Assert.AreEqual(error.Message ,result.Error.Message);
+            Assert.AreEqual(error.Message ,result.Error!.Message);
         }
 
         [Test]

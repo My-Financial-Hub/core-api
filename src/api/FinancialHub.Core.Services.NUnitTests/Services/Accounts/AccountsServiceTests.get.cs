@@ -24,7 +24,7 @@ namespace FinancialHub.Core.Services.NUnitTests.Services
 
             Assert.IsInstanceOf<ServiceResult<ICollection<AccountModel>>>(result);
             Assert.IsFalse(result.HasError);
-            Assert.AreEqual(entitiesMock.Count(), result.Data.Count());
+            Assert.AreEqual(entitiesMock.Count, result.Data!.Count);
 
             this.mapperWrapper.Verify(x => x.Map<ICollection<AccountModel>>(It.IsAny<ICollection<AccountEntity>>()),Times.Once);
             this.repository.Verify(x => x.GetAllAsync(),Times.Once());
@@ -35,8 +35,6 @@ namespace FinancialHub.Core.Services.NUnitTests.Services
         [TestCase(Description = "Get by user repository exception", Category = "Get")]
         public void GetByUsersAsync_RepositoryException_ThrowsException()
         {
-            var entitiesMock = this.GenerateAccounts();
-
             var exc = new Exception("mock");
             this.repository
                 .Setup(x => x.GetAllAsync())

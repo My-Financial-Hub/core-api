@@ -32,7 +32,7 @@ namespace FinancialHub.Core.Services.NUnitTests.Services
 
             Assert.IsInstanceOf<ServiceResult<ICollection<TransactionModel>>>(result);
             Assert.IsFalse(result.HasError);
-            Assert.AreEqual(entitiesMock.Count, result.Data.Count);
+            Assert.AreEqual(entitiesMock.Count, result.Data!.Count);
         }
 
         [Test]  
@@ -53,7 +53,7 @@ namespace FinancialHub.Core.Services.NUnitTests.Services
 
             Assert.IsFalse(result.HasError);
             Assert.IsInstanceOf<ServiceResult<TransactionModel>>(result);
-            Assert.AreEqual(transaction.Id, result.Data.Id);
+            Assert.AreEqual(transaction.Id, result.Data!.Id);
         }
 
         [Test]
@@ -66,7 +66,7 @@ namespace FinancialHub.Core.Services.NUnitTests.Services
             var result = await this.service.GetByIdAsync(id);
 
             Assert.IsTrue(result.HasError);
-            Assert.AreEqual($"Not found Transaction with id {id}", result.Error.Message);
+            Assert.AreEqual($"Not found Transaction with id {id}", result.Error!.Message);
         }
     }
 }

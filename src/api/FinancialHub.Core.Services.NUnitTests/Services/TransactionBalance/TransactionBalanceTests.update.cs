@@ -125,7 +125,7 @@ namespace FinancialHub.Core.Services.NUnitTests.Services
             var result = await this.service.UpdateTransactionAsync(id, newTransaction);
 
             Assert.IsTrue(result.HasError);
-            Assert.AreEqual(error.Message, result.Error.Message);
+            Assert.AreEqual(error.Message, result.Error!.Message);
         }
     }
 }
