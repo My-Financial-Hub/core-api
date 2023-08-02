@@ -67,7 +67,7 @@ namespace FinancialHub.Core.Services.Services
             {
                 return transactionResult.Error;
             }
-            var transaction = transactionResult.Data;
+            var transaction = transactionResult.Data!;
 
             if (transaction.Status == TransactionStatus.Committed && transaction.IsActive)
             {

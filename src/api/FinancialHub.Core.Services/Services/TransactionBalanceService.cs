@@ -128,7 +128,7 @@ namespace FinancialHub.Core.Services.Services
                 return transactionResult;
             }
 
-            if(transactionResult.Data.IsPaid)
+            if(transactionResult.Data!.IsPaid)
             {
                 var balanceResult = await balancesService.GetByIdAsync(transaction.BalanceId);
                 if(balanceResult.HasError) { 
@@ -137,11 +137,11 @@ namespace FinancialHub.Core.Services.Services
 
                 if (transaction.Type == TransactionType.Earn)
                 {
-                    await balancesService.UpdateAmountAsync(transaction.BalanceId, balanceResult.Data.Amount + transaction.Amount);
+                    await balancesService.UpdateAmountAsync(transaction.BalanceId, balanceResult.Data!.Amount + transaction.Amount);
                 }
                 else
                 {
-                    await balancesService.UpdateAmountAsync(transaction.BalanceId, balanceResult.Data.Amount - transaction.Amount);
+                    await balancesService.UpdateAmountAsync(transaction.BalanceId, balanceResult.Data!.Amount - transaction.Amount);
                 }
             }
 
@@ -158,8 +158,8 @@ namespace FinancialHub.Core.Services.Services
                 return transactionResult;
             }
 
-            var oldTransaction = oldTransactionResult.Data;
-            var newTransaction = transactionResult.Data;
+            var oldTransaction = oldTransactionResult.Data!;
+            var newTransaction = transactionResult.Data!;
             var balanceResult = await balancesService.GetByIdAsync(newTransaction.BalanceId);
 
             if (newTransaction.BalanceId == oldTransaction.BalanceId)
@@ -190,7 +190,7 @@ namespace FinancialHub.Core.Services.Services
             if (deleted.Data == 0)
                 return false;
 
-            var transaction = oldTransaction.Data;
+            var transaction = oldTransaction.Data!;
             if (transaction.IsPaid)
             {
                 var amount = transaction.Balance.Amount;

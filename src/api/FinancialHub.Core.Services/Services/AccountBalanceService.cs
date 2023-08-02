@@ -22,7 +22,7 @@
 
             var balance = new BalanceModel()
             {
-                Name = $"{createdAccount.Data.Name} Default Balance",
+                Name = $"{createdAccount.Data!.Name} Default Balance",
                 AccountId = createdAccount.Data.Id.GetValueOrDefault(),
                 IsActive = createdAccount.Data.IsActive
             };
@@ -42,7 +42,7 @@
 
             var balances = await this.balancesService.GetAllByAccountAsync(accountId);
 
-            foreach (var balance in balances.Data)
+            foreach (var balance in balances.Data!)
             {
                 var balanceResult = await this.balancesService.DeleteAsync(balance.Id.GetValueOrDefault());
                 if (balanceResult.HasError)
