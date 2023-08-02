@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Bogus" Version="34.0.1" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.11.0" />
     <PackageReference Include="Moq" Version="4.16.1" />
     <PackageReference Include="NUnit" Version="3.13.2" />
@@ -17,7 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FinancialHub.Core.Domain.Tests\FinancialHub.Core.Domain.Tests.csproj" />
-    <ProjectReference Include="..\FinancialHub.WebApi\FinancialHub.WebApi.csproj" />
+    <ProjectReference Include="..\FinancialHub.Core.Services\FinancialHub.Core.Services.csproj" />
   </ItemGroup>
 
 </Project>
