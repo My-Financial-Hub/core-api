@@ -1,15 +1,4 @@
-﻿using FinancialHub.Domain.Models;
-using FinancialHub.Common.Results;
-using FinancialHub.Common.Results.Errors;
-using FinancialHub.Common.Responses.Errors;
-using FinancialHub.Common.Responses.Success;
-using Microsoft.AspNetCore.Mvc;
-using Moq;
-using NUnit.Framework;
-using System;
-using System.Threading.Tasks;
-
-namespace FinancialHub.WebApi.NUnitTests.Controllers
+﻿namespace FinancialHub.WebApi.NUnitTests.Controllers
 {
     public partial class AccountsControllerTests
     {
@@ -60,7 +49,7 @@ namespace FinancialHub.WebApi.NUnitTests.Controllers
             Assert.IsInstanceOf<ValidationErrorResponse>(result?.Value);
 
             var listResponse = result?.Value as ValidationErrorResponse;
-            Assert.AreEqual(mockResult.Error.Code, listResponse?.Code);
+            Assert.AreEqual(mockResult.Error!.Code, listResponse?.Code);
             Assert.AreEqual(mockResult.Error.Message, listResponse?.Message);
 
             this.mockAccountService.Verify(x => x.CreateAsync(body), Times.Once);

@@ -3,10 +3,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.OpenApi.Models;
 using FinancialHub.WebApi.Extensions.Configurations;
-using FinancialHub.Infra.Data.Extensions.Configurations;
-using FinancialHub.Services.Extensions.Configurations;
+using FinancialHub.Core.Infra.Data.Extensions.Configurations;
+using FinancialHub.Core.Services.Extensions.Configurations;
 
 namespace FinancialHub.WebApi
 {

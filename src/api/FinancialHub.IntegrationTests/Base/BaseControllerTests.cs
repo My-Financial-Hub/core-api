@@ -1,15 +1,6 @@
 ﻿using System.Net.Http;
-using NUnit.Framework;
-using System;
 using System.Net;
 using System.Linq;
-using System.Threading.Tasks;
-using FinancialHub.Common.Models;
-using FinancialHub.Common.Entities;
-using FinancialHub.Common.Responses.Success;
-using FinancialHub.Common.Responses.Errors;
-using FinancialHub.Common.Tests.Builders.Models;
-using FinancialHub.Common.Tests.Builders.Entities;
 using FinancialHub.IntegrationTests.Setup;
 using FinancialHub.IntegrationTests.Extensions;
 

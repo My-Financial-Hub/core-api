@@ -1,9 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.OpenApi.Models;
-using FinancialHub.Domain.Models;
 using FinancialHub.WebApi.Validators;
 
 namespace FinancialHub.WebApi.Extensions.Configurations

@@ -1,13 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Moq;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using NUnit.Framework;
-using FinancialHub.Domain.Models;
-using FinancialHub.Common.Responses.Success;
-using FinancialHub.Common.Results;
-
-namespace FinancialHub.WebApi.NUnitTests.Controllers
+﻿namespace FinancialHub.WebApi.NUnitTests.Controllers
 {
     public partial class AccountsControllerTests
     {
