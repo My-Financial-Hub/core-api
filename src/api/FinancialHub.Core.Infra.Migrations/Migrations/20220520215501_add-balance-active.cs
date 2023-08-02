@@ -1,9 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
+using System.Diagnostics.CodeAnalysis;
 
 #nullable disable
 
 namespace FinancialHub.Core.Infra.Migrations.Migrations
 {
+    [ExcludeFromCodeCoverage]
     public partial class addbalanceactive : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
