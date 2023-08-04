@@ -48,8 +48,7 @@ namespace FinancialHub.Core.Infra.Data.NUnitTests.Repositories.Base
         [TestCase(TestName = "Get Items not setting filter", Category = "Get")]
         public virtual async Task GetAsync_NullFilter_ThrowsArgumentNullException()
         {
-            var items = this.GenerateData();
-            items = await this.InsertData(items);
+            await this.InsertData(this.GenerateData());
 
             Assert.ThrowsAsync(typeof(ArgumentNullException), async () => await this.repository.GetAsync(null));
         }
@@ -76,27 +75,14 @@ namespace FinancialHub.Core.Infra.Data.NUnitTests.Repositories.Base
         [TestCase(TestName = "Get Items with wrong filter", Category = "Get")]
         public virtual async Task GetAsync_WrongFilter_ReturnsEmpty()
         {
-            var items = this.GenerateData(10, 100);
-            items = await this.InsertData(items);
+            await this.InsertData(this.GenerateData(10, 100));
 
-            Func<T, bool> filter = (x) => x.Id == new Guid();
+            static bool filter(T x) => x.Id == Guid.Empty;
 
             var list = await this.repository.GetAsync(filter);
 
             Assert.IsEmpty(list);
             Assert.IsInstanceOf<ICollection<T>>(list);
-        }
-
-        [Test]
-        [TestCase(TestName = "Get By Id with empty id", Category = "Get")]
-        public virtual async Task GetByIdAsync_EmptyId_ReturnsNull()
-        {
-            var items = this.GenerateData();
-            items = await this.InsertData(items);
-
-            var item = await this.repository.GetByIdAsync(Guid.Empty);
-
-            Assert.IsNull(item);
         }
 
         [Test]
@@ -119,10 +105,9 @@ namespace FinancialHub.Core.Infra.Data.NUnitTests.Repositories.Base
         [TestCase(TestName = "Get By Id with non-existing id", Category = "Get")]
         public virtual async Task GetByIdAsync_NonExistingId_ReturnsNull()
         {
-            var items = this.GenerateData();
-            items = await this.InsertData(items);
+            await this.InsertData(this.GenerateData());
 
-            var item = await this.repository.GetByIdAsync(new Guid());
+            var item = await this.repository.GetByIdAsync(Guid.Empty);
 
             Assert.IsNull(item);
         }
