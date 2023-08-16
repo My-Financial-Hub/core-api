@@ -14,8 +14,26 @@ namespace FinancialHub.Core.Infra.Data.NUnitTests.Repositories
         }
 
         [Test]
-        [TestCase(TestName = "Update Transaction but no Balances or Category", Category = "Update")]
-        public async Task UpdateAsync_ValidItemWithNestChild_DoesNotUpdateNestChild()
+        [TestCase(TestName = "Update Transaction but not Balance", Category = "Update")]
+        public async Task UpdateAsync_ValidItemWithBalance_DoesNotUpdateBalance()
+        {
+            var entity = this.GenerateObject();
+            await this.InsertTransaction(entity);
+
+            var changedEntity = this.GenerateTransaction(entity.Id, entity.BalanceId, entity.CategoryId);
+
+            var result = await this.repository.UpdateAsync(changedEntity);
+ 
+            this.AssertCreated(result);
+            Assert.AreEqual(1, this.context.Balances.Local.Count);
+
+            var balance = this.context.Balances.FirstOrDefault(x => x.Id == changedEntity.BalanceId);
+            Assert.AreEqual(balance, result.Balance);
+        }
+
+        [Test]
+        [TestCase(TestName = "Update Transaction but not Category", Category = "Update")]
+        public async Task UpdateAsync_ValidItemWithCategory_DoesNotUpdateCategory()
         {
             var entity = this.GenerateObject();
             await this.InsertTransaction(entity);
@@ -25,16 +43,9 @@ namespace FinancialHub.Core.Infra.Data.NUnitTests.Repositories
             var result = await this.repository.UpdateAsync(changedEntity);
 
             this.AssertCreated(result);
-
-            //SHOULD NOT CREATE 
-            Assert.AreEqual(1, this.context.Balances.Local.Count);
             Assert.AreEqual(1, this.context.Categories.Local.Count);
 
-            var account = this.context.Balances.FirstOrDefault(x => x.Id == changedEntity.BalanceId);
             var category = this.context.Categories.FirstOrDefault(x => x.Id == changedEntity.CategoryId);
-
-            //SHOULD NOT UPDATE DATABASE
-            Assert.AreEqual(account, result.Balance);
             Assert.AreEqual(category, result.Category);
         }
 
@@ -83,7 +94,6 @@ namespace FinancialHub.Core.Infra.Data.NUnitTests.Repositories
         public async Task UpdateAsync_InvalidBalanceId_ThrowsDbUpdateException()
         {
             var entity = this.GenerateObject();
-            var oldCategoryId = entity.Category.Id;
 
             await this.InsertTransaction(entity);
 
