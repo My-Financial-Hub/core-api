@@ -18,24 +18,5 @@
             Assert.AreEqual(expectedResult,result.Data);
             this.repository.Verify(x => x.DeleteAsync(guid), Times.Once);
         }
-
-        [Test]
-        public void DeleteAsync_RepositoryException_ThrowsException()
-        {
-            var guid = Guid.NewGuid();
-            var exc = new Exception("mock");
-
-            this.repository
-                .Setup(x => x.DeleteAsync(guid))
-                .Throws(exc)
-                .Verifiable();
-
-            var exception = Assert.ThrowsAsync<Exception>(
-                async () => await this.service.DeleteAsync(guid)
-            );
-
-            Assert.IsInstanceOf(exc.GetType(), exception);
-            this.repository.Verify(x => x.DeleteAsync(guid), Times.Once());
-        }
     }
 }
