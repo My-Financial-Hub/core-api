@@ -1,7 +1,3 @@
-using FinancialHub.IntegrationTests.Base;
-using FinancialHub.IntegrationTests.Setup;
-using FinancialHub.IntegrationTests.Extensions;
-
 namespace FinancialHub.IntegrationTests
 {
     public class TransactionsControllerTests : BaseControllerTests
@@ -21,25 +17,13 @@ namespace FinancialHub.IntegrationTests
             base.SetUp();
         }
 
-        protected static void AssertEqual(TransactionModel expected, TransactionModel result)
-        {
-            Assert.AreEqual(expected.BalanceId,     result.BalanceId);
-            Assert.AreEqual(expected.CategoryId,    result.CategoryId);
-            Assert.AreEqual(expected.TargetDate,    result.TargetDate);
-            Assert.AreEqual(expected.FinishDate,    result.FinishDate);
-            Assert.AreEqual(expected.Amount,        result.Amount);
-            Assert.AreEqual(expected.Type,          result.Type);
-            Assert.AreEqual(expected.Description,   result.Description);
-            Assert.AreEqual(expected.IsActive,      result.IsActive);
-        }
-
         protected async Task AssertGetExists(TransactionModel expected)
         {
             var getResponse = await this.client.GetAsync(baseEndpoint);
 
             var getResult = await getResponse.ReadContentAsync<ListResponse<TransactionModel>>();
             Assert.AreEqual(1, getResult?.Data.Count);
-            AssertEqual(expected, getResult!.Data.First());
+            TransactionModelAssert.Equal(expected, getResult!.Data.First());
         }
 
         protected TransactionModel CreateValidTransaction(bool isActive = true)
@@ -49,25 +33,11 @@ namespace FinancialHub.IntegrationTests
             this.fixture.AddData(model.Category);
             this.fixture.AddData(model.Balance);
 
-            var data = entityBuilder
+            return modelBuilder
                 .WithBalanceId(model.Balance.Id)
                 .WithCategoryId(model.Category.Id)
                 .WithActiveStatus(isActive)
                 .Generate();
-        
-            return new TransactionModel()
-            {
-                Id          = data.Id,
-                CategoryId  = data.CategoryId,
-                BalanceId   = data.BalanceId,
-                Description = data.Description,
-                FinishDate  = data.FinishDate,
-                TargetDate  = data.TargetDate,
-                Amount      = data.Amount,
-                Status      = data.Status,
-                Type        = data.Type,
-                IsActive    = data.IsActive,
-            };
         }
 
         protected TransactionModel InsertTransaction(bool isActive = true)
@@ -89,19 +59,12 @@ namespace FinancialHub.IntegrationTests
 
             data = this.fixture.AddData(data).First();
 
-            return new TransactionModel()
-            {
-                Id          = data.Id,
-                CategoryId  = data.CategoryId,
-                BalanceId   = data.BalanceId,
-                Description = data.Description,
-                FinishDate  = data.FinishDate,
-                TargetDate  = data.TargetDate,
-                Amount      = data.Amount,
-                Status      = data.Status,
-                Type        = data.Type,
-                IsActive    = data.IsActive,
-            };
+            return modelBuilder
+                .WithBalanceId(balance.Id)
+                .WithCategoryId(category.Id)
+                .WithActiveStatus(isActive)
+                .WithId(data.Id.GetValueOrDefault())
+                .Generate();
         }
 
         protected TransactionModel[] InsertTransactions(bool isActive = true)
@@ -119,20 +82,14 @@ namespace FinancialHub.IntegrationTests
 
             this.fixture.AddData(data.ToArray());
 
+
             return data.Select(
-                x => new TransactionModel()
-                {
-                    Id          = x.Id,
-                    CategoryId  = x.CategoryId,
-                    BalanceId   = x.BalanceId,
-                    Description = x.Description,
-                    FinishDate  = x.FinishDate,
-                    TargetDate  = x.TargetDate,
-                    Amount      = x.Amount,
-                    Status      = x.Status,
-                    Type        = x.Type,
-                    IsActive    = x.IsActive,
-                }
+                x => modelBuilder
+                        .WithBalanceId(x.BalanceId)
+                        .WithCategoryId(x.BalanceId)
+                        .WithActiveStatus(isActive)
+                        .WithId(x.Id.GetValueOrDefault())
+                        .Generate()
             ).ToArray();
         }
 
@@ -170,7 +127,7 @@ namespace FinancialHub.IntegrationTests
 
             var result = await response.ReadContentAsync<SaveResponse<TransactionModel>>();
             Assert.IsNotNull(result?.Data);
-            AssertEqual(data, result!.Data);
+            TransactionModelAssert.Equal(data, result!.Data);
         }
 
         [Test]
@@ -201,7 +158,7 @@ namespace FinancialHub.IntegrationTests
             var result = await response.ReadContentAsync<SaveResponse<TransactionModel>>();
             Assert.IsNotNull(result?.Data);
             Assert.AreEqual(body.Id, result?.Data.Id);
-            AssertEqual(body,result!.Data);
+            TransactionModelAssert.Equal(body,result!.Data);
         }
 
         [Test]

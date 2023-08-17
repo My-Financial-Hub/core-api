@@ -1,5 +1,4 @@
 ﻿using System.Net.Http;
-using FinancialHub.IntegrationTests.Setup;
 
 namespace FinancialHub.IntegrationTests.Base
 {

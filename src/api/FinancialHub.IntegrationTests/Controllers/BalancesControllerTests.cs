@@ -1,8 +1,4 @@
-﻿using FinancialHub.IntegrationTests.Base;
-using FinancialHub.IntegrationTests.Setup;
-using FinancialHub.IntegrationTests.Extensions;
-
-namespace FinancialHub.IntegrationTests
+﻿namespace FinancialHub.IntegrationTests
 {
     public class BalancesControllerTests : BaseControllerTests
     {
@@ -22,24 +18,10 @@ namespace FinancialHub.IntegrationTests
             base.SetUp();
         }
 
-        protected static void AssertEqual(BalanceModel expected, BalanceModel result)
-        {
-            Assert.AreEqual(expected.Name, result.Name);
-            Assert.AreEqual(expected.AccountId, result.AccountId);
-            Assert.AreEqual(expected.IsActive, result.IsActive);
-        }
-
-        protected static void AssertEqual(BalanceModel expected, BalanceEntity result)
-        {
-            Assert.AreEqual(expected.Name, result.Name);
-            Assert.AreEqual(expected.AccountId, result.AccountId);
-            Assert.AreEqual(expected.IsActive, result.IsActive);
-        }
-
         protected void AssertExists(BalanceModel expected)
         {
             var data = this.fixture.GetData<BalanceEntity>();
-            AssertEqual(expected, data.First());
+            BalanceModelAssert.Equal(expected, data.First());
         }
 
         [Test]
@@ -54,7 +36,7 @@ namespace FinancialHub.IntegrationTests
 
             var result = await response.ReadContentAsync<SaveResponse<BalanceModel>>();
             Assert.IsNotNull(result?.Data);
-            AssertEqual(data, result!.Data);
+            BalanceModelAssert.Equal(data, result!.Data);
         }
 
         [Test]
@@ -104,7 +86,7 @@ namespace FinancialHub.IntegrationTests
 
             var result = await response.ReadContentAsync<SaveResponse<BalanceModel>>();
             Assert.IsNotNull(result?.Data);
-            AssertEqual(data, result!.Data);
+            BalanceModelAssert.Equal(data, result!.Data);
         }
 
         [Test]

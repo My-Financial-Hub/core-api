@@ -1,7 +1,3 @@
-using FinancialHub.IntegrationTests.Base;
-using FinancialHub.IntegrationTests.Setup;
-using FinancialHub.IntegrationTests.Extensions;
-
 namespace FinancialHub.IntegrationTests
 {
     public class AccountsControllerTests : BaseControllerTests
@@ -23,20 +19,13 @@ namespace FinancialHub.IntegrationTests
             base.SetUp();
         }
 
-        protected static void AssertEqual(AccountModel expected, AccountModel result)
-        {
-            Assert.AreEqual(expected.Name,          result.Name);
-            Assert.AreEqual(expected.Description,   result.Description);
-            Assert.AreEqual(expected.IsActive,      result.IsActive);
-        }
-
         protected async Task AssertGetExists(AccountModel expected)
         {
             var getResponse = await this.client.GetAsync(baseEndpoint);
 
             var getResult = await getResponse.ReadContentAsync<ListResponse<AccountModel>>();
             Assert.AreEqual(1, getResult?.Data.Count);
-            AssertEqual(expected, getResult!.Data.First());
+            AccountModelAssert.Equal(expected, getResult!.Data.First());
         }
 
         protected void Populate(int amount = 10)
@@ -88,7 +77,7 @@ namespace FinancialHub.IntegrationTests
 
             var result = await response.ReadContentAsync<SaveResponse<AccountModel>>();
             Assert.IsNotNull(result?.Data);
-            AssertEqual(data, result!.Data);
+            AccountModelAssert.Equal(data, result!.Data);
         }
 
         [Test]
@@ -115,7 +104,7 @@ namespace FinancialHub.IntegrationTests
             var result = await response.ReadContentAsync<SaveResponse<AccountModel>>();
             Assert.IsNotNull(result?.Data);
             Assert.AreEqual(body.Id, result?.Data.Id);
-            AssertEqual(body,result!.Data);
+            AccountModelAssert.Equal(body,result!.Data);
         }
 
         [Test]

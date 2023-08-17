@@ -1,14 +1,9 @@
-using FinancialHub.IntegrationTests.Base;
-using FinancialHub.IntegrationTests.Setup;
-using FinancialHub.IntegrationTests.Extensions;
-
 namespace FinancialHub.IntegrationTests
 {
     public class CategoriesControllerTests : BaseControllerTests
     {
         private CategoryEntityBuilder dataBuilder;
         private CategoryModelBuilder builder;
-
 
         public CategoriesControllerTests(FinancialHubApiFixture fixture) : base(fixture, "/categories")
         {
@@ -22,20 +17,13 @@ namespace FinancialHub.IntegrationTests
             base.SetUp();
         }
 
-        protected static void AssertEqual(CategoryModel expected, CategoryModel result)
-        {
-            Assert.AreEqual(expected.Name,          result.Name);
-            Assert.AreEqual(expected.Description,   result.Description);
-            Assert.AreEqual(expected.IsActive,      result.IsActive);
-        }
-
         protected async Task AssertGetExists(CategoryModel expected)
         {
             var getResponse = await this.client.GetAsync(baseEndpoint);
 
             var getResult = await getResponse.ReadContentAsync<ListResponse<CategoryModel>>();
             Assert.AreEqual(1, getResult?.Data.Count);
-            AssertEqual(expected, getResult!.Data.First());
+            CategoryModelAssert.Equal(expected, getResult!.Data.First());
         }
 
         [Test]
@@ -61,7 +49,7 @@ namespace FinancialHub.IntegrationTests
 
             var result = await response.ReadContentAsync<SaveResponse<CategoryModel>>();
             Assert.IsNotNull(result?.Data);
-            AssertEqual(data, result!.Data);
+            CategoryModelAssert.Equal(data, result!.Data);
         }
 
         [Test]
@@ -88,7 +76,7 @@ namespace FinancialHub.IntegrationTests
             var result = await response.ReadContentAsync<SaveResponse<CategoryModel>>();
             Assert.IsNotNull(result?.Data);
             Assert.AreEqual(body.Id, result?.Data.Id);
-            AssertEqual(body,result!.Data);
+            CategoryModelAssert.Equal(body,result!.Data);
         }
 
         [Test]
