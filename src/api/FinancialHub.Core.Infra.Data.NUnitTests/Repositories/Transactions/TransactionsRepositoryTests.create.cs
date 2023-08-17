@@ -71,47 +71,51 @@ namespace FinancialHub.Core.Infra.Data.NUnitTests.Repositories
         }
 
         [Test]
-        [TestCase(TestName = "Create new Transaction without Updates/Creates Balance or Category", Category = "Create")]
-        public async Task CreateAsync_ValidItemWithNestChild_DoesNotUpdateNestChild()
+        [TestCase(TestName = "Create new Transaction without Updates/Creates Category", Category = "Create")]
+        public async Task CreateAsync_ValidItemWithCategory_DoesNotUpdateCategory()
         {
-            #warning this test is too complex
-
-            /***** ARRANGE *****/
             var entity = this.GenerateObject();
 
-            //INSERTS ACCOUNT AND CATEGORY
-            var oldBalance = this.GenerateBalance(entity.BalanceId);
             var oldCategory = this.GenerateCategory(entity.CategoryId);
 
-            await this.InsertData(oldBalance);
+            await this.InsertData(entity.Balance);
             await this.InsertData(oldCategory);
 
-            //CHANGES TRANSACTION'S CATEGORY AND BALANCE
-            entity.Balance.Name = Guid.NewGuid().ToString();
             entity.Category.Name = Guid.NewGuid().ToString();
-
-            /***** ACT *****/
 
             var result = await this.repository.CreateAsync(entity);
 
-            /***** ASSERT *****/
-
             this.AssertCreated(result);
-
-            //SHOULD NOT CREATE ACCOUNTS OR CATEGORIES
-            Assert.AreEqual(1,this.context.Balances.Count());
             Assert.AreEqual(1,this.context.Categories.Count());
 
-            var account = this.context.Balances.FirstOrDefault(x => x.Id == entity.BalanceId);
             var category = this.context.Categories.FirstOrDefault(x => x.Id == entity.CategoryId);
             
-            //SHOULD NOT UPDATE DATABASE
-            Assert.AreEqual(oldBalance, account);
             Assert.AreEqual(oldCategory, category);
-
-            //SHOULD NOT RETURN THE WRONG ITEM
-            Assert.AreEqual(oldBalance, result.Balance);
             Assert.AreEqual(oldCategory, result.Category);
+        }
+
+        [Test]
+        [TestCase(TestName = "Create new Transaction without Updates/Creates Balance", Category = "Create")]
+        public async Task CreateAsync_ValidItemWithBalance_DoesNotUpdateBalance()
+        {
+            var entity = this.GenerateObject();
+
+            var oldBalance = this.GenerateBalance(entity.BalanceId);
+
+            await this.InsertData(oldBalance);
+            await this.InsertData(entity.Category);
+
+            entity.Balance.Name = Guid.NewGuid().ToString();
+
+            var result = await this.repository.CreateAsync(entity);
+
+            this.AssertCreated(result);
+            Assert.AreEqual(1, this.context.Balances.Count());
+
+            var balance = this.context.Balances.FirstOrDefault(x => x.Id == entity.BalanceId);
+
+            Assert.AreEqual(oldBalance, balance);
+            Assert.AreEqual(oldBalance, result.Balance);
         }
 
         [Test]
