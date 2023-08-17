@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
 using FinancialHub.WebApi;
 using FinancialHub.Core.Infra.Data.Contexts;
+using Microsoft.AspNetCore.Hosting;
 
 namespace FinancialHub.IntegrationTests.Setup
 {
@@ -18,10 +19,7 @@ namespace FinancialHub.IntegrationTests.Setup
                 .WithWebHostBuilder(
                     builder =>
                     {
-                        builder.ConfigureServices(services =>
-                        {
-                            services.AddTestDbContext<FinancialHubContext>();
-                        });
+                        builder.UseEnvironment("Testing");
                     }
                 );
 
