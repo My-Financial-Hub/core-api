@@ -1,6 +1,6 @@
 ﻿using FinancialHub.Core.Domain.Filters;
 
-namespace FinancialHub.WebApi.NUnitTests.Controllers
+namespace FinancialHub.Core.WebApi.NUnitTests.Controllers
 {
     public partial class TransactionsControllerTests
     {

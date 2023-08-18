@@ -1,7 +1,7 @@
-﻿using FinancialHub.WebApi.Controllers;
+﻿using FinancialHub.Core.WebApi.Controllers;
 using FinancialHub.Core.Domain.Interfaces.Services;
 
-namespace FinancialHub.WebApi.NUnitTests.Controllers
+namespace FinancialHub.Core.WebApi.NUnitTests.Controllers
 {
     public partial class AccountsControllerTests
     {
