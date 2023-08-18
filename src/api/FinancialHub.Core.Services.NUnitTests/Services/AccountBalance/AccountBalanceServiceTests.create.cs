@@ -1,4 +1,6 @@
-﻿namespace FinancialHub.Core.Services.NUnitTests.Services
+﻿using FinancialHub.Core.Domain.Tests.Assertions.Models;
+
+namespace FinancialHub.Core.Services.NUnitTests.Services
 {
     public partial class AccountBalanceServiceTests
     {
@@ -68,9 +70,7 @@
             var result = await this.service.CreateAsync(account);
 
             Assert.IsFalse(result.HasError);
-            Assert.AreEqual(account.Name,result.Data!.Name);
-            Assert.AreEqual(account.Description,result.Data.Description);
-            Assert.AreEqual(account.IsActive,result.Data.IsActive);
+            AccountModelAssert.Equal(account, result.Data!);
         }
 
         [Test]

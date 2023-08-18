@@ -1,4 +1,6 @@
-﻿namespace FinancialHub.Core.Services.NUnitTests.Services
+﻿using FinancialHub.Core.Domain.Tests.Assertions.Entities;
+
+namespace FinancialHub.Core.Services.NUnitTests.Services
 {
     public partial class BalancesServiceTests
     {
@@ -45,10 +47,7 @@
 
             Assert.IsInstanceOf<ServiceResult<BalanceModel>>(result);
             Assert.IsFalse(result.HasError);
-            Assert.AreEqual(entity.AccountId    , result.Data!.AccountId);
-            Assert.AreEqual(entity.Amount       , result.Data.Amount);
-            Assert.AreEqual(entity.Name         , result.Data.Name);
-            Assert.AreEqual(entity.IsActive     , result.Data.IsActive);
+            BalanceEntityAssert.Equal(entity, result.Data!);
 
             this.repository.Verify(x => x.GetByIdAsync(entity.Id.GetValueOrDefault()), Times.Once);
         }
