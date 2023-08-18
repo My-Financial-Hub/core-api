@@ -1,4 +1,6 @@
-﻿namespace FinancialHub.Auth.Presentation.Tests.Asserts
+﻿using FinancialHub.Common.Tests.Assertions.Responses;
+
+namespace FinancialHub.Auth.Presentation.Tests.Asserts
 {
     public static class ControllerResponseAssert
     {
@@ -10,7 +12,7 @@
                 Assert.That(result.Value, Is.TypeOf(expectedResponse.GetType()));
 
                 var response = result.Value as BaseResponse<T>;
-                ResponseAssert.IsValid(expectedResponse, response!);
+                BaseResponseAssert.IsValid(expectedResponse, response!);
             });
         }
 
@@ -22,7 +24,7 @@
                 Assert.That(result.Value, Is.TypeOf(expectedResponse.GetType()));
 
                 var response = result.Value as ValidationErrorResponse;
-                ResponseAssert.HasError(expectedResponse, response!);
+                BaseResponseAssert.HasError(expectedResponse, response!);
             });
         }
     }
