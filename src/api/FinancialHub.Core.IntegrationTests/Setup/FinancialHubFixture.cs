@@ -6,7 +6,7 @@ using FinancialHub.WebApi;
 using FinancialHub.Core.Infra.Data.Contexts;
 using Microsoft.AspNetCore.Hosting;
 
-namespace FinancialHub.IntegrationTests.Setup
+namespace FinancialHub.Core.IntegrationTests.Setup
 {
     public class FinancialHubApiFixture : IEnumerable, IDisposable
     {

@@ -1,4 +1,4 @@
-namespace FinancialHub.IntegrationTests
+namespace FinancialHub.Core.IntegrationTests
 {
     public class TransactionsControllerTests : BaseControllerTests
     {

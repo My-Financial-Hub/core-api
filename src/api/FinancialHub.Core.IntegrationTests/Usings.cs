@@ -32,6 +32,6 @@ global using FinancialHub.Core.Domain.Tests.Builders.Models;
 global using FinancialHub.Core.Domain.Tests.Builders.Entities;
 
 // Integration Tests SetUp namespaces
-global using FinancialHub.IntegrationTests.Base;
-global using FinancialHub.IntegrationTests.Setup;
-global using FinancialHub.IntegrationTests.Extensions;
+global using FinancialHub.Core.IntegrationTests.Base;
+global using FinancialHub.Core.IntegrationTests.Setup;
+global using FinancialHub.Core.IntegrationTests.Extensions;

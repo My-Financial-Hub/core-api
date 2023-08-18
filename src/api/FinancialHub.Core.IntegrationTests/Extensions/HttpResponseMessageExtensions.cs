@@ -1,7 +1,7 @@
 ﻿using System.Net.Http;
 using System.Text.Json;
 
-namespace FinancialHub.IntegrationTests.Extensions
+namespace FinancialHub.Core.IntegrationTests.Extensions
 {
     public static class HttpResponseMessageExtensions
     {

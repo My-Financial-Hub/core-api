@@ -1,6 +1,6 @@
 ﻿using System.Net.Http;
 
-namespace FinancialHub.IntegrationTests.Base
+namespace FinancialHub.Core.IntegrationTests.Base
 {
     [TestFixtureSource(typeof(FinancialHubApiFixture))]
     public abstract class BaseControllerTests

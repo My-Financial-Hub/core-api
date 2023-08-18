@@ -2,7 +2,7 @@
 using System.Text;
 using System.Text.Json;
 
-namespace FinancialHub.IntegrationTests.Extensions
+namespace FinancialHub.Core.IntegrationTests.Extensions
 {
     public static class HttpClientExtensions
     {
