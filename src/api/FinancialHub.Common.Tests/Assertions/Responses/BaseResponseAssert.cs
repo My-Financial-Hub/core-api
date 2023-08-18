@@ -1,9 +1,10 @@
 ﻿using FinancialHub.Common.Responses.Errors;
 using FinancialHub.Common.Responses.Success;
+using NUnit.Framework;
 
-namespace FinancialHub.Auth.Tests.Common.Assertions
+namespace FinancialHub.Common.Tests.Assertions.Responses
 {
-    public static class ResponseAssert
+    public static class BaseResponseAssert
     {
         public static void IsValid<T>(T expected, BaseResponse<T> response)
         {
