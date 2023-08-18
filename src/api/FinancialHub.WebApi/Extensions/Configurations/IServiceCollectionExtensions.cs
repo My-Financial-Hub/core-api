@@ -2,9 +2,9 @@
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.OpenApi.Models;
-using FinancialHub.WebApi.Validators;
+using FinancialHub.Core.WebApi.Validators;
 
-namespace FinancialHub.WebApi.Extensions.Configurations
+namespace FinancialHub.Core.WebApi.Extensions.Configurations
 {
     public static class IServiceCollectionExtensions
     {

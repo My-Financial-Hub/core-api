@@ -3,11 +3,11 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using FinancialHub.WebApi.Extensions.Configurations;
+using FinancialHub.Core.WebApi.Extensions.Configurations;
 using FinancialHub.Core.Infra.Data.Extensions.Configurations;
 using FinancialHub.Core.Services.Extensions.Configurations;
 
-namespace FinancialHub.WebApi
+namespace FinancialHub.Core.WebApi
 {
     public class Startup
     {

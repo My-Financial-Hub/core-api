@@ -1,4 +1,4 @@
-﻿namespace FinancialHub.WebApi.Controllers
+﻿namespace FinancialHub.Core.WebApi.Controllers
 {
     [ApiController]
     [Route("[controller]")]

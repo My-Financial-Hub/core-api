@@ -9,7 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infra", "Infra", "{2444FB9D
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{91A212DC-1D96-43DD-B1A0-153ACB6980D5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinancialHub.WebApi.NUnitTests", "FinancialHub.WebApi.NUnitTests\FinancialHub.WebApi.NUnitTests.csproj", "{40B4BB9F-DD1B-463F-B2D0-9CF804A2089C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinancialHub.Core.WebApi.NUnitTests", "FinancialHub.WebApi.NUnitTests\FinancialHub.Core.WebApi.NUnitTests.csproj", "{40B4BB9F-DD1B-463F-B2D0-9CF804A2089C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{8AFE509C-0DD0-4C85-8BEA-24FB599293D7}"
 EndProject
@@ -41,7 +41,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinancialHub.Auth.Infra.Dat
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinancialHub.Auth.Infra.Tests", "FinancialHub.Auth.Infra.Tests\FinancialHub.Auth.Infra.Tests.csproj", "{A4D904E8-5A38-4E00-8419-62CB1F24F94E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinancialHub.WebApi", "FinancialHub.WebApi\FinancialHub.WebApi.csproj", "{F6444C4B-6609-40E3-8D09-C52D871C5160}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinancialHub.Core.WebApi", "FinancialHub.WebApi\FinancialHub.Core.WebApi.csproj", "{F6444C4B-6609-40E3-8D09-C52D871C5160}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinancialHub.Auth.Resources", "FinancialHub.Auth.Resources\FinancialHub.Auth.Resources.csproj", "{8B091A42-5BE6-49A4-8086-C8761E0CE769}"
 EndProject

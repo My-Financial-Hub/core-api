@@ -1,7 +1,7 @@
-﻿using FinancialHub.WebApi.Resources;
+﻿using FinancialHub.Core.WebApi.Resources;
 using FluentValidation;
 
-namespace FinancialHub.WebApi.Validators
+namespace FinancialHub.Core.WebApi.Validators
 {
     public class BalanceValidator : AbstractValidator<BalanceModel>
     {
