@@ -22,6 +22,7 @@ namespace FinancialHub.Core.WebApi.Extensions.Configurations
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Financial Hub WebApi", Version = "v1" });
             });
+
             return services;
         }
 
