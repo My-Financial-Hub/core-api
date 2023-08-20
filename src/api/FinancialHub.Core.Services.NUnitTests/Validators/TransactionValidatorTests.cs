@@ -1,7 +1,7 @@
 ﻿using FinancialHub.Core.Domain.Enums;
-using FinancialHub.Core.WebApi.Validators;
+using FinancialHub.Core.Services.Validators;
 
-namespace FinancialHub.Core.WebApi.NUnitTests.Validators
+namespace FinancialHub.Core.Services.NUnitTests.Validators
 {
     public class TransactionValidatorTests
     {

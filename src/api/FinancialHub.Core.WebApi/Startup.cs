@@ -22,8 +22,7 @@ namespace FinancialHub.Core.WebApi
         {
             services.AddApiConfigurations();
 
-            services.AddValidators();
-            services.AddServices();
+            services.AddCoreServices();
             services.AddRepositories(Configuration);
 
             services.AddMvc().AddNewtonsoftJson();

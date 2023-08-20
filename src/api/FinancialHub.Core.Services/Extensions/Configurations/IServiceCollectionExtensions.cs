@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using FinancialHub.Core.Services.Mappers;
 using FinancialHub.Core.Services.Services;
+using FinancialHub.Core.Services.Validators;
+using FluentValidation;
 
 namespace FinancialHub.Core.Services.Extensions.Configurations
 {
@@ -10,6 +12,7 @@ namespace FinancialHub.Core.Services.Extensions.Configurations
         {
             services.AddMapper();
             services.AddServices();
+            services.AddValidators();
 
             return services;
         }
@@ -31,6 +34,15 @@ namespace FinancialHub.Core.Services.Extensions.Configurations
         {
             services.AddAutoMapper(typeof(FinancialHubAutoMapperProfile));
             services.AddScoped<IMapperWrapper, FinancialHubMapperWrapper>();
+
+            return services;
+        }
+
+        private static IServiceCollection AddValidators(this IServiceCollection services)
+        {
+            services.AddScoped<IValidator<AccountModel>, AccountValidator>();
+            services.AddScoped<IValidator<CategoryModel>, CategoryValidator>();
+            services.AddScoped<IValidator<TransactionModel>, TransactionValidator>();
 
             return services;
         }
