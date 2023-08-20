@@ -7,7 +7,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{1F4F43
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infra", "Infra", "{2444FB9D-15D1-4193-BF04-83C4397369DA}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{91A212DC-1D96-43DD-B1A0-153ACB6980D5}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{91A212DC-1D96-43DD-B1A0-153ACB6980D5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{8AFE509C-0DD0-4C85-8BEA-24FB599293D7}"
 EndProject
@@ -67,9 +67,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinancialHub.Core.Infra.Dat
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinancialHub.Core.Infra.Migrations", "FinancialHub.Core.Infra.Migrations\FinancialHub.Core.Infra.Migrations.csproj", "{15162FAE-26C6-4335-9919-762278E53DEF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinancialHub.Core.Services", "FinancialHub.Core.Services\FinancialHub.Core.Services.csproj", "{FBB12706-8963-46AF-A0B2-4095939BB007}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinancialHub.Core.Application", "FinancialHub.Core.Services\FinancialHub.Core.Application.csproj", "{FBB12706-8963-46AF-A0B2-4095939BB007}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinancialHub.Core.Services.NUnitTests", "FinancialHub.Core.Services.NUnitTests\FinancialHub.Core.Services.NUnitTests.csproj", "{9D6D3AB5-F998-48C2-AA4F-C129A9E9F28B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinancialHub.Core.Application.NUnitTests", "FinancialHub.Core.Services.NUnitTests\FinancialHub.Core.Application.NUnitTests.csproj", "{9D6D3AB5-F998-48C2-AA4F-C129A9E9F28B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinancialHub.Core.Domain", "FinancialHub.Core.Domain\FinancialHub.Core.Domain.csproj", "{84D15870-8431-49D4-A075-9BA5D9B0CF0A}"
 EndProject
