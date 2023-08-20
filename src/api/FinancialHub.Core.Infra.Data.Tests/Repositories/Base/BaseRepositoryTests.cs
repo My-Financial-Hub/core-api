@@ -6,7 +6,7 @@ using FinancialHub.Common.Tests.Builders.Entities;
 using FinancialHub.Common.Interfaces.Repositories;
 using FinancialHub.Core.Infra.Data.Contexts;
 
-namespace FinancialHub.Core.Infra.Data.NUnitTests.Repositories.Base
+namespace FinancialHub.Core.Infra.Data.Tests.Repositories.Base
 {
     public abstract partial class BaseRepositoryTests<T>
         where T : BaseEntity

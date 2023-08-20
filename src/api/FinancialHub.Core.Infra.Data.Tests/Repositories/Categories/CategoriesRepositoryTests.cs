@@ -1,7 +1,7 @@
-﻿using FinancialHub.Core.Infra.Data.NUnitTests.Repositories.Base;
+﻿using FinancialHub.Core.Infra.Data.Tests.Repositories.Base;
 using FinancialHub.Core.Infra.Data.Repositories;
 
-namespace FinancialHub.Core.Infra.Data.NUnitTests.Repositories
+namespace FinancialHub.Core.Infra.Data.Tests.Repositories
 {
     public class CategoriesRepositoryTests : BaseRepositoryTests<CategoryEntity>
     {

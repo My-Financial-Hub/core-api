@@ -1,6 +1,6 @@
 ﻿using FinancialHub.Core.Domain.Enums;
 
-namespace FinancialHub.Core.Infra.Data.NUnitTests.Repositories
+namespace FinancialHub.Core.Infra.Data.Tests.Repositories
 {
     public partial class BalancesRepositoryTests
     {
