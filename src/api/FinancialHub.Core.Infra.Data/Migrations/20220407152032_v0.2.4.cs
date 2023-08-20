@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace FinancialHub.Core.Infra.Migrations.Migrations
+namespace FinancialHub.Core.Infra.Data.Migrations
 {
     [ExcludeFromCodeCoverage]
     public partial class v024 : Migration

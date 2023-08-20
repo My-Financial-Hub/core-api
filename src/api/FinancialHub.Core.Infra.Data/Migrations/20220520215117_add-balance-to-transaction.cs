@@ -3,7 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 
 #nullable disable
 
-namespace FinancialHub.Core.Infra.Migrations.Migrations
+namespace FinancialHub.Core.Infra.Data.Migrations
 {
     [ExcludeFromCodeCoverage]
     public partial class addbalancetotransaction : Migration

@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace FinancialHub.Core.Infra.Migrations.Migrations
+namespace FinancialHub.Core.Infra.Data.Migrations
 {
     [DbContext(typeof(FinancialHubContext))]
-    [Migration("20220520215501_add-balance-active")]
-    partial class addbalanceactive
+    [Migration("20220520215117_add-balance-to-transaction")]
+    partial class addbalancetotransaction
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -78,10 +78,6 @@ namespace FinancialHub.Core.Infra.Migrations.Migrations
                     b.Property<string>("Currency")
                         .HasColumnType("varchar(50)")
                         .HasColumnName("currency");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit")
-                        .HasColumnName("active");
 
                     b.Property<string>("Name")
                         .HasColumnType("varchar(200)")

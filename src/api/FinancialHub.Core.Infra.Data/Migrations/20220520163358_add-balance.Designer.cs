@@ -4,16 +4,18 @@ using FinancialHub.Core.Infra.Data.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace FinancialHub.Core.Infra.Migrations.Migrations
+namespace FinancialHub.Core.Infra.Data.Migrations
 {
     [DbContext(typeof(FinancialHubContext))]
-    partial class FinancialHubContextModelSnapshot : ModelSnapshot
+    [Migration("20220520163358_add-balance")]
+    partial class addbalance
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -77,10 +79,6 @@ namespace FinancialHub.Core.Infra.Migrations.Migrations
                         .HasColumnType("varchar(50)")
                         .HasColumnName("currency");
 
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit")
-                        .HasColumnName("active");
-
                     b.Property<string>("Name")
                         .HasColumnType("varchar(200)")
                         .HasColumnName("name");
@@ -92,9 +90,6 @@ namespace FinancialHub.Core.Infra.Migrations.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("AccountId");
-
-                    b.HasIndex("Id")
-                        .IsUnique();
 
                     b.ToTable("balances");
                 });
@@ -138,13 +133,13 @@ namespace FinancialHub.Core.Infra.Migrations.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("id");
 
+                    b.Property<Guid>("AccountId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("account_id");
+
                     b.Property<decimal>("Amount")
                         .HasColumnType("money")
                         .HasColumnName("amount");
-
-                    b.Property<Guid>("BalanceId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("balance_id");
 
                     b.Property<Guid>("CategoryId")
                         .HasColumnType("uniqueidentifier")
@@ -184,7 +179,7 @@ namespace FinancialHub.Core.Infra.Migrations.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BalanceId");
+                    b.HasIndex("AccountId");
 
                     b.HasIndex("CategoryId");
 
@@ -207,9 +202,9 @@ namespace FinancialHub.Core.Infra.Migrations.Migrations
 
             modelBuilder.Entity("FinancialHub.Domain.Entities.TransactionEntity", b =>
                 {
-                    b.HasOne("FinancialHub.Domain.Entities.BalanceEntity", "Balance")
+                    b.HasOne("FinancialHub.Domain.Entities.AccountEntity", "Account")
                         .WithMany("Transactions")
-                        .HasForeignKey("BalanceId")
+                        .HasForeignKey("AccountId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -219,7 +214,7 @@ namespace FinancialHub.Core.Infra.Migrations.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Balance");
+                    b.Navigation("Account");
 
                     b.Navigation("Category");
                 });
@@ -227,10 +222,7 @@ namespace FinancialHub.Core.Infra.Migrations.Migrations
             modelBuilder.Entity("FinancialHub.Domain.Entities.AccountEntity", b =>
                 {
                     b.Navigation("Balances");
-                });
 
-            modelBuilder.Entity("FinancialHub.Domain.Entities.BalanceEntity", b =>
-                {
                     b.Navigation("Transactions");
                 });
 
