@@ -1,7 +1,7 @@
-﻿using FinancialHub.Core.Services.Resources;
+﻿using FinancialHub.Core.Application.Resources;
 using FluentValidation;
 
-namespace FinancialHub.Core.Services.Validators
+namespace FinancialHub.Core.Application.Validators
 {
     public class AccountValidator : AbstractValidator<AccountModel>
     {

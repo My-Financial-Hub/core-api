@@ -1,7 +1,7 @@
 ﻿using FinancialHub.Core.Domain.Enums;
-using FinancialHub.Core.Services.NUnitTests.Services.TransactionBalance;
+using FinancialHub.Core.Application.NUnitTests.Services.TransactionBalance;
 
-namespace FinancialHub.Core.Services.NUnitTests.Services
+namespace FinancialHub.Core.Application.NUnitTests.Services
 {
     //TODO: fix UpdateAmount in test names
     //TOOD: maybe separate some testcases

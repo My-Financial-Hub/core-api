@@ -1,10 +1,10 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using FinancialHub.Core.Services.Mappers;
-using FinancialHub.Core.Services.Services;
-using FinancialHub.Core.Services.Validators;
+using FinancialHub.Core.Application.Mappers;
+using FinancialHub.Core.Application.Services;
+using FinancialHub.Core.Application.Validators;
 using FluentValidation;
 
-namespace FinancialHub.Core.Services.Extensions.Configurations
+namespace FinancialHub.Core.Application.Extensions.Configurations
 {
     public static class IServiceCollectionExtensions
     {

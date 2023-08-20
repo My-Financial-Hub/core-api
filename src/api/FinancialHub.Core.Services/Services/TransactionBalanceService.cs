@@ -1,6 +1,6 @@
 ﻿using FinancialHub.Core.Domain.Enums;
 
-namespace FinancialHub.Core.Services.Services
+namespace FinancialHub.Core.Application.Services
 {
     public class TransactionBalanceService : ITransactionBalanceService
     {

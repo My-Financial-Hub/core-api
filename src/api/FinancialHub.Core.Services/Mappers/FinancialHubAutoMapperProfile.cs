@@ -2,7 +2,7 @@
 using FinancialHub.Core.Domain.Filters;
 using FinancialHub.Core.Domain.Queries;
 
-namespace FinancialHub.Core.Services.Mappers
+namespace FinancialHub.Core.Application.Mappers
 {
     public class FinancialHubAutoMapperProfile : Profile
     {

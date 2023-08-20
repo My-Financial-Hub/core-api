@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using FinancialHub.Core.Domain.Interfaces.Mappers;
 
-namespace FinancialHub.Core.Services.Mappers
+namespace FinancialHub.Core.Application.Mappers
 {
     public class FinancialHubMapperWrapper : IMapperWrapper
     {

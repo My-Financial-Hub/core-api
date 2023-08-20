@@ -1,6 +1,6 @@
-﻿using FinancialHub.Core.Services.NUnitTests.Services.TransactionBalance;
+﻿using FinancialHub.Core.Application.NUnitTests.Services.TransactionBalance;
 
-namespace FinancialHub.Core.Services.NUnitTests.Services
+namespace FinancialHub.Core.Application.NUnitTests.Services
 {
     public partial class TransactionBalanceTests : BaseTransactionBalanceTests
     {

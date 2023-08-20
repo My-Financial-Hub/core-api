@@ -3,10 +3,10 @@ using FinancialHub.Core.Domain.Interfaces.Mappers;
 using FinancialHub.Core.Domain.Interfaces.Repositories;
 using FinancialHub.Core.Domain.Interfaces.Services;
 using FinancialHub.Core.Domain.Tests.Builders.Entities;
-using FinancialHub.Core.Services.Mappers;
-using FinancialHub.Core.Services.Services;
+using FinancialHub.Core.Application.Mappers;
+using FinancialHub.Core.Application.Services;
 
-namespace FinancialHub.Core.Services.NUnitTests.Services
+namespace FinancialHub.Core.Application.NUnitTests.Services
 {
     public partial class BalancesServiceTests
     {

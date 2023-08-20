@@ -2,7 +2,7 @@
 using FinancialHub.Core.Domain.Queries;
 using FinancialHub.Core.Domain.Enums;
 
-namespace FinancialHub.Core.Services.Services
+namespace FinancialHub.Core.Application.Services
 {
     public class TransactionsService : ITransactionsService
     {

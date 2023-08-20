@@ -1,4 +1,4 @@
-﻿namespace FinancialHub.Core.Services.Services
+﻿namespace FinancialHub.Core.Application.Services
 {
     public class CategoriesService : ICategoriesService
     {

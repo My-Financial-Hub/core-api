@@ -1,7 +1,7 @@
 ﻿using FinancialHub.Core.Domain.Interfaces.Services;
-using FinancialHub.Core.Services.Services;
+using FinancialHub.Core.Application.Services;
 
-namespace FinancialHub.Core.Services.NUnitTests.Services
+namespace FinancialHub.Core.Application.NUnitTests.Services
 {
     public partial class AccountBalanceServiceTests
     {

@@ -2,7 +2,7 @@
 using FinancialHub.Core.Domain.Filters;
 using FinancialHub.Core.Domain.Queries;
 
-namespace FinancialHub.Core.Services.NUnitTests.Services
+namespace FinancialHub.Core.Application.NUnitTests.Services
 {
     public partial class TransactionsServiceTests
     {
