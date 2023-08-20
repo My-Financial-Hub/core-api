@@ -2,7 +2,6 @@
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.OpenApi.Models;
-using FinancialHub.Core.WebApi.Validators;
 
 namespace FinancialHub.Core.WebApi.Extensions.Configurations
 {
@@ -22,6 +21,7 @@ namespace FinancialHub.Core.WebApi.Extensions.Configurations
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Financial Hub WebApi", Version = "v1" });
             });
+
             return services;
         }
 
@@ -32,9 +32,7 @@ namespace FinancialHub.Core.WebApi.Extensions.Configurations
                 x.AutomaticValidationEnabled = true;
                 x.DisableDataAnnotationsValidation = true;
             });
-            services.AddScoped<IValidator<AccountModel>, AccountValidator>();
-            services.AddScoped<IValidator<CategoryModel>, CategoryValidator>();
-            services.AddScoped<IValidator<TransactionModel>, TransactionValidator>();
+
             return services;
         }
     }

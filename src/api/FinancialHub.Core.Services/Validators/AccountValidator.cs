@@ -1,11 +1,11 @@
-﻿using FinancialHub.Core.WebApi.Resources;
+﻿using FinancialHub.Core.Services.Resources;
 using FluentValidation;
 
-namespace FinancialHub.Core.WebApi.Validators
+namespace FinancialHub.Core.Services.Validators
 {
-    public class CategoryValidator : AbstractValidator<CategoryModel>
+    public class AccountValidator : AbstractValidator<AccountModel>
     {
-        public CategoryValidator()
+        public AccountValidator()
         {
             RuleFor(x => x.Name)
                 .NotEmpty()
@@ -14,7 +14,7 @@ namespace FinancialHub.Core.WebApi.Validators
                 .WithMessage(ErrorMessages.ExceedMaxLength);
 
             RuleFor(x => x.Description)
-                .Length(0,500)
+                .Length(0, 500)
                 .WithMessage(ErrorMessages.ExceedMaxLength);
         }
     }
