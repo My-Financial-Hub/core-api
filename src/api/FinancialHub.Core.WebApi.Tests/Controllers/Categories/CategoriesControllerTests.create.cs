@@ -1,21 +1,20 @@
-﻿namespace FinancialHub.Core.WebApi.NUnitTests.Controllers
+﻿namespace FinancialHub.Core.WebApi.Tests.Controllers
 {
     public partial class CategoriesControllerTests
     {
         [Test]
-        [TestCase(Description = "Update valid Category returns Ok", Category = "Update")]
-        public async Task UpdateCategory_Valid_ReturnsOk()
+        [TestCase(Description = "Create valid category returns Ok", Category = "Create")]
+        public async Task CreateCategory_Valid_ReturnsOk()
         {
             var body = this.categoryModelBuilder.Generate();
-            var guid = body.Id.GetValueOrDefault();
             var mockResult = new ServiceResult<CategoryModel>(body);
 
             this.mockService
-                .Setup(x => x.UpdateAsync(guid, body))
+                .Setup(x => x.CreateAsync(body))
                 .ReturnsAsync(mockResult)
                 .Verifiable();
 
-            var response = await this.controller.UpdateCategory(guid, body);
+            var response = await this.controller.CreateCategory(body);
 
             var result = response as ObjectResult;
 
@@ -25,25 +24,24 @@
             var listResponse = result?.Value as SaveResponse<CategoryModel>;
             Assert.AreEqual(mockResult.Data, listResponse?.Data);
 
-            this.mockService.Verify(x => x.UpdateAsync(guid, body), Times.Once);
+            this.mockService.Verify(x => x.CreateAsync(body), Times.Once);
         }
 
         [Test]
-        [TestCase(Description = "Update invalid Category returns BadRequest", Category = "Update")]
-        public async Task UpdateCategory_Invalid_ReturnsBadRequest()
+        [TestCase(Description = "Create invalid Category returns BadRequest", Category = "Create")]
+        public async Task CreateCategory_Invalid_ReturnsBadRequest()
         {
             var errorMessage = $"Invalid thing : {Guid.NewGuid()}";
             var body = this.categoryModelBuilder.Generate();
-            var guid = body.Id.GetValueOrDefault();
 
             var mockResult = new ServiceResult<CategoryModel>(body, new InvalidDataError(errorMessage));
 
             this.mockService
-                .Setup(x => x.UpdateAsync(guid,body))
+                .Setup(x => x.CreateAsync(body))
                 .ReturnsAsync(mockResult)
                 .Verifiable();
 
-            var response = await this.controller.UpdateCategory(guid,body);
+            var response = await this.controller.CreateCategory(body);
 
             var result = response as ObjectResult;
 
@@ -54,7 +52,7 @@
             Assert.AreEqual(mockResult.Error.Code, listResponse?.Code);
             Assert.AreEqual(mockResult.Error.Message, listResponse?.Message);
 
-            this.mockService.Verify(x => x.UpdateAsync(guid, body), Times.Once);
+            this.mockService.Verify(x => x.CreateAsync(body), Times.Once);
         }
     }
 }

@@ -1,47 +1,46 @@
-﻿namespace FinancialHub.Core.WebApi.NUnitTests.Controllers
+﻿namespace FinancialHub.Core.WebApi.Tests.Controllers
 {
-    public partial class CategoriesControllerTests
+    public partial class BalancesControllerTests
     {
         [Test]
-        [TestCase(Description = "Create valid category returns Ok", Category = "Create")]
-        public async Task CreateCategory_Valid_ReturnsOk()
+        public async Task CreateBalance_ServiceSuccess_ReturnsOk()
         {
-            var body = this.categoryModelBuilder.Generate();
-            var mockResult = new ServiceResult<CategoryModel>(body);
+            var body = this.balanceModelBuilder.Generate();
+            var mockResult = new ServiceResult<BalanceModel>(body);
 
             this.mockService
                 .Setup(x => x.CreateAsync(body))
                 .ReturnsAsync(mockResult)
                 .Verifiable();
 
-            var response = await this.controller.CreateCategory(body);
+            var response = await this.controller.CreateBalance(body);
 
             var result = response as ObjectResult;
 
             Assert.AreEqual(200, result?.StatusCode);
-            Assert.IsInstanceOf<SaveResponse<CategoryModel>>(result?.Value);
+            Assert.IsInstanceOf<SaveResponse<BalanceModel>>(result?.Value);
 
-            var listResponse = result?.Value as SaveResponse<CategoryModel>;
+            var listResponse = result?.Value as SaveResponse<BalanceModel>;
             Assert.AreEqual(mockResult.Data, listResponse?.Data);
 
             this.mockService.Verify(x => x.CreateAsync(body), Times.Once);
         }
 
         [Test]
-        [TestCase(Description = "Create invalid Category returns BadRequest", Category = "Create")]
-        public async Task CreateCategory_Invalid_ReturnsBadRequest()
+        [TestCase(Description = "Create account returns Bad Request", Category = "Create")]
+        public async Task CreateBalance_ServiceError_ReturnsBadRequest()
         {
             var errorMessage = $"Invalid thing : {Guid.NewGuid()}";
-            var body = this.categoryModelBuilder.Generate();
+            var body = this.balanceModelBuilder.Generate();
 
-            var mockResult = new ServiceResult<CategoryModel>(body, new InvalidDataError(errorMessage));
+            var mockResult = new ServiceResult<BalanceModel>(body, new InvalidDataError(errorMessage));
 
             this.mockService
                 .Setup(x => x.CreateAsync(body))
                 .ReturnsAsync(mockResult)
                 .Verifiable();
 
-            var response = await this.controller.CreateCategory(body);
+            var response = await this.controller.CreateBalance(body);
 
             var result = response as ObjectResult;
 

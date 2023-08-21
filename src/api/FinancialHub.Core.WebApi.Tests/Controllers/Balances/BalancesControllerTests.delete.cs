@@ -1,4 +1,4 @@
-﻿namespace FinancialHub.Core.WebApi.NUnitTests.Controllers
+﻿namespace FinancialHub.Core.WebApi.Tests.Controllers
 {
     public partial class BalancesControllerTests
     {

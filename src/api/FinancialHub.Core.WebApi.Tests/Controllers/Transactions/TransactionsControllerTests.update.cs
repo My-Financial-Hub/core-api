@@ -1,47 +1,49 @@
-﻿namespace FinancialHub.Core.WebApi.NUnitTests.Controllers
+﻿namespace FinancialHub.Core.WebApi.Tests.Controllers
 {
-    public partial class BalancesControllerTests
+    public partial class TransactionsControllerTests
     {
         [Test]
-        public async Task UpdateBalance_Valid_ReturnsOk()
+        [TestCase(Description = "Update valid Transaction returns Ok", Category = "Update")]
+        public async Task UpdateTransaction_Valid_ReturnsOk()
         {
-            var body = this.balanceModelBuilder.Generate();
+            var body = this.transactionModelBuilder.Generate();
             var guid = body.Id.GetValueOrDefault();
-            var mockResult = new ServiceResult<BalanceModel>(body);
+            var mockResult = new ServiceResult<TransactionModel>(body);
 
             this.mockService
                 .Setup(x => x.UpdateAsync(guid, body))
                 .ReturnsAsync(mockResult)
                 .Verifiable();
 
-            var response = await this.controller.UpdateBalance(guid, body);
+            var response = await this.controller.UpdateTransaction(guid, body);
 
             var result = response as ObjectResult;
 
             Assert.AreEqual(200, result?.StatusCode);
-            Assert.IsInstanceOf<SaveResponse<BalanceModel>>(result?.Value);
+            Assert.IsInstanceOf<SaveResponse<TransactionModel>>(result?.Value);
 
-            var listResponse = result?.Value as SaveResponse<BalanceModel>;
+            var listResponse = result?.Value as SaveResponse<TransactionModel>;
             Assert.AreEqual(mockResult.Data, listResponse?.Data);
 
             this.mockService.Verify(x => x.UpdateAsync(guid, body), Times.Once);
         }
 
         [Test]
-        public async Task UpdateBalance_Invalid_ReturnsBadRequest()
+        [TestCase(Description = "Update Transaction invalid returns BadRequest", Category = "Update")]
+        public async Task UpdateTransaction_Invalid_ReturnsBadRequest()
         {
             var errorMessage = $"Invalid thing : {Guid.NewGuid()}";
-            var body = this.balanceModelBuilder.Generate();
+            var body = this.transactionModelBuilder.Generate();
             var guid = body.Id.GetValueOrDefault();
 
-            var mockResult = new ServiceResult<BalanceModel>(body, new InvalidDataError(errorMessage));
+            var mockResult = new ServiceResult<TransactionModel>(body, new InvalidDataError(errorMessage));
 
             this.mockService
                 .Setup(x => x.UpdateAsync(guid,body))
                 .ReturnsAsync(mockResult)
                 .Verifiable();
 
-            var response = await this.controller.UpdateBalance(guid,body);
+            var response = await this.controller.UpdateTransaction(guid,body);
 
             var result = response as ObjectResult;
 
