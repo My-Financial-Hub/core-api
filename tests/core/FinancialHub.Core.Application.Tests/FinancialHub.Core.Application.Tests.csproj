@@ -17,7 +17,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\FinancialHub.Core.Application\FinancialHub.Core.Application.csproj" />
+    <ProjectReference Include="..\..\..\src\api\core\FinancialHub.Core.Application\FinancialHub.Core.Application.csproj" />
+    <ProjectReference Include="..\..\common\FinancialHub.Common.Tests\FinancialHub.Common.Tests.csproj" />
     <ProjectReference Include="..\FinancialHub.Core.Domain.Tests\FinancialHub.Core.Domain.Tests.csproj" />
   </ItemGroup>
 

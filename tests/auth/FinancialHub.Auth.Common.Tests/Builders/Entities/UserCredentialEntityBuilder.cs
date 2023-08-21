@@ -1,4 +1,4 @@
-﻿namespace FinancialHub.Auth.Tests.Common.Builders.Entities
+﻿namespace FinancialHub.Auth.Common.Tests.Builders.Entities
 {
     public class UserCredentialEntityBuilder : BaseEntityBuilder<CredentialEntity>
     {

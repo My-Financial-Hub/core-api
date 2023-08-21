@@ -1,4 +1,4 @@
-﻿namespace FinancialHub.Auth.Tests.Common.Builders.Models
+﻿namespace FinancialHub.Auth.Common.Tests.Builders.Models
 {
     public class UserModelBuilder : BaseModelBuilder<UserModel>
     {
