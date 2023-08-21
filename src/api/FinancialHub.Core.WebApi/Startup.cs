@@ -5,7 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using FinancialHub.Core.WebApi.Extensions.Configurations;
 using FinancialHub.Core.Infra.Data.Extensions.Configurations;
-using FinancialHub.Core.Services.Extensions.Configurations;
+using FinancialHub.Core.Application.Extensions.Configurations;
 
 namespace FinancialHub.Core.WebApi
 {
@@ -22,8 +22,7 @@ namespace FinancialHub.Core.WebApi
         {
             services.AddApiConfigurations();
 
-            services.AddValidators();
-            services.AddServices();
+            services.AddCoreServices();
             services.AddRepositories(Configuration);
 
             services.AddMvc().AddNewtonsoftJson();

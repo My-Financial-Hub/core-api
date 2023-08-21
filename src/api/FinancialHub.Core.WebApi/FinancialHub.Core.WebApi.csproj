@@ -24,16 +24,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\FinancialHub.Core.Application\FinancialHub.Core.Application.csproj" />
     <ProjectReference Include="..\FinancialHub.Core.Infra.Data\FinancialHub.Core.Infra.Data.csproj" />
-    <ProjectReference Include="..\FinancialHub.Core.Services\FinancialHub.Core.Services.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Update="Resources\ErrorMessages.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>ErrorMessages.resx</DependentUpon>
-    </Compile>
   </ItemGroup>
 
   <ItemGroup>
@@ -42,13 +34,6 @@
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Update="Resources\ErrorMessages.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>ErrorMessages.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
   </ItemGroup>
 
 </Project>
