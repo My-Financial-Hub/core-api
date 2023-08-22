@@ -1,4 +1,5 @@
-﻿using FinancialHub.Core.Infra.Data.Repositories;
+﻿using FinancialHub.Core.Domain.Interfaces.Repositories;
+using FinancialHub.Core.Infra.Data.Repositories;
 using FinancialHub.Core.Infra.Data.Tests.Repositories.Base;
 
 namespace FinancialHub.Core.Infra.Data.Tests.Repositories
@@ -6,7 +7,7 @@ namespace FinancialHub.Core.Infra.Data.Tests.Repositories
     public partial class BalancesRepositoryTests : BaseRepositoryTests<BalanceEntity>
     {
         public TransactionEntityBuilder transactionBuilder;
-        public BalancesRepository balanceRepository;
+        public IBalancesRepository balanceRepository;
         public BalanceEntityBuilder balanceBuilder;
 
         [SetUp]
