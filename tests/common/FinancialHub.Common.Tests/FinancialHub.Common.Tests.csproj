@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\FinancialHub.Common\FinancialHub.Common.csproj" />
+    <ProjectReference Include="..\..\..\src\api\common\FinancialHub.Common\FinancialHub.Common.csproj" />
   </ItemGroup>
 
 </Project>
