@@ -12,6 +12,6 @@ global using FinancialHub.Common.Responses.Success;
 global using FinancialHub.Auth.Domain.Entities;
 global using FinancialHub.Auth.Domain.Models;
 
-global using FinancialHub.Auth.Tests.Common.Assertions;
-global using FinancialHub.Auth.Tests.Common.Builders.Entities;
-global using FinancialHub.Auth.Tests.Common.Builders.Models;
+global using FinancialHub.Auth.Common.Tests.Assertions;
+global using FinancialHub.Auth.Common.Tests.Builders.Entities;
+global using FinancialHub.Auth.Common.Tests.Builders.Models;

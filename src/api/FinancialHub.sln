@@ -37,6 +37,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinancialHub.Core.Infra.Dat
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinancialHub.Core.WebApi", "core\FinancialHub.Core.WebApi\FinancialHub.Core.WebApi.csproj", "{CBA72DA9-5F87-4AE1-8B79-DD29F7A2C503}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinancialHub.Core.IntegrationTests", "..\..\tests\core\FinancialHub.Core.IntegrationTests\FinancialHub.Core.IntegrationTests.csproj", "{AC293685-7094-4325-8D5B-4ED252C62942}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -83,6 +85,10 @@ Global
 		{CBA72DA9-5F87-4AE1-8B79-DD29F7A2C503}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CBA72DA9-5F87-4AE1-8B79-DD29F7A2C503}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CBA72DA9-5F87-4AE1-8B79-DD29F7A2C503}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AC293685-7094-4325-8D5B-4ED252C62942}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC293685-7094-4325-8D5B-4ED252C62942}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC293685-7094-4325-8D5B-4ED252C62942}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC293685-7094-4325-8D5B-4ED252C62942}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -103,6 +109,7 @@ Global
 		{DFA4EC74-777A-4929-96C6-C29463B22D58} = {0F151C31-117F-438E-A5B5-9EE1D669BE27}
 		{893D69AA-5483-44AE-AD8C-E9C6E6F0276A} = {C0D9D883-C3CC-4A74-B373-CAFD6FC4A32F}
 		{CBA72DA9-5F87-4AE1-8B79-DD29F7A2C503} = {3B96E644-4E1A-4C2F-8F3C-E4843C921B92}
+		{AC293685-7094-4325-8D5B-4ED252C62942} = {BEE32E30-21CF-489B-B208-3D053E4966A8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9A4C4A77-82DC-47E2-AA98-E741B329A3E8}

@@ -3,8 +3,8 @@ global using Microsoft.AspNetCore.Mvc;
 global using Moq;
 global using NUnit.Framework;
 
-global using FinancialHub.Auth.Tests.Common.Assertions;
-global using FinancialHub.Auth.Tests.Common.Builders.Models;
+global using FinancialHub.Auth.Common.Tests.Assertions;
+global using FinancialHub.Auth.Common.Tests.Builders.Models;
 
 global using FinancialHub.Common.Responses.Success;
 global using FinancialHub.Common.Responses.Errors;

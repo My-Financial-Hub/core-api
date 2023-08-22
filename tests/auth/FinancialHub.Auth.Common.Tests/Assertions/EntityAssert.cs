@@ -1,6 +1,4 @@
-﻿using NUnit.Framework;
-
-namespace FinancialHub.Auth.Common.Tests.Assertions
+﻿namespace FinancialHub.Auth.Common.Tests.Assertions
 {
     public static class EntityAssert
     {
