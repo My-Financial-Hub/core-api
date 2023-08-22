@@ -19,9 +19,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\src\api\core\FinancialHub.Core.Domain\FinancialHub.Core.Domain.csproj" />
     <ProjectReference Include="..\..\..\src\api\core\FinancialHub.Core.Infra.Data\FinancialHub.Core.Infra.Data.csproj" />
     <ProjectReference Include="..\..\..\src\api\core\FinancialHub.Core.WebApi\FinancialHub.Core.WebApi.csproj" />
+    <ProjectReference Include="..\..\common\FinancialHub.Common.Tests\FinancialHub.Common.Tests.csproj" />
+    <ProjectReference Include="..\FinancialHub.Core.Domain.Tests\FinancialHub.Core.Domain.Tests.csproj" />
   </ItemGroup>
 
 </Project>
