@@ -16,6 +16,7 @@ jobs:
       matrix:
         project: ["core", "auth"]
     steps:
+      - uses: actions/checkout@v2
       - name: ${{ matrix.project }}
         uses: ./.github/workflows/tests_workflow.yml
         with:
