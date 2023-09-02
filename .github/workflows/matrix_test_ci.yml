@@ -18,7 +18,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: ${{ matrix.project }}
-        uses: ./.github/workflows/tests_workflow.yml
+        uses: chingling152/${{ github.event.repository.name }}/.github/workflows/tests_workflow.yml
         with:
           dir: ./src/api/${{ matrix.project }}
           secrets: inherit
