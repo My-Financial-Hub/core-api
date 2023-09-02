@@ -18,7 +18,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: ${{ matrix.project }}
-        uses: Chingling152/my-financial-hub-api@api/v0.5.2/.github/workflows/tests_workflow.yml
+        uses: Chingling152/my-financial-hub-api/.github/workflows/tests_workflow.yml@api/v0.5.2
         with:
           dir: ./src/api/${{ matrix.project }}
           secrets: inherit
