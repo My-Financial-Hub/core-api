@@ -48,3 +48,11 @@ jobs:
         with: 
           project-dir: ./src/api/${{ matrix.project }}
           category: Integration
+
+      - name: Publish Test Results
+        uses: EnricoMi/publish-unit-test-result-action/composite@v2
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          check_name: ${{ matrix.project }} test results
+          action_fail: true
+          files: "./tests/${{ matrix.project }}/**/TestResults/Results.xml"
