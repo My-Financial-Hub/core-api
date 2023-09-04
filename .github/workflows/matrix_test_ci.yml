@@ -30,6 +30,6 @@ jobs:
           dotnet-version: 6.0.x
 
       - name: Run Unit Tests
-        uses: ./.github/actions/run-unit-test
+        uses: ./.github/actions/run-unit-tests
         with: 
           project-dir: ./src/api/${{ matrix.project }}
