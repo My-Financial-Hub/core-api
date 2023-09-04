@@ -12,3 +12,5 @@ global using FinancialHub.Auth.Infra.Data.Repositories;
 
 global using FinancialHub.Auth.Infra.Data.Tests.Fixtures;
 global using FinancialHub.Auth.Infra.Data.Tests.Assertions;
+
+[assembly: Category("Unit")]
