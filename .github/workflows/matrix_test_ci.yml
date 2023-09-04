@@ -14,7 +14,9 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        project: ["core", "auth"]
+        project: 
+          - core
+          - auth
     steps:
       - uses: actions/checkout@v2
         with:
