@@ -11,3 +11,5 @@ global using FinancialHub.Core.Domain.Tests.Builders.Entities;
 
 // Domain Project namespaces
 global using FinancialHub.Core.Domain.Entities;
+
+[assembly: Category("Unit")]

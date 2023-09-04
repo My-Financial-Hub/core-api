@@ -23,3 +23,5 @@ global using FinancialHub.Common.Results.Errors;
 // Common Response namespaces
 global using FinancialHub.Common.Responses.Errors;
 global using FinancialHub.Common.Responses.Success;
+
+[assembly: Category("Unit")]

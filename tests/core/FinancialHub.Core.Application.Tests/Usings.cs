@@ -17,3 +17,5 @@ global using FinancialHub.Common.Results.Errors;
 // Domain Project namespaces
 global using FinancialHub.Core.Domain.Models;
 global using FinancialHub.Core.Domain.Entities;
+
+[assembly: Category("Unit")]
