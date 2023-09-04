@@ -1,4 +1,4 @@
-name: "Main Tests & Analysis"
+name: "Matrix Tests & Analysis"
 
 on:
   pull_request:
@@ -17,8 +17,16 @@ jobs:
         project: ["core", "auth"]
     steps:
       - uses: actions/checkout@v2
-      - name: ${{ matrix.project }}
-        uses: Chingling152/my-financial-hub-api/.github/workflows/tests_workflow.yml@api/v0.5.2
         with:
-          dir: ./src/api/${{ matrix.project }}
-          secrets: inherit
+          fetch-depth: 0
+
+      - name: Setup Project
+        uses: ./.github/actions/build-dotnet-project
+        with: 
+          project-dir: ./src/api/${{ matrix.project }}
+          dotnet-version: 6.0.x
+
+      - name: Run Unit Tests
+        uses: ./.github/actions/run-unit-test
+        with: 
+          project-dir: ./src/api/${{ matrix.project }}
