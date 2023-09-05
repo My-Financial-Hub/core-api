@@ -81,7 +81,7 @@ jobs:
       - name: Setup Project
         uses: ./.github/actions/build-dotnet-project
         with: 
-          project-dir: ./src/api/${{ matrix.project }}
+          project-dir: ./src/api
           dotnet-version: 6.0.x
 
       - name: Dotnet restore tools
