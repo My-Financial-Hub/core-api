@@ -59,6 +59,7 @@ jobs:
   code_analysis:
     name: Code Analysis
     runs-on: ubuntu-latest
+    needs: tests
     defaults:
       run:
         working-directory: ./src/api
