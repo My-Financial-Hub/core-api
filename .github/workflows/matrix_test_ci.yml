@@ -78,6 +78,12 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Setup Project
+        uses: ./.github/actions/build-dotnet-project
+        with: 
+          project-dir: ./src/api/${{ matrix.project }}
+          dotnet-version: 6.0.x
+
       - name: Dotnet restore tools
         run: dotnet tool restore 
 
