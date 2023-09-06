@@ -13,6 +13,7 @@ jobs:
   tests:
     name: Tests
     runs-on: ubuntu-latest
+
     services:
       sql-database: 
         image: mcr.microsoft.com/mssql/server:2019-latest    
@@ -21,31 +22,34 @@ jobs:
           ACCEPT_EULA: "Y"
         ports: 
           - 1450:1433
+    
     strategy:
-      max-parallel: 1
       matrix:
         project: 
           - core
           - auth
+    env:
+      project-dir: ./src/api/${{ matrix.project }}
+      
     steps:
       - uses: actions/checkout@v2
 
       - name: Setup Project
         uses: ./.github/actions/build-dotnet-project
         with: 
-          project-dir: ./src/api/${{ matrix.project }}
+          project-dir: ${{ env.project-dir }}
           dotnet-version: 6.0.x
 
       - name: Run Unit Tests
         uses: ./.github/actions/run-tests
         with: 
-          project-dir: ./src/api/${{ matrix.project }}
+          project-dir: ${{ env.project-dir }}
           category: Unit
     
       - name: Run Integration Tests
         uses: ./.github/actions/run-tests
         with: 
-          project-dir: ./src/api/${{ matrix.project }}
+          project-dir: ${{ env.project-dir }}
           category: Integration
 
       - name: Publish Test Results
