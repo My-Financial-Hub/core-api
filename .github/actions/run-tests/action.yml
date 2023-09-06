@@ -1,12 +1,12 @@
-name: Run unit Tests
-description: This project run project that has an assemly with Category=Unit
+name: Run Tests
+description: This project run project that has an assemly with an specified Category
 
 inputs:
   project-dir: 
     description: 'project directory'
     required: true
   category: 
-    description: 'Type of the test'
+    description: 'Type of the test (Unit or Integration)'
     default: Unit
 
 runs:
