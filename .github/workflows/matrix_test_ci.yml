@@ -12,61 +12,11 @@ permissions:
 jobs: 
   tests:
     name: Tests
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        project: 
-          - core
-          - auth
-    env:
-      project-dir: ./src/api/${{ matrix.project }}
-
-    services:
-      sql-database: 
-        image: mcr.microsoft.com/mssql/server:2019-latest    
-        env: 
-          SA_PASSWORD: "P@ssw0rd!"
-          ACCEPT_EULA: "Y"
-        ports: 
-          - 1450:1433
-      
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Paths Changes Filter
-        id: changes
-        uses: dorny/paths-filter@v2.11.1
-        with:
-          filters: |
-            scr: 
-              - '${{ env.project-dir }}/**'
-            
-      - name: Setup Project
-        if: steps.changes.outputs.src == 'true'
-        uses: ./.github/actions/build-dotnet-project
-        with: 
-          project-dir: ${{ env.project-dir }}
-          dotnet-version: 6.0.x
-
-      - name: Run Unit Tests
-        uses: ./.github/actions/run-tests
-        with: 
-          project-dir: ${{ env.project-dir }}
-          category: Unit
-    
-      - name: Run Integration Tests
-        uses: ./.github/actions/run-tests
-        with: 
-          project-dir: ${{ env.project-dir }}
-          category: Integration
-
-      - name: Publish Test Results
-        uses: EnricoMi/publish-unit-test-result-action/composite@v2
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          check_name: ${{ matrix.project }} project test results
-          action_fail: true
-          files: "./tests/${{ matrix.project }}/**/TestResults/Results.xml"
+    uses: ./.github/workflows/matrix_test_result.yml
+    secrets: inherit
+    with:
+      dir: ./src/api/
+      dotnet-version: 6.0.x
 
   code_analysis:
     name: Code Analysis
