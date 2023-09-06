@@ -40,11 +40,17 @@ jobs:
           project-dir: ${{ inputs.dir }}
           dotnet-version: ${{ inputs.dotnet-version }}
 
-      - name: Run Tests
-        continue-on-error: true 
-        run: dotnet test 
-          --logger:"trx;logfilename=Results.xml" 
-          --configuration release
+      - name: Run Unit Tests
+        uses: ./.github/actions/run-tests
+        with: 
+          project-dir: ${{ inputs.dir }}
+          category: Unit
+    
+      - name: Run Integration Tests
+        uses: ./.github/actions/run-tests
+        with: 
+          project-dir: ${{ inputs.dir }}
+          category: Integration
     
       - name: Publish Test Results
         uses: EnricoMi/publish-unit-test-result-action/composite@v2
