@@ -11,3 +11,5 @@ global using FinancialHub.Core.Domain.Interfaces.Repositories;
 
 // Domain Project namespaces
 global using FinancialHub.Core.Domain.Entities;
+
+[assembly: Category("Unit")]
