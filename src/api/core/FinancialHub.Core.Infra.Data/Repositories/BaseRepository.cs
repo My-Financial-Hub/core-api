@@ -60,7 +60,7 @@ namespace FinancialHub.Core.Infra.Data.Repositories
 #pragma warning disable CS1998 // O método assíncrono não possui operadores 'await' e será executado de forma síncrona
         public virtual async Task<ICollection<T>> GetAsync(Func<T, bool> predicate)
         {
-            return context.Set<T>().AsNoTracking().Where(predicate).ToList();
+            return context.Set<T>().Where(predicate).ToList();
         }
 #pragma warning restore CS1998 // O método assíncrono não possui operadores 'await' e será executado de forma síncrona
 
