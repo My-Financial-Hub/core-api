@@ -49,7 +49,7 @@
             Assert.Multiple(() =>
             {
                 Assert.That(result.HasError, Is.True);
-                Assert.That(result.Error.Message, Is.EqualTo("Credential already exists"));
+                Assert.That(result.Error!.Message, Is.EqualTo("Credential already exists"));
             });
         }
 
@@ -71,7 +71,7 @@
             Assert.Multiple(() =>
             {
                 Assert.That(result.HasError, Is.True);
-                Assert.That(result.Error.Message, Is.EqualTo("Failed to create user"));
+                Assert.That(result.Error!.Message, Is.EqualTo("Failed to create user"));
             });
         }
     }

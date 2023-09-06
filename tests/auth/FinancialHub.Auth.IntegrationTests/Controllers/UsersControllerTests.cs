@@ -85,7 +85,7 @@
                 var response = await Client.PostAsync(baseEndpoint, data, token);
                 var jsonResponse = await response.ReadContentAsync<ValidationsErrorResponse>();
 
-                Assert.That(jsonResponse?.Errors.Count, Is.EqualTo(4));
+                Assert.That(jsonResponse!.Errors!.Count, Is.EqualTo(4));
             }
 
             [Test]
@@ -238,7 +238,7 @@
                 var response = await Client.PatchAsync(baseEndpoint + $"/{id}", data, token);
                 var jsonResponse = await response.ReadContentAsync<ValidationsErrorResponse>();
 
-                Assert.That(jsonResponse?.Errors.Count, Is.EqualTo(4));
+                Assert.That(jsonResponse!.Errors!.Count, Is.EqualTo(4));
             }
 
             [Test]

@@ -86,7 +86,7 @@ namespace FinancialHub.Auth.IntegrationTests.Controllers
                 Assert.Multiple(() =>
                 {
                     Assert.That(jsonResponse, Is.Not.Null);
-                    Assert.That(jsonResponse?.Errors.Count, Is.EqualTo(2));
+                    Assert.That(jsonResponse?.Errors!.Count, Is.EqualTo(2));
                 });
             }
 

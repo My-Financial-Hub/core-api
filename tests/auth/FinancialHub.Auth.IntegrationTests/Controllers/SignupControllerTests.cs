@@ -89,7 +89,7 @@
                 {
                     Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
                     Assert.That(jsonResponse, Is.Not.Null);
-                    Assert.That(jsonResponse?.Errors.Count, Is.EqualTo(5));
+                    Assert.That(jsonResponse!.Errors!.Count, Is.EqualTo(5));
                 });
             }
 
