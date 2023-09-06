@@ -18,9 +18,13 @@ jobs:
     name: Code Tests
     runs-on: ubuntu-latest
 
-    defaults:
-      run:
-        working-directory: ${{ inputs.dir }}
+    strategy:
+      matrix:
+        project: 
+          - core
+          - auth
+    env:
+      project-dir: ${{ inputs.dir }}/${{ matrix.project }}
 
     services:
       sql-database: 
@@ -30,15 +34,15 @@ jobs:
           ACCEPT_EULA: "Y"
         ports: 
           - 1450:1433
-    
+
     steps:
       - uses: actions/checkout@v2
-      
+            
       - name: Setup Project
         uses: ./.github/actions/build-dotnet-project
         with: 
           project-dir: ${{ inputs.dir }}
-          dotnet-version: ${{ inputs.dotnet-version }}
+          dotnet-version: 6.0.x
 
       - name: Run Unit Tests
         uses: ./.github/actions/run-tests
@@ -51,10 +55,11 @@ jobs:
         with: 
           project-dir: ${{ inputs.dir }}
           category: Integration
-    
+
       - name: Publish Test Results
         uses: EnricoMi/publish-unit-test-result-action/composite@v2
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
+          check_name: ${{ matrix.project }} project test results
           action_fail: true
-          files: "**/TestResults/Results.xml"
+          files: "./tests/${{ matrix.project }}/**/TestResults/Results.xml"
