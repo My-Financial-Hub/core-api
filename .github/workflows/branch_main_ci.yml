@@ -20,7 +20,18 @@ permissions:
 
 jobs: 
   tests:
-    uses: ./.github/workflows/tests_workflow.yml
+    name: Tests
+    uses: ./.github/workflows/matrix_test_result.yml
+    secrets: inherit
     with:
       dir: ./src/api/
+      dotnet-version: 6.0.x
+
+  code_analysis:
+    name: Code Analysis
+    needs: tests
+    uses: ./.github/workflows/coverage_report.yml
     secrets: inherit
+    with:
+      dir: ./src/api/
+      dotnet-version: 6.0.x

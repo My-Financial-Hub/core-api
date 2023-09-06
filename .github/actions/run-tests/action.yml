@@ -1,0 +1,22 @@
+name: Run Tests
+description: This project run project that has an assemly with an specified Category
+
+inputs:
+  project-dir: 
+    description: 'project directory'
+    required: true
+  category: 
+    description: 'Type of the test (Unit or Integration)'
+    default: Unit
+
+runs:
+  using: "composite"
+  steps:
+    - name: Run Tests
+      shell: bash
+      continue-on-error: true 
+      run: dotnet test ${{ inputs.project-dir }}
+        --filter TestCategory=${{ inputs.category }}
+        --logger:"trx;logfilename=Results.xml" 
+        --configuration release
+    

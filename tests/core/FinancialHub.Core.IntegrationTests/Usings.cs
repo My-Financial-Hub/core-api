@@ -35,3 +35,5 @@ global using FinancialHub.Core.Domain.Tests.Builders.Entities;
 global using FinancialHub.Core.IntegrationTests.Base;
 global using FinancialHub.Core.IntegrationTests.Setup;
 global using FinancialHub.Core.IntegrationTests.Extensions;
+
+[assembly: Category("Integration")]

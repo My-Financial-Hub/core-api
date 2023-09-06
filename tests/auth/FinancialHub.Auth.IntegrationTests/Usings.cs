@@ -15,3 +15,5 @@ global using FinancialHub.Auth.Domain.Models;
 global using FinancialHub.Auth.Common.Tests.Assertions;
 global using FinancialHub.Auth.Common.Tests.Builders.Entities;
 global using FinancialHub.Auth.Common.Tests.Builders.Models;
+
+[assembly: Category("Integration")]

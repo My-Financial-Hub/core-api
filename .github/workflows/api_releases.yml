@@ -20,9 +20,9 @@ jobs:
 
     - name: Get version
       run: echo "value=${BRANCH##*/}"	>> $GITHUB_OUTPUT
+      id: version
       env:
         BRANCH: ${{ github.event.pull_request.base.ref }}
-      id: version
 
     - name: Create tag
       uses: actions/github-script@v5

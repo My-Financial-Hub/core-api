@@ -17,3 +17,5 @@ global using FinancialHub.Auth.Domain.Models;
 global using FinancialHub.Auth.Domain.Interfaces.Services;
 
 global using FinancialHub.Auth.Presentation.Controllers;
+
+[assembly: Category("Unit")]

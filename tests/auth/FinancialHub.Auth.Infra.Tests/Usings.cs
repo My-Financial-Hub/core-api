@@ -14,3 +14,5 @@ global using FinancialHub.Auth.Domain.Interfaces.Repositories;
 
 global using FinancialHub.Auth.Infra.Mappers;
 global using FinancialHub.Auth.Infra.Providers;
+
+[assembly: Category("Unit")]
