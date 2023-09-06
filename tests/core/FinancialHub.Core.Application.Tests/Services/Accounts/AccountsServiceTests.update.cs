@@ -44,10 +44,13 @@
         [TestCase(Description = "Update non existing account", Category = "Update")]
         public async Task UpdateAsync_NonExistingAccountId_ReturnsResultError()
         {
-            var model = this.accountModelBuilder.Generate();
+            var id = Guid.NewGuid();
+            var model = this.accountModelBuilder
+                .WithId(id)
+                .Generate();
 
             this.repository
-                .Setup(x => x.GetByIdAsync(model.Id.GetValueOrDefault()))
+                .Setup(x => x.GetByIdAsync(id))
                 .ReturnsAsync(default(AccountEntity))
                 .Verifiable();
 
@@ -56,7 +59,7 @@
                 .Returns<AccountEntity>(async (x) => await Task.FromResult(x))
                 .Verifiable();
 
-            var result = await this.service.UpdateAsync(model.Id.GetValueOrDefault(), model);
+            var result = await this.service.UpdateAsync(id, model);
 
             Assert.IsInstanceOf<ServiceResult<AccountModel>>(result);
             Assert.IsTrue(result.HasError);

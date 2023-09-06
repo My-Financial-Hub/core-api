@@ -39,7 +39,7 @@
             Assert.Multiple(() =>
             {
                 Assert.That(updatedUserResult.HasError, Is.True);
-                Assert.That(updatedUserResult.Error.Message, Is.EqualTo("User not found"));
+                Assert.That(updatedUserResult.Error!.Message, Is.EqualTo("User not found"));
             });
         }
     }

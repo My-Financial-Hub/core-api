@@ -36,6 +36,6 @@ namespace FinancialHub.Common.Interfaces.Repositories
         /// Gets an entity by id
         /// </summary>
         /// <param name="id">Id of the choosen entity</param>
-        Task<T> GetByIdAsync(Guid id);
+        Task<T?> GetByIdAsync(Guid id);
     }
 }
