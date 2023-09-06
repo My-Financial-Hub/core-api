@@ -13,6 +13,13 @@ jobs:
   tests:
     name: Tests
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        project: 
+          - core
+          - auth
+    env:
+      project-dir: ./src/api/${{ matrix.project }}
 
     services:
       sql-database: 
@@ -22,19 +29,20 @@ jobs:
           ACCEPT_EULA: "Y"
         ports: 
           - 1450:1433
-    
-    strategy:
-      matrix:
-        project: 
-          - core
-          - auth
-    env:
-      project-dir: ./src/api/${{ matrix.project }}
       
     steps:
       - uses: actions/checkout@v2
 
+      - name: Paths Changes Filter
+        id: changes
+        uses: dorny/paths-filter@v2.11.1
+        with:
+          filters: |
+            scr: 
+              - '${{ env.project-dir }}/**'
+            
       - name: Setup Project
+        if: steps.changes.outputs.src == 'true'
         uses: ./.github/actions/build-dotnet-project
         with: 
           project-dir: ${{ env.project-dir }}
