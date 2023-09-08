@@ -1,10 +1,7 @@
-﻿using AutoMapper;
-using FinancialHub.Core.Domain.Interfaces.Mappers;
-using FinancialHub.Core.Domain.Interfaces.Repositories;
-using FinancialHub.Core.Domain.Interfaces.Services;
+﻿using FinancialHub.Core.Domain.Interfaces.Services;
 using FinancialHub.Core.Domain.Tests.Builders.Entities;
-using FinancialHub.Core.Application.Mappers;
 using FinancialHub.Core.Application.Services;
+using FinancialHub.Core.Domain.Interfaces.Providers;
 
 namespace FinancialHub.Core.Application.Tests.Services
 {
@@ -16,28 +13,13 @@ namespace FinancialHub.Core.Application.Tests.Services
         
         private ICategoriesService service;
 
-        private IMapper mapper;
-        private Mock<IMapperWrapper> mapperWrapper;
-        private Mock<ICategoriesRepository> repository;
-
-        private void MockMapper()
-        {
-            mapper = new MapperConfiguration(mc =>
-                {
-                    mc.AddProfile(new FinancialHubAutoMapperProfile());
-                }
-            ).CreateMapper();
-
-            this.mapperWrapper = new Mock<IMapperWrapper>();
-        }
+        private Mock<ICategoriesProvider> provider;
 
         [SetUp]
         public void Setup()
         {
-            this.MockMapper();
-
-            this.repository = new Mock<ICategoriesRepository>();
-            this.service = new CategoriesService(mapperWrapper.Object,repository.Object);
+            this.provider = new Mock<ICategoriesProvider>();
+            this.service = new CategoriesService(provider.Object);
 
             this.random = new Random();
 
