@@ -4,6 +4,9 @@ on:
   pull_request:
     branches: 
       - 'release/**'
+    paths:
+      - 'src/api/*' 
+      - 'src/api/**'
 
 permissions:
   checks: write
