@@ -1,13 +1,9 @@
 name: "Release Tests & Analysis"
 
 on:
-  workflow_dispatch:
   pull_request:
     branches: 
       - 'release/**'
-    paths:
-      - 'src/api/*' 
-      - 'src/api/**'
 
 permissions:
   checks: write
