@@ -39,15 +39,15 @@
 
         public async Task<ServiceResult<AccountModel>> UpdateAsync(Guid id, AccountModel account)
         {
-            var entity = await this.provider.GetByIdAsync(id);
-            if (entity == null)
+            var existingAccount = await this.provider.GetByIdAsync(id);
+            if (existingAccount == null)
                 return new NotFoundError($"Not found account with id {id}");
 
-            entity = await this.provider.UpdateAsync(id, entity);
-            if (entity == null)
+            var updatedAccount = await this.provider.UpdateAsync(id, account);
+            if (updatedAccount == null)
                 return new NotFoundError($"Failed to update account {id}");
 
-            return mapper.Map<AccountModel>(entity);
+            return mapper.Map<AccountModel>(updatedAccount);
         }
     }
 }
