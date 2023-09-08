@@ -39,9 +39,6 @@
         public async Task GetByIdAsync_NonExistingCategory_ReturnsNull()
         {
             var id = Guid.NewGuid();
-            var categoryEntity = categoryBuilder
-                .WithId(id)
-                .Generate();
 
             var result = await provider.GetByIdAsync(id);
 
