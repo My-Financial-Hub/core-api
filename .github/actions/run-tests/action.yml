@@ -17,6 +17,6 @@ runs:
       continue-on-error: true 
       run: dotnet test ${{ inputs.project-dir }}
         --filter "TestCategory=${{ inputs.category }}"
-        --logger:"trx;logfilename=Results.xml" 
+        --logger:"trx;logfilename=Results-${{ inputs.category }}.xml" 
         --configuration release
     
