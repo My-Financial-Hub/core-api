@@ -1,5 +1,4 @@
 ﻿using FinancialHub.Core.Domain.Interfaces.Services;
-using FinancialHub.Core.Domain.Tests.Builders.Entities;
 using FinancialHub.Core.Application.Services;
 using FinancialHub.Core.Domain.Interfaces.Providers;
 
@@ -8,7 +7,6 @@ namespace FinancialHub.Core.Application.Tests.Services
     public partial class CategoriesServiceTests
     {
         protected Random random;
-        protected CategoryEntityBuilder categoryBuilder; 
         protected CategoryModelBuilder categoryModelBuilder; 
         
         private ICategoriesService service;
@@ -23,13 +21,7 @@ namespace FinancialHub.Core.Application.Tests.Services
 
             this.random = new Random();
 
-            this.categoryBuilder = new CategoryEntityBuilder();
             this.categoryModelBuilder = new CategoryModelBuilder();
-        }
-
-        private ICollection<CategoryEntity> CreateCategories()
-        {
-            return this.categoryBuilder.Generate(random.Next(10, 100));
         }
     }
 }
