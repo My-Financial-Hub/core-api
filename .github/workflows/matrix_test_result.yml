@@ -62,4 +62,4 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           check_name: ${{ matrix.project }} project test results
           action_fail: true
-          files: "./tests/${{ matrix.project }}/**/TestResults/Results.xml"
+          files: "./tests/${{ matrix.project }}/**/TestResults/Results-*.xml"
