@@ -9,6 +9,7 @@ namespace FinancialHub.Core.Infra.Extensions
             services.AddAutoMapper(typeof(FinancialHubAutoMapperProfile));
 
             services.AddScoped<ICategoriesProvider, CategoriesProvider>();
+            services.AddScoped<IAccountsProvider, AccountsProvider>();
 
             return services;
         }

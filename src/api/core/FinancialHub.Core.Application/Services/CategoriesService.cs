@@ -34,7 +34,7 @@
 
             var updatedCategory = await this.provider.UpdateAsync(id, category);
             if (updatedCategory == null)
-                return new InvalidDataError($"Failed to update Category {id}");
+                return new InvalidDataError($"Failed to update category {id}");
 
             return updatedCategory;
         }
