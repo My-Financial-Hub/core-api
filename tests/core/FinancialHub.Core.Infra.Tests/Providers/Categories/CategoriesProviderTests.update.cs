@@ -2,7 +2,6 @@
 {
     public partial class CategoriesProviderTests
     {
-
         [Test]
         public async Task UpdateAsync_ReturnsUpdatedCategory()
         {
