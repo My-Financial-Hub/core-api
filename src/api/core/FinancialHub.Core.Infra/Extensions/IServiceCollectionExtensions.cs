@@ -10,6 +10,7 @@ namespace FinancialHub.Core.Infra.Extensions
 
             services.AddScoped<ICategoriesProvider, CategoriesProvider>();
             services.AddScoped<IAccountsProvider, AccountsProvider>();
+            services.AddScoped<IBalancesProvider, BalancesProvider>();
 
             return services;
         }

@@ -2,106 +2,82 @@
 {
     public class BalancesService : IBalancesService
     {
-        private readonly IMapperWrapper mapper;
-        private readonly IBalancesRepository repository;
-        private readonly IAccountsRepository accountsRepository;
+        private readonly IAccountsProvider accountsProvider;
+        private readonly IBalancesProvider balancesProvider;
 
-        public BalancesService(IMapperWrapper mapper, 
-            IBalancesRepository repository, IAccountsRepository accountsRepository
-            )
+        public BalancesService(
+            IBalancesProvider balancesProvider, 
+            IAccountsProvider accountsProvider
+        )
         {
-            this.mapper = mapper;
-            this.repository = repository;
-            this.accountsRepository = accountsRepository;
+            this.balancesProvider = balancesProvider;
+            this.accountsProvider = accountsProvider;
         }
 
-        private async Task<ServiceResult> ValidateAccountAsync(BalanceEntity balance)
+        private async Task<ServiceResult> ValidateAccountAsync(Guid accountId)
         {
-            var accountResult = await this.accountsRepository.GetByIdAsync(balance.AccountId);
+            var account = await this.accountsProvider.GetByIdAsync(accountId);
 
-            if(accountResult == null)
-            {
-                return new NotFoundError($"Not found Account with id {balance.AccountId}");
-            }
+            if (account == null)
+                return new NotFoundError($"Not found Account with id {accountId}");
 
             return new ServiceResult();
         }
 
         public async Task<ServiceResult<BalanceModel>> CreateAsync(BalanceModel balance)
         {
-            var entity = this.mapper.Map<BalanceEntity>(balance);
-            entity.Amount = 0;
-
-            var validationResult = await this.ValidateAccountAsync(entity);
+            var validationResult = await this.ValidateAccountAsync(balance.AccountId);
             if (validationResult.HasError)
-            {
                 return validationResult.Error;
-            }
 
-            entity = await this.repository.CreateAsync(entity);
-
-            return mapper.Map<BalanceModel>(entity);
+            return await this.balancesProvider.CreateAsync(balance);
         }
 
         public async Task<ServiceResult<int>> DeleteAsync(Guid id)
         {
-            var count = await this.repository.DeleteAsync(id);
-
-            return new ServiceResult<int>(count);
+            return await this.balancesProvider.DeleteAsync(id);
         }
 
         public async Task<ServiceResult<BalanceModel>> GetByIdAsync(Guid id)
         {
-            var entity = await this.repository.GetByIdAsync(id);
-
-            if(entity == null)
-            {
+            var balance = await this.balancesProvider.GetByIdAsync(id);
+            if(balance == null)
                 return new NotFoundError($"Not found Balance with id {id}");
-            }
 
-            return this.mapper.Map<BalanceModel>(entity);
+            return balance;
         }
 
         public async Task<ServiceResult<ICollection<BalanceModel>>> GetAllByAccountAsync(Guid accountId)
         {
-            var entities = await this.repository.GetAsync(x => x.AccountId == accountId);
+            var validationResult = await this.ValidateAccountAsync(accountId);
+            if (validationResult.HasError)
+                return validationResult.Error;
 
-            return this.mapper.Map<ICollection<BalanceModel>>(entities).ToArray();
+            var accounts = await this.balancesProvider.GetAllByAccountAsync(accountId);
+
+            return accounts.ToArray();
         }
 
         public async Task<ServiceResult<BalanceModel>> UpdateAsync(Guid id, BalanceModel balance)
         {
-            var entityResult = await this.GetByIdAsync(id);
-            if (entityResult.HasError)
-            {
-                return entityResult.Error;
-            }
+            var oldBalance = await this.GetByIdAsync(id);
+            if (oldBalance.HasError)
+                return oldBalance.Error;
 
-            var entity = this.mapper.Map<BalanceEntity>(balance);
-            entity.Id = id;
-
-            var validationResult = await this.ValidateAccountAsync(entity);
+            var validationResult = await this.ValidateAccountAsync(balance.AccountId);
             if (validationResult.HasError)
-            {
                 return validationResult.Error;
-            }
 
-            entity = await this.repository.UpdateAsync(entity);
-
-            return mapper.Map<BalanceModel>(entity);
+            return await this.balancesProvider.UpdateAsync(id, balance);
         }
 
         public async Task<ServiceResult<BalanceModel>> UpdateAmountAsync(Guid id, decimal newAmount)
         {
             var balanceResult = await this.GetByIdAsync(id);
             if (balanceResult.HasError)
-            {
                 return balanceResult.Error;
-            }
 
-            var newBalance = await repository.ChangeAmountAsync(id, newAmount);
-
-            return mapper.Map<BalanceModel>(newBalance);
+            return await balancesProvider.UpdateAmountAsync(id, newAmount);
         }
     }
 }
