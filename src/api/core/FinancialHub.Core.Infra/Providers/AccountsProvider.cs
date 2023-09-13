@@ -1,6 +1,4 @@
-﻿using FinancialHub.Core.Domain.Interfaces.Repositories;
-
-namespace FinancialHub.Core.Infra.Providers
+﻿namespace FinancialHub.Core.Infra.Providers
 {
     public class AccountsProvider : IAccountsProvider
     {
