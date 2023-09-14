@@ -38,7 +38,7 @@
 
             var result = await provider.GetByIdAsync(id);
 
-            BalanceModelAssert.Equal(expectedAccount, result);
+            BalanceModelAssert.Equal(expectedAccount, result!);
         }
 
         [Test]
