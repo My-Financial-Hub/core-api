@@ -16,10 +16,11 @@ namespace FinancialHub.Core.Infra.Tests.Providers
 
         private void MockMapper()
         {
-            mapper = new MapperConfiguration(mc =>
-            {
-                mc.AddProfile(new FinancialHubAutoMapperProfile());
-            }
+            mapper = new MapperConfiguration(
+                mc =>
+                {
+                    mc.AddProfile(new FinancialHubAutoMapperProfile());
+                }
             ).CreateMapper();
         }
 

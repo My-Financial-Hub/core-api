@@ -1,12 +1,9 @@
-﻿using AutoMapper;
-using System;
-
-namespace FinancialHub.Core.Infra.Tests.Providers
+﻿namespace FinancialHub.Core.Infra.Tests.Providers
 {
     public partial class AccountsProviderTests
     {
         [Test]
-        public async Task GetAllAsync_ReturnsCategoryList()
+        public async Task GetAllAsync_ReturnsAccountList()
         {
             var accountEntities = accountEntityBuilder.Generate(random.Next(0, 10));
             var expectedAccounts = mapper.Map<IEnumerable<AccountModel>>(accountEntities);
@@ -21,7 +18,7 @@ namespace FinancialHub.Core.Infra.Tests.Providers
         }
 
         [Test]
-        public async Task GetByIdAsync_ExistingCategory_ReturnsCategory()
+        public async Task GetByIdAsync_ExistingAccount_ReturnsAccount()
         {
             var id = Guid.NewGuid();
             var accountEntity = accountEntityBuilder
@@ -39,7 +36,7 @@ namespace FinancialHub.Core.Infra.Tests.Providers
         }
 
         [Test]
-        public async Task GetByIdAsync_NonExistingCategory_ReturnsNull()
+        public async Task GetByIdAsync_NonExistingAccount_ReturnsNull()
         {
             var id = Guid.NewGuid();
 
