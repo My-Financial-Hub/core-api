@@ -14,7 +14,7 @@ namespace FinancialHub.Core.Infra.Mappers
             CreateMap<BalanceEntity, BalanceModel>().ReverseMap();
 
             //Queries
-            CreateMap<TransactionFilter, TransactionQuery>().ReverseMap();
+            CreateMap<TransactionFilter, TransactionQuery>();
         }
     }
 }
