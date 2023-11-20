@@ -2,15 +2,11 @@
 {
     public class AccountsService : IAccountsService
     {
-        private readonly IMapperWrapper mapper;
-        private readonly IAccountsRepository repository;
         private readonly IAccountsProvider provider;
 
-        public AccountsService(IAccountsProvider provider, IMapperWrapper mapper,IAccountsRepository repository)
+        public AccountsService(IAccountsProvider provider)
         {
             this.provider = provider;
-            this.mapper = mapper;
-            this.repository = repository;
         }
 
         public async Task<ServiceResult<AccountModel>> CreateAsync(AccountModel account)
@@ -32,22 +28,24 @@
 
         public async Task<ServiceResult<AccountModel>> GetByIdAsync(Guid id)
         {
-            var entity = await this.repository.GetByIdAsync(id);
+            var existingAccount = await this.provider.GetByIdAsync(id);
+            if (existingAccount == null)
+                return new NotFoundError($"Not found account with id {id}");
 
-            return this.mapper.Map<AccountModel>(entity);
+            return existingAccount;
         }
 
         public async Task<ServiceResult<AccountModel>> UpdateAsync(Guid id, AccountModel account)
         {
-            var existingAccount = await this.provider.GetByIdAsync(id);
-            if (existingAccount == null)
-                return new NotFoundError($"Not found account with id {id}");
+            var existingAccountResult = await this.GetByIdAsync(id);
+            if (existingAccountResult.HasError)
+                return existingAccountResult.Error;
 
             var updatedAccount = await this.provider.UpdateAsync(id, account);
             if (updatedAccount == null)
                 return new NotFoundError($"Failed to update account {id}");
 
-            return mapper.Map<AccountModel>(updatedAccount);
+            return updatedAccount;
         }
     }
 }
