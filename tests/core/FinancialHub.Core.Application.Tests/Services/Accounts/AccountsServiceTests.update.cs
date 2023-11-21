@@ -15,7 +15,7 @@
 
             this.provider
                 .Setup(x => x.UpdateAsync(id, It.IsAny<AccountModel>()))
-                .Returns<AccountModel>(async (x) => await Task.FromResult(x))
+                .Returns<Guid, AccountModel>(async (_, x) => await Task.FromResult(x))
                 .Verifiable();
 
             var result = await this.service.UpdateAsync(id, model);
@@ -43,7 +43,7 @@
 
             this.provider
                 .Setup(x => x.UpdateAsync(id, It.IsAny<AccountModel>()))
-                .Returns<AccountModel>(async (x) => await Task.FromResult(x))
+                .Returns<Guid ,AccountModel>(async (_, x) => await Task.FromResult(x))
                 .Verifiable();
 
             var result = await this.service.UpdateAsync(id, model);
