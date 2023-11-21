@@ -22,7 +22,7 @@
                 .Verifiable();
             this.provider
                 .Setup(x => x.UpdateAsync(id, It.IsAny<TransactionModel>()))
-                .Returns<TransactionModel>(async (x) => await Task.FromResult(x))
+                .Returns<Guid, TransactionModel>(async (_, x) => await Task.FromResult(x))
                 .Verifiable();
 
             await this.service.UpdateAsync(model.Id.GetValueOrDefault(), model);
@@ -48,7 +48,7 @@
 
             this.provider
                 .Setup(x => x.UpdateAsync(id, It.IsAny<TransactionModel>()))
-                .Returns<TransactionModel>(async (x) => await Task.FromResult(x))
+                .Returns<Guid, TransactionModel>(async (_, x) => await Task.FromResult(x))
                 .Verifiable();
 
             var result = await this.service.UpdateAsync(model.Id.GetValueOrDefault(), model);
@@ -70,7 +70,7 @@
 
             this.provider
                 .Setup(x => x.UpdateAsync(id, It.IsAny<TransactionModel>()))
-                .Returns<TransactionModel>(async (x) => await Task.FromResult(x))
+                .Returns<Guid,TransactionModel>(async (_, x) => await Task.FromResult(x))
                 .Verifiable();
 
             var result = await this.service.UpdateAsync(model.Id.GetValueOrDefault(), model);

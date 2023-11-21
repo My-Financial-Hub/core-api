@@ -121,7 +121,7 @@ namespace FinancialHub.Core.Application.Tests.Services
             
             await this.service.DeleteAsync(guid);
 
-            this.balancesProvider.Verify(x => x.UpdateAmountAsync(transaction.BalanceId, transaction.Amount), Times.Once);
+            this.balancesProvider.Verify(x => x.DecreaseAmountAsync(transaction.BalanceId, transaction.Amount, transaction.Type), Times.Once);
         }
     }
 }
