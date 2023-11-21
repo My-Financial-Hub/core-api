@@ -11,7 +11,8 @@ namespace FinancialHub.Core.Application.Services
 
         public TransactionsService(
             ITransactionsProvider transactionsProvider,
-            IBalancesProvider balancesProvider, ICategoriesProvider categoriesProvider
+            IBalancesProvider balancesProvider, 
+            ICategoriesProvider categoriesProvider
         )
         {
             this.transactionsProvider = transactionsProvider;

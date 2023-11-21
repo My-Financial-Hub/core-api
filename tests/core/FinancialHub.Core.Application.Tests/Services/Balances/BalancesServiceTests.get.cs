@@ -49,7 +49,7 @@ namespace FinancialHub.Core.Application.Tests.Services
         [Test]
         public async Task GetByIdAsync_InvalidId_ReturnsNotFoundError()
         {
-            var entity = this.balanceEntityBuilder.Generate();
+            var entity = this.balanceModelBuilder.Generate();
 
             var result = await this.service.GetByIdAsync(entity.Id.GetValueOrDefault());
 

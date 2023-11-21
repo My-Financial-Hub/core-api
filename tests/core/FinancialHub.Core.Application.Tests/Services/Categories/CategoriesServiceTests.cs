@@ -1,6 +1,4 @@
-﻿using FinancialHub.Core.Domain.Interfaces.Services;
-using FinancialHub.Core.Application.Services;
-using FinancialHub.Core.Domain.Interfaces.Providers;
+﻿using FinancialHub.Core.Application.Services;
 
 namespace FinancialHub.Core.Application.Tests.Services
 {
