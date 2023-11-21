@@ -13,6 +13,10 @@ namespace FinancialHub.Core.Application.Tests.Services
                 .Generate(random.Next(5, 10));
             var acountId = firstModel.Account.Id.GetValueOrDefault();
 
+            this.accountsProvider
+                .Setup(x => x.GetByIdAsync(acountId))
+                .ReturnsAsync(firstModel.Account)
+                .Verifiable();
             this.provider
                 .Setup(x => x.GetAllByAccountAsync(acountId))
                 .ReturnsAsync(balances.ToArray())

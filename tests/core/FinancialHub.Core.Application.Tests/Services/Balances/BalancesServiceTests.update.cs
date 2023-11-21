@@ -50,7 +50,7 @@
 
             this.provider
                 .Setup(x => x.UpdateAsync(id, It.IsAny<BalanceModel>()))
-                .Returns<BalanceModel>(async (x) => await Task.FromResult(x))
+                .Returns<Guid, BalanceModel>(async (_, x) => await Task.FromResult(x))
                 .Verifiable();
 
             this.accountsProvider
@@ -76,7 +76,7 @@
 
             this.provider
                 .Setup(x => x.UpdateAsync(id, It.IsAny<BalanceModel>()))
-                .Returns<BalanceModel>(async (x) => await Task.FromResult(x))
+                .Returns<Guid, BalanceModel>(async (_, x) => await Task.FromResult(x))
                 .Verifiable();
 
             this.accountsProvider
@@ -103,7 +103,7 @@
 
             this.provider
                 .Setup(x => x.UpdateAsync(id, It.IsAny<BalanceModel>()))
-                .Returns<BalanceModel>(async (x) => await Task.FromResult(x))
+                .Returns<Guid, BalanceModel>(async (_, x) => await Task.FromResult(x))
                 .Verifiable();
 
             var result = await this.service.UpdateAsync(id, model);
@@ -128,7 +128,7 @@
 
             this.provider
                 .Setup(x => x.UpdateAsync(id, It.IsAny<BalanceModel>()))
-                .Returns<BalanceModel>(async (x) => await Task.FromResult(x))
+                .Returns<Guid, BalanceModel>(async (_, x) => await Task.FromResult(x))
                 .Verifiable();
 
             var result = await this.service.UpdateAsync(model.Id.GetValueOrDefault(), model);
