@@ -206,10 +206,8 @@ namespace FinancialHub.Core.IntegrationTests
 
             await this.client.DeleteAsync($"{baseEndpoint}/{body.Id}");
 
-            var getResponse = await this.client.GetAsync(baseEndpoint);
-
-            var getResult = await getResponse.ReadContentAsync<ListResponse<TransactionModel>>();
-            Assert.AreEqual(0, getResult?.Data.Count);
+            var result = this.fixture.GetData<TransactionEntity>();
+            Assert.AreEqual(0, result.Count());
         }
     }
 }
