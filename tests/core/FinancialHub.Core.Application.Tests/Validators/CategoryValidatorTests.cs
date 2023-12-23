@@ -1,15 +1,20 @@
 ﻿using FinancialHub.Core.Application.Validators;
+using FinancialHub.Core.Domain.Interfaces.Resources;
+using FinancialHub.Core.Resources.Providers;
+using System.Globalization;
 
 namespace FinancialHub.Core.Application.Tests.Validators
 {
     public class CategoryValidatorTests
     {
         private CategoryModelBuilder builder;
+        private readonly IValidationErrorMessageProvider errorMessageProvider;
         private readonly CategoryValidator validator;
 
         public CategoryValidatorTests()
         {
-            this.validator = new CategoryValidator();
+            this.errorMessageProvider = new ValidationErrorMessageProvider(CultureInfo.InvariantCulture);
+            this.validator = new CategoryValidator(this.errorMessageProvider);
         }
 
         [SetUp]
