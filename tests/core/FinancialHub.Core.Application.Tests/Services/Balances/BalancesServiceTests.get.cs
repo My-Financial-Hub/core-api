@@ -1,4 +1,4 @@
-﻿using FinancialHub.Core.Domain.Tests.Assertions.Entities;
+﻿using FinancialHub.Core.Domain.Tests.Assertions.Models;
 
 namespace FinancialHub.Core.Application.Tests.Services
 {
@@ -7,57 +7,53 @@ namespace FinancialHub.Core.Application.Tests.Services
         [Test]
         public async Task GetByAccountAsync_ValidAccount_ReturnsBalances()
         {
-            var firstEntity = this.balanceEntityBuilder.Generate();
-            var entitiesMock = this.balanceEntityBuilder
-                .WithAccount(firstEntity.Account)
+            var firstModel = this.balanceModelBuilder.Generate();
+            var balances = this.balanceModelBuilder
+                .WithAccount(firstModel.Account)
                 .Generate(random.Next(5, 10));
+            var acountId = firstModel.Account.Id.GetValueOrDefault();
 
-            this.repository
-                .Setup(x => x.GetAsync(It.IsAny<Func<BalanceEntity,bool>>()))
-                .ReturnsAsync(entitiesMock.ToArray())
+            this.accountsProvider
+                .Setup(x => x.GetByIdAsync(acountId))
+                .ReturnsAsync(firstModel.Account)
+                .Verifiable();
+            this.provider
+                .Setup(x => x.GetAllByAccountAsync(acountId))
+                .ReturnsAsync(balances.ToArray())
                 .Verifiable();
 
-            this.mapperWrapper
-                .Setup(x => x.Map<ICollection<BalanceModel>>(It.IsAny<ICollection<BalanceEntity>>()))
-                .Returns<ICollection<BalanceEntity>>((ent) => this.mapper.Map<ICollection<BalanceModel>>(ent))
-                .Verifiable();
-
-            var result = await this.service.GetAllByAccountAsync(firstEntity.Account.Id.GetValueOrDefault());
+            var result = await this.service.GetAllByAccountAsync(acountId);
 
             Assert.IsInstanceOf<ServiceResult<ICollection<BalanceModel>>>(result);
             Assert.IsFalse(result.HasError);
-            Assert.AreEqual(entitiesMock.Count, result.Data!.Count);
+            Assert.AreEqual(balances.Count, result.Data!.Count);
 
-            this.repository.Verify(x => x.GetAsync(It.IsAny<Func<BalanceEntity, bool>>()), Times.Once);
+            this.provider.Verify(x => x.GetAllByAccountAsync(acountId), Times.Once);
         }
 
         [Test]
         public async Task GetByIdAsync_ValidId_ReturnsBalance()
         {
-            var entity = this.balanceEntityBuilder.Generate();
+            var entity = this.balanceModelBuilder.Generate();
 
-            this.repository
+            this.provider
                 .Setup(x => x.GetByIdAsync(entity.Id.GetValueOrDefault()))
                 .ReturnsAsync(entity)
                 .Verifiable();
-
-            this.SetUpMapper();
 
             var result = await this.service.GetByIdAsync(entity.Id.GetValueOrDefault());
 
             Assert.IsInstanceOf<ServiceResult<BalanceModel>>(result);
             Assert.IsFalse(result.HasError);
-            BalanceEntityAssert.Equal(entity, result.Data!);
+            BalanceModelAssert.Equal(entity, result.Data!);
 
-            this.repository.Verify(x => x.GetByIdAsync(entity.Id.GetValueOrDefault()), Times.Once);
+            this.provider.Verify(x => x.GetByIdAsync(entity.Id.GetValueOrDefault()), Times.Once);
         }
 
         [Test]
         public async Task GetByIdAsync_InvalidId_ReturnsNotFoundError()
         {
-            var entity = this.balanceEntityBuilder.Generate();
-
-            this.SetUpMapper();
+            var entity = this.balanceModelBuilder.Generate();
 
             var result = await this.service.GetByIdAsync(entity.Id.GetValueOrDefault());
 

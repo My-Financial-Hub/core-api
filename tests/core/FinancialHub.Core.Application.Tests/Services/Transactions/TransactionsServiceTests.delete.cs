@@ -8,40 +8,36 @@ namespace FinancialHub.Core.Application.Tests.Services
         public async Task DeleteAsync_ExistingTransaction_RemovesTransactions()
         {
             var expectedResult = random.Next(1, 100);
-            var transaction = this.transactionBuilder.Generate();
+            var transaction = this.transactionModelBuilder.Generate();
             var guid = transaction.Id.GetValueOrDefault();
 
-            this.repository
+            this.provider
                 .Setup(x => x.DeleteAsync(guid))
                 .ReturnsAsync(expectedResult)
                 .Verifiable();
-            this.repository
+            this.provider
                 .Setup(x => x.GetByIdAsync(guid))
                 .ReturnsAsync(transaction);
-            
-            this.SetUpMapper();
 
             await this.service.DeleteAsync(guid);
 
-            this.repository.Verify(x => x.DeleteAsync(guid), Times.Once);
+            this.provider.Verify(x => x.DeleteAsync(guid), Times.Once);
         }
 
         [Test]
         public async Task DeleteAsync_ExistingTransaction_ReturnsRemovedTransactions()
         {
             var expectedResult = random.Next(1,100);
-            var transaction = this.transactionBuilder.Generate();
+            var transaction = this.transactionModelBuilder.Generate();
             var guid = transaction.Id.GetValueOrDefault();
 
-            this.repository
+            this.provider
                 .Setup(x => x.DeleteAsync(guid))
                 .ReturnsAsync(expectedResult);
-            this.repository
+            this.provider
                 .Setup(x => x.GetByIdAsync(guid))
                 .ReturnsAsync(transaction);
 
-            this.SetUpMapper();
-            
             var result = await this.service.DeleteAsync(guid);
 
             Assert.IsInstanceOf<ServiceResult<int>>(result);
@@ -51,10 +47,10 @@ namespace FinancialHub.Core.Application.Tests.Services
         [Test]
         public async Task DeleteAsync_NotExistingTransaction_ReturnsNotFoundError()
         {
-            var transaction = this.transactionBuilder.Generate();
+            var transaction = this.transactionModelBuilder.Generate();
             var guid = transaction.Id.GetValueOrDefault();
 
-            this.repository
+            this.provider
                 .Setup(x => x.GetByIdAsync(guid));
 
             var result = await this.service.DeleteAsync(guid);
@@ -67,15 +63,15 @@ namespace FinancialHub.Core.Application.Tests.Services
         [Test]
         public async Task DeleteAsync_NotExistingTransaction_DoesNotRemovesTransactions()
         {
-            var transaction = this.transactionBuilder.Generate();
+            var transaction = this.transactionModelBuilder.Generate();
             var guid = transaction.Id.GetValueOrDefault();
 
-            this.repository
+            this.provider
                 .Setup(x => x.GetByIdAsync(guid));
 
             await this.service.DeleteAsync(guid);
 
-            this.repository.Verify(x => x.GetByIdAsync(guid),Times.Once);
+            this.provider.Verify(x => x.GetByIdAsync(guid),Times.Once);
         }
 
         [TestCase(TransactionStatus.Committed, false)]
@@ -86,24 +82,22 @@ namespace FinancialHub.Core.Application.Tests.Services
         )
         {
             var expectedResult = random.Next(1, 100);
-            var transaction = this.transactionBuilder
+            var transaction = this.transactionModelBuilder
                 .WithStatus(status)
                 .WithActiveStatus(isActive)
                 .Generate();
             var guid = transaction.Id.GetValueOrDefault();
 
-            this.repository
+            this.provider
                 .Setup(x => x.DeleteAsync(guid))
                 .ReturnsAsync(expectedResult);
-            this.repository
+            this.provider
                 .Setup(x => x.GetByIdAsync(guid))
                 .ReturnsAsync(transaction);
 
-            this.SetUpMapper();
-
             await this.service.DeleteAsync(guid);
 
-            this.balancesRepository.Verify(x => x.ChangeAmountAsync(transaction.BalanceId,transaction.Amount,transaction.Type,true), Times.Never);
+            this.balancesProvider.Verify(x => x.UpdateAmountAsync(transaction.BalanceId,transaction.Amount), Times.Never);
         }
 
         [TestCase(TransactionStatus.Committed, true)]
@@ -112,24 +106,22 @@ namespace FinancialHub.Core.Application.Tests.Services
         )
         {
             var expectedResult = random.Next(1, 100);
-            var transaction = this.transactionBuilder
+            var transaction = this.transactionModelBuilder
                 .WithStatus(status)
                 .WithActiveStatus(isActive)
                 .Generate();
             var guid = transaction.Id.GetValueOrDefault();
 
-            this.repository
+            this.provider
                 .Setup(x => x.DeleteAsync(guid))
                 .ReturnsAsync(expectedResult);
-            this.repository
+            this.provider
                 .Setup(x => x.GetByIdAsync(guid))
                 .ReturnsAsync(transaction);
-
-            this.SetUpMapper();
             
             await this.service.DeleteAsync(guid);
 
-            this.balancesRepository.Verify(x => x.ChangeAmountAsync(transaction.BalanceId, transaction.Amount, transaction.Type,true), Times.Once);
+            this.balancesProvider.Verify(x => x.DecreaseAmountAsync(transaction.BalanceId, transaction.Amount, transaction.Type), Times.Once);
         }
     }
 }

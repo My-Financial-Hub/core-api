@@ -18,4 +18,8 @@ global using FinancialHub.Common.Results.Errors;
 global using FinancialHub.Core.Domain.Models;
 global using FinancialHub.Core.Domain.Entities;
 
+// Domain interfaces namespaces
+global using FinancialHub.Core.Domain.Interfaces.Services;
+global using FinancialHub.Core.Domain.Interfaces.Providers;
+
 [assembly: Category("Unit")]

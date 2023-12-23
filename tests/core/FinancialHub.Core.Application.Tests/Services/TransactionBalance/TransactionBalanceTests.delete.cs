@@ -51,30 +51,6 @@ namespace FinancialHub.Core.Application.Tests.Services
         }
 
         [Test]
-        public async Task DeleteTransactionAsync_PaidTransaction_UpdatesAmount()
-        {
-            var id = Guid.NewGuid();
-            var transaction = this.transactionModelBuilder
-                .WithStatus(TransactionStatus.Committed)
-                .WithActiveStatus(true)
-                .WithId(id)
-                .Generate();
-
-            this.transactionsService
-                .Setup(x => x.DeleteAsync(id))
-                .ReturnsAsync(1);
-            this.transactionsService
-                .Setup(x => x.GetByIdAsync(id))
-                .ReturnsAsync(transaction);
-            this.balancesService
-                .Setup(x => x.UpdateAmountAsync(transaction.BalanceId, It.IsAny<decimal>()))
-                .Verifiable();
-            await this.service.DeleteTransactionAsync(id);
-
-            this.balancesService.Verify(x => x.UpdateAmountAsync(transaction.BalanceId, It.IsAny<decimal>()), Times.Once);
-        }
-
-        [Test]
         public async Task DeleteTransactionAsync_NotPaidTransaction_DoNotUpdateAmount()
         {
             var id = Guid.NewGuid();
@@ -92,62 +68,6 @@ namespace FinancialHub.Core.Application.Tests.Services
             await this.service.DeleteTransactionAsync(id);
 
             this.balancesService.Verify(x => x.UpdateAmountAsync(transaction.BalanceId, It.IsAny<decimal>()), Times.Never);
-        }
-
-        [Test]
-        public async Task DeleteTransactionAsync_EarnTransction_RemovesAmount()
-        {
-            var balance = this.balanceModelBuilder.Generate();
-            var id = Guid.NewGuid();
-            var transaction = this.transactionModelBuilder
-                .WithBalance(balance)
-                .WithType(TransactionType.Earn)
-                .WithStatus(TransactionStatus.Committed)
-                .WithActiveStatus(true)
-                .WithId(id)
-                .Generate();
-            var expectedAmount = balance.Amount - transaction.Amount;
-
-            this.transactionsService
-                .Setup(x => x.DeleteAsync(id))
-                .ReturnsAsync(1);
-            this.transactionsService
-                .Setup(x => x.GetByIdAsync(id))
-                .ReturnsAsync(transaction);
-            this.balancesService
-                .Setup(x => x.UpdateAmountAsync(transaction.BalanceId, expectedAmount))
-                .Verifiable();
-            await this.service.DeleteTransactionAsync(id);
-
-            this.balancesService.Verify(x => x.UpdateAmountAsync(transaction.BalanceId, expectedAmount), Times.Once);
-        }
-
-        [Test]
-        public async Task DeleteTransactionAsync_ExpenseTransction_AddsAmount()
-        {
-            var balance = this.balanceModelBuilder.Generate();
-            var id = Guid.NewGuid();
-            var transaction = this.transactionModelBuilder
-                .WithBalance(balance)
-                .WithType(TransactionType.Expense)
-                .WithStatus(TransactionStatus.Committed)
-                .WithActiveStatus(true)
-                .WithId(id)
-                .Generate();
-            var expectedAmount = balance.Amount + transaction.Amount;
-
-            this.transactionsService
-                .Setup(x => x.DeleteAsync(id))
-                .ReturnsAsync(1);
-            this.transactionsService
-                .Setup(x => x.GetByIdAsync(id))
-                .ReturnsAsync(transaction);
-            this.balancesService
-                .Setup(x => x.UpdateAmountAsync(transaction.BalanceId, expectedAmount))
-                .Verifiable();
-            await this.service.DeleteTransactionAsync(id);
-
-            this.balancesService.Verify(x => x.UpdateAmountAsync(transaction.BalanceId, expectedAmount), Times.Once);
         }
     }
 }

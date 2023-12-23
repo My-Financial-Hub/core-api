@@ -53,9 +53,15 @@ namespace FinancialHub.Core.Infra.Data.Repositories
         public async Task<BalanceEntity> ChangeAmountAsync(Guid balanceId, decimal value)
         {
             var balance = await this.GetByIdAsync(balanceId);
-            context.ChangeTracker.Clear();
+
             balance.Amount = value;
-            return await this.UpdateAsync(balance);
+            balance.UpdateTime = DateTimeOffset.Now;
+            this.context.Entry(balance).Property(x => x.CreationTime).IsModified = false;
+
+            var result = this.context.Update(balance);
+            await context.SaveChangesAsync();
+
+            return result.Entity;
         }
     }
 }
