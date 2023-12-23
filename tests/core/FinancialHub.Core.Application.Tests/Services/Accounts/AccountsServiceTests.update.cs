@@ -7,37 +7,24 @@
         public async Task UpdateAsync_ValidAccountModel_ReturnsAccountModel()
         {
             var model = this.accountModelBuilder.Generate();
-
-            this.repository
-                .Setup(x => x.GetByIdAsync(model.Id.GetValueOrDefault()))
-                .ReturnsAsync(this.mapper.Map<AccountEntity>(model))
+            var id = model.Id.GetValueOrDefault();
+            this.provider
+                .Setup(x => x.GetByIdAsync(id))
+                .ReturnsAsync(model)
                 .Verifiable();
 
-            this.repository
-                .Setup(x => x.UpdateAsync(It.IsAny<AccountEntity>()))
-                .Returns<AccountEntity>(async (x) => await Task.FromResult(x))
+            this.provider
+                .Setup(x => x.UpdateAsync(id, It.IsAny<AccountModel>()))
+                .Returns<Guid, AccountModel>(async (_, x) => await Task.FromResult(x))
                 .Verifiable();
 
-            this.mapperWrapper
-                .Setup(x => x.Map<AccountModel>(It.IsAny<AccountEntity>()))
-                .Returns<AccountEntity>((ent) => this.mapper.Map<AccountModel>(ent))
-                .Verifiable();
-
-            this.mapperWrapper
-                .Setup(x => x.Map<AccountEntity>(It.IsAny<AccountModel>()))
-                .Returns<AccountModel>((model) => this.mapper.Map<AccountEntity>(model))
-                .Verifiable();
-
-            var result = await this.service.UpdateAsync(model.Id.GetValueOrDefault(), model);
+            var result = await this.service.UpdateAsync(id, model);
 
             Assert.IsNotNull(result);
             Assert.IsInstanceOf<ServiceResult<AccountModel>>(result);
 
-            this.repository.Verify(x => x.GetByIdAsync(model.Id.GetValueOrDefault()), Times.Once);
-            this.repository.Verify(x => x.UpdateAsync(It.IsAny<AccountEntity>()), Times.Once);
-
-            this.mapperWrapper.Verify(x => x.Map<AccountModel>(It.IsAny<AccountEntity>()), Times.Once);
-            this.mapperWrapper.Verify(x => x.Map<AccountEntity>(It.IsAny<AccountModel>()), Times.Once);
+            this.provider.Verify(x => x.GetByIdAsync(id), Times.Once);
+            this.provider.Verify(x => x.UpdateAsync(id, It.IsAny<AccountModel>()), Times.Once);
         }
 
         [Test]
@@ -49,14 +36,14 @@
                 .WithId(id)
                 .Generate();
 
-            this.repository
+            this.provider
                 .Setup(x => x.GetByIdAsync(id))
-                .ReturnsAsync(default(AccountEntity))
+                .ReturnsAsync(default(AccountModel))
                 .Verifiable();
 
-            this.repository
-                .Setup(x => x.UpdateAsync(It.IsAny<AccountEntity>()))
-                .Returns<AccountEntity>(async (x) => await Task.FromResult(x))
+            this.provider
+                .Setup(x => x.UpdateAsync(id, It.IsAny<AccountModel>()))
+                .Returns<Guid ,AccountModel>(async (_, x) => await Task.FromResult(x))
                 .Verifiable();
 
             var result = await this.service.UpdateAsync(id, model);
@@ -64,8 +51,8 @@
             Assert.IsInstanceOf<ServiceResult<AccountModel>>(result);
             Assert.IsTrue(result.HasError);
 
-            this.repository.Verify(x => x.GetByIdAsync(model.Id.GetValueOrDefault()), Times.Once);
-            this.repository.Verify(x => x.UpdateAsync(It.IsAny<AccountEntity>()), Times.Never);
+            this.provider.Verify(x => x.GetByIdAsync(id), Times.Once);
+            this.provider.Verify(x => x.UpdateAsync(id, It.IsAny<AccountModel>()), Times.Never);
         }
     }
 }

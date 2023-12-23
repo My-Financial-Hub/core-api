@@ -7,24 +7,22 @@
         {
             var model = this.transactionModelBuilder.Generate();
 
-            this.categoriesRepository
+            this.categoriesProvider
                 .Setup(x => x.GetByIdAsync(model.CategoryId))
-                .ReturnsAsync(this.mapper.Map<CategoryEntity>(model.Category));
+                .ReturnsAsync(model.Category);
 
-            this.balancesRepository
+            this.balancesProvider
                 .Setup(x => x.GetByIdAsync(model.BalanceId))
-                .ReturnsAsync(this.mapper.Map<BalanceEntity>(model.Balance));
+                .ReturnsAsync(model.Balance);
 
-            this.repository
-                .Setup(x => x.CreateAsync(It.IsAny<TransactionEntity>()))
-                .Returns<TransactionEntity>(async (x) => await Task.FromResult(x))
+            this.provider
+                .Setup(x => x.CreateAsync(It.IsAny<TransactionModel>()))
+                .Returns<TransactionModel>(async (x) => await Task.FromResult(x))
                 .Verifiable();
-
-            this.SetUpMapper();
 
             await this.service.CreateAsync(model);
 
-            this.repository.Verify(x => x.CreateAsync(It.IsAny<TransactionEntity>()), Times.Once);
+            this.provider.Verify(x => x.CreateAsync(It.IsAny<TransactionModel>()), Times.Once);
         }
 
         [Test]
@@ -32,20 +30,18 @@
         {
             var model = this.transactionModelBuilder.Generate();
 
-            this.categoriesRepository
+            this.categoriesProvider
                 .Setup(x => x.GetByIdAsync(model.CategoryId))
-                .ReturnsAsync(this.mapper.Map<CategoryEntity>(model.Category));
+                .ReturnsAsync(model.Category);
 
-            this.balancesRepository
+            this.balancesProvider
                 .Setup(x => x.GetByIdAsync(model.BalanceId))
-                .ReturnsAsync(this.mapper.Map<BalanceEntity>(model.Balance));
+                .ReturnsAsync(model.Balance);
 
-            this.repository
-                .Setup(x => x.CreateAsync(It.IsAny<TransactionEntity>()))
-                .Returns<TransactionEntity>(async (x) => await Task.FromResult(x))
+            this.provider
+                .Setup(x => x.CreateAsync(It.IsAny<TransactionModel>()))
+                .Returns<TransactionModel>(async (x) => await Task.FromResult(x))
                 .Verifiable();
-
-            this.SetUpMapper();
 
             var result = await this.service.CreateAsync(model);
 
@@ -58,11 +54,9 @@
         {
             var model = this.transactionModelBuilder.Generate();
 
-            this.SetUpMapper();
-
-            this.balancesRepository
+            this.balancesProvider
                 .Setup(x => x.GetByIdAsync(model.BalanceId))
-                .ReturnsAsync(this.mapper.Map<BalanceEntity>(model.Balance));
+                .ReturnsAsync(model.Balance);
 
             var result = await this.service.CreateAsync(model);
 
@@ -75,11 +69,9 @@
         {
             var model = this.transactionModelBuilder.Generate();
 
-            this.SetUpMapper();
-
-            this.categoriesRepository
+            this.categoriesProvider
                 .Setup(x => x.GetByIdAsync(model.CategoryId))
-                .ReturnsAsync(this.mapper.Map<CategoryEntity>(model.Category));
+                .ReturnsAsync(model.Category);
 
             var result = await this.service.CreateAsync(model);
 

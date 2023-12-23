@@ -32,7 +32,6 @@ namespace FinancialHub.Core.Application.Extensions.Configurations
 
         private static IServiceCollection AddMapper(this IServiceCollection services)
         {
-            services.AddAutoMapper(typeof(FinancialHubAutoMapperProfile));
             services.AddScoped<IMapperWrapper, FinancialHubMapperWrapper>();
 
             return services;

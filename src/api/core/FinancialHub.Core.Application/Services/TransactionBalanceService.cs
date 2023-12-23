@@ -180,26 +180,13 @@ namespace FinancialHub.Core.Application.Services
         }
 
         public async Task<ServiceResult<bool>> DeleteTransactionAsync(Guid id)
-        {
-            var oldTransaction = await this.transactionsService.GetByIdAsync(id);
-            
+        {            
             var deleted = await this.transactionsService.DeleteAsync(id);
 
             if (deleted.HasError)
                 return deleted.Error;
             if (deleted.Data == 0)
                 return false;
-
-            var transaction = oldTransaction.Data!;
-            if (transaction.IsPaid)
-            {
-                var amount = transaction.Balance.Amount;
-                amount = transaction.Type == TransactionType.Earn?
-                    amount - transaction.Amount:
-                    amount + transaction.Amount;
-
-                await this.balancesService.UpdateAmountAsync(transaction.BalanceId, amount);
-            }
 
             return true;
         }
