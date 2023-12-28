@@ -7,10 +7,15 @@ namespace FinancialHub.Core.Resources.Extensions
 {
     public static class IServiceCollectionExtensions
     {
-        public static IServiceCollection AddAuthResources(this IServiceCollection services)
+        public static IServiceCollection AddCoreResources(this IServiceCollection services)
         {
+            var cultureInfo = CultureInfo.CurrentCulture;
+
             services.AddSingleton<IValidationErrorMessageProvider>(
-                new ValidationErrorMessageProvider(CultureInfo.CurrentCulture)
+                new ValidationErrorMessageProvider(cultureInfo)
+            );
+            services.AddSingleton<IErrorMessageProvider>(
+                new ErrorMessageProvider(cultureInfo)
             );
             return services;
         }

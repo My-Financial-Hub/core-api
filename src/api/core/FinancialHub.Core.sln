@@ -48,7 +48,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinancialHub.Core.Infra.Tes
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinancialHub.Core.Infra", "FinancialHub.Core.Infra\FinancialHub.Core.Infra.csproj", "{589C8DB5-5685-4F03-A6EB-DB151796E587}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinancialHub.Core.Resources", "FinancialHub.Core.Resources\FinancialHub.Core.Resources.csproj", "{CDC9C3E6-82D0-4390-8495-1201229D91BB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinancialHub.Core.Resources", "FinancialHub.Core.Resources\FinancialHub.Core.Resources.csproj", "{CDC9C3E6-82D0-4390-8495-1201229D91BB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -135,7 +135,7 @@ Global
 		{E7839395-1741-4DE8-8CC3-6D7491786A25} = {BEE32E30-21CF-489B-B208-3D053E4966A8}
 		{FFF2B917-592A-4153-8B51-8BA4AE434591} = {15C0C14F-DA06-46BB-A8B0-4BA5D6372777}
 		{589C8DB5-5685-4F03-A6EB-DB151796E587} = {15C0C14F-DA06-46BB-A8B0-4BA5D6372777}
-		{CDC9C3E6-82D0-4390-8495-1201229D91BB} = {3B96E644-4E1A-4C2F-8F3C-E4843C921B92}
+		{CDC9C3E6-82D0-4390-8495-1201229D91BB} = {FB841C40-3211-443F-AC95-CD5796CF4FB3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9A4C4A77-82DC-47E2-AA98-E741B329A3E8}
