@@ -1,12 +1,16 @@
-﻿namespace FinancialHub.Core.Application.Services
+﻿using FinancialHub.Core.Domain.Interfaces.Resources;
+
+namespace FinancialHub.Core.Application.Services
 {
     public class AccountsService : IAccountsService
     {
         private readonly IAccountsProvider provider;
+        private readonly IErrorMessageProvider errorMessageProvider;
 
-        public AccountsService(IAccountsProvider provider)
+        public AccountsService(IAccountsProvider provider, IErrorMessageProvider errorMessageProvider)
         {
             this.provider = provider;
+            this.errorMessageProvider = errorMessageProvider;
         }
 
         public async Task<ServiceResult<AccountModel>> CreateAsync(AccountModel account)
@@ -30,7 +34,11 @@
         {
             var existingAccount = await this.provider.GetByIdAsync(id);
             if (existingAccount == null)
-                return new NotFoundError($"Not found account with id {id}");
+            {
+                return new NotFoundError(
+                    this.errorMessageProvider.NotFoundMessage("Account", id)
+                );
+            }
 
             return existingAccount;
         }
@@ -43,7 +51,11 @@
 
             var updatedAccount = await this.provider.UpdateAsync(id, account);
             if (updatedAccount == null)
-                return new NotFoundError($"Failed to update account {id}");
+            {
+                return new InvalidDataError(
+                    this.errorMessageProvider.UpdateFailedMessage("Account", id)
+                );
+            }
 
             return updatedAccount;
         }
