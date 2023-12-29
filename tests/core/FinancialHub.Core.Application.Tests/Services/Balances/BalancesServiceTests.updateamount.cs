@@ -53,6 +53,7 @@
             var id = Guid.NewGuid();
             var model = this.balanceModelBuilder.WithId(id).Generate();
             var amount = this.random.Next(1000, 10000);
+            var expectedErrorMessage = $"Not found Balance with id {id}";
 
             this.provider
                 .Setup(x => x.GetByIdAsync(id))
@@ -61,12 +62,15 @@
             this.provider
                 .Setup(x => x.UpdateAmountAsync(id, amount))
                 .Verifiable();
+            this.errorMessageProvider
+                .Setup(x => x.NotFoundMessage(It.IsAny<string>(), It.IsAny<Guid>()))
+                .Returns(expectedErrorMessage);
 
             var result = await this.service.UpdateAmountAsync(id, amount);
 
             Assert.IsInstanceOf<ServiceResult<BalanceModel>>(result);
             Assert.IsTrue(result.HasError);
-            Assert.AreEqual($"Not found Balance with id {id}", result.Error!.Message);
+            Assert.AreEqual(expectedErrorMessage, result.Error!.Message);
 
             this.provider.Verify(x => x.GetByIdAsync(model.Id.GetValueOrDefault()), Times.Once);
             this.provider.Verify(x => x.UpdateAmountAsync(id, amount), Times.Never);

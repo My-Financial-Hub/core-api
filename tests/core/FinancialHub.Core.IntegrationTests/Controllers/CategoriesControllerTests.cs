@@ -101,7 +101,7 @@ namespace FinancialHub.Core.IntegrationTests
             Assert.AreEqual(HttpStatusCode.NotFound, response.StatusCode);
 
             var result = await response.ReadContentAsync<NotFoundErrorResponse>();
-            Assert.AreEqual($"Not found category with id {id}", result!.Message);
+            Assert.AreEqual($"Not found Category with id {id}", result!.Message);
         }
 
         [Test]

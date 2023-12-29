@@ -1,6 +1,5 @@
-﻿using FinancialHub.Core.Domain.Interfaces.Services;
-using FinancialHub.Core.Application.Services;
-using FinancialHub.Core.Domain.Interfaces.Providers;
+﻿using FinancialHub.Core.Application.Services;
+using FinancialHub.Core.Domain.Interfaces.Resources;
 
 namespace FinancialHub.Core.Application.Tests.Services
 {
@@ -12,12 +11,14 @@ namespace FinancialHub.Core.Application.Tests.Services
         private IAccountsService service;
 
         private Mock<IAccountsProvider> provider;
+        private Mock<IErrorMessageProvider> errorMessageProvider;
 
         [SetUp]
         public void Setup()
         {
             this.provider = new Mock<IAccountsProvider>();
-            this.service = new AccountsService(provider.Object);
+            this.errorMessageProvider = new Mock<IErrorMessageProvider>();
+            this.service = new AccountsService(provider.Object, errorMessageProvider.Object);
 
             this.random = new Random();
 

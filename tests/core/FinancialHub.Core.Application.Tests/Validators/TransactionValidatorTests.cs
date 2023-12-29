@@ -1,5 +1,8 @@
 ﻿using FinancialHub.Core.Domain.Enums;
 using FinancialHub.Core.Application.Validators;
+using FinancialHub.Core.Domain.Interfaces.Resources;
+using FinancialHub.Core.Resources.Providers;
+using System.Globalization;
 
 namespace FinancialHub.Core.Application.Tests.Validators
 {
@@ -7,10 +10,12 @@ namespace FinancialHub.Core.Application.Tests.Validators
     {
         private TransactionModelBuilder builder;
         private readonly TransactionValidator validator;
+        private readonly IValidationErrorMessageProvider errorMessageProvider;
 
         public TransactionValidatorTests()
         {
-            this.validator = new TransactionValidator();
+            this.errorMessageProvider = new ValidationErrorMessageProvider(CultureInfo.InvariantCulture);
+            this.validator = new TransactionValidator(this.errorMessageProvider);
         }
 
         [SetUp]

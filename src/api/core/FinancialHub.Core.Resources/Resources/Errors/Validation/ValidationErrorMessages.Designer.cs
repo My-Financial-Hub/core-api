@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace FinancialHub.Core.Application.Resources {
+namespace FinancialHub.Core.Resources.Resources.Errors.Validation {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace FinancialHub.Core.Application.Resources {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class ErrorMessages {
+    internal class ValidationErrorMessages {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal ErrorMessages() {
+        internal ValidationErrorMessages() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace FinancialHub.Core.Application.Resources {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("FinancialHub.Core.Application.Resources.ErrorMessages", typeof(ErrorMessages).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("FinancialHub.Core.Resources.Resources.Errors.Validation.ValidationErrorMessages", typeof(ValidationErrorMessages).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

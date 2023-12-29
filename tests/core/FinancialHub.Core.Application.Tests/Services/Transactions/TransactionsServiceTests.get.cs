@@ -45,11 +45,16 @@ namespace FinancialHub.Core.Application.Tests.Services
         public async Task GetByIdAsync_NonExistingTransaction_ReturnsNotFoundError()
         {
             var id = Guid.NewGuid();
+            var expectedErrorMessage = $"Not found Transaction with id {id}";
+
+            this.errorMessageProvider
+                .Setup(x => x.NotFoundMessage(It.IsAny<string>(), It.IsAny<Guid>()))
+                .Returns(expectedErrorMessage);
 
             var result = await this.service.GetByIdAsync(id);
 
             Assert.IsTrue(result.HasError);
-            Assert.AreEqual($"Not found Transaction with id {id}", result.Error!.Message);
+            Assert.AreEqual(expectedErrorMessage, result.Error!.Message);
         }
     }
 }

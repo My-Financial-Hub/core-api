@@ -1,27 +1,27 @@
-﻿using FinancialHub.Core.Application.Resources;
+﻿using FinancialHub.Core.Domain.Interfaces.Resources;
 using FluentValidation;
 
 namespace FinancialHub.Core.Application.Validators
 {
     public class TransactionValidator : AbstractValidator<TransactionModel>
     {
-        public TransactionValidator()
+        public TransactionValidator(IValidationErrorMessageProvider errorMessageProvider)
         {
             RuleFor(x => x.Description)
                 .Length(0, 500)
-                .WithMessage(ErrorMessages.ExceedMaxLength);
+                .WithMessage(errorMessageProvider.ExceedMaxLength);
 
             RuleFor(x => x.Amount)
                 .GreaterThan(0)
-                .WithMessage(ErrorMessages.GreaterThan);
+                .WithMessage(errorMessageProvider.GreaterThan);
 
             RuleFor(x => x.Status)
                 .IsInEnum()
-                .WithMessage(ErrorMessages.OutOfEnum);
+                .WithMessage(errorMessageProvider.OutOfEnum);
 
             RuleFor(x => x.Type)
                 .IsInEnum()
-                .WithMessage(ErrorMessages.OutOfEnum);
+                .WithMessage(errorMessageProvider.OutOfEnum);
         }
     }
 }

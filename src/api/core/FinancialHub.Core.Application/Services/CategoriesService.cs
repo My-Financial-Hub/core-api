@@ -1,12 +1,16 @@
-﻿namespace FinancialHub.Core.Application.Services
+﻿using FinancialHub.Core.Domain.Interfaces.Resources;
+
+namespace FinancialHub.Core.Application.Services
 {
     public class CategoriesService : ICategoriesService
     {
         private readonly ICategoriesProvider provider;
+        private readonly IErrorMessageProvider errorMessageProvider;
 
-        public CategoriesService(ICategoriesProvider provider)
+        public CategoriesService(ICategoriesProvider provider, IErrorMessageProvider errorMessageProvider)
         {
             this.provider = provider;
+            this.errorMessageProvider = errorMessageProvider;
         }
 
         public async Task<ServiceResult<CategoryModel>> CreateAsync(CategoryModel category)
@@ -30,11 +34,19 @@
         {
             var existingCategory = await this.provider.GetByIdAsync(id);
             if (existingCategory == null)
-                return new NotFoundError($"Not found category with id {id}");
+            {
+                return new NotFoundError(
+                    this.errorMessageProvider.NotFoundMessage("Category", id)
+                );
+            }
 
             var updatedCategory = await this.provider.UpdateAsync(id, category);
             if (updatedCategory == null)
-                return new InvalidDataError($"Failed to update category {id}");
+            {
+                return new InvalidDataError(
+                    this.errorMessageProvider.UpdateFailedMessage("Category", id)
+                );
+            }
 
             return updatedCategory;
         }

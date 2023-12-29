@@ -1,5 +1,6 @@
 ﻿using FinancialHub.Core.Domain.Filters;
 using FinancialHub.Core.Domain.Enums;
+using FinancialHub.Core.Domain.Interfaces.Resources;
 
 namespace FinancialHub.Core.Application.Services
 {
@@ -8,27 +9,38 @@ namespace FinancialHub.Core.Application.Services
         private readonly ITransactionsProvider transactionsProvider;
         private readonly IBalancesProvider balancesProvider;
         private readonly ICategoriesProvider categoriesProvider;
+        private readonly IErrorMessageProvider errorMessageProvider;
 
         public TransactionsService(
             ITransactionsProvider transactionsProvider,
             IBalancesProvider balancesProvider, 
-            ICategoriesProvider categoriesProvider
+            ICategoriesProvider categoriesProvider,
+            IErrorMessageProvider errorMessageProvider
         )
         {
             this.transactionsProvider = transactionsProvider;
             this.balancesProvider = balancesProvider;
             this.categoriesProvider = categoriesProvider;
+            this.errorMessageProvider = errorMessageProvider;
         }
 
         private async Task<ServiceResult<bool>> ValidateTransaction(TransactionModel transaction)
         {
             var balance = await this.balancesProvider.GetByIdAsync(transaction.BalanceId);
             if (balance == null)
-                return new NotFoundError($"Not found Balance with id {transaction.BalanceId}"); 
+            {
+                return new NotFoundError(
+                    this.errorMessageProvider.NotFoundMessage("Balance", transaction.BalanceId)
+                ); 
+            }
 
             var category = await this.categoriesProvider.GetByIdAsync(transaction.CategoryId);
             if (category == null)
-                return new NotFoundError($"Not found Category with id {transaction.CategoryId}");
+            {
+                return new NotFoundError(
+                    this.errorMessageProvider.NotFoundMessage("Category", transaction.CategoryId)
+                );
+            }
 
             return true;
         }
@@ -37,7 +49,9 @@ namespace FinancialHub.Core.Application.Services
         {
             var validation = await this.ValidateTransaction(transaction);
             if (validation.HasError)
+            {
                 return new ServiceResult<TransactionModel>(error: validation.Error);
+            }
 
             return await this.transactionsProvider.CreateAsync(transaction);
         }
@@ -46,7 +60,9 @@ namespace FinancialHub.Core.Application.Services
         {
             var transactionResult = await this.GetByIdAsync(id);
             if (transactionResult.HasError)
+            {
                 return transactionResult.Error;
+            }
 
             var transaction = transactionResult.Data!;
 
@@ -69,11 +85,15 @@ namespace FinancialHub.Core.Application.Services
         {
             var oldTransactionResult = await this.GetByIdAsync(id);
             if (oldTransactionResult.HasError)
+            {
                 return oldTransactionResult.Error;
+            }
 
             var validation = await this.ValidateTransaction(transaction);
             if (validation.HasError)
+            {
                 return new ServiceResult<TransactionModel>(error: validation.Error);
+            }
 
             return await this.transactionsProvider.UpdateAsync(id, transaction);
         }
@@ -82,7 +102,11 @@ namespace FinancialHub.Core.Application.Services
         {
             var transaction = await this.transactionsProvider.GetByIdAsync(id);
             if (transaction == null)
-                return new NotFoundError($"Not found Transaction with id {id}");
+            {
+                return new NotFoundError(
+                    this.errorMessageProvider.NotFoundMessage("Transaction", id)
+                );
+            }
 
             return transaction;
         }

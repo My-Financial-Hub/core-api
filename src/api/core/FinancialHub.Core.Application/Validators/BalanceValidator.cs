@@ -1,21 +1,21 @@
-﻿using FinancialHub.Core.Application.Resources;
+﻿using FinancialHub.Core.Domain.Interfaces.Resources;
 using FluentValidation;
 
 namespace FinancialHub.Core.Application.Validators
 {
     public class BalanceValidator : AbstractValidator<BalanceModel>
     {
-        public BalanceValidator() : base()
+        public BalanceValidator(IValidationErrorMessageProvider errorMessageProvider) : base()
         {
             RuleFor(x => x.Name)
                 .NotEmpty()
-                .WithMessage(ErrorMessages.Required)
+                .WithMessage(errorMessageProvider.Required)
                 .Length(0, 200)
-                .WithMessage(ErrorMessages.ExceedMaxLength);
+                .WithMessage(errorMessageProvider.ExceedMaxLength);
 
             RuleFor(x => x.AccountId)
                 .NotEmpty()
-                .WithMessage(ErrorMessages.Required);
+                .WithMessage(errorMessageProvider.Required);
         }
     }
 }

@@ -1,17 +1,22 @@
-﻿namespace FinancialHub.Core.Application.Services
+﻿using FinancialHub.Core.Domain.Interfaces.Resources;
+
+namespace FinancialHub.Core.Application.Services
 {
     public class BalancesService : IBalancesService
     {
         private readonly IAccountsProvider accountsProvider;
+        private readonly IErrorMessageProvider errorMessageProvider;
         private readonly IBalancesProvider balancesProvider;
 
         public BalancesService(
-            IBalancesProvider balancesProvider, 
-            IAccountsProvider accountsProvider
+            IBalancesProvider balancesProvider,
+            IAccountsProvider accountsProvider,
+            IErrorMessageProvider errorMessageProvider
         )
         {
             this.balancesProvider = balancesProvider;
             this.accountsProvider = accountsProvider;
+            this.errorMessageProvider = errorMessageProvider;
         }
 
         private async Task<ServiceResult> ValidateAccountAsync(Guid accountId)
@@ -19,7 +24,11 @@
             var account = await this.accountsProvider.GetByIdAsync(accountId);
 
             if (account == null)
-                return new NotFoundError($"Not found Account with id {accountId}");
+            {
+                return new NotFoundError(
+                    this.errorMessageProvider.NotFoundMessage("Account", accountId)
+                );
+            }
 
             return new ServiceResult();
         }
@@ -41,8 +50,12 @@
         public async Task<ServiceResult<BalanceModel>> GetByIdAsync(Guid id)
         {
             var balance = await this.balancesProvider.GetByIdAsync(id);
-            if(balance == null)
-                return new NotFoundError($"Not found Balance with id {id}");
+            if (balance == null)
+            {
+                return new NotFoundError(
+                    this.errorMessageProvider.NotFoundMessage("Balance", id)
+                );
+            }
 
             return balance;
         }
@@ -51,7 +64,9 @@
         {
             var validationResult = await this.ValidateAccountAsync(accountId);
             if (validationResult.HasError)
+            {
                 return validationResult.Error;
+            }
 
             var accounts = await this.balancesProvider.GetAllByAccountAsync(accountId);
 
@@ -62,11 +77,15 @@
         {
             var oldBalance = await this.GetByIdAsync(id);
             if (oldBalance.HasError)
+            {
                 return oldBalance.Error;
+            }
 
             var validationResult = await this.ValidateAccountAsync(balance.AccountId);
             if (validationResult.HasError)
+            {
                 return validationResult.Error;
+            }
 
             return await this.balancesProvider.UpdateAsync(id, balance);
         }
@@ -75,7 +94,9 @@
         {
             var balanceResult = await this.GetByIdAsync(id);
             if (balanceResult.HasError)
+            {
                 return balanceResult.Error;
+            }
 
             return await balancesProvider.UpdateAmountAsync(id, newAmount);
         }
