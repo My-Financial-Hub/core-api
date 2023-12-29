@@ -57,16 +57,20 @@
         public async Task CreateAsync_InvalidAccountModel_ReturnsNotFoundError()
         {
             var model = this.balanceModelBuilder.Generate();
+            var expectedErrorMessage = $"Not found Account with id {model.AccountId}";
 
             this.provider
                 .Setup(x => x.CreateAsync(It.IsAny<BalanceModel>()))
                 .Returns<BalanceModel>(async (x) => await Task.FromResult(x))
                 .Verifiable();
+            this.errorMessageProvider
+                .Setup(x => x.NotFoundMessage(It.IsAny<string>(), It.IsAny<Guid>()))
+                .Returns(expectedErrorMessage);
 
             var result = await this.service.CreateAsync(model);
 
             Assert.IsTrue(result.HasError);
-            Assert.AreEqual($"Not found Account with id {model.AccountId}", result.Error!.Message);
+            Assert.AreEqual(expectedErrorMessage, result.Error!.Message);
 
             this.provider.Verify(x => x.CreateAsync(It.IsAny<BalanceModel>()), Times.Never);
         }

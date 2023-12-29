@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using FinancialHub.Core.WebApi;
 using FinancialHub.Core.Infra.Data.Contexts;
 using Microsoft.AspNetCore.Hosting;
+using System.Globalization;
 
 namespace FinancialHub.Core.IntegrationTests.Setup
 {
@@ -19,6 +20,7 @@ namespace FinancialHub.Core.IntegrationTests.Setup
                 .WithWebHostBuilder(
                     builder =>
                     {
+                        CultureInfo.CurrentCulture = CultureInfo.InvariantCulture;
                         builder.UseEnvironment("Testing");
                     }
                 );

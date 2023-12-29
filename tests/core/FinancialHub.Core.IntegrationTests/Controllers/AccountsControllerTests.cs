@@ -129,7 +129,7 @@ namespace FinancialHub.Core.IntegrationTests
             Assert.AreEqual(HttpStatusCode.NotFound, response.StatusCode);
 
             var result = await response.ReadContentAsync<NotFoundErrorResponse>();
-            Assert.AreEqual($"Not found account with id {id}", result!.Message);
+            Assert.AreEqual($"Not found Account with id {id}", result!.Message);
         }
 
         [Test]
