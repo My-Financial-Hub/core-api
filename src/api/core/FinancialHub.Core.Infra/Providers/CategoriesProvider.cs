@@ -16,13 +16,16 @@
             var categoryEntity = mapper.Map<CategoryEntity>(category);
 
             var createdAccount = await this.repository.CreateAsync(categoryEntity);
+            await this.repository.CommitAsync();
 
             return mapper.Map<CategoryModel>(createdAccount);
         }
 
         public async Task<int> DeleteAsync(Guid id)
         {
-            return await repository.DeleteAsync(id);
+            await repository.DeleteAsync(id);
+
+            return await this.repository.CommitAsync();
         }
 
         public async Task<ICollection<CategoryModel>> GetAllAsync()
@@ -35,9 +38,10 @@
         public async Task<CategoryModel?> GetByIdAsync(Guid id)
         {
             var category = await this.repository.GetByIdAsync(id);
-
             if(category == null)
+            {
                 return null;
+            }
 
             return mapper.Map<CategoryModel>(category);
         }
@@ -48,6 +52,8 @@
             categoryEntity.Id = id;
 
             var updatedCategory = await this.repository.UpdateAsync(categoryEntity);
+            await this.repository.CommitAsync();
+
             return mapper.Map<CategoryModel>(updatedCategory);
         }
     }
