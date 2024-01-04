@@ -21,7 +21,6 @@ namespace FinancialHub.Core.Infra.Data.Repositories
             obj.UpdateTime = DateTimeOffset.Now;
 
             var res = await context.Set<T>().AddAsync(obj);
-            await context.SaveChangesAsync();
             return res.Entity;
         }
 
@@ -67,6 +66,11 @@ namespace FinancialHub.Core.Infra.Data.Repositories
         public virtual async Task<T?> GetByIdAsync(Guid id)
         {
             return await context.Set<T>().AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+        public virtual async Task<int> CommitAsync()
+        {
+            return await context.SaveChangesAsync();
         }
     }
 }
