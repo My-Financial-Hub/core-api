@@ -5,8 +5,7 @@ using FinancialHub.Common.Interfaces.Repositories;
 
 namespace FinancialHub.Core.Infra.Data.Repositories
 {
-    public class BaseRepository<T> : IBaseRepository<T>
-        where T : BaseEntity
+    public class BaseRepository<T> : IBaseRepository<T> where T : BaseEntity
     {
         protected readonly FinancialHubContext context;
         public BaseRepository(FinancialHubContext context)
@@ -31,7 +30,7 @@ namespace FinancialHub.Core.Infra.Data.Repositories
             if(entity != null)
             {
                 context.Set<T>().Remove(entity);
-                return await context.SaveChangesAsync();
+                return 1;
             }
             else
             {
@@ -68,7 +67,7 @@ namespace FinancialHub.Core.Infra.Data.Repositories
             return await context.Set<T>().AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public virtual async Task<int> CommitAsync()
+        public async Task<int> CommitAsync()
         {
             return await context.SaveChangesAsync();
         }
