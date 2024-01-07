@@ -86,11 +86,11 @@
         /// Deletes an existing account on database
         /// </summary>
         /// <param name="id">id of the account</param>
-        [NonAction]
         [HttpDelete("{id}")]
+        [ProducesResponseType(204)]
         public async Task<IActionResult> DeleteAccount([FromRoute] Guid id)
         {
-            await accountBalanceService.DeleteAsync(id);
+            await service.DeleteAsync(id);
             return NoContent();
         }
     }

@@ -16,13 +16,15 @@
             var accountEntity = mapper.Map<AccountEntity>(account);
 
             var createdAccount = await this.repository.CreateAsync(accountEntity);
+            await this.repository.CommitAsync();
 
             return mapper.Map<AccountModel>(createdAccount);
         }
 
         public async Task<int> DeleteAsync(Guid id)
         {
-            return await repository.DeleteAsync(id);
+            await repository.DeleteAsync(id);
+            return await this.repository.CommitAsync();
         }
 
         public async Task<ICollection<AccountModel>> GetAllAsync()
@@ -48,6 +50,8 @@
             accountEntity.Id = id;
 
             var updatedAccount = await this.repository.UpdateAsync(accountEntity);
+            await this.repository.CommitAsync();
+            
             return mapper.Map<AccountModel>(updatedAccount);
         }
     }
