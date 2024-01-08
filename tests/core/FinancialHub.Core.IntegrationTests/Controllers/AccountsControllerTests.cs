@@ -112,6 +112,19 @@ namespace FinancialHub.Core.IntegrationTests
         }
 
         [Test]
+        public async Task Post_ValidAccount_CreateDefaultBalance()
+        {
+            var body = this.modelBuilder.Generate();
+
+            await this.client.PostAsync(baseEndpoint, body);
+
+            var account = this.fixture.GetData<AccountEntity>().First();
+            var balances = this.fixture.GetData<BalanceEntity>();
+
+            Assert.IsNotNull(balances.FirstOrDefault(x => x.AccountId == account.Id && x.Name == $"{account.Name} Default Balance"));
+        }
+
+        [Test]
         public async Task Put_ExistingAccount_ReturnUpdatedAccount()
         {
             var id = Guid.NewGuid();

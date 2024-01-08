@@ -45,7 +45,7 @@
         [ProducesResponseType(typeof(ValidationErrorResponse), 400)]
         public async Task<IActionResult> CreateAccount([FromBody] AccountModel account)
         {
-            var result = await this.accountBalanceService.CreateAsync(account);
+            var result = await this.service.CreateAsync(account);
 
             if (result.HasError)
             {
