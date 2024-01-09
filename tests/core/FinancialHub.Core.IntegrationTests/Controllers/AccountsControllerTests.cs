@@ -5,7 +5,6 @@ namespace FinancialHub.Core.IntegrationTests
         private AccountEntityBuilder entityBuilder;
         private AccountModelBuilder modelBuilder;
         private BalanceEntityBuilder balanceBuilder;
-        private CategoryEntityBuilder categoryBuilder;
         private TransactionEntityBuilder transactionBuilder;
 
         public AccountsControllerTests(FinancialHubApiFixture fixture) : base(fixture, "/accounts")
@@ -18,7 +17,6 @@ namespace FinancialHub.Core.IntegrationTests
             this.modelBuilder       = new AccountModelBuilder(); 
             this.entityBuilder      = new AccountEntityBuilder();
             this.balanceBuilder     = new BalanceEntityBuilder();
-            this.categoryBuilder    = new CategoryEntityBuilder();
             this.transactionBuilder = new TransactionEntityBuilder();
             base.SetUp();
         }
