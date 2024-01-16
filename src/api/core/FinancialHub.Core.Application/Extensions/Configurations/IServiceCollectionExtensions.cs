@@ -24,7 +24,6 @@ namespace FinancialHub.Core.Application.Extensions.Configurations
             services.AddScoped<ITransactionsService, TransactionsService>();
             services.AddScoped<IBalancesService, BalancesService>();
 
-            services.AddScoped<IAccountBalanceService, AccountBalanceService>();
             services.AddScoped<ITransactionBalanceService, TransactionBalanceService>();
 
             return services;
