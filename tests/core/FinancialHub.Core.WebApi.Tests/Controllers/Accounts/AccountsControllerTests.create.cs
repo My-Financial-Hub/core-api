@@ -9,7 +9,7 @@
             var body = this.accountModelBuilder.Generate();
             var mockResult = new ServiceResult<AccountModel>(body);
 
-            this.mockAccountService
+            this.mockService
                 .Setup(x => x.CreateAsync(body))
                 .ReturnsAsync(mockResult)
                 .Verifiable();
@@ -24,7 +24,7 @@
             var listResponse = result?.Value as SaveResponse<AccountModel>;
             Assert.AreEqual(mockResult.Data, listResponse?.Data);
 
-            this.mockAccountService.Verify(x => x.CreateAsync(body), Times.Once);
+            this.mockService.Verify(x => x.CreateAsync(body), Times.Once);
         }
 
         [Test]
@@ -36,7 +36,7 @@
 
             var mockResult = new ServiceResult<AccountModel>(body, new InvalidDataError(errorMessage));
 
-            this.mockAccountService
+            this.mockService
                 .Setup(x => x.CreateAsync(body))
                 .ReturnsAsync(mockResult)
                 .Verifiable();
@@ -52,7 +52,7 @@
             Assert.AreEqual(mockResult.Error!.Code, listResponse?.Code);
             Assert.AreEqual(mockResult.Error.Message, listResponse?.Message);
 
-            this.mockAccountService.Verify(x => x.CreateAsync(body), Times.Once);
+            this.mockService.Verify(x => x.CreateAsync(body), Times.Once);
         }
     }
 }

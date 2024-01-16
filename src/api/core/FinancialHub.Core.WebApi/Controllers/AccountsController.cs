@@ -6,20 +6,24 @@
     [ProducesErrorResponseType(typeof(Exception))]
     public class AccountsController : Controller
     {
-        private readonly IAccountBalanceService accountBalanceService;
         private readonly IAccountsService service;
+        private readonly IBalancesService balanceService;
 
-        public AccountsController(IAccountBalanceService accountBalanceService,IAccountsService service) 
+        public AccountsController(IAccountsService service, IBalancesService balanceService) 
         {
-            this.accountBalanceService = accountBalanceService;
             this.service = service;
+            this.balanceService = balanceService;
         }
 
+        /// <summary>
+        /// Get all balances that belongs to an account 
+        /// </summary>
+        /// <param name="accountId">id of the account</param>
         [HttpGet("{accountId}/balances")]
         [ProducesResponseType(typeof(ListResponse<BalanceModel>), 200)]
         public async Task<IActionResult> GetAccountBalances([FromRoute] Guid accountId)
         {
-            var result = await this.accountBalanceService.GetBalancesByAccountAsync(accountId);
+            var result = await this.balanceService.GetAllByAccountAsync(accountId);
 
             return Ok(new ListResponse<BalanceModel>(result.Data));
         }
