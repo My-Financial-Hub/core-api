@@ -49,8 +49,6 @@
 
             return Ok(new SaveResponse<BalanceModel>(response.Data));
         }
-
-        [NonAction]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteBalance([FromRoute] Guid id)
         {
