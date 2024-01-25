@@ -36,7 +36,7 @@ namespace FinancialHub.Core.WebApi.Controllers
         [ProducesResponseType(typeof(ValidationErrorResponse), 400)]
         public async Task<IActionResult> CreateTransaction([FromBody] TransactionModel transaction)
         {
-            var result = await this.transactionBalanceService.CreateTransactionAsync(transaction);
+            var result = await this.service.CreateAsync(transaction);
 
             if (result.HasError)
             {

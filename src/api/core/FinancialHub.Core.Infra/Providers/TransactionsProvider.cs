@@ -1,6 +1,5 @@
 ﻿using FinancialHub.Core.Domain.Enums;
 using FinancialHub.Core.Domain.Filters;
-using FinancialHub.Core.Domain.Interfaces.Repositories;
 using FinancialHub.Core.Domain.Queries;
 
 namespace FinancialHub.Core.Infra.Providers
@@ -20,6 +19,24 @@ namespace FinancialHub.Core.Infra.Providers
 
         public async Task<TransactionModel> CreateAsync(TransactionModel transaction)
         {
+            if (transaction.IsPaid)
+            {
+                var balance = await this.balanceRepository.GetByIdAsync(transaction.BalanceId);
+
+                decimal newAmount = balance!.Amount;
+
+                if (transaction.Type == TransactionType.Earn)
+                {
+                    newAmount += transaction.Amount;
+                }
+                else
+                {
+                    newAmount -= transaction.Amount;
+                }
+
+                await this.balanceRepository.ChangeAmountAsync(transaction.BalanceId, newAmount);
+            }
+
             var entity = mapper.Map<TransactionEntity>(transaction);
 
             entity = await this.repository.CreateAsync(entity);

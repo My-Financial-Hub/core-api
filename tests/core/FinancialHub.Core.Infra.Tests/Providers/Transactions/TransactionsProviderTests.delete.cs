@@ -116,7 +116,7 @@ namespace FinancialHub.Core.Infra.Tests.Providers
         [TestCase(TransactionStatus.NotCommitted, true)]
         [TestCase(TransactionStatus.NotCommitted, false)]
         [TestCase(TransactionStatus.Committed, false)]
-        public async Task DeleteAsync_NotPaidTransaction_DoNotUpdateAmount(TransactionStatus status, bool isActive)
+        public async Task DeleteAsync_NotPaidTransaction_DoesNotUpdateAmount(TransactionStatus status, bool isActive)
         {
             var guid = Guid.NewGuid();
 
