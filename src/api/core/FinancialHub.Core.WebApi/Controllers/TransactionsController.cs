@@ -8,12 +8,10 @@ namespace FinancialHub.Core.WebApi.Controllers
     public class TransactionsController : Controller
     {
         private readonly ITransactionsService service;
-        private readonly ITransactionBalanceService transactionBalanceService;
 
-        public TransactionsController(ITransactionsService service, ITransactionBalanceService transactionBalanceService)
+        public TransactionsController(ITransactionsService service)
         {
             this.service = service;
-            this.transactionBalanceService = transactionBalanceService;
         }
 
         /// <summary>
