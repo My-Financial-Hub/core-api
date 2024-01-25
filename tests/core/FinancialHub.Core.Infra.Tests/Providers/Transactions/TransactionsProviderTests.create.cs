@@ -7,13 +7,25 @@ namespace FinancialHub.Core.Infra.Tests.Providers
         [Test]
         public async Task CreateAsync_CallsTransactionRepository()
         {
-            var category = this.transactionModelBuilder.Generate();
+            var transactionEntity = this.transactionBuilder
+                .Generate();
 
             repository
                 .Setup(x => x.CreateAsync(It.IsAny<TransactionEntity>()))
                 .Returns<TransactionEntity>(async x => await Task.FromResult(x));
+            balanceRepository
+                .Setup(x => x.GetByIdAsync(transactionEntity.BalanceId))
+                .ReturnsAsync(transactionEntity.Balance);
 
-            await this.provider.CreateAsync(category);
+            var transaction = this.transactionModelBuilder
+                .WithStatus(transactionEntity.Status)
+                .WithType(transactionEntity.Type)
+                .WithActiveStatus(transactionEntity.IsActive)
+                .WithBalanceId(transactionEntity.BalanceId)
+                .WithAmount(transactionEntity.Amount)
+                .WithId(transactionEntity.Id!.Value)
+                .Generate();
+            await this.provider.CreateAsync(transaction);
 
             repository.Verify(x => x.CreateAsync(It.IsAny<TransactionEntity>()), Times.Once);
         }
