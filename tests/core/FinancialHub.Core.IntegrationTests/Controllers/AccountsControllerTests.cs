@@ -38,23 +38,6 @@ namespace FinancialHub.Core.IntegrationTests
             this.fixture.AddData(data.ToArray());
         }
 
-        protected void PopulateAll()
-        {
-            var accountAmount = this.random.Next(1, 10);
-            var accounts = new AccountEntity[accountAmount];
-
-            for (int i = 0; i < accountAmount; i++)
-            {
-                accounts[i] = this.entityBuilder.Generate();
-
-                var balanceAmount = this.random.Next(1, 10);
-                var balances = this.balanceBuilder.WithAccountId(accounts[i].Id).Generate(balanceAmount);
-                this.fixture.AddData(balances.ToArray());
-            }
-
-            this.fixture.AddData(accounts);
-        }
-
         [Test]
         public async Task GetAccountsBalances_ReturnBalances()
         {
