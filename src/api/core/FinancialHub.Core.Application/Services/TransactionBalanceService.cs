@@ -178,17 +178,5 @@ namespace FinancialHub.Core.Application.Services
 
             return transactionResult;
         }
-
-        public async Task<ServiceResult<bool>> DeleteTransactionAsync(Guid id)
-        {            
-            var deleted = await this.transactionsService.DeleteAsync(id);
-
-            if (deleted.HasError)
-                return deleted.Error;
-            if (deleted.Data == 0)
-                return false;
-
-            return true;
-        }
     }
 }
