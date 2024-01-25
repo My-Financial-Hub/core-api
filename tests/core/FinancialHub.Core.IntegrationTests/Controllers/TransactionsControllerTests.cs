@@ -263,12 +263,12 @@ namespace FinancialHub.Core.IntegrationTests
                 .Generate();
 
             body.Id = this.InsertTransaction(body);
-            var oldBalanceAmount = this.fixture.GetData<BalanceEntity>().FirstOrDefault(x => x.Id == body.BalanceId).Amount;
+            var oldBalanceAmount = this.fixture.GetData<BalanceEntity>().FirstOrDefault(x => x.Id == body.BalanceId)!.Amount;
 
             await this.client.DeleteAsync($"{baseEndpoint}/{body.Id}");
 
             var balance = this.fixture.GetData<BalanceEntity>().FirstOrDefault(x => x.Id == body.BalanceId);
-            Assert.That(balance.Amount, Is.EqualTo(oldBalanceAmount - body.Amount));
+            Assert.That(balance!.Amount, Is.EqualTo(oldBalanceAmount - body.Amount));
         }
 
         [Test]
@@ -281,12 +281,12 @@ namespace FinancialHub.Core.IntegrationTests
                 .Generate();
 
             body.Id = this.InsertTransaction(body);
-            var oldBalanceAmount = this.fixture.GetData<BalanceEntity>().FirstOrDefault(x => x.Id == body.BalanceId).Amount;
+            var oldBalanceAmount = this.fixture.GetData<BalanceEntity>().FirstOrDefault(x => x.Id == body.BalanceId)!.Amount;
 
             await this.client.DeleteAsync($"{baseEndpoint}/{body.Id}");
 
             var balance = this.fixture.GetData<BalanceEntity>().FirstOrDefault(x => x.Id == body.BalanceId);
-            Assert.That(balance.Amount, Is.EqualTo(oldBalanceAmount + body.Amount));
+            Assert.That(balance!.Amount, Is.EqualTo(oldBalanceAmount + body.Amount));
         }
 
         [TestCase(TransactionStatus.NotCommitted, true)]
