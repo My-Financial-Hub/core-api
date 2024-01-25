@@ -80,7 +80,7 @@ namespace FinancialHub.Core.WebApi.Controllers
         [ProducesResponseType(204)]
         public async Task<IActionResult> DeleteTransaction([FromRoute] Guid id)
         {
-            await transactionBalanceService.DeleteTransactionAsync(id);
+            await this.service.DeleteAsync(id);
             return NoContent();
         }
     }
