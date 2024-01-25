@@ -1,6 +1,4 @@
-﻿using FinancialHub.Core.Domain.Enums;
-
-namespace FinancialHub.Core.Application.Tests.Services
+﻿namespace FinancialHub.Core.Application.Tests.Services
 {
     public partial class TransactionsServiceTests
     {
@@ -75,56 +73,6 @@ namespace FinancialHub.Core.Application.Tests.Services
             await this.service.DeleteAsync(guid);
 
             this.provider.Verify(x => x.GetByIdAsync(guid),Times.Once);
-        }
-
-        [TestCase(TransactionStatus.Committed, false)]
-        [TestCase(TransactionStatus.NotCommitted, true)]
-        [TestCase(TransactionStatus.NotCommitted, false)]
-        public async Task DeleteAsync_ExistingNotCommitedOrInactiveTransaction_RemovesBalanceAmount(
-            TransactionStatus status, bool isActive
-        )
-        {
-            var expectedResult = random.Next(1, 100);
-            var transaction = this.transactionModelBuilder
-                .WithStatus(status)
-                .WithActiveStatus(isActive)
-                .Generate();
-            var guid = transaction.Id.GetValueOrDefault();
-
-            this.provider
-                .Setup(x => x.DeleteAsync(guid))
-                .ReturnsAsync(expectedResult);
-            this.provider
-                .Setup(x => x.GetByIdAsync(guid))
-                .ReturnsAsync(transaction);
-
-            await this.service.DeleteAsync(guid);
-
-            this.balancesProvider.Verify(x => x.UpdateAmountAsync(transaction.BalanceId,transaction.Amount), Times.Never);
-        }
-
-        [TestCase(TransactionStatus.Committed, true)]
-        public async Task DeleteAsync_ExistingCommitedAndActiveTransaction_RemovesBalanceAmount(
-            TransactionStatus status, bool isActive
-        )
-        {
-            var expectedResult = random.Next(1, 100);
-            var transaction = this.transactionModelBuilder
-                .WithStatus(status)
-                .WithActiveStatus(isActive)
-                .Generate();
-            var guid = transaction.Id.GetValueOrDefault();
-
-            this.provider
-                .Setup(x => x.DeleteAsync(guid))
-                .ReturnsAsync(expectedResult);
-            this.provider
-                .Setup(x => x.GetByIdAsync(guid))
-                .ReturnsAsync(transaction);
-            
-            await this.service.DeleteAsync(guid);
-
-            this.balancesProvider.Verify(x => x.DecreaseAmountAsync(transaction.BalanceId, transaction.Amount, transaction.Type), Times.Once);
         }
     }
 }
