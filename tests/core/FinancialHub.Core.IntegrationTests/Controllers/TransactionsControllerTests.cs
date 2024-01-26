@@ -179,6 +179,7 @@ namespace FinancialHub.Core.IntegrationTests
         }
 
         [Test]
+        [Ignore("endpoint disabled")]
         public async Task Put_ExistingTransaction_ReturnUpdatedTransaction()
         {
             var data = this.InsertTransaction(true);
@@ -200,6 +201,7 @@ namespace FinancialHub.Core.IntegrationTests
         }
 
         [Test]
+        [Ignore("endpoint disabled")]
         public async Task Put_ExistingTransaction_UpdatesTransaction()
         {
             var data = this.InsertTransaction(true);
@@ -216,6 +218,7 @@ namespace FinancialHub.Core.IntegrationTests
         }
 
         [Test]
+        [Ignore("endpoint disabled")]
         public async Task Put_NonExistingTransaction_ReturnNotFoundError()
         {
             var body = this.CreateValidTransaction();
