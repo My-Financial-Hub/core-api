@@ -52,6 +52,8 @@ namespace FinancialHub.Core.WebApi.Controllers
         /// </summary>
         /// <param name="id">id of the transaction</param>
         /// <param name="transaction">transaction changes</param>
+        [NonAction]
+        [Obsolete("Disabled endpoint")]
         [HttpPut("{id}")]
         [ProducesResponseType(typeof(SaveResponse<TransactionModel>), 200)]
         [ProducesResponseType(typeof(ValidationErrorResponse), 400)]
@@ -74,8 +76,6 @@ namespace FinancialHub.Core.WebApi.Controllers
         /// Deletes an existing transaction on database
         /// </summary>
         /// <param name="id">id of the transaction</param>
-        [NonAction]
-        [Obsolete("Disabled endpoint")]
         [HttpDelete("{id}")]
         [ProducesResponseType(204)]
         public async Task<IActionResult> DeleteTransaction([FromRoute] Guid id)
