@@ -1,4 +1,6 @@
-﻿namespace FinancialHub.Core.Infra.Tests.Providers
+﻿using FinancialHub.Core.Domain.Enums;
+
+namespace FinancialHub.Core.Infra.Tests.Providers
 {
     public partial class TransactionsProviderTests
     {

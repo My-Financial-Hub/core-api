@@ -23,6 +23,7 @@ namespace FinancialHub.Core.Infra.Data.Tests.Repositories.Base
             item ??= this.GenerateObject();
 
             var createdItem = await this.repository.CreateAsync(item);
+            await repository.CommitAsync();
 
             this.AssertCreated(createdItem);
         }
@@ -35,6 +36,7 @@ namespace FinancialHub.Core.Infra.Data.Tests.Repositories.Base
             item ??= this.GenerateObject(id);
 
             var createdItem = await this.repository.CreateAsync(item);
+            await repository.CommitAsync();
 
             this.AssertCreated(createdItem);
             Assert.AreNotEqual(id,createdItem.Id);
@@ -52,6 +54,7 @@ namespace FinancialHub.Core.Infra.Data.Tests.Repositories.Base
             item ??= this.GenerateObject(id);
 
             var result = await this.repository.CreateAsync(item);
+            await repository.CommitAsync();
 
             this.AssertCreated(result);
             Assert.AreEqual(2,context.Set<T>().Count());

@@ -8,12 +8,10 @@ namespace FinancialHub.Core.WebApi.Controllers
     public class TransactionsController : Controller
     {
         private readonly ITransactionsService service;
-        private readonly ITransactionBalanceService transactionBalanceService;
 
-        public TransactionsController(ITransactionsService service, ITransactionBalanceService transactionBalanceService)
+        public TransactionsController(ITransactionsService service)
         {
             this.service = service;
-            this.transactionBalanceService = transactionBalanceService;
         }
 
         /// <summary>
@@ -36,7 +34,7 @@ namespace FinancialHub.Core.WebApi.Controllers
         [ProducesResponseType(typeof(ValidationErrorResponse), 400)]
         public async Task<IActionResult> CreateTransaction([FromBody] TransactionModel transaction)
         {
-            var result = await this.transactionBalanceService.CreateTransactionAsync(transaction);
+            var result = await this.service.CreateAsync(transaction);
 
             if (result.HasError)
             {
@@ -76,11 +74,13 @@ namespace FinancialHub.Core.WebApi.Controllers
         /// Deletes an existing transaction on database
         /// </summary>
         /// <param name="id">id of the transaction</param>
+        [NonAction]
+        [Obsolete("Disabled endpoint")]
         [HttpDelete("{id}")]
         [ProducesResponseType(204)]
         public async Task<IActionResult> DeleteTransaction([FromRoute] Guid id)
         {
-            await transactionBalanceService.DeleteTransactionAsync(id);
+            await this.service.DeleteAsync(id);
             return NoContent();
         }
     }

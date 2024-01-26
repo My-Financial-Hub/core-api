@@ -1,4 +1,5 @@
-﻿using FinancialHub.Core.Domain.Filters;
+﻿using FinancialHub.Core.Domain.Enums;
+using FinancialHub.Core.Domain.Filters;
 using FinancialHub.Core.Domain.Queries;
 
 namespace FinancialHub.Core.Infra.Providers
@@ -7,23 +8,66 @@ namespace FinancialHub.Core.Infra.Providers
     {
         private readonly IMapper mapper;
         private readonly ITransactionsRepository repository;
+        private readonly IBalancesRepository balanceRepository;
 
-        public TransactionsProvider(IMapper mapper, ITransactionsRepository repository)
+        public TransactionsProvider(IMapper mapper, ITransactionsRepository repository, IBalancesRepository balanceRepository)
         {
             this.mapper = mapper;
             this.repository = repository;
+            this.balanceRepository = balanceRepository;
         }
 
         public async Task<TransactionModel> CreateAsync(TransactionModel transaction)
         {
+            if (transaction.IsPaid)
+            {
+                var balance = await this.balanceRepository.GetByIdAsync(transaction.BalanceId);
+
+                decimal newAmount = balance!.Amount;
+
+                if (transaction.Type == TransactionType.Earn)
+                {
+                    newAmount += transaction.Amount;
+                }
+                else
+                {
+                    newAmount -= transaction.Amount;
+                }
+
+                await this.balanceRepository.ChangeAmountAsync(transaction.BalanceId, newAmount);
+            }
+
             var entity = mapper.Map<TransactionEntity>(transaction);
+
             entity = await this.repository.CreateAsync(entity);
+            await this.repository.CommitAsync();
+
             return mapper.Map<TransactionModel>(entity);
         }
 
         public async Task<int> DeleteAsync(Guid id)
         {
-            return await this.repository.DeleteAsync(id);
+            var transaction = await this.repository.GetByIdAsync(id);
+
+            if (transaction?.Status == TransactionStatus.Committed && transaction.IsActive)
+            {
+                transaction.Balance = null;
+                var balanceId = transaction.BalanceId;
+                var balance = await this.balanceRepository.GetByIdAsync(balanceId);
+
+                decimal newAmount = balance!.Amount;
+
+                if (transaction.Type == TransactionType.Earn)
+                    newAmount -= transaction.Amount;
+                else
+                    newAmount += transaction.Amount;
+
+                await this.balanceRepository.ChangeAmountAsync(balanceId, newAmount);
+            }
+
+            await this.repository.DeleteAsync(id);
+
+            return await this.repository.CommitAsync();
         }
 
         public async Task<ICollection<TransactionModel>> GetAllAsync(TransactionFilter filter)
@@ -50,6 +94,8 @@ namespace FinancialHub.Core.Infra.Providers
             entity.Id = id;
 
             var updated = await this.repository.UpdateAsync(entity);
+            await this.repository.CommitAsync();
+            
             return mapper.Map<TransactionModel>(updated);
         }
     }

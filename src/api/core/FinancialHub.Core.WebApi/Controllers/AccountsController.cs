@@ -6,20 +6,24 @@
     [ProducesErrorResponseType(typeof(Exception))]
     public class AccountsController : Controller
     {
-        private readonly IAccountBalanceService accountBalanceService;
         private readonly IAccountsService service;
+        private readonly IBalancesService balanceService;
 
-        public AccountsController(IAccountBalanceService accountBalanceService,IAccountsService service) 
+        public AccountsController(IAccountsService service, IBalancesService balanceService) 
         {
-            this.accountBalanceService = accountBalanceService;
             this.service = service;
+            this.balanceService = balanceService;
         }
 
+        /// <summary>
+        /// Get all balances that belongs to an account 
+        /// </summary>
+        /// <param name="accountId">id of the account</param>
         [HttpGet("{accountId}/balances")]
         [ProducesResponseType(typeof(ListResponse<BalanceModel>), 200)]
         public async Task<IActionResult> GetAccountBalances([FromRoute] Guid accountId)
         {
-            var result = await this.accountBalanceService.GetBalancesByAccountAsync(accountId);
+            var result = await this.balanceService.GetAllByAccountAsync(accountId);
 
             return Ok(new ListResponse<BalanceModel>(result.Data));
         }
@@ -45,7 +49,7 @@
         [ProducesResponseType(typeof(ValidationErrorResponse), 400)]
         public async Task<IActionResult> CreateAccount([FromBody] AccountModel account)
         {
-            var result = await this.accountBalanceService.CreateAsync(account);
+            var result = await this.service.CreateAsync(account);
 
             if (result.HasError)
             {
@@ -86,11 +90,11 @@
         /// Deletes an existing account on database
         /// </summary>
         /// <param name="id">id of the account</param>
-        [NonAction]
         [HttpDelete("{id}")]
+        [ProducesResponseType(204)]
         public async Task<IActionResult> DeleteAccount([FromRoute] Guid id)
         {
-            await accountBalanceService.DeleteAsync(id);
+            await service.DeleteAsync(id);
             return NoContent();
         }
     }

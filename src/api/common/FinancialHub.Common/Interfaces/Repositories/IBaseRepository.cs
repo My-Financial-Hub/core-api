@@ -6,8 +6,7 @@ namespace FinancialHub.Common.Interfaces.Repositories
     /// Base repository with basic CRUD methods
     /// </summary>
     /// <typeparam name="T">Any Entity that inherits <see cref="BaseEntity"/> </typeparam>
-    public interface IBaseRepository<T>
-        where T : BaseEntity
+    public interface IBaseRepository<T> where T : BaseEntity
     {
         /// <summary>
         /// Adds an entity to the database 
@@ -37,5 +36,10 @@ namespace FinancialHub.Common.Interfaces.Repositories
         /// </summary>
         /// <param name="id">Id of the choosen entity</param>
         Task<T?> GetByIdAsync(Guid id);
+        /// <summary>
+        /// Commit All changes to the database
+        /// </summary>
+        /// <returns>Number of affected entities</returns>
+        Task<int> CommitAsync();
     }
 }

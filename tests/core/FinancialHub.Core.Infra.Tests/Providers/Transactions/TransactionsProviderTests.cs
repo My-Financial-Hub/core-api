@@ -6,6 +6,8 @@ namespace FinancialHub.Core.Infra.Tests.Providers
     public partial class TransactionsProviderTests
     {
         protected Random random;
+        protected BalanceEntityBuilder  balanceBuilder;
+
         protected TransactionEntityBuilder  transactionBuilder;
         protected TransactionModelBuilder   transactionModelBuilder;
 
@@ -13,6 +15,7 @@ namespace FinancialHub.Core.Infra.Tests.Providers
 
         private IMapper mapper;
         private Mock<ITransactionsRepository> repository;
+        private Mock<IBalancesRepository> balanceRepository;
 
         private void MockMapper()
         {
@@ -29,12 +32,14 @@ namespace FinancialHub.Core.Infra.Tests.Providers
             this.MockMapper();
 
             this.repository = new Mock<ITransactionsRepository>();
-            this.provider = new TransactionsProvider(this.mapper, this.repository.Object);
+            this.balanceRepository = new Mock<IBalancesRepository>();
+            this.provider = new TransactionsProvider(this.mapper, this.repository.Object, this.balanceRepository.Object);
 
             this.random = new Random();
 
             this.transactionBuilder         = new TransactionEntityBuilder();
             this.transactionModelBuilder    = new TransactionModelBuilder();
+            this.balanceBuilder             = new BalanceEntityBuilder();
         }
     }
 }

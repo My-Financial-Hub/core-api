@@ -19,6 +19,7 @@ namespace FinancialHub.Core.Infra.Providers
             entity.Amount = 0;
 
             entity = await this.repository.CreateAsync(entity);
+            await this.repository.CommitAsync();
 
             return mapper.Map<BalanceModel>(entity);
         }
@@ -35,13 +36,15 @@ namespace FinancialHub.Core.Infra.Providers
                 newAmount += amount;
 
             var newBalance = await repository.ChangeAmountAsync(balanceId, newAmount);
+            await this.repository.CommitAsync();
 
             return mapper.Map<BalanceModel>(newBalance);
         }
 
         public async Task<int> DeleteAsync(Guid id)
         {
-            return await this.repository.DeleteAsync(id);
+            await this.repository.DeleteAsync(id);
+            return await this.repository.CommitAsync();
         }
 
         public async Task<ICollection<BalanceModel>> GetAllByAccountAsync(Guid accountId)
@@ -73,6 +76,7 @@ namespace FinancialHub.Core.Infra.Providers
                 newAmount -= amount;
 
             var newBalance = await repository.ChangeAmountAsync(balanceId, newAmount);
+            await this.repository.CommitAsync();
 
             return mapper.Map<BalanceModel>(newBalance);
         }
@@ -80,6 +84,7 @@ namespace FinancialHub.Core.Infra.Providers
         public async Task<BalanceModel> UpdateAmountAsync(Guid id, decimal newAmount)
         {
             var newBalance = await repository.ChangeAmountAsync(id, newAmount);
+            await this.repository.CommitAsync();
 
             return mapper.Map<BalanceModel>(newBalance);
         }
@@ -90,6 +95,8 @@ namespace FinancialHub.Core.Infra.Providers
             balanceEntity.Id = id;
 
             var updatedBalance = await this.repository.UpdateAsync(balanceEntity);
+            await this.repository.CommitAsync();
+
             return mapper.Map<BalanceModel>(updatedBalance);
         }
     }

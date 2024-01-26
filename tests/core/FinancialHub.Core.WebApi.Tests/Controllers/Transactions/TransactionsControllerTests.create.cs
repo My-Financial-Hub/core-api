@@ -9,8 +9,8 @@
             var body = this.transactionModelBuilder.Generate();
             var mockResult = new ServiceResult<TransactionModel>(body);
 
-            this.mockTransactionBalanceServiceService
-                .Setup(x => x.CreateTransactionAsync(body))
+            this.mockService
+                .Setup(x => x.CreateAsync(body))
                 .ReturnsAsync(mockResult)
                 .Verifiable();
 
@@ -24,7 +24,7 @@
             var listResponse = result?.Value as SaveResponse<TransactionModel>;
             Assert.AreEqual(mockResult.Data, listResponse?.Data);
 
-            this.mockTransactionBalanceServiceService.Verify(x => x.CreateTransactionAsync(body), Times.Once);
+            this.mockService.Verify(x => x.CreateAsync(body), Times.Once);
         }
 
         [Test]
@@ -36,8 +36,8 @@
 
             var mockResult = new ServiceResult<TransactionModel>(body, new InvalidDataError(errorMessage));
 
-            this.mockTransactionBalanceServiceService
-                .Setup(x => x.CreateTransactionAsync(body))
+            this.mockService
+                .Setup(x => x.CreateAsync(body))
                 .ReturnsAsync(mockResult)
                 .Verifiable();
 
@@ -52,7 +52,7 @@
             Assert.AreEqual(mockResult.Error!.Code, listResponse?.Code);
             Assert.AreEqual(mockResult.Error!.Message, listResponse?.Message);
 
-            this.mockTransactionBalanceServiceService.Verify(x => x.CreateTransactionAsync(body), Times.Once);
+            this.mockService.Verify(x => x.CreateAsync(body), Times.Once);
         }
     }
 }

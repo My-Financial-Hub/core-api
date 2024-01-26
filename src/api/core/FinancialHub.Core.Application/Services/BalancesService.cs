@@ -5,8 +5,8 @@ namespace FinancialHub.Core.Application.Services
     public class BalancesService : IBalancesService
     {
         private readonly IAccountsProvider accountsProvider;
-        private readonly IErrorMessageProvider errorMessageProvider;
         private readonly IBalancesProvider balancesProvider;
+        private readonly IErrorMessageProvider errorMessageProvider;
 
         public BalancesService(
             IBalancesProvider balancesProvider,

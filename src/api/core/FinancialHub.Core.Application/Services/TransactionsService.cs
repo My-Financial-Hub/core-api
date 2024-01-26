@@ -1,5 +1,4 @@
 ﻿using FinancialHub.Core.Domain.Filters;
-using FinancialHub.Core.Domain.Enums;
 using FinancialHub.Core.Domain.Interfaces.Resources;
 
 namespace FinancialHub.Core.Application.Services
@@ -62,13 +61,6 @@ namespace FinancialHub.Core.Application.Services
             if (transactionResult.HasError)
             {
                 return transactionResult.Error;
-            }
-
-            var transaction = transactionResult.Data!;
-
-            if (transaction.Status == TransactionStatus.Committed && transaction.IsActive)
-            {
-                await this.balancesProvider.DecreaseAmountAsync(transaction.BalanceId, transaction.Amount, transaction.Type);
             }
 
             return await this.transactionsProvider.DeleteAsync(id);

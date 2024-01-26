@@ -179,6 +179,7 @@ namespace FinancialHub.Core.IntegrationTests
         }
 
         [Test]
+        [Ignore("endpoint disabled")]
         public async Task Put_ExistingTransaction_ReturnUpdatedTransaction()
         {
             var data = this.InsertTransaction(true);
@@ -200,6 +201,7 @@ namespace FinancialHub.Core.IntegrationTests
         }
 
         [Test]
+        [Ignore("endpoint disabled")]
         public async Task Put_ExistingTransaction_UpdatesTransaction()
         {
             var data = this.InsertTransaction(true);
@@ -216,6 +218,7 @@ namespace FinancialHub.Core.IntegrationTests
         }
 
         [Test]
+        [Ignore("endpoint disabled")]
         public async Task Put_NonExistingTransaction_ReturnNotFoundError()
         {
             var body = this.CreateValidTransaction();
@@ -254,11 +257,49 @@ namespace FinancialHub.Core.IntegrationTests
         }
 
         [Test]
-        public async Task Delete_NotPaidTransaction_RemovesTransactionFromDatabase()
+        public async Task Delete_EarnPaidTransaction_DecreasesBalanceFromDatabase()
         {
             var body = this.modelBuilder
-                .WithStatus(TransactionStatus.NotCommitted)
+                .WithStatus(TransactionStatus.Committed)
+                .WithType(TransactionType.Earn)
                 .WithActiveStatus(true)
+                .Generate();
+
+            body.Id = this.InsertTransaction(body);
+            var oldBalanceAmount = this.fixture.GetData<BalanceEntity>().FirstOrDefault(x => x.Id == body.BalanceId)!.Amount;
+
+            await this.client.DeleteAsync($"{baseEndpoint}/{body.Id}");
+
+            var balance = this.fixture.GetData<BalanceEntity>().FirstOrDefault(x => x.Id == body.BalanceId);
+            Assert.That(balance!.Amount, Is.EqualTo(oldBalanceAmount - body.Amount));
+        }
+
+        [Test]
+        public async Task Delete_ExpensePaidTransaction_DecreasesBalanceFromDatabase()
+        {
+            var body = this.modelBuilder
+                .WithStatus(TransactionStatus.Committed)
+                .WithType(TransactionType.Expense)
+                .WithActiveStatus(true)
+                .Generate();
+
+            body.Id = this.InsertTransaction(body);
+            var oldBalanceAmount = this.fixture.GetData<BalanceEntity>().FirstOrDefault(x => x.Id == body.BalanceId)!.Amount;
+
+            await this.client.DeleteAsync($"{baseEndpoint}/{body.Id}");
+
+            var balance = this.fixture.GetData<BalanceEntity>().FirstOrDefault(x => x.Id == body.BalanceId);
+            Assert.That(balance!.Amount, Is.EqualTo(oldBalanceAmount + body.Amount));
+        }
+
+        [TestCase(TransactionStatus.NotCommitted, true)]
+        [TestCase(TransactionStatus.NotCommitted, false)]
+        [TestCase(TransactionStatus.Committed, false)]
+        public async Task Delete_NotPaidTransaction_RemovesTransactionFromDatabase(TransactionStatus status, bool isActive)
+        {
+            var body = this.modelBuilder
+                .WithStatus(status)
+                .WithActiveStatus(isActive)
                 .Generate();
 
             body.Id = this.InsertTransaction(body);

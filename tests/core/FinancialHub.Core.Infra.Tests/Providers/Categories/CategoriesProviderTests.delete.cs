@@ -12,6 +12,10 @@
                 .Setup(x => x.DeleteAsync(guid))
                 .ReturnsAsync(deletedLines);
 
+            repository
+                .Setup(x => x.CommitAsync())
+                .ReturnsAsync(deletedLines);
+
             var result = await this.provider.DeleteAsync(guid);
 
             Assert.That(result, Is.EqualTo(deletedLines));
