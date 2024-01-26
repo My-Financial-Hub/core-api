@@ -64,6 +64,7 @@ namespace FinancialHub.Core.Infra.Data.Tests.Repositories
             newItem.BalanceId   = generatedBalance.Id.GetValueOrDefault();
 
             var result = await this.repository.CreateAsync(newItem);
+            await this.repository.CommitAsync();
 
             Assert.AreNotEqual(item.Id,newItem.Id);
             this.AssertCreated(result);
@@ -84,6 +85,7 @@ namespace FinancialHub.Core.Infra.Data.Tests.Repositories
             entity.Category.Name = Guid.NewGuid().ToString();
 
             var result = await this.repository.CreateAsync(entity);
+            await this.repository.CommitAsync();
 
             this.AssertCreated(result);
             Assert.AreEqual(1,this.context.Categories.Count());
@@ -108,6 +110,7 @@ namespace FinancialHub.Core.Infra.Data.Tests.Repositories
             entity.Balance.Name = Guid.NewGuid().ToString();
 
             var result = await this.repository.CreateAsync(entity);
+            await this.repository.CommitAsync();
 
             this.AssertCreated(result);
             Assert.AreEqual(1, this.context.Balances.Count());
@@ -129,7 +132,8 @@ namespace FinancialHub.Core.Infra.Data.Tests.Repositories
             entity.Category = await this.InsertData(entity.Category);
             entity.CategoryId = entity.Category.Id.GetValueOrDefault();
 
-            Assert.ThrowsAsync<DbUpdateException>(async () => await this.repository.CreateAsync(entity));
+            await this.repository.CreateAsync(entity);
+            Assert.ThrowsAsync<DbUpdateException>(async () => await this.repository.CommitAsync());
 
             Assert.IsEmpty(this.context.Transactions);
             Assert.AreEqual(1, this.context.Balances.Count());
@@ -145,7 +149,9 @@ namespace FinancialHub.Core.Infra.Data.Tests.Repositories
             await this.InsertData(entity.Balance);
             await this.InsertData(this.GenerateCategory());
 
-            Assert.ThrowsAsync<DbUpdateException>(async () => await this.repository.CreateAsync(entity));
+            await this.repository.CreateAsync(entity);
+
+            Assert.ThrowsAsync<DbUpdateException>(async () => await this.repository.CommitAsync());
 
             Assert.IsEmpty(this.context.Transactions);
             Assert.AreEqual(1, this.context.Balances.Count());
@@ -161,9 +167,9 @@ namespace FinancialHub.Core.Infra.Data.Tests.Repositories
             await this.InsertData(entity.Category);
 
             entity.Balance = null;
-
-            Assert.ThrowsAsync<DbUpdateException>(async () => await this.repository.CreateAsync(entity));
-
+            await this.repository.CreateAsync(entity);
+            Assert.ThrowsAsync<DbUpdateException>(async () => await this.repository.CommitAsync());
+            
             Assert.IsEmpty(this.context.Transactions.ToList());
         }
 
@@ -177,8 +183,9 @@ namespace FinancialHub.Core.Infra.Data.Tests.Repositories
 
             entity.Category = null;
 
-            Assert.ThrowsAsync<DbUpdateException>(async () => await this.repository.CreateAsync(entity));
-
+            await this.repository.CreateAsync(entity);
+            Assert.ThrowsAsync<DbUpdateException>(async () => await this.repository.CommitAsync());
+            
             Assert.IsEmpty(this.context.Transactions.ToList());
         }
     }

@@ -1,4 +1,7 @@
 ﻿using FinancialHub.Core.Application.Validators;
+using FinancialHub.Core.Domain.Interfaces.Resources;
+using FinancialHub.Core.Resources.Providers;
+using System.Globalization;
 
 namespace FinancialHub.Core.Application.Tests.Validators
 {
@@ -6,10 +9,12 @@ namespace FinancialHub.Core.Application.Tests.Validators
     {
         private AccountModelBuilder builder;
         private readonly AccountValidator validator;
+        private readonly IValidationErrorMessageProvider errorMessageProvider;
 
         public AccountValidatorTests()
         {
-            this.validator = new AccountValidator();
+            this.errorMessageProvider = new ValidationErrorMessageProvider(CultureInfo.InvariantCulture);
+            this.validator = new AccountValidator(this.errorMessageProvider);
         }
 
         [SetUp]
@@ -52,7 +57,7 @@ namespace FinancialHub.Core.Application.Tests.Validators
 
             Assert.IsFalse(result.IsValid);
             Assert.IsNotEmpty(result.Errors);
-            Assert.AreEqual($"Name exceeds the max length of 200", result.Errors[0].ErrorMessage);
+            Assert.AreEqual("Name exceeds the max length of 200", result.Errors[0].ErrorMessage);
         }
 
         [TestCase("")]
@@ -77,7 +82,7 @@ namespace FinancialHub.Core.Application.Tests.Validators
 
             Assert.IsFalse(result.IsValid);
             Assert.IsNotEmpty(result.Errors);
-            Assert.AreEqual($"Description exceeds the max length of 500", result.Errors[0].ErrorMessage);
+            Assert.AreEqual("Description exceeds the max length of 500", result.Errors[0].ErrorMessage);
         }
     }
 }

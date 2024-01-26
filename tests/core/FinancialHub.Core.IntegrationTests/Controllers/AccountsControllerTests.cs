@@ -5,6 +5,7 @@ namespace FinancialHub.Core.IntegrationTests
         private AccountEntityBuilder entityBuilder;
         private AccountModelBuilder modelBuilder;
         private BalanceEntityBuilder balanceBuilder;
+        private TransactionEntityBuilder transactionBuilder;
 
         public AccountsControllerTests(FinancialHubApiFixture fixture) : base(fixture, "/accounts")
         {
@@ -13,9 +14,10 @@ namespace FinancialHub.Core.IntegrationTests
 
         public override void SetUp()
         {
-            this.modelBuilder   = new AccountModelBuilder(); 
-            this.entityBuilder  = new AccountEntityBuilder();
-            this.balanceBuilder = new BalanceEntityBuilder();
+            this.modelBuilder       = new AccountModelBuilder(); 
+            this.entityBuilder      = new AccountEntityBuilder();
+            this.balanceBuilder     = new BalanceEntityBuilder();
+            this.transactionBuilder = new TransactionEntityBuilder();
             base.SetUp();
         }
 
@@ -91,6 +93,19 @@ namespace FinancialHub.Core.IntegrationTests
         }
 
         [Test]
+        public async Task Post_ValidAccount_CreateDefaultBalance()
+        {
+            var body = this.modelBuilder.Generate();
+
+            await this.client.PostAsync(baseEndpoint, body);
+
+            var account = this.fixture.GetData<AccountEntity>().First();
+            var balances = this.fixture.GetData<BalanceEntity>();
+
+            Assert.IsNotNull(balances.FirstOrDefault(x => x.AccountId == account.Id && x.Name == $"{account.Name} Default Balance"));
+        }
+
+        [Test]
         public async Task Put_ExistingAccount_ReturnUpdatedAccount()
         {
             var id = Guid.NewGuid();
@@ -129,11 +144,10 @@ namespace FinancialHub.Core.IntegrationTests
             Assert.AreEqual(HttpStatusCode.NotFound, response.StatusCode);
 
             var result = await response.ReadContentAsync<NotFoundErrorResponse>();
-            Assert.AreEqual($"Not found account with id {id}", result!.Message);
+            Assert.AreEqual($"Not found Account with id {id}", result!.Message);
         }
 
         [Test]
-        [Ignore("Endpoint disabled")]
         public async Task Delete_ReturnNoContent()
         {
             var id = Guid.NewGuid();
@@ -146,7 +160,6 @@ namespace FinancialHub.Core.IntegrationTests
         }
 
         [Test]
-        [Ignore("Endpoint disabled")]
         public async Task Delete_RemovesAccountFromDatabase()
         {
             var id = Guid.NewGuid();
@@ -156,9 +169,42 @@ namespace FinancialHub.Core.IntegrationTests
 
             await this.client.DeleteAsync($"{baseEndpoint}/{id}");
 
-            var getResponse = await this.client.GetAsync(baseEndpoint);
-            var getResult = await getResponse.ReadContentAsync<ListResponse<AccountModel>>();
-            Assert.IsEmpty(getResult!.Data);
+            Assert.IsEmpty(this.fixture.GetData<AccountEntity>());
+        }
+
+        [Test]
+        public async Task Delete_RemovesBalancesFromDatabase()
+        {
+            var id = Guid.NewGuid();
+
+            var data = entityBuilder.WithId(id).Generate();
+            this.fixture.AddData(data);
+            this.fixture.AddData(balanceBuilder.WithAccountId(id).Generate());
+
+            await this.client.DeleteAsync($"{baseEndpoint}/{id}");
+
+            var balances = this.fixture.GetData<BalanceEntity>();
+            Assert.IsEmpty(balances.Where(x => x.AccountId == id));
+        }
+
+        [Test]
+        public async Task Delete_RemovesTransactionsFromDatabase()
+        {
+            var id = Guid.NewGuid();
+
+            var data = entityBuilder.WithId(id).Generate();
+            this.fixture.AddData(data);
+
+            var balance = balanceBuilder.WithAccountId(id).Generate();
+            this.fixture.AddData(balance);
+
+            var transaction = transactionBuilder.WithBalanceId(balance.Id).Generate();
+            this.fixture.AddData(transaction);
+
+            await this.client.DeleteAsync($"{baseEndpoint}/{id}");
+
+            var transactions = this.fixture.GetData<TransactionEntity>();
+            Assert.IsEmpty(transactions.Where(x => x.BalanceId == balance.Id && x.Balance.AccountId == id));
         }
     }
 }

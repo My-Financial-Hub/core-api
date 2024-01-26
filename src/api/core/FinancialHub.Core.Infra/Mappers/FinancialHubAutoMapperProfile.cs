@@ -1,8 +1,7 @@
-﻿using AutoMapper;
-using FinancialHub.Core.Domain.Filters;
+﻿using FinancialHub.Core.Domain.Filters;
 using FinancialHub.Core.Domain.Queries;
 
-namespace FinancialHub.Core.Application.Mappers
+namespace FinancialHub.Core.Infra.Mappers
 {
     public class FinancialHubAutoMapperProfile : Profile
     {
@@ -15,7 +14,7 @@ namespace FinancialHub.Core.Application.Mappers
             CreateMap<BalanceEntity, BalanceModel>().ReverseMap();
 
             //Queries
-            CreateMap<TransactionFilter, TransactionQuery>().ReverseMap();
+            CreateMap<TransactionFilter, TransactionQuery>();
         }
     }
 }

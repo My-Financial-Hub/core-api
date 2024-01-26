@@ -7,14 +7,14 @@
         {
             var expectedResult = random.Next(1, 100);
             var guid = Guid.NewGuid();
-            this.repository
+            this.provider
                 .Setup(x => x.DeleteAsync(guid))
                 .Returns(async () => await Task.FromResult(expectedResult))
                 .Verifiable();
 
             await this.service.DeleteAsync(guid);
 
-            this.repository.Verify(x => x.DeleteAsync(guid), Times.Once);
+            this.provider.Verify(x => x.DeleteAsync(guid), Times.Once);
         }
 
         [Test]
@@ -22,7 +22,7 @@
         {
             var expectedResult = random.Next(1,100);
             var guid = Guid.NewGuid();
-            this.repository
+            this.provider
                 .Setup(x => x.DeleteAsync(guid))
                 .Returns(async () => await Task.FromResult(expectedResult))
                 .Verifiable();

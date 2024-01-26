@@ -8,6 +8,7 @@
             var item = this.GenerateObject();
             
             var createdItem = await this.repository.CreateAsync(item);
+            await this.repository.CommitAsync();
 
             this.AssertCreated(createdItem);
             Assert.Zero(createdItem.Amount);

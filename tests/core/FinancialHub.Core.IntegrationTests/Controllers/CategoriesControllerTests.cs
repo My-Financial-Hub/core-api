@@ -2,6 +2,7 @@ namespace FinancialHub.Core.IntegrationTests
 {
     public class CategoriesControllerTests : BaseControllerTests
     {
+        private TransactionEntityBuilder transactionBuilder;
         private CategoryEntityBuilder dataBuilder;
         private CategoryModelBuilder builder;
 
@@ -12,6 +13,7 @@ namespace FinancialHub.Core.IntegrationTests
 
         public override void SetUp()
         {
+            this.transactionBuilder = new TransactionEntityBuilder();
             this.dataBuilder = new CategoryEntityBuilder();
             this.builder = new CategoryModelBuilder(); 
             base.SetUp();
@@ -101,7 +103,7 @@ namespace FinancialHub.Core.IntegrationTests
             Assert.AreEqual(HttpStatusCode.NotFound, response.StatusCode);
 
             var result = await response.ReadContentAsync<NotFoundErrorResponse>();
-            Assert.AreEqual($"Not found category with id {id}", result!.Message);
+            Assert.AreEqual($"Not found Category with id {id}", result!.Message);
         }
 
         [Test]
@@ -126,9 +128,30 @@ namespace FinancialHub.Core.IntegrationTests
 
             await this.client.DeleteAsync($"{baseEndpoint}/{id}");
 
-            var getResponse = await this.client.GetAsync(baseEndpoint);
-            var getResult = await getResponse.ReadContentAsync<ListResponse<CategoryModel>>();
-            Assert.IsEmpty(getResult!.Data);
+            var categories = this.fixture.GetData<CategoryEntity>();
+            Assert.IsEmpty(categories);
+        }
+
+        [Test]
+        public async Task Delete_RemovesTransactionsWithCategoryFromDatabase()
+        {
+            var id = Guid.NewGuid();
+
+            var data = dataBuilder.WithId(id).Generate();
+            this.fixture.AddData(data);
+
+            var transactionsData = transactionBuilder
+                .WithCategoryId(data.Id)
+                .Generate();
+            this.fixture.AddData(transactionsData);
+
+            await this.client.DeleteAsync($"{baseEndpoint}/{id}");
+
+            var categories = this.fixture.GetData<CategoryEntity>();
+            var transactions = this.fixture.GetData<TransactionEntity>();
+
+            Assert.IsEmpty(categories);
+            Assert.IsEmpty(transactions);
         }
     }
 }

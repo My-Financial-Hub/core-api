@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using FinancialHub.Core.Domain.Filters;
-using FinancialHub.Core.Domain.Queries;
+﻿using FinancialHub.Core.Domain.Filters;
 
 namespace FinancialHub.Core.Application.Tests.Services
 {
@@ -10,23 +8,12 @@ namespace FinancialHub.Core.Application.Tests.Services
         public async Task GetByUsersAsync_ValidUser_ReturnsTransactions()
         {
             var filter = new TransactionFilter();
-            var entitiesMock = this.GenerateTransactions();
+            var entitiesMock = this.transactionModelBuilder
+                .Generate(random.Next(10, 20));
 
-            this.repository
-                .Setup(x => x.GetAsync(It.IsAny<Func<TransactionEntity,bool>>()))
+            this.provider
+                .Setup(x => x.GetAllAsync(filter))
                 .ReturnsAsync(entitiesMock.ToArray());
-
-            this.mapperWrapper
-                .Setup(x => x.Map<TransactionQuery>(It.IsAny<TransactionFilter>()))
-                .Returns<TransactionFilter>((ent) => this.mapper.Map<TransactionQuery>(ent))
-                .Verifiable();
-
-            this.mapperWrapper
-                .Setup(x => x.Map<IEnumerable<TransactionModel>>(It.IsAny<IEnumerable<TransactionEntity>>()))
-                .Returns<IEnumerable<TransactionEntity>>((ent) => this.mapper.Map<IEnumerable<TransactionModel>>(ent))
-                .Verifiable();
-
-            this.SetUpMapper();
 
             var result = await this.service.GetAllByUserAsync(string.Empty, filter);
 
@@ -39,15 +26,13 @@ namespace FinancialHub.Core.Application.Tests.Services
         public async Task GetByIdAsync_ExistingTransaction_ReturnsTransaction()
         {
             var id = Guid.NewGuid();
-            var transaction = this.transactionBuilder
+            var transaction = this.transactionModelBuilder
                 .WithId(id)
                 .Generate();
 
-            this.repository
+            this.provider
                 .Setup(x => x.GetByIdAsync(id))
                 .ReturnsAsync(transaction);
-
-            this.SetUpMapper();
 
             var result = await this.service.GetByIdAsync(id);
 
@@ -60,13 +45,16 @@ namespace FinancialHub.Core.Application.Tests.Services
         public async Task GetByIdAsync_NonExistingTransaction_ReturnsNotFoundError()
         {
             var id = Guid.NewGuid();
+            var expectedErrorMessage = $"Not found Transaction with id {id}";
 
-            this.SetUpMapper();
+            this.errorMessageProvider
+                .Setup(x => x.NotFoundMessage(It.IsAny<string>(), It.IsAny<Guid>()))
+                .Returns(expectedErrorMessage);
 
             var result = await this.service.GetByIdAsync(id);
 
             Assert.IsTrue(result.HasError);
-            Assert.AreEqual($"Not found Transaction with id {id}", result.Error!.Message);
+            Assert.AreEqual(expectedErrorMessage, result.Error!.Message);
         }
     }
 }

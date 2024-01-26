@@ -1,53 +1,28 @@
-﻿using AutoMapper;
-using FinancialHub.Core.Domain.Interfaces.Mappers;
-using FinancialHub.Core.Domain.Interfaces.Repositories;
-using FinancialHub.Core.Domain.Interfaces.Services;
-using FinancialHub.Core.Domain.Tests.Builders.Entities;
-using FinancialHub.Core.Application.Mappers;
-using FinancialHub.Core.Application.Services;
+﻿using FinancialHub.Core.Application.Services;
+using FinancialHub.Core.Domain.Interfaces.Resources;
 
 namespace FinancialHub.Core.Application.Tests.Services
 {
     public partial class CategoriesServiceTests
     {
         protected Random random;
-        protected CategoryEntityBuilder categoryBuilder; 
         protected CategoryModelBuilder categoryModelBuilder; 
         
         private ICategoriesService service;
 
-        private IMapper mapper;
-        private Mock<IMapperWrapper> mapperWrapper;
-        private Mock<ICategoriesRepository> repository;
-
-        private void MockMapper()
-        {
-            mapper = new MapperConfiguration(mc =>
-                {
-                    mc.AddProfile(new FinancialHubAutoMapperProfile());
-                }
-            ).CreateMapper();
-
-            this.mapperWrapper = new Mock<IMapperWrapper>();
-        }
+        private Mock<ICategoriesProvider> provider;
+        private Mock<IErrorMessageProvider> errorMessageProvider;
 
         [SetUp]
         public void Setup()
         {
-            this.MockMapper();
-
-            this.repository = new Mock<ICategoriesRepository>();
-            this.service = new CategoriesService(mapperWrapper.Object,repository.Object);
+            this.provider = new Mock<ICategoriesProvider>();
+            this.errorMessageProvider = new Mock<IErrorMessageProvider>();
+            this.service = new CategoriesService(provider.Object, errorMessageProvider.Object);
 
             this.random = new Random();
 
-            this.categoryBuilder = new CategoryEntityBuilder();
             this.categoryModelBuilder = new CategoryModelBuilder();
-        }
-
-        private ICollection<CategoryEntity> CreateCategories()
-        {
-            return this.categoryBuilder.Generate(random.Next(10, 100));
         }
     }
 }

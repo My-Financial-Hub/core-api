@@ -14,6 +14,8 @@ namespace FinancialHub.Core.Infra.Data.Tests.Repositories.Base
             this.context.ChangeTracker.Clear();
 
             var affectedRows = await this.repository.DeleteAsync(items.First().Id.Value);
+            await repository.CommitAsync();
+
             Assert.AreEqual(1, affectedRows);
             Assert.AreEqual(items.Count - 1, context.Set<T>().ToList().Count);
         }

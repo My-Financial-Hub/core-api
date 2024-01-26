@@ -7,24 +7,22 @@
         {
             var model = this.transactionModelBuilder.Generate();
 
-            this.categoriesRepository
+            this.categoriesProvider
                 .Setup(x => x.GetByIdAsync(model.CategoryId))
-                .ReturnsAsync(this.mapper.Map<CategoryEntity>(model.Category));
+                .ReturnsAsync(model.Category);
 
-            this.balancesRepository
+            this.balancesProvider
                 .Setup(x => x.GetByIdAsync(model.BalanceId))
-                .ReturnsAsync(this.mapper.Map<BalanceEntity>(model.Balance));
+                .ReturnsAsync(model.Balance);
 
-            this.repository
-                .Setup(x => x.CreateAsync(It.IsAny<TransactionEntity>()))
-                .Returns<TransactionEntity>(async (x) => await Task.FromResult(x))
+            this.provider
+                .Setup(x => x.CreateAsync(It.IsAny<TransactionModel>()))
+                .Returns<TransactionModel>(async (x) => await Task.FromResult(x))
                 .Verifiable();
-
-            this.SetUpMapper();
 
             await this.service.CreateAsync(model);
 
-            this.repository.Verify(x => x.CreateAsync(It.IsAny<TransactionEntity>()), Times.Once);
+            this.provider.Verify(x => x.CreateAsync(It.IsAny<TransactionModel>()), Times.Once);
         }
 
         [Test]
@@ -32,20 +30,18 @@
         {
             var model = this.transactionModelBuilder.Generate();
 
-            this.categoriesRepository
+            this.categoriesProvider
                 .Setup(x => x.GetByIdAsync(model.CategoryId))
-                .ReturnsAsync(this.mapper.Map<CategoryEntity>(model.Category));
+                .ReturnsAsync(model.Category);
 
-            this.balancesRepository
+            this.balancesProvider
                 .Setup(x => x.GetByIdAsync(model.BalanceId))
-                .ReturnsAsync(this.mapper.Map<BalanceEntity>(model.Balance));
+                .ReturnsAsync(model.Balance);
 
-            this.repository
-                .Setup(x => x.CreateAsync(It.IsAny<TransactionEntity>()))
-                .Returns<TransactionEntity>(async (x) => await Task.FromResult(x))
+            this.provider
+                .Setup(x => x.CreateAsync(It.IsAny<TransactionModel>()))
+                .Returns<TransactionModel>(async (x) => await Task.FromResult(x))
                 .Verifiable();
-
-            this.SetUpMapper();
 
             var result = await this.service.CreateAsync(model);
 
@@ -57,34 +53,37 @@
         public async Task CreateAsync_InvalidCategory_ReturnsNotFoundError()
         {
             var model = this.transactionModelBuilder.Generate();
+            var expectedErrorMessage = $"Not found Category with id {model.CategoryId}";
 
-            this.SetUpMapper();
-
-            this.balancesRepository
+            this.balancesProvider
                 .Setup(x => x.GetByIdAsync(model.BalanceId))
-                .ReturnsAsync(this.mapper.Map<BalanceEntity>(model.Balance));
+                .ReturnsAsync(model.Balance);
+            this.errorMessageProvider
+                .Setup(x => x.NotFoundMessage(It.IsAny<string>(), It.IsAny<Guid>()))
+                .Returns(expectedErrorMessage);
 
             var result = await this.service.CreateAsync(model);
 
             Assert.IsTrue(result.HasError);
-            Assert.AreEqual($"Not found Category with id {model.CategoryId}", result.Error!.Message);
+            Assert.AreEqual(expectedErrorMessage, result.Error!.Message);
         }
 
         [Test]
         public async Task CreateAsync_InvalidBalance_ReturnsNotFoundError()
         {
             var model = this.transactionModelBuilder.Generate();
-
-            this.SetUpMapper();
-
-            this.categoriesRepository
+            var expectedErrorMessage = $"Not found Balance with id {model.BalanceId}";
+            this.categoriesProvider
                 .Setup(x => x.GetByIdAsync(model.CategoryId))
-                .ReturnsAsync(this.mapper.Map<CategoryEntity>(model.Category));
+                .ReturnsAsync(model.Category);
+            this.errorMessageProvider
+                .Setup(x => x.NotFoundMessage(It.IsAny<string>(), It.IsAny<Guid>()))
+                .Returns(expectedErrorMessage);
 
             var result = await this.service.CreateAsync(model);
 
             Assert.IsTrue(result.HasError);
-            Assert.AreEqual($"Not found Balance with id {model.BalanceId}", result.Error!.Message);
+            Assert.AreEqual(expectedErrorMessage, result.Error!.Message);
         }
     }
 }

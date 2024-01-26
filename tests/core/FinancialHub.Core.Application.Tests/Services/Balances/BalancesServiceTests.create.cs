@@ -7,16 +7,9 @@
         {
             var model = this.balanceModelBuilder.Generate();
 
-            this.accountsRepository
-                .Setup(x => x.GetByIdAsync(model.AccountId))
-                .ReturnsAsync(this.mapper.Map<AccountEntity>(model.Account))
-                .Verifiable();
+            await this.service.CreateAsync(model);
 
-            this.SetUpMapper();
-
-            var result = await this.service.CreateAsync(model);
-
-            this.accountsRepository.Verify(x => x.GetByIdAsync(model.AccountId), Times.Once);
+            this.accountsProvider.Verify(x => x.GetByIdAsync(model.AccountId), Times.Once);
         }
 
         [Test]
@@ -24,26 +17,19 @@
         {
             var model = this.balanceModelBuilder.Generate();
 
-            this.repository
-                .Setup(x => x.GetByIdAsync(model.Id.GetValueOrDefault()))
-                .ReturnsAsync(this.mapper.Map<BalanceEntity>(model))
+            this.provider
+                .Setup(x => x.CreateAsync(It.IsAny<BalanceModel>()))
+                .Returns<BalanceModel>(async (x) => await Task.FromResult(x))
                 .Verifiable();
 
-            this.repository
-                .Setup(x => x.CreateAsync(It.IsAny<BalanceEntity>()))
-                .Returns<BalanceEntity>(async (x) => await Task.FromResult(x))
-                .Verifiable();
-
-            this.accountsRepository
+            this.accountsProvider
                 .Setup(x => x.GetByIdAsync(model.AccountId))
-                .ReturnsAsync(this.mapper.Map<AccountEntity>(model.Account))
+                .ReturnsAsync(model.Account)
                 .Verifiable();
 
-            this.SetUpMapper();
+            await this.service.CreateAsync(model);
 
-            var result = await this.service.CreateAsync(model);
-
-            this.repository.Verify(x => x.CreateAsync(It.IsAny<BalanceEntity>()), Times.Once);
+            this.provider.Verify(x => x.CreateAsync(It.IsAny<BalanceModel>()), Times.Once);
         }
 
         [Test]
@@ -51,17 +37,15 @@
         {
             var model = this.balanceModelBuilder.Generate();
 
-            this.repository
-                .Setup(x => x.CreateAsync(It.IsAny<BalanceEntity>()))
-                .Returns<BalanceEntity>(async (x) => await Task.FromResult(x))
+            this.provider
+                .Setup(x => x.CreateAsync(It.IsAny<BalanceModel>()))
+                .Returns<BalanceModel>(async (x) => await Task.FromResult(x))
                 .Verifiable();
 
-            this.accountsRepository
+            this.accountsProvider
                 .Setup(x => x.GetByIdAsync(model.AccountId))
-                .ReturnsAsync(this.mapper.Map<AccountEntity>(model.Account))
+                .ReturnsAsync(model.Account)
                 .Verifiable();
-
-            this.SetUpMapper();
 
             var result = await this.service.CreateAsync(model);
 
@@ -73,20 +57,22 @@
         public async Task CreateAsync_InvalidAccountModel_ReturnsNotFoundError()
         {
             var model = this.balanceModelBuilder.Generate();
+            var expectedErrorMessage = $"Not found Account with id {model.AccountId}";
 
-            this.repository
-                .Setup(x => x.CreateAsync(It.IsAny<BalanceEntity>()))
-                .Returns<BalanceEntity>(async (x) => await Task.FromResult(x))
+            this.provider
+                .Setup(x => x.CreateAsync(It.IsAny<BalanceModel>()))
+                .Returns<BalanceModel>(async (x) => await Task.FromResult(x))
                 .Verifiable();
-
-            this.SetUpMapper();
+            this.errorMessageProvider
+                .Setup(x => x.NotFoundMessage(It.IsAny<string>(), It.IsAny<Guid>()))
+                .Returns(expectedErrorMessage);
 
             var result = await this.service.CreateAsync(model);
 
             Assert.IsTrue(result.HasError);
-            Assert.AreEqual($"Not found Account with id {model.AccountId}", result.Error!.Message);
+            Assert.AreEqual(expectedErrorMessage, result.Error!.Message);
 
-            this.repository.Verify(x => x.CreateAsync(It.IsAny<BalanceEntity>()), Times.Never);
+            this.provider.Verify(x => x.CreateAsync(It.IsAny<BalanceModel>()), Times.Never);
         }
     }
 }

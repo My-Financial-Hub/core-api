@@ -1,6 +1,4 @@
-﻿using FinancialHub.Core.Domain.Enums;
-
-namespace FinancialHub.Core.Application.Tests.Services
+﻿namespace FinancialHub.Core.Application.Tests.Services
 {
     public partial class TransactionsServiceTests
     {
@@ -8,40 +6,36 @@ namespace FinancialHub.Core.Application.Tests.Services
         public async Task DeleteAsync_ExistingTransaction_RemovesTransactions()
         {
             var expectedResult = random.Next(1, 100);
-            var transaction = this.transactionBuilder.Generate();
+            var transaction = this.transactionModelBuilder.Generate();
             var guid = transaction.Id.GetValueOrDefault();
 
-            this.repository
+            this.provider
                 .Setup(x => x.DeleteAsync(guid))
                 .ReturnsAsync(expectedResult)
                 .Verifiable();
-            this.repository
+            this.provider
                 .Setup(x => x.GetByIdAsync(guid))
                 .ReturnsAsync(transaction);
-            
-            this.SetUpMapper();
 
             await this.service.DeleteAsync(guid);
 
-            this.repository.Verify(x => x.DeleteAsync(guid), Times.Once);
+            this.provider.Verify(x => x.DeleteAsync(guid), Times.Once);
         }
 
         [Test]
         public async Task DeleteAsync_ExistingTransaction_ReturnsRemovedTransactions()
         {
             var expectedResult = random.Next(1,100);
-            var transaction = this.transactionBuilder.Generate();
+            var transaction = this.transactionModelBuilder.Generate();
             var guid = transaction.Id.GetValueOrDefault();
 
-            this.repository
+            this.provider
                 .Setup(x => x.DeleteAsync(guid))
                 .ReturnsAsync(expectedResult);
-            this.repository
+            this.provider
                 .Setup(x => x.GetByIdAsync(guid))
                 .ReturnsAsync(transaction);
 
-            this.SetUpMapper();
-            
             var result = await this.service.DeleteAsync(guid);
 
             Assert.IsInstanceOf<ServiceResult<int>>(result);
@@ -51,85 +45,34 @@ namespace FinancialHub.Core.Application.Tests.Services
         [Test]
         public async Task DeleteAsync_NotExistingTransaction_ReturnsNotFoundError()
         {
-            var transaction = this.transactionBuilder.Generate();
-            var guid = transaction.Id.GetValueOrDefault();
+            var transaction = this.transactionModelBuilder.Generate();
+            var id = transaction.Id.GetValueOrDefault();
+            var expectedErrorMessage = $"Not found Transaction with id {id}";
 
-            this.repository
-                .Setup(x => x.GetByIdAsync(guid));
+            this.provider.Setup(x => x.GetByIdAsync(id));
+            this.errorMessageProvider
+                .Setup(x => x.NotFoundMessage(It.IsAny<string>(), It.IsAny<Guid>()))
+                .Returns(expectedErrorMessage);
 
-            var result = await this.service.DeleteAsync(guid);
+            var result = await this.service.DeleteAsync(id);
 
             Assert.Zero(result.Data);
             Assert.IsTrue(result.HasError);
-            Assert.AreEqual($"Not found Transaction with id {guid}", result.Error!.Message);
+            Assert.AreEqual(expectedErrorMessage, result.Error!.Message);
         }
 
         [Test]
         public async Task DeleteAsync_NotExistingTransaction_DoesNotRemovesTransactions()
         {
-            var transaction = this.transactionBuilder.Generate();
+            var transaction = this.transactionModelBuilder.Generate();
             var guid = transaction.Id.GetValueOrDefault();
 
-            this.repository
+            this.provider
                 .Setup(x => x.GetByIdAsync(guid));
 
             await this.service.DeleteAsync(guid);
 
-            this.repository.Verify(x => x.GetByIdAsync(guid),Times.Once);
-        }
-
-        [TestCase(TransactionStatus.Committed, false)]
-        [TestCase(TransactionStatus.NotCommitted, true)]
-        [TestCase(TransactionStatus.NotCommitted, false)]
-        public async Task DeleteAsync_ExistingNotCommitedOrInactiveTransaction_RemovesBalanceAmount(
-            TransactionStatus status, bool isActive
-        )
-        {
-            var expectedResult = random.Next(1, 100);
-            var transaction = this.transactionBuilder
-                .WithStatus(status)
-                .WithActiveStatus(isActive)
-                .Generate();
-            var guid = transaction.Id.GetValueOrDefault();
-
-            this.repository
-                .Setup(x => x.DeleteAsync(guid))
-                .ReturnsAsync(expectedResult);
-            this.repository
-                .Setup(x => x.GetByIdAsync(guid))
-                .ReturnsAsync(transaction);
-
-            this.SetUpMapper();
-
-            await this.service.DeleteAsync(guid);
-
-            this.balancesRepository.Verify(x => x.ChangeAmountAsync(transaction.BalanceId,transaction.Amount,transaction.Type,true), Times.Never);
-        }
-
-        [TestCase(TransactionStatus.Committed, true)]
-        public async Task DeleteAsync_ExistingCommitedAndActiveTransaction_RemovesBalanceAmount(
-            TransactionStatus status, bool isActive
-        )
-        {
-            var expectedResult = random.Next(1, 100);
-            var transaction = this.transactionBuilder
-                .WithStatus(status)
-                .WithActiveStatus(isActive)
-                .Generate();
-            var guid = transaction.Id.GetValueOrDefault();
-
-            this.repository
-                .Setup(x => x.DeleteAsync(guid))
-                .ReturnsAsync(expectedResult);
-            this.repository
-                .Setup(x => x.GetByIdAsync(guid))
-                .ReturnsAsync(transaction);
-
-            this.SetUpMapper();
-            
-            await this.service.DeleteAsync(guid);
-
-            this.balancesRepository.Verify(x => x.ChangeAmountAsync(transaction.BalanceId, transaction.Amount, transaction.Type,true), Times.Once);
+            this.provider.Verify(x => x.GetByIdAsync(guid),Times.Once);
         }
     }
 }

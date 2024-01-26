@@ -1,4 +1,7 @@
 ﻿using FinancialHub.Core.Application.Validators;
+using FinancialHub.Core.Domain.Interfaces.Resources;
+using FinancialHub.Core.Resources.Providers;
+using System.Globalization;
 
 namespace FinancialHub.Core.Application.Tests.Validators
 {
@@ -6,10 +9,12 @@ namespace FinancialHub.Core.Application.Tests.Validators
     {
         private BalanceModelBuilder builder;
         private readonly BalanceValidator validator;
+        private readonly IValidationErrorMessageProvider errorMessageProvider;
 
         public BalanceValidatorTests()
         {
-            this.validator = new BalanceValidator();
+            this.errorMessageProvider = new ValidationErrorMessageProvider(CultureInfo.InvariantCulture);
+            this.validator = new BalanceValidator(this.errorMessageProvider);
         }
 
         [SetUp]

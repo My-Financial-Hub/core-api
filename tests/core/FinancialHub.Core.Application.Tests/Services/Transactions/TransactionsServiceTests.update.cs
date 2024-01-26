@@ -6,55 +6,50 @@
         public async Task UpdateAsync_ValidTransaction_UpdatesTransaction()
         {
             var model = this.transactionModelBuilder.Generate();
+            var id = model.Id.GetValueOrDefault();
 
-            this.categoriesRepository.Setup(x => x.GetByIdAsync(model.CategoryId))
-                .ReturnsAsync(this.mapper.Map<CategoryEntity>(model.Category))
+            this.categoriesProvider
+                .Setup(x => x.GetByIdAsync(model.CategoryId))
+                .ReturnsAsync(model.Category)
                 .Verifiable();
-
-            this.balancesRepository.Setup(x => x.GetByIdAsync(model.BalanceId))
-                .ReturnsAsync(this.mapper.Map<BalanceEntity>(model.Balance))
+            this.balancesProvider
+                .Setup(x => x.GetByIdAsync(model.BalanceId))
+                .ReturnsAsync(model.Balance)
                 .Verifiable();
-
-            this.repository
-                .Setup(x => x.GetByIdAsync(model.Id.GetValueOrDefault()))
-                .ReturnsAsync(this.mapper.Map<TransactionEntity>(model))
+            this.provider
+                .Setup(x => x.GetByIdAsync(id))
+                .ReturnsAsync(model)
                 .Verifiable();
-
-            this.repository
-                .Setup(x => x.UpdateAsync(It.IsAny<TransactionEntity>()))
-                .Returns<TransactionEntity>(async (x) => await Task.FromResult(x))
+            this.provider
+                .Setup(x => x.UpdateAsync(id, It.IsAny<TransactionModel>()))
+                .Returns<Guid, TransactionModel>(async (_, x) => await Task.FromResult(x))
                 .Verifiable();
-
-            this.SetUpMapper();
 
             await this.service.UpdateAsync(model.Id.GetValueOrDefault(), model);
-            this.repository.Verify(x => x.UpdateAsync(It.IsAny<TransactionEntity>()), Times.Once);
+            this.provider.Verify(x => x.UpdateAsync(id, It.IsAny<TransactionModel>()), Times.Once);
         }
 
         [Test]
         public async Task UpdateAsync_ValidTransaction_ReturnsTransaction()
         {
             var model = this.transactionModelBuilder.Generate();
+            var id = model.Id.GetValueOrDefault();
 
-            this.categoriesRepository.Setup(x => x.GetByIdAsync(model.CategoryId))
-                .ReturnsAsync(this.mapper.Map<CategoryEntity>(model.Category))
+            this.categoriesProvider.Setup(x => x.GetByIdAsync(model.CategoryId))
+                .ReturnsAsync(model.Category)
+                .Verifiable();
+            this.balancesProvider.Setup(x => x.GetByIdAsync(model.BalanceId))
+                .ReturnsAsync(model.Balance)
+                .Verifiable();
+            this.provider
+                .Setup(x => x.GetByIdAsync(id))
+                .ReturnsAsync(model)
                 .Verifiable();
 
-            this.balancesRepository.Setup(x => x.GetByIdAsync(model.BalanceId))
-                .ReturnsAsync(this.mapper.Map<BalanceEntity>(model.Balance))
+            this.provider
+                .Setup(x => x.UpdateAsync(id, It.IsAny<TransactionModel>()))
+                .Returns<Guid, TransactionModel>(async (_, x) => await Task.FromResult(x))
                 .Verifiable();
-
-            this.repository
-                .Setup(x => x.GetByIdAsync(model.Id.GetValueOrDefault()))
-                .ReturnsAsync(this.mapper.Map<TransactionEntity>(model))
-                .Verifiable();
-
-            this.repository
-                .Setup(x => x.UpdateAsync(It.IsAny<TransactionEntity>()))
-                .Returns<TransactionEntity>(async (x) => await Task.FromResult(x))
-                .Verifiable();
-
-            this.SetUpMapper();
 
             var result = await this.service.UpdateAsync(model.Id.GetValueOrDefault(), model);
 
@@ -66,15 +61,16 @@
         public async Task UpdateAsync_NonExistingTransactionId_ReturnsResultError()
         {
             var model = this.transactionModelBuilder.Generate();
+            var id = model.Id.GetValueOrDefault();
 
-            this.repository
-                .Setup(x => x.GetByIdAsync(model.Id.GetValueOrDefault()))
-                .ReturnsAsync(default(TransactionEntity))
+            this.provider
+                .Setup(x => x.GetByIdAsync(id))
+                .ReturnsAsync(default(TransactionModel))
                 .Verifiable();
 
-            this.repository
-                .Setup(x => x.UpdateAsync(It.IsAny<TransactionEntity>()))
-                .Returns<TransactionEntity>(async (x) => await Task.FromResult(x))
+            this.provider
+                .Setup(x => x.UpdateAsync(id, It.IsAny<TransactionModel>()))
+                .Returns<Guid,TransactionModel>(async (_, x) => await Task.FromResult(x))
                 .Verifiable();
 
             var result = await this.service.UpdateAsync(model.Id.GetValueOrDefault(), model);
@@ -87,44 +83,45 @@
         public async Task UpdateAsync_InvalidCategory_ReturnsNotFoundError()
         {
             var model = this.transactionModelBuilder.Generate();
+            var expectedErrorMessage = $"Not found Category with id {model.CategoryId}";
 
-            this.SetUpMapper();
-
-            this.balancesRepository.Setup(x => x.GetByIdAsync(model.BalanceId))
-                .ReturnsAsync(this.mapper.Map<BalanceEntity>(model.Balance))
+            this.balancesProvider.Setup(x => x.GetByIdAsync(model.BalanceId))
+                .ReturnsAsync(model.Balance)
                 .Verifiable();
-
-            this.repository
+            this.provider
                 .Setup(x => x.GetByIdAsync(model.Id.GetValueOrDefault()))
-                .ReturnsAsync(this.mapper.Map<TransactionEntity>(model))
+                .ReturnsAsync(model)
                 .Verifiable();
+            this.errorMessageProvider
+                .Setup(x => x.NotFoundMessage(It.IsAny<string>(), It.IsAny<Guid>()))
+                .Returns(expectedErrorMessage);
 
             var result = await this.service.UpdateAsync(model.Id.GetValueOrDefault(), model);
 
             Assert.IsTrue(result.HasError);
-            Assert.AreEqual($"Not found Category with id {model.CategoryId}", result.Error!.Message);
+            Assert.AreEqual(expectedErrorMessage, result.Error!.Message);
         }
 
         [Test]
         public async Task UpdateAsync_InvalidBalance_ReturnsNotFoundError()
         {
             var model = this.transactionModelBuilder.Generate();
-
-            this.SetUpMapper();
-
-            this.categoriesRepository.Setup(x => x.GetByIdAsync(model.CategoryId))
-                .ReturnsAsync(this.mapper.Map<CategoryEntity>(model.Category))
+            var expectedErrorMessage = $"Not found Balance with id {model.BalanceId}";
+            this.categoriesProvider.Setup(x => x.GetByIdAsync(model.CategoryId))
+                .ReturnsAsync(model.Category)
                 .Verifiable();
-
-            this.repository
+            this.provider
                 .Setup(x => x.GetByIdAsync(model.Id.GetValueOrDefault()))
-                .ReturnsAsync(this.mapper.Map<TransactionEntity>(model))
+                .ReturnsAsync(model)
                 .Verifiable();
+            this.errorMessageProvider
+                .Setup(x => x.NotFoundMessage(It.IsAny<string>(), It.IsAny<Guid>()))
+                .Returns(expectedErrorMessage);
 
             var result = await this.service.UpdateAsync(model.Id.GetValueOrDefault(), model);
 
             Assert.IsTrue(result.HasError);
-            Assert.AreEqual($"Not found Balance with id {model.BalanceId}", result.Error!.Message);
+            Assert.AreEqual(expectedErrorMessage, result.Error!.Message);
         }
     }
 }

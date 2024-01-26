@@ -1,4 +1,5 @@
 ﻿using FinancialHub.Core.Infra.Data.Contexts;
+using System.Xml.Linq;
 
 namespace FinancialHub.Core.Infra.Data.Repositories
 {
@@ -26,6 +27,22 @@ namespace FinancialHub.Core.Infra.Data.Repositories
             obj.Category = null;
             obj.Balance = null; 
             return await base.UpdateAsync(obj);
+        }
+
+        public override async Task<int> DeleteAsync(Guid id)
+        {
+            var entity = await this.GetByIdAsync(id);
+
+            if (entity != null)
+            {
+                context.ChangeTracker.Clear();
+                context.Transactions.Remove(entity);
+                return await context.SaveChangesAsync();
+            }
+            else
+            {
+                return 0;
+            }
         }
     }
 }

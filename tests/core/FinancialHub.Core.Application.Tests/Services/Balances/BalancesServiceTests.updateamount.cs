@@ -7,22 +7,19 @@
         {
             var id = Guid.NewGuid();
             var model = this.balanceModelBuilder.WithId(id).Generate();
-            var entity = this.mapper.Map<BalanceEntity>(model);
             var amount = this.random.Next(1000, 10000);
-            this.repository
+            this.provider
                 .Setup(x => x.GetByIdAsync(id))
-                .ReturnsAsync(entity);
+                .ReturnsAsync(model);
 
-            this.repository
-                .Setup(x => x.ChangeAmountAsync(id, amount))
-                .ReturnsAsync(entity)
+            this.provider
+                .Setup(x => x.UpdateAmountAsync(id, amount))
+                .ReturnsAsync(model)
                 .Verifiable();
 
-            this.SetUpMapper();
+            await this.service.UpdateAmountAsync(id, amount);
 
-            var result = await this.service.UpdateAmountAsync(id, amount);
-
-            this.repository.Verify(x => x.ChangeAmountAsync(id, amount), Times.Once);
+            this.provider.Verify(x => x.UpdateAmountAsync(id, amount), Times.Once);
         }
 
         [Test]
@@ -30,22 +27,19 @@
         {
             var id = Guid.NewGuid();
             var model = this.balanceModelBuilder.WithId(id).Generate();
-            var entity = this.mapper.Map<BalanceEntity>(model);
             var amount = this.random.Next(1000, 10000);
 
-            this.repository
+            this.provider
                 .Setup(x => x.GetByIdAsync(id))
-                .ReturnsAsync(entity);
+                .ReturnsAsync(model);
 
-            this.repository
-                .Setup(x => x.ChangeAmountAsync(id, amount))
-                .ReturnsAsync(entity);
+            this.provider
+                .Setup(x => x.UpdateAmountAsync(id, amount))
+                .ReturnsAsync(model);
 
-            this.accountsRepository
+            this.accountsProvider
                 .Setup(x => x.GetByIdAsync(model.AccountId))
-                .ReturnsAsync(this.mapper.Map<AccountEntity>(model.Account));
-
-            this.SetUpMapper();
+                .ReturnsAsync(model.Account);
 
             var result = await this.service.UpdateAmountAsync(id, amount);
 
@@ -58,25 +52,28 @@
         {
             var id = Guid.NewGuid();
             var model = this.balanceModelBuilder.WithId(id).Generate();
-            var entity = this.mapper.Map<BalanceEntity>(model);
             var amount = this.random.Next(1000, 10000);
+            var expectedErrorMessage = $"Not found Balance with id {id}";
 
-            this.repository
+            this.provider
                 .Setup(x => x.GetByIdAsync(id))
-                .ReturnsAsync(default(BalanceEntity))
+                .ReturnsAsync(default(BalanceModel))
                 .Verifiable();
-            this.repository
-                .Setup(x => x.ChangeAmountAsync(id, amount))
+            this.provider
+                .Setup(x => x.UpdateAmountAsync(id, amount))
                 .Verifiable();
+            this.errorMessageProvider
+                .Setup(x => x.NotFoundMessage(It.IsAny<string>(), It.IsAny<Guid>()))
+                .Returns(expectedErrorMessage);
 
             var result = await this.service.UpdateAmountAsync(id, amount);
 
             Assert.IsInstanceOf<ServiceResult<BalanceModel>>(result);
             Assert.IsTrue(result.HasError);
-            Assert.AreEqual($"Not found Balance with id {id}", result.Error!.Message);
+            Assert.AreEqual(expectedErrorMessage, result.Error!.Message);
 
-            this.repository.Verify(x => x.GetByIdAsync(model.Id.GetValueOrDefault()), Times.Once);
-            this.repository.Verify(x => x.UpdateAsync(It.IsAny<BalanceEntity>()), Times.Never);
+            this.provider.Verify(x => x.GetByIdAsync(model.Id.GetValueOrDefault()), Times.Once);
+            this.provider.Verify(x => x.UpdateAmountAsync(id, amount), Times.Never);
         }
     }
 }

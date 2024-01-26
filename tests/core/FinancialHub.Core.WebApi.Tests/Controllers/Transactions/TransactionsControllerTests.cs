@@ -10,7 +10,6 @@ namespace FinancialHub.Core.WebApi.Tests.Controllers
 
         private TransactionsController controller;
         private Mock<ITransactionsService> mockService;
-        private Mock<ITransactionBalanceService> mockTransactionBalanceServiceService;
 
         [SetUp]
         public void Setup()
@@ -19,8 +18,7 @@ namespace FinancialHub.Core.WebApi.Tests.Controllers
             this.transactionModelBuilder = new TransactionModelBuilder();
 
             this.mockService = new Mock<ITransactionsService>();
-            this.mockTransactionBalanceServiceService = new Mock<ITransactionBalanceService>();
-            this.controller = new TransactionsController(this.mockService.Object, this.mockTransactionBalanceServiceService.Object);
+            this.controller = new TransactionsController(this.mockService.Object);
         }
     }
 }

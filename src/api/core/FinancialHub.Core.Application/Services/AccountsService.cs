@@ -1,62 +1,63 @@
-﻿namespace FinancialHub.Core.Application.Services
+﻿using FinancialHub.Core.Domain.Interfaces.Resources;
+
+namespace FinancialHub.Core.Application.Services
 {
     public class AccountsService : IAccountsService
     {
-        private readonly IMapperWrapper mapper;
-        private readonly IAccountsRepository repository;
+        private readonly IAccountsProvider provider;
+        private readonly IErrorMessageProvider errorMessageProvider;
 
-        public AccountsService(IMapperWrapper mapper,IAccountsRepository repository)
+        public AccountsService(IAccountsProvider provider, IErrorMessageProvider errorMessageProvider)
         {
-            this.mapper = mapper;
-            this.repository = repository;
+            this.provider = provider;
+            this.errorMessageProvider = errorMessageProvider;
         }
 
         public async Task<ServiceResult<AccountModel>> CreateAsync(AccountModel account)
         {
-            var entity = mapper.Map<AccountEntity>(account);
-
-            entity = await this.repository.CreateAsync(entity);
-
-            return mapper.Map<AccountModel>(entity);
+            return await this.provider.CreateAsync(account);
         }
 
         public async Task<ServiceResult<int>> DeleteAsync(Guid id)
         {
-            var count = await this.repository.DeleteAsync(id);
-
-            return new ServiceResult<int>(count);
+            return await this.provider.DeleteAsync(id);
         }
 
         public async Task<ServiceResult<ICollection<AccountModel>>> GetAllByUserAsync(string userId)
         {
-            var entities = await this.repository.GetAllAsync();
+            var accounts = await this.provider.GetAllAsync();
 
-            var list = this.mapper.Map<ICollection<AccountModel>>(entities);
-
-            return list.ToArray();
+            return accounts.ToArray();
         }
 
         public async Task<ServiceResult<AccountModel>> GetByIdAsync(Guid id)
         {
-            var entity = await this.repository.GetByIdAsync(id);
+            var existingAccount = await this.provider.GetByIdAsync(id);
+            if (existingAccount == null)
+            {
+                return new NotFoundError(
+                    this.errorMessageProvider.NotFoundMessage("Account", id)
+                );
+            }
 
-            return this.mapper.Map<AccountModel>(entity);
+            return existingAccount;
         }
 
         public async Task<ServiceResult<AccountModel>> UpdateAsync(Guid id, AccountModel account)
         {
-            var entity = await this.repository.GetByIdAsync(id);
+            var existingAccountResult = await this.GetByIdAsync(id);
+            if (existingAccountResult.HasError)
+                return existingAccountResult.Error;
 
-            if (entity == null)
+            var updatedAccount = await this.provider.UpdateAsync(id, account);
+            if (updatedAccount == null)
             {
-                return new NotFoundError($"Not found account with id {id}");
+                return new InvalidDataError(
+                    this.errorMessageProvider.UpdateFailedMessage("Account", id)
+                );
             }
 
-            entity = this.mapper.Map<AccountEntity>(account);
-
-            entity = await this.repository.UpdateAsync(entity);
-
-            return mapper.Map<AccountModel>(entity);
+            return updatedAccount;
         }
     }
 }

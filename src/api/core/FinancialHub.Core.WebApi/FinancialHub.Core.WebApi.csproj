@@ -22,6 +22,8 @@
   <ItemGroup>
     <ProjectReference Include="..\FinancialHub.Core.Application\FinancialHub.Core.Application.csproj" />
     <ProjectReference Include="..\FinancialHub.Core.Infra.Data\FinancialHub.Core.Infra.Data.csproj" />
+    <ProjectReference Include="..\FinancialHub.Core.Infra\FinancialHub.Core.Infra.csproj" />
+    <ProjectReference Include="..\FinancialHub.Core.Resources\FinancialHub.Core.Resources.csproj" />
   </ItemGroup>
 
   <ItemGroup>

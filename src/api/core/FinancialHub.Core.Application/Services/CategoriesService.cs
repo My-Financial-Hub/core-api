@@ -1,53 +1,54 @@
-﻿namespace FinancialHub.Core.Application.Services
+﻿using FinancialHub.Core.Domain.Interfaces.Resources;
+
+namespace FinancialHub.Core.Application.Services
 {
     public class CategoriesService : ICategoriesService
     {
-        private readonly IMapperWrapper mapper;
-        private readonly ICategoriesRepository repository;
+        private readonly ICategoriesProvider provider;
+        private readonly IErrorMessageProvider errorMessageProvider;
 
-        public CategoriesService(IMapperWrapper mapper, ICategoriesRepository repository)
+        public CategoriesService(ICategoriesProvider provider, IErrorMessageProvider errorMessageProvider)
         {
-            this.mapper = mapper;
-            this.repository = repository;
+            this.provider = provider;
+            this.errorMessageProvider = errorMessageProvider;
         }
 
         public async Task<ServiceResult<CategoryModel>> CreateAsync(CategoryModel category)
         {
-            var entity = mapper.Map<CategoryEntity>(category);
-
-            entity = await this.repository.CreateAsync(entity);
-
-            return mapper.Map<CategoryModel>(entity);
+            return await this.provider.CreateAsync(category);
         }
 
         public async Task<ServiceResult<int>> DeleteAsync(Guid id)
         {
-            return await this.repository.DeleteAsync(id);
+            return await this.provider.DeleteAsync(id);
         }
 
         public async Task<ServiceResult<ICollection<CategoryModel>>> GetAllByUserAsync(string userId)
         {
-            var entities = await this.repository.GetAllAsync();
+            var categories = await this.provider.GetAllAsync();
 
-            var list = this.mapper.Map<ICollection<CategoryModel>>(entities);
-
-            return list.ToArray();
+            return categories.ToArray();
         }
 
         public async Task<ServiceResult<CategoryModel>> UpdateAsync(Guid id, CategoryModel category)
         {
-            var entity = await this.repository.GetByIdAsync(id);
-
-            if (entity == null)
+            var existingCategory = await this.provider.GetByIdAsync(id);
+            if (existingCategory == null)
             {
-                return new NotFoundError($"Not found category with id {id}");
+                return new NotFoundError(
+                    this.errorMessageProvider.NotFoundMessage("Category", id)
+                );
             }
-            entity.Id = id;
 
-            entity = this.mapper.Map<CategoryEntity>(category);
-            entity = await this.repository.UpdateAsync(entity);
+            var updatedCategory = await this.provider.UpdateAsync(id, category);
+            if (updatedCategory == null)
+            {
+                return new InvalidDataError(
+                    this.errorMessageProvider.UpdateFailedMessage("Category", id)
+                );
+            }
 
-            return mapper.Map<CategoryModel>(entity);
+            return updatedCategory;
         }
     }
 }
