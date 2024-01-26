@@ -1,9 +1,6 @@
-﻿using FinancialHub.Common.Models;
-using System;
-
-namespace FinancialHub.Core.Domain.Models
+﻿namespace FinancialHub.Core.Domain.Models
 {
-    public class BalanceModel : BaseModel
+    public record class BalanceModel : BaseModel
     {
         public string Name { get; set; }
         public string Currency { get; set; }
