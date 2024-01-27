@@ -1,4 +1,6 @@
-﻿namespace FinancialHub.Core.WebApi.Controllers
+﻿using FinancialHub.Core.Domain.DTOS.Accounts;
+
+namespace FinancialHub.Core.WebApi.Controllers
 {
     [ApiController]
     [Route("[controller]")]
@@ -45,9 +47,9 @@
         /// </summary>
         /// <param name="account">Account to be created</param>
         [HttpPost]
-        [ProducesResponseType(typeof(SaveResponse<AccountModel>), 200)]
+        [ProducesResponseType(typeof(SaveResponse<AccountDto>), 200)]
         [ProducesResponseType(typeof(ValidationErrorResponse), 400)]
-        public async Task<IActionResult> CreateAccount([FromBody] AccountModel account)
+        public async Task<IActionResult> CreateAccount([FromBody] CreateAccountDto account)
         {
             var result = await this.service.CreateAsync(account);
 
@@ -59,7 +61,7 @@
                  );
             }
 
-            return Ok(new SaveResponse<AccountModel>(result.Data));
+            return Ok(new SaveResponse<AccountDto>(result.Data));
         }
 
         /// <summary>
