@@ -12,5 +12,11 @@ namespace FinancialHub.Common.Entities
 
         [Column("update_time")]
         public DateTimeOffset? UpdateTime { get; set; }
+
+        protected BaseEntity()
+        {
+            this.CreationTime = DateTimeOffset.Now;
+            this.UpdateTime = DateTimeOffset.Now;
+        }
     }
 }

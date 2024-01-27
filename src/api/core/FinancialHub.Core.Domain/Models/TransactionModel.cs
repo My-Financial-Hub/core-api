@@ -24,5 +24,10 @@ namespace FinancialHub.Core.Domain.Models
 
         [JsonIgnore]
         public bool IsPaid => this.IsActive && this.Status == TransactionStatus.Committed;
+
+        public TransactionModel()
+        {
+            
+        }
     }
 }
