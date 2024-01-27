@@ -2,6 +2,9 @@
 using FinancialHub.Core.Application.Services;
 using FinancialHub.Core.Application.Validators;
 using FluentValidation;
+using FinancialHub.Core.Domain.DTOS.Accounts;
+using FinancialHub.Core.Application.Validators.Accounts;
+using FinancialHub.Core.Application.Mappers;
 
 namespace FinancialHub.Core.Application.Extensions.Configurations
 {
@@ -11,6 +14,7 @@ namespace FinancialHub.Core.Application.Extensions.Configurations
         {
             services.AddServices();
             services.AddValidators();
+            services.AddAutoMapper(typeof(FinancialHubAccountMapper));
 
             return services;
         }
@@ -30,6 +34,8 @@ namespace FinancialHub.Core.Application.Extensions.Configurations
             services.AddScoped<IValidator<AccountModel>, AccountValidator>();
             services.AddScoped<IValidator<CategoryModel>, CategoryValidator>();
             services.AddScoped<IValidator<TransactionModel>, TransactionValidator>();
+
+            services.AddScoped<IValidator<CreateAccountDto>, CreateAccountValidator>();
 
             return services;
         }
