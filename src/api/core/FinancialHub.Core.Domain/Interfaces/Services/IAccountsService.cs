@@ -1,4 +1,5 @@
 ﻿using FinancialHub.Common.Results;
+using FinancialHub.Core.Domain.DTOS.Accounts;
 using FinancialHub.Core.Domain.Models;
 
 namespace FinancialHub.Core.Domain.Interfaces.Services
@@ -10,6 +11,8 @@ namespace FinancialHub.Core.Domain.Interfaces.Services
         Task<ServiceResult<AccountModel>> GetByIdAsync(Guid id);
 
         Task<ServiceResult<AccountModel>> CreateAsync(AccountModel account);
+
+        Task<ServiceResult<AccountDto>> CreateAsync(CreateAccountDto accountDto);
 
         Task<ServiceResult<AccountModel>> UpdateAsync(Guid id,AccountModel account);
 

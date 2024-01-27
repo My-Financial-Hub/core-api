@@ -1,21 +1,41 @@
-﻿using FinancialHub.Core.Domain.Interfaces.Resources;
+﻿using AutoMapper;
+using FinancialHub.Core.Domain.DTOS.Accounts;
+using FinancialHub.Core.Domain.Interfaces.Resources;
 
 namespace FinancialHub.Core.Application.Services
 {
     public class AccountsService : IAccountsService
     {
         private readonly IAccountsProvider provider;
+        private readonly IMapper mapper;
         private readonly IErrorMessageProvider errorMessageProvider;
 
+        [Obsolete("Remove it later")]
         public AccountsService(IAccountsProvider provider, IErrorMessageProvider errorMessageProvider)
         {
             this.provider = provider;
             this.errorMessageProvider = errorMessageProvider;
         }
 
+        public AccountsService(IAccountsProvider provider, IMapper mapper,IErrorMessageProvider errorMessageProvider)
+        {
+            this.provider = provider;
+            this.mapper = mapper;
+            this.errorMessageProvider = errorMessageProvider;
+        }
+
         public async Task<ServiceResult<AccountModel>> CreateAsync(AccountModel account)
         {
             return await this.provider.CreateAsync(account);
+        }
+
+        public async Task<ServiceResult<AccountDto>> CreateAsync(CreateAccountDto accountDto)
+        {
+            var account = this.mapper.Map<AccountModel>(accountDto);
+
+            var result = await this.provider.CreateAsync(account);
+
+            return this.mapper.Map<AccountDto>(result);
         }
 
         public async Task<ServiceResult<int>> DeleteAsync(Guid id)
