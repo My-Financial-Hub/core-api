@@ -137,15 +137,15 @@ namespace FinancialHub.Core.Application.Services
 
             if (newTransaction.BalanceId == oldTransaction.BalanceId)
             {
-                oldTransaction.Balance = balanceResult.Data;
-                newTransaction.Balance = balanceResult.Data;
+                //oldTransaction.Balance = balanceResult.Data;
+                //newTransaction.Balance = balanceResult.Data;
             }
             else
             {
-                var oldBalanceResult = await balancesService.GetByIdAsync(oldTransaction.BalanceId);
-
-                oldTransaction.Balance = oldBalanceResult.Data;
-                newTransaction.Balance = balanceResult.Data;
+                //var oldBalanceResult = await balancesService.GetByIdAsync(oldTransaction.BalanceId);
+                
+                //oldTransaction.Balance = oldBalanceResult.Data;
+                //newTransaction.Balance = balanceResult.Data;
             }
             await this.UpdateAmountAsync(oldTransaction, newTransaction);
 
