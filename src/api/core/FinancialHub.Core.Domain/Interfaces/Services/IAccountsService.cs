@@ -6,7 +6,7 @@ namespace FinancialHub.Core.Domain.Interfaces.Services
 {
     public interface IAccountsService 
     {
-        Task<ServiceResult<ICollection<AccountModel>>> GetAllByUserAsync(string userId);
+        Task<ServiceResult<ICollection<AccountDto>>> GetAllByUserAsync(string userId);
 
         Task<ServiceResult<AccountDto>> GetByIdAsync(Guid id);
         [Obsolete("use CreateAsync using a DTO")]

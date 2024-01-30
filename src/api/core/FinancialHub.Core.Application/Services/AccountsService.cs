@@ -44,11 +44,11 @@ namespace FinancialHub.Core.Application.Services
             return await this.provider.DeleteAsync(id);
         }
 
-        public async Task<ServiceResult<ICollection<AccountModel>>> GetAllByUserAsync(string userId)
+        public async Task<ServiceResult<ICollection<AccountDto>>> GetAllByUserAsync(string userId)
         {
             var accounts = await this.provider.GetAllAsync();
 
-            return accounts.ToArray();
+            return this.mapper.Map<ICollection<AccountDto>>(accounts).ToArray();
         }
 
         public async Task<ServiceResult<AccountDto>> GetByIdAsync(Guid id)
