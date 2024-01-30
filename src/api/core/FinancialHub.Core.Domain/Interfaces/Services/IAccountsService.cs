@@ -8,8 +8,8 @@ namespace FinancialHub.Core.Domain.Interfaces.Services
     {
         Task<ServiceResult<ICollection<AccountModel>>> GetAllByUserAsync(string userId);
 
-        Task<ServiceResult<AccountModel>> GetByIdAsync(Guid id);
-
+        Task<ServiceResult<AccountDto>> GetByIdAsync(Guid id);
+        [Obsolete("use CreateAsync using a DTO")]
         Task<ServiceResult<AccountModel>> CreateAsync(AccountModel account);
 
         Task<ServiceResult<AccountDto>> CreateAsync(CreateAccountDto accountDto);

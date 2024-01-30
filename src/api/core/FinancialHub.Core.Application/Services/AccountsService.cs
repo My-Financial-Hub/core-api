@@ -24,6 +24,7 @@ namespace FinancialHub.Core.Application.Services
             this.errorMessageProvider = errorMessageProvider;
         }
 
+        [Obsolete("Will be removed when IAccountService.CreateAsync got removed")]
         public async Task<ServiceResult<AccountModel>> CreateAsync(AccountModel account)
         {
             return await this.provider.CreateAsync(account);
@@ -50,7 +51,7 @@ namespace FinancialHub.Core.Application.Services
             return accounts.ToArray();
         }
 
-        public async Task<ServiceResult<AccountModel>> GetByIdAsync(Guid id)
+        public async Task<ServiceResult<AccountDto>> GetByIdAsync(Guid id)
         {
             var existingAccount = await this.provider.GetByIdAsync(id);
             if (existingAccount == null)
@@ -60,7 +61,7 @@ namespace FinancialHub.Core.Application.Services
                 );
             }
 
-            return existingAccount;
+            return this.mapper.Map<AccountDto>(existingAccount);
         }
 
         public async Task<ServiceResult<AccountModel>> UpdateAsync(Guid id, AccountModel account)

@@ -5,12 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="ViewModels\**" />
-    <EmbeddedResource Remove="ViewModels\**" />
-    <None Remove="ViewModels\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\common\FinancialHub.Common\FinancialHub.Common.csproj" />
   </ItemGroup>
 
