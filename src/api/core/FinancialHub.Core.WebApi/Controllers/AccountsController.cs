@@ -34,12 +34,12 @@ namespace FinancialHub.Core.WebApi.Controllers
         /// Get all accounts of the system (will be changed to only one user)
         /// </summary>
         [HttpGet]
-        [ProducesResponseType(typeof(ListResponse<AccountModel>), 200)]
+        [ProducesResponseType(typeof(ListResponse<AccountDto>), 200)]
         public async Task<IActionResult> GetMyAccounts()
         {
             var result = await service.GetAllByUserAsync("mock");
 
-            return Ok(new ListResponse<AccountModel>(result.Data));
+            return Ok(new ListResponse<AccountDto>(result.Data));
         }
 
         /// <summary>
@@ -70,10 +70,10 @@ namespace FinancialHub.Core.WebApi.Controllers
         /// <param name="id">id of the account</param>
         /// <param name="account">account changes</param>
         [HttpPut("{id}")]
-        [ProducesResponseType(typeof(SaveResponse<AccountModel>), 200)]
+        [ProducesResponseType(typeof(SaveResponse<AccountDto>), 200)]
         [ProducesResponseType(typeof(NotFoundErrorResponse), 404)]
         [ProducesResponseType(typeof(ValidationErrorResponse), 400)]
-        public async Task<IActionResult> UpdateAccount([FromRoute] Guid id, [FromBody] AccountModel account)
+        public async Task<IActionResult> UpdateAccount([FromRoute] Guid id, [FromBody] UpdateAccountDto account)
         {
             var response = await service.UpdateAsync(id, account);
 
@@ -85,7 +85,7 @@ namespace FinancialHub.Core.WebApi.Controllers
                  );
             }
 
-            return Ok(new SaveResponse<AccountModel>(response.Data));
+            return Ok(new SaveResponse<AccountDto>(response.Data));
         }
 
         /// <summary>

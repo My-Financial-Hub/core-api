@@ -8,6 +8,7 @@ namespace FinancialHub.Core.Application.Mappers
         public FinancialHubAccountMapper()
         {
             CreateMap<CreateAccountDto, AccountModel>();
+            CreateMap<UpdateAccountDto, AccountModel>();
             CreateMap<AccountModel, AccountDto>();
         }
     }

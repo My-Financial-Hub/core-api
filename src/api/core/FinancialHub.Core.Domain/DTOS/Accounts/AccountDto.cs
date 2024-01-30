@@ -1,10 +1,11 @@
 ﻿namespace FinancialHub.Core.Domain.DTOS.Accounts
 {
-    public record class AccountDto(
-        Guid Id, 
-        string Name, 
-        string Description, 
-        bool IsActive, 
-        List<AccountBalanceDto> Balances
-    );
+    public class AccountDto
+    {
+        public Guid Id { get; private set; }
+        public string Name { get; private set; }
+        public string Description { get; private set; }
+        public bool IsActive { get; private set; }
+        public List<AccountBalanceDto> Balances { get; private set; }
+    }
 }
