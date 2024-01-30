@@ -36,6 +36,7 @@ namespace FinancialHub.Core.Application.Extensions.Configurations
             services.AddScoped<IValidator<TransactionModel>, TransactionValidator>();
 
             services.AddScoped<IValidator<CreateAccountDto>, CreateAccountValidator>();
+            services.AddScoped<IValidator<UpdateAccountDto>, UpdateAccountValidator>();
 
             return services;
         }
