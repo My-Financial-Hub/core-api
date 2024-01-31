@@ -12,6 +12,7 @@ namespace FinancialHub.Core.Application.Extensions.Configurations
     {
         public static IServiceCollection AddCoreServices(this IServiceCollection services)
         {
+            services.AddCategories();
             services.AddServices();
             services.AddValidators();
             services.AddAutoMapper(typeof(FinancialHubAccountMapper));
@@ -22,7 +23,6 @@ namespace FinancialHub.Core.Application.Extensions.Configurations
         private static IServiceCollection AddServices(this IServiceCollection services)
         {
             services.AddScoped<IAccountsService, AccountsService>();
-            services.AddScoped<ICategoriesService, CategoriesService>();
             services.AddScoped<ITransactionsService, TransactionsService>();
             services.AddScoped<IBalancesService, BalancesService>();
 
@@ -32,9 +32,19 @@ namespace FinancialHub.Core.Application.Extensions.Configurations
         private static IServiceCollection AddValidators(this IServiceCollection services)
         {
             services.AddScoped<IValidator<AccountModel>, AccountValidator>();
-            services.AddScoped<IValidator<CategoryModel>, CategoryValidator>();
             services.AddScoped<IValidator<TransactionModel>, TransactionValidator>();
 
+            services.AddScoped<IValidator<CreateAccountDto>, CreateAccountValidator>();
+            services.AddScoped<IValidator<UpdateAccountDto>, UpdateAccountValidator>();
+
+            return services;
+        }
+
+        private static IServiceCollection AddCategories(this IServiceCollection services)
+        {
+            services.AddScoped<ICategoriesService, CategoriesService>();
+
+            services.AddScoped<IValidator<CategoryModel>, CategoryValidator>();
             services.AddScoped<IValidator<CreateAccountDto>, CreateAccountValidator>();
             services.AddScoped<IValidator<UpdateAccountDto>, UpdateAccountValidator>();
 

@@ -1,4 +1,6 @@
-﻿using FinancialHub.Core.Domain.Interfaces.Resources;
+﻿using AutoMapper;
+using FinancialHub.Core.Domain.DTOS.Categories;
+using FinancialHub.Core.Domain.Interfaces.Resources;
 
 namespace FinancialHub.Core.Application.Services
 {
@@ -6,16 +8,29 @@ namespace FinancialHub.Core.Application.Services
     {
         private readonly ICategoriesProvider provider;
         private readonly IErrorMessageProvider errorMessageProvider;
+        private readonly IMapper mapper;
 
+        [Obsolete("Use the constructor with mapper")]
         public CategoriesService(ICategoriesProvider provider, IErrorMessageProvider errorMessageProvider)
         {
             this.provider = provider;
             this.errorMessageProvider = errorMessageProvider;
         }
 
-        public async Task<ServiceResult<CategoryModel>> CreateAsync(CategoryModel category)
+        public CategoriesService(ICategoriesProvider provider, IErrorMessageProvider errorMessageProvider, IMapper mapper)
         {
-            return await this.provider.CreateAsync(category);
+            this.provider = provider;
+            this.errorMessageProvider = errorMessageProvider;
+            this.mapper = mapper;
+        }
+
+        public async Task<ServiceResult<CategoryDto>> CreateAsync(CreateCategoryDto category)
+        {
+            var categoryModel = this.mapper.Map<CategoryModel>(category);
+
+            var createdCategory = await this.provider.CreateAsync(categoryModel);
+
+            return this.mapper.Map<CategoryDto>(createdCategory);
         }
 
         public async Task<ServiceResult<int>> DeleteAsync(Guid id)
@@ -23,14 +38,14 @@ namespace FinancialHub.Core.Application.Services
             return await this.provider.DeleteAsync(id);
         }
 
-        public async Task<ServiceResult<ICollection<CategoryModel>>> GetAllByUserAsync(string userId)
+        public async Task<ServiceResult<ICollection<CategoryDto>>> GetAllByUserAsync(string userId)
         {
             var categories = await this.provider.GetAllAsync();
 
-            return categories.ToArray();
+            return this.mapper.Map<ICollection<CategoryDto>>(categories).ToArray();
         }
 
-        public async Task<ServiceResult<CategoryModel>> UpdateAsync(Guid id, CategoryModel category)
+        public async Task<ServiceResult<CategoryDto>> UpdateAsync(Guid id, UpdateCategoryDto category)
         {
             var existingCategory = await this.provider.GetByIdAsync(id);
             if (existingCategory == null)
@@ -40,7 +55,8 @@ namespace FinancialHub.Core.Application.Services
                 );
             }
 
-            var updatedCategory = await this.provider.UpdateAsync(id, category);
+            var categoryModel = this.mapper.Map<CategoryModel>(category);
+            var updatedCategory = await this.provider.UpdateAsync(id, categoryModel);
             if (updatedCategory == null)
             {
                 return new InvalidDataError(
@@ -48,7 +64,7 @@ namespace FinancialHub.Core.Application.Services
                 );
             }
 
-            return updatedCategory;
+            return this.mapper.Map<CategoryDto>(updatedCategory);
         }
     }
 }

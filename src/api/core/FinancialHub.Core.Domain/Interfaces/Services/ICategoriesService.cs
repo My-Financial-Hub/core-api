@@ -1,15 +1,15 @@
 ﻿using FinancialHub.Common.Results;
-using FinancialHub.Core.Domain.Models;
+using FinancialHub.Core.Domain.DTOS.Categories;
 
 namespace FinancialHub.Core.Domain.Interfaces.Services
 {
     public interface ICategoriesService 
     {
-        Task<ServiceResult<ICollection<CategoryModel>>> GetAllByUserAsync(string userId);
+        Task<ServiceResult<ICollection<CategoryDto>>> GetAllByUserAsync(string userId);
 
-        Task<ServiceResult<CategoryModel>> CreateAsync(CategoryModel category);
+        Task<ServiceResult<CategoryDto>> CreateAsync(CreateCategoryDto category);
 
-        Task<ServiceResult<CategoryModel>> UpdateAsync(Guid id, CategoryModel category);
+        Task<ServiceResult<CategoryDto>> UpdateAsync(Guid id, UpdateCategoryDto category);
 
         Task<ServiceResult<int>> DeleteAsync(Guid id);
     }
