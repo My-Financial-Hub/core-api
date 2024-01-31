@@ -15,7 +15,7 @@ namespace FinancialHub.Core.Application.Extensions.Configurations
             services.AddCategories();
             services.AddServices();
             services.AddValidators();
-            services.AddAutoMapper(typeof(FinancialHubAccountMapper));
+            services.AddAutoMapper(typeof(AccountMapper));
 
             return services;
         }

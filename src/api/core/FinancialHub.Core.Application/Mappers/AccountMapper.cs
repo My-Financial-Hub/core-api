@@ -3,9 +3,9 @@ using FinancialHub.Core.Domain.DTOS.Accounts;
 
 namespace FinancialHub.Core.Application.Mappers
 {
-    public class FinancialHubAccountMapper : Profile
+    public class AccountMapper : Profile
     {
-        public FinancialHubAccountMapper()
+        public AccountMapper()
         {
             CreateMap<CreateAccountDto, AccountModel>();
             CreateMap<UpdateAccountDto, AccountModel>();
