@@ -9,7 +9,9 @@ namespace FinancialHub.Core.Application.Mappers
         {
             CreateMap<CreateAccountDto, AccountModel>();
             CreateMap<UpdateAccountDto, AccountModel>();
-            CreateMap<AccountModel, AccountDto>().ReverseMap();
+
+            CreateMap<AccountBalanceDto, BalanceModel>().ReverseMap();
+            CreateMap<AccountDto, AccountModel>().ReverseMap();
         }
     }
 }
