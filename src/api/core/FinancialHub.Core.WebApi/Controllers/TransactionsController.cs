@@ -1,4 +1,5 @@
-﻿using FinancialHub.Core.Domain.Filters;
+﻿using FinancialHub.Core.Domain.DTOS.Transactions;
+using FinancialHub.Core.Domain.Filters;
 
 namespace FinancialHub.Core.WebApi.Controllers
 {
@@ -18,11 +19,11 @@ namespace FinancialHub.Core.WebApi.Controllers
         /// Get all transaction of the system (will be changed to only one user and added filters)
         /// </summary>
         [HttpGet]
-        [ProducesResponseType(typeof(ListResponse<TransactionModel>), 200)]
+        [ProducesResponseType(typeof(ListResponse<TransactionDto>), 200)]
         public async Task<IActionResult> GetMyTransactions([FromQuery] TransactionFilter filter)
         {
             var response = await service.GetAllByUserAsync("mock", filter);
-            return Ok(new ListResponse<TransactionModel>(response.Data));
+            return Ok(new ListResponse<TransactionDto>(response.Data));
         }
 
         /// <summary>
@@ -30,9 +31,9 @@ namespace FinancialHub.Core.WebApi.Controllers
         /// </summary>
         /// <param name="category">Transaction to be created</param>
         [HttpPost]
-        [ProducesResponseType(typeof(SaveResponse<TransactionModel>), 200)]
+        [ProducesResponseType(typeof(SaveResponse<TransactionDto>), 200)]
         [ProducesResponseType(typeof(ValidationErrorResponse), 400)]
-        public async Task<IActionResult> CreateTransaction([FromBody] TransactionModel transaction)
+        public async Task<IActionResult> CreateTransaction([FromBody] CreateTransactionDto transaction)
         {
             var result = await this.service.CreateAsync(transaction);
 
@@ -44,7 +45,7 @@ namespace FinancialHub.Core.WebApi.Controllers
                  );
             }
 
-            return Ok(new SaveResponse<TransactionModel>(result.Data));
+            return Ok(new SaveResponse<TransactionDto>(result.Data));
         }
 
         /// <summary>
@@ -55,9 +56,9 @@ namespace FinancialHub.Core.WebApi.Controllers
         [NonAction]
         [Obsolete("Disabled endpoint")]
         [HttpPut("{id}")]
-        [ProducesResponseType(typeof(SaveResponse<TransactionModel>), 200)]
+        [ProducesResponseType(typeof(SaveResponse<TransactionDto>), 200)]
         [ProducesResponseType(typeof(ValidationErrorResponse), 400)]
-        public async Task<IActionResult> UpdateTransaction([FromRoute] Guid id, [FromBody] TransactionModel transaction)
+        public async Task<IActionResult> UpdateTransaction([FromRoute] Guid id, [FromBody] UpdateTransactionDto transaction)
         {
             var result = await this.service.UpdateAsync(id, transaction);
 
@@ -69,7 +70,7 @@ namespace FinancialHub.Core.WebApi.Controllers
                  );
             }
 
-            return Ok(new SaveResponse<TransactionModel>(result.Data));
+            return Ok(new SaveResponse<TransactionDto>(result.Data));
         }
 
         /// <summary>

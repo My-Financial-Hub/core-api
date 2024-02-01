@@ -123,33 +123,34 @@ namespace FinancialHub.Core.Application.Services
 
         public async Task<ServiceResult<TransactionModel>> UpdateTransactionAsync(Guid id, TransactionModel transaction)
         {
-            var oldTransactionResult = await transactionsService.GetByIdAsync(id);
-
-            var transactionResult = await transactionsService.UpdateAsync(id, transaction);
-            if (transactionResult.HasError)
-            {
-                return transactionResult;
-            }
-
-            var oldTransaction = oldTransactionResult.Data!;
-            var newTransaction = transactionResult.Data!;
-            var balanceResult = await balancesService.GetByIdAsync(newTransaction.BalanceId);
-
-            if (newTransaction.BalanceId == oldTransaction.BalanceId)
-            {
-                //oldTransaction.Balance = balanceResult.Data;
-                //newTransaction.Balance = balanceResult.Data;
-            }
-            else
-            {
-                //var oldBalanceResult = await balancesService.GetByIdAsync(oldTransaction.BalanceId);
-                
-                //oldTransaction.Balance = oldBalanceResult.Data;
-                //newTransaction.Balance = balanceResult.Data;
-            }
-            await this.UpdateAmountAsync(oldTransaction, newTransaction);
-
-            return transactionResult;
+            return transaction;
+            //var oldTransactionResult = await transactionsService.GetByIdAsync(id);
+            //
+            //var transactionResult = await transactionsService.UpdateAsync(id, transaction);
+            //if (transactionResult.HasError)
+            //{
+            //    return transactionResult;
+            //}
+            //
+            //var oldTransaction = oldTransactionResult.Data!;
+            //var newTransaction = transactionResult.Data!;
+            //var balanceResult = await balancesService.GetByIdAsync(newTransaction.BalanceId);
+            //
+            //if (newTransaction.BalanceId == oldTransaction.BalanceId)
+            //{
+            //    oldTransaction.Balance = balanceResult.Data;
+            //    newTransaction.Balance = balanceResult.Data;
+            //}
+            //else
+            //{
+            //    var oldBalanceResult = await balancesService.GetByIdAsync(oldTransaction.BalanceId);
+            //    
+            //    oldTransaction.Balance = oldBalanceResult.Data;
+            //    newTransaction.Balance = balanceResult.Data;
+            //}
+            //await this.UpdateAmountAsync(oldTransaction, newTransaction);
+            //
+            //return transactionResult;
         }
     }
 }
