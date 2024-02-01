@@ -1,4 +1,6 @@
-﻿namespace FinancialHub.Core.WebApi.Controllers
+﻿using FinancialHub.Core.Domain.DTOS.Balances;
+
+namespace FinancialHub.Core.WebApi.Controllers
 {
     [ApiController]
     [Route("[controller]")]
@@ -14,9 +16,9 @@
         }
 
         [HttpPost]
-        [ProducesResponseType(typeof(SaveResponse<BalanceModel>), 200)]
+        [ProducesResponseType(typeof(SaveResponse<BalanceDto>), 200)]
         [ProducesResponseType(typeof(ValidationErrorResponse), 400)]
-        public async Task<IActionResult> CreateBalance([FromBody] BalanceModel balance)
+        public async Task<IActionResult> CreateBalance([FromBody] CreateBalanceDto balance)
         {
             var result = await this.service.CreateAsync(balance);
 
@@ -28,14 +30,14 @@
                  );
             }
 
-            return Ok(new SaveResponse<BalanceModel>(result.Data));
+            return Ok(new SaveResponse<BalanceDto>(result.Data));
         }
 
         [HttpPut("{id}")]
-        [ProducesResponseType(typeof(SaveResponse<AccountModel>), 200)]
+        [ProducesResponseType(typeof(SaveResponse<BalanceDto>), 200)]
         [ProducesResponseType(typeof(NotFoundErrorResponse), 404)]
         [ProducesResponseType(typeof(ValidationErrorResponse), 400)]
-        public async Task<IActionResult> UpdateBalance([FromRoute] Guid id, [FromBody] BalanceModel balance)
+        public async Task<IActionResult> UpdateBalance([FromRoute] Guid id, [FromBody] UpdateBalanceDto balance)
         {
             var response = await this.service.UpdateAsync(id, balance);
 
@@ -47,9 +49,11 @@
                  );
             }
 
-            return Ok(new SaveResponse<BalanceModel>(response.Data));
+            return Ok(new SaveResponse<BalanceDto>(response.Data));
         }
+
         [HttpDelete("{id}")]
+        [ProducesResponseType(204)]
         public async Task<IActionResult> DeleteBalance([FromRoute] Guid id)
         {
             await this.service.DeleteAsync(id);

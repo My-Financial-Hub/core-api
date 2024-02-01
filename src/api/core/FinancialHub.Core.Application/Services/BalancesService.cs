@@ -1,4 +1,6 @@
-﻿using FinancialHub.Core.Domain.Interfaces.Resources;
+﻿using AutoMapper;
+using FinancialHub.Core.Domain.DTOS.Balances;
+using FinancialHub.Core.Domain.Interfaces.Resources;
 
 namespace FinancialHub.Core.Application.Services
 {
@@ -7,7 +9,9 @@ namespace FinancialHub.Core.Application.Services
         private readonly IAccountsProvider accountsProvider;
         private readonly IBalancesProvider balancesProvider;
         private readonly IErrorMessageProvider errorMessageProvider;
+        private readonly IMapper mapper;
 
+        [Obsolete("Use the mapper constructor")]
         public BalancesService(
             IBalancesProvider balancesProvider,
             IAccountsProvider accountsProvider,
@@ -17,6 +21,19 @@ namespace FinancialHub.Core.Application.Services
             this.balancesProvider = balancesProvider;
             this.accountsProvider = accountsProvider;
             this.errorMessageProvider = errorMessageProvider;
+        }
+
+        public BalancesService(
+            IBalancesProvider balancesProvider,
+            IAccountsProvider accountsProvider,
+            IErrorMessageProvider errorMessageProvider,
+            IMapper mapper
+        )
+        {
+            this.balancesProvider = balancesProvider;
+            this.accountsProvider = accountsProvider;
+            this.errorMessageProvider = errorMessageProvider;
+            this.mapper = mapper;
         }
 
         private async Task<ServiceResult> ValidateAccountAsync(Guid accountId)
@@ -33,13 +50,17 @@ namespace FinancialHub.Core.Application.Services
             return new ServiceResult();
         }
 
-        public async Task<ServiceResult<BalanceModel>> CreateAsync(BalanceModel balance)
+        public async Task<ServiceResult<BalanceDto>> CreateAsync(CreateBalanceDto balance)
         {
             var validationResult = await this.ValidateAccountAsync(balance.AccountId);
             if (validationResult.HasError)
                 return validationResult.Error;
 
-            return await this.balancesProvider.CreateAsync(balance);
+            var balanceModel = this.mapper.Map<BalanceModel>(balance);
+
+            var createdBalance = await this.balancesProvider.CreateAsync(balanceModel);
+
+            return this.mapper.Map<BalanceDto>(createdBalance);
         }
 
         public async Task<ServiceResult<int>> DeleteAsync(Guid id)
@@ -47,7 +68,7 @@ namespace FinancialHub.Core.Application.Services
             return await this.balancesProvider.DeleteAsync(id);
         }
 
-        public async Task<ServiceResult<BalanceModel>> GetByIdAsync(Guid id)
+        public async Task<ServiceResult<BalanceDto>> GetByIdAsync(Guid id)
         {
             var balance = await this.balancesProvider.GetByIdAsync(id);
             if (balance == null)
@@ -57,10 +78,10 @@ namespace FinancialHub.Core.Application.Services
                 );
             }
 
-            return balance;
+            return this.mapper.Map<BalanceDto>(balance);
         }
 
-        public async Task<ServiceResult<ICollection<BalanceModel>>> GetAllByAccountAsync(Guid accountId)
+        public async Task<ServiceResult<ICollection<BalanceDto>>> GetAllByAccountAsync(Guid accountId)
         {
             var validationResult = await this.ValidateAccountAsync(accountId);
             if (validationResult.HasError)
@@ -70,10 +91,10 @@ namespace FinancialHub.Core.Application.Services
 
             var accounts = await this.balancesProvider.GetAllByAccountAsync(accountId);
 
-            return accounts.ToArray();
+            return this.mapper.Map<ICollection<BalanceDto>>(accounts).ToArray();
         }
 
-        public async Task<ServiceResult<BalanceModel>> UpdateAsync(Guid id, BalanceModel balance)
+        public async Task<ServiceResult<BalanceDto>> UpdateAsync(Guid id, UpdateBalanceDto balance)
         {
             var oldBalance = await this.GetByIdAsync(id);
             if (oldBalance.HasError)
@@ -87,7 +108,11 @@ namespace FinancialHub.Core.Application.Services
                 return validationResult.Error;
             }
 
-            return await this.balancesProvider.UpdateAsync(id, balance);
+            var balanceModel = this.mapper.Map<BalanceModel>(balance);
+
+            var updatedBalance = await this.balancesProvider.UpdateAsync(id, balanceModel);
+
+            return this.mapper.Map<BalanceDto>(updatedBalance);
         }
 
         public async Task<ServiceResult<BalanceModel>> UpdateAmountAsync(Guid id, decimal newAmount)

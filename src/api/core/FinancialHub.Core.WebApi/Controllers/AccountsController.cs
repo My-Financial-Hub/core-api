@@ -1,4 +1,5 @@
 ﻿using FinancialHub.Core.Domain.DTOS.Accounts;
+using FinancialHub.Core.Domain.DTOS.Balances;
 
 namespace FinancialHub.Core.WebApi.Controllers
 {
@@ -22,12 +23,12 @@ namespace FinancialHub.Core.WebApi.Controllers
         /// </summary>
         /// <param name="accountId">id of the account</param>
         [HttpGet("{accountId}/balances")]
-        [ProducesResponseType(typeof(ListResponse<BalanceModel>), 200)]
+        [ProducesResponseType(typeof(ListResponse<BalanceDto>), 200)]
         public async Task<IActionResult> GetAccountBalances([FromRoute] Guid accountId)
         {
             var result = await this.balanceService.GetAllByAccountAsync(accountId);
 
-            return Ok(new ListResponse<BalanceModel>(result.Data));
+            return Ok(new ListResponse<BalanceDto>(result.Data));
         }
 
         /// <summary>
