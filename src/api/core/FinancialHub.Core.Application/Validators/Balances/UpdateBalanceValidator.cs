@@ -16,7 +16,11 @@ namespace FinancialHub.Core.Application.Validators.Balances
 
             RuleFor(x => x.Currency)
                 .Length(0, 50)
-                .WithMessage(errorMessageProvider.ExceedMaxLength);
+                .WithMessage(errorMessageProvider.ExceedMaxLength); 
+
+            RuleFor(x => x.AccountId)
+                .NotEmpty()
+                .WithMessage(errorMessageProvider.Required);
         }
     }
 }

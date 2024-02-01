@@ -1,14 +1,15 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using FinancialHub.Core.Application.Services;
-using FinancialHub.Core.Application.Validators;
 using FluentValidation;
 using FinancialHub.Core.Domain.DTOS.Accounts;
-using FinancialHub.Core.Application.Validators.Accounts;
-using FinancialHub.Core.Application.Mappers;
 using FinancialHub.Core.Domain.DTOS.Categories;
-using FinancialHub.Core.Application.Validators.Categories;
 using FinancialHub.Core.Domain.DTOS.Balances;
+using FinancialHub.Core.Domain.DTOS.Transactions;
+using FinancialHub.Core.Application.Mappers;
+using FinancialHub.Core.Application.Validators.Accounts;
 using FinancialHub.Core.Application.Validators.Balances;
+using FinancialHub.Core.Application.Validators.Categories;
+using FinancialHub.Core.Application.Validators.Transactions;
 
 namespace FinancialHub.Core.Application.Extensions.Configurations
 {
@@ -41,7 +42,10 @@ namespace FinancialHub.Core.Application.Extensions.Configurations
         {
             services.AddScoped<ITransactionsService, TransactionsService>();
 
-            services.AddScoped<IValidator<TransactionModel>, TransactionValidator>();
+            services.AddAutoMapper(typeof(TransactionMapper));
+
+            services.AddScoped<IValidator<CreateTransactionDto>, CreateTransactionValidator>();
+            services.AddScoped<IValidator<UpdateTransactionDto>, UpdateTransactionValidator>();
 
             return services;
         }
