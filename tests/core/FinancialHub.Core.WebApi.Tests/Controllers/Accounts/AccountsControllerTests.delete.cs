@@ -6,8 +6,7 @@
         [TestCase(Description = "Delete Account returns NoContent", Category = "Delete")]
         public async Task DeleteMyAccounts_ServiceSuccess_ReturnsNoContent()
         {
-            var mock = this.accountModelBuilder.Generate();
-            var response = await this.controller.DeleteAccount(mock.Id.GetValueOrDefault());
+            var response = await this.controller.DeleteAccount(Guid.NewGuid());
 
             var result = response as ObjectResult;
 
