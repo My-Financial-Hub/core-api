@@ -1,12 +1,17 @@
-﻿namespace FinancialHub.Core.WebApi.Tests.Controllers
+﻿using FinancialHub.Core.Domain.DTOS.Balances;
+
+namespace FinancialHub.Core.WebApi.Tests.Controllers
 {
     public partial class BalancesControllerTests
     {
         [Test]
         public async Task CreateBalance_ServiceSuccess_ReturnsOk()
         {
-            var body = this.balanceModelBuilder.Generate();
-            var mockResult = new ServiceResult<BalanceModel>(body);
+            var body = this.createBalanceDtoBuilder.Generate();
+            var balanceResult = this.balanceDtoBuilder
+                .FromCreateDto(body)
+                .Generate();
+            var mockResult = new ServiceResult<BalanceDto>(balanceResult);
 
             this.mockService
                 .Setup(x => x.CreateAsync(body))
@@ -18,9 +23,9 @@
             var result = response as ObjectResult;
 
             Assert.AreEqual(200, result?.StatusCode);
-            Assert.IsInstanceOf<SaveResponse<BalanceModel>>(result?.Value);
+            Assert.IsInstanceOf<SaveResponse<BalanceDto>>(result?.Value);
 
-            var listResponse = result?.Value as SaveResponse<BalanceModel>;
+            var listResponse = result?.Value as SaveResponse<BalanceDto>;
             Assert.AreEqual(mockResult.Data, listResponse?.Data);
 
             this.mockService.Verify(x => x.CreateAsync(body), Times.Once);
@@ -31,9 +36,11 @@
         public async Task CreateBalance_ServiceError_ReturnsBadRequest()
         {
             var errorMessage = $"Invalid thing : {Guid.NewGuid()}";
-            var body = this.balanceModelBuilder.Generate();
-
-            var mockResult = new ServiceResult<BalanceModel>(body, new InvalidDataError(errorMessage));
+            var body = this.createBalanceDtoBuilder.Generate();
+            var balanceResult = this.balanceDtoBuilder
+                .FromCreateDto(body)
+                .Generate();
+            var mockResult = new ServiceResult<BalanceDto>(balanceResult, new InvalidDataError(errorMessage));
 
             this.mockService
                 .Setup(x => x.CreateAsync(body))

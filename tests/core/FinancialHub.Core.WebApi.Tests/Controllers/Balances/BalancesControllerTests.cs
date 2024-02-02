@@ -1,13 +1,14 @@
 ﻿using FinancialHub.Core.WebApi.Controllers;
 using FinancialHub.Core.Domain.Interfaces.Services;
+using FinancialHub.Core.Domain.Tests.Builders.DTOS.Balances;
 
 namespace FinancialHub.Core.WebApi.Tests.Controllers
 {
     public partial class BalancesControllerTests
     {
-        private Random random;
-
-        private BalanceModelBuilder balanceModelBuilder;
+        private BalanceDtoBuilder balanceDtoBuilder;
+        private CreateBalanceDtoBuilder createBalanceDtoBuilder;
+        private UpdateBalanceDtoBuilder updateBalanceDtoBuilder;
 
         private BalancesController controller;
         private Mock<IBalancesService> mockService;
@@ -15,9 +16,9 @@ namespace FinancialHub.Core.WebApi.Tests.Controllers
         [SetUp]
         public void Setup()
         {
-            this.random = new Random();
-
-            this.balanceModelBuilder = new BalanceModelBuilder();
+            this.balanceDtoBuilder = new BalanceDtoBuilder();
+            this.createBalanceDtoBuilder = new CreateBalanceDtoBuilder();
+            this.updateBalanceDtoBuilder = new UpdateBalanceDtoBuilder();
 
             this.mockService = new Mock<IBalancesService>();
             this.controller = new BalancesController(this.mockService.Object);
