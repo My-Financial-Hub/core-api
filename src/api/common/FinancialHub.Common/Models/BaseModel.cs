@@ -1,8 +1,8 @@
 ﻿namespace FinancialHub.Common.Models
 {
-    public abstract record class BaseModel
+    public abstract class BaseModel
     {
-        public Guid? Id { get; private set; }
+        public Guid? Id { get; set; }
 
         protected BaseModel() { }
 

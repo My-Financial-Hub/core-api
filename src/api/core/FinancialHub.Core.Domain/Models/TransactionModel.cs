@@ -3,7 +3,7 @@ using FinancialHub.Core.Domain.Enums;
 
 namespace FinancialHub.Core.Domain.Models
 {
-    public record class TransactionModel : BaseModel
+    public class TransactionModel : BaseModel
     {
         public string Description { get; private set; }
         public decimal Amount { get; private set; }

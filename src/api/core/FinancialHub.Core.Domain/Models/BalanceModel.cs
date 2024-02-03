@@ -1,6 +1,6 @@
 ﻿namespace FinancialHub.Core.Domain.Models
 {
-    public record class BalanceModel : BaseModel
+    public class BalanceModel : BaseModel
     {
         public string Name { get; set; }
         public string Currency { get; set; }

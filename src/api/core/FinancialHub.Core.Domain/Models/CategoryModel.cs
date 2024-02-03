@@ -1,6 +1,6 @@
 ﻿namespace FinancialHub.Core.Domain.Models
 {
-    public record class CategoryModel : BaseModel
+    public class CategoryModel : BaseModel
     {
         public string Name { get; private set; }
         public string Description { get; private set; }
