@@ -6,8 +6,7 @@
         [TestCase(Description = "Delete Transaction Returns NoContent", Category = "Delete")]
         public async Task DeleteMyTransactions_ServiceSuccess_ReturnsNoContent()
         {
-            var mock = this.transactionModelBuilder.Generate();
-            var response = await this.controller.DeleteTransaction(mock.Id.GetValueOrDefault());
+            var response = await this.controller.DeleteTransaction(Guid.NewGuid());
 
             var result = response as ObjectResult;
 

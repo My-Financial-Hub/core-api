@@ -5,8 +5,7 @@
         [Test]
         public async Task DeleteMyBalances_ServiceSuccess_ReturnsNoContent()
         {
-            var mock = this.balanceDtoBuilder.Generate();
-            var response = await this.controller.DeleteBalance(mock.Id.GetValueOrDefault());
+            var response = await this.controller.DeleteBalance(Guid.NewGuid());
 
             var result = response as ObjectResult;
 

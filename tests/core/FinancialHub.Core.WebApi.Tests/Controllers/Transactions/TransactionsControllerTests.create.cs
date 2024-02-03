@@ -1,4 +1,6 @@
-﻿namespace FinancialHub.Core.WebApi.Tests.Controllers
+﻿using FinancialHub.Core.Domain.DTOS.Transactions;
+
+namespace FinancialHub.Core.WebApi.Tests.Controllers
 {
     public partial class TransactionsControllerTests
     {
@@ -6,8 +8,12 @@
         [TestCase(Description = "Create valid transaction Return Ok", Category = "Create")]
         public async Task CreateTransaction_Valid_ReturnsOk()
         {
-            var body = this.transactionModelBuilder.Generate();
-            var mockResult = new ServiceResult<TransactionModel>(body);
+            var body = this.createTransactionDtoBuilder.Generate();
+            var serviceResult = this
+                .transactionDtoBuilder
+                .FromCreateDto(body)
+                .Generate();
+            var mockResult = new ServiceResult<TransactionDto>(serviceResult);
 
             this.mockService
                 .Setup(x => x.CreateAsync(body))
@@ -19,9 +25,9 @@
             var result = response as ObjectResult;
 
             Assert.AreEqual(200, result?.StatusCode);
-            Assert.IsInstanceOf<SaveResponse<TransactionModel>>(result?.Value);
+            Assert.IsInstanceOf<SaveResponse<TransactionDto>>(result?.Value);
 
-            var listResponse = result?.Value as SaveResponse<TransactionModel>;
+            var listResponse = result?.Value as SaveResponse<TransactionDto>;
             Assert.AreEqual(mockResult.Data, listResponse?.Data);
 
             this.mockService.Verify(x => x.CreateAsync(body), Times.Once);
@@ -32,9 +38,12 @@
         public async Task CreateTransaction_Invalid_ReturnsBadRequest()
         {
             var errorMessage = $"Invalid thing : {Guid.NewGuid()}";
-            var body = this.transactionModelBuilder.Generate();
-
-            var mockResult = new ServiceResult<TransactionModel>(body, new InvalidDataError(errorMessage));
+            var body = this.createTransactionDtoBuilder.Generate();
+            var serviceResult = this
+                .transactionDtoBuilder
+                .FromCreateDto(body)
+                .Generate();
+            var mockResult = new ServiceResult<TransactionDto>(serviceResult, new InvalidDataError(errorMessage));
 
             this.mockService
                 .Setup(x => x.CreateAsync(body))

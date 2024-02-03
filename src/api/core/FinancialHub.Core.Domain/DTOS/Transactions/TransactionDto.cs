@@ -15,7 +15,13 @@ namespace FinancialHub.Core.Domain.DTOS.Transactions
 
         public TransactionCategoryDto Category { get; private set; }
 
+        public bool IsActive { get; private set; }
         public TransactionStatus Status { get; private set; }
         public TransactionType Type { get; private set; }
+
+        public TransactionDto()
+        {
+
+        }
     }
 }
