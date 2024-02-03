@@ -1,7 +1,6 @@
 ﻿using Bogus;
 using FinancialHub.Core.Domain.DTOS.Transactions;
 using FinancialHub.Core.Domain.Enums;
-using FinancialHub.Core.Domain.Tests.Builders.Models;
 
 namespace FinancialHub.Core.Domain.Tests.Builders.DTOS.Transactions
 {
@@ -9,19 +8,13 @@ namespace FinancialHub.Core.Domain.Tests.Builders.DTOS.Transactions
     {
         public CreateTransactionDtoBuilder() : base()
         {
-            var balance = new BalanceModelBuilder().Generate();
-            var category = new CategoryModelBuilder().Generate();
-
             this.RuleFor(x => x.Amount, fake => decimal.Round(fake.Random.Decimal(0, 10000), 2));
             this.RuleFor(x => x.Description, fake => fake.Lorem.Sentences(5));
             this.RuleFor(x => x.IsActive, fake => fake.System.Random.Bool());
             this.RuleFor(x => x.Type, fake => fake.PickRandom<TransactionType>());
             this.RuleFor(x => x.Status, fake => fake.PickRandom<TransactionStatus>());
-
-            this.RuleFor(x => x.BalanceId, fake => balance.Id);
-
-            this.RuleFor(x => x.CategoryId, fake => category.Id);
-
+            this.RuleFor(x => x.BalanceId, fake => fake.Random.Uuid());
+            this.RuleFor(x => x.CategoryId, fake => fake.Random.Uuid());
         }
 
         public CreateTransactionDtoBuilder WithDescription(string description)
