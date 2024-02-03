@@ -6,6 +6,11 @@
         public string Description { get; private set; }
         public bool IsActive { get; private set; }
 
+        public UpdateCategoryDto()
+        {
+            
+        }
+
         public UpdateCategoryDto(string name, string description, bool isActive)
         {
             Name = name;

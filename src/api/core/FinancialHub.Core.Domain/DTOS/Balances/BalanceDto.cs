@@ -8,5 +8,9 @@
         public decimal Amount { get; set; }
         public bool IsActive { get; private set; }
         public BalanceAccountDto Account { get; private set; }
+        public BalanceDto()
+        {
+            
+        }
     }
 }

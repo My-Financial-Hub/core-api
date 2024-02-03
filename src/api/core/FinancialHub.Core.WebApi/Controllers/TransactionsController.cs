@@ -53,7 +53,6 @@ namespace FinancialHub.Core.WebApi.Controllers
         /// </summary>
         /// <param name="id">id of the transaction</param>
         /// <param name="transaction">transaction changes</param>
-        [NonAction]
         [Obsolete("Disabled endpoint")]
         [HttpPut("{id}")]
         [ProducesResponseType(typeof(SaveResponse<TransactionDto>), 200)]

@@ -7,6 +7,11 @@
         public Guid AccountId { get; private set; }
         public bool IsActive { get; private set; }
 
+        public UpdateBalanceDto()
+        {
+            
+        }
+
         public UpdateBalanceDto(string name, string currency, Guid accountId, bool isActive)
         {
             Name = name;

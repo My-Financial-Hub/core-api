@@ -7,5 +7,9 @@
         public string Description { get; private set; }
         public bool IsActive { get; private set; }
         public List<AccountBalanceDto> Balances { get; private set; }
+        public AccountDto()
+        {
+            
+        }
     }
 }

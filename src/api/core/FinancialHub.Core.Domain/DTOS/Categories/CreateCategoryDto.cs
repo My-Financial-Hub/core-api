@@ -6,6 +6,11 @@
         public string Description { get; private set; }
         public bool IsActive { get; private set; }
 
+        public CreateCategoryDto()
+        {
+            
+        }
+
         public CreateCategoryDto(string name, string description, bool isActive)
         {
             Name = name;
