@@ -2,14 +2,10 @@
 {
     public class AccountDto
     {
-        public Guid Id { get; private set; }
-        public string Name { get; private set; }
-        public string Description { get; private set; }
-        public bool IsActive { get; private set; }
-        public List<AccountBalanceDto> Balances { get; private set; }
-        public AccountDto()
-        {
-            
-        }
+        public Guid Id { get; init; }
+        public string Name { get; init; }
+        public string Description { get; init; }
+        public bool IsActive { get; init; }
+        public List<AccountBalanceDto> Balances { get; init; }
     }
 }

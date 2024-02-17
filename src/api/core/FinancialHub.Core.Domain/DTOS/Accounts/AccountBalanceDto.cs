@@ -2,13 +2,9 @@
 {
     public class AccountBalanceDto
     {
-        public string Name { get; private set; }
-        public string Currency { get; private set; }
-        public decimal Amount { get; private set; }
-        public bool IsActive { get; private set; }
-        public AccountBalanceDto()
-        {
-            
-        }
+        public string Name { get; init; }
+        public string Currency { get; init; }
+        public decimal Amount { get; init; }
+        public bool IsActive { get; init; }
     }
 }
