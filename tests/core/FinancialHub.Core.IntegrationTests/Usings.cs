@@ -18,14 +18,9 @@ global using FinancialHub.Common.Entities;
 global using FinancialHub.Common.Responses.Success;
 global using FinancialHub.Common.Responses.Errors;
 
-// Common Builders namespaces
-global using FinancialHub.Common.Tests.Builders.Models;
-global using FinancialHub.Common.Tests.Builders.Entities;
-
 // Domain namespaces
 global using FinancialHub.Core.Domain.Models;
 global using FinancialHub.Core.Domain.Entities;
-global using FinancialHub.Core.Domain.DTOS.Accounts;
 
 // Domain Builders namespaces
 global using FinancialHub.Core.Domain.Tests.Builders.Models;

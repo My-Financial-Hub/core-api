@@ -24,9 +24,18 @@ namespace FinancialHub.Core.WebApi.Controllers
         /// <param name="accountId">id of the account</param>
         [HttpGet("{accountId}/balances")]
         [ProducesResponseType(typeof(ListResponse<BalanceDto>), 200)]
+        [ProducesResponseType(typeof(NotFoundErrorResponse), 404)]
         public async Task<IActionResult> GetAccountBalances([FromRoute] Guid accountId)
         {
             var result = await this.balanceService.GetAllByAccountAsync(accountId);
+
+            if (result.HasError)
+            {
+                return StatusCode(
+                    result.Error.Code,
+                    new NotFoundErrorResponse(result.Error.Message)
+                 );
+            }
 
             return Ok(new ListResponse<BalanceDto>(result.Data));
         }

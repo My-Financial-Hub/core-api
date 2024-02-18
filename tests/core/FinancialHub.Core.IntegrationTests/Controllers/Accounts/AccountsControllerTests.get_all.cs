@@ -1,13 +1,13 @@
 ﻿using FinancialHub.Core.Domain.DTOS.Accounts;
 
-namespace FinancialHub.Core.IntegrationTests.Controllers.Accounts
+namespace FinancialHub.Core.IntegrationTests.Controllers
 {
     public partial class AccountsControllerTests
     {
         [Test]
         public async Task GetAll_ReturnAccounts()
         {
-            var data = entityBuilder.Generate(10);
+            var data = accountBuilder.Generate(10);
             fixture.AddData(data.ToArray());
 
             var response = await client.GetAsync(baseEndpoint);

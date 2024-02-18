@@ -1,11 +1,8 @@
-using FinancialHub.Core.Domain.DTOS.Balances;
-
-namespace FinancialHub.Core.IntegrationTests.Controllers.Accounts
+namespace FinancialHub.Core.IntegrationTests.Controllers
 {
     public partial class AccountsControllerTests : BaseControllerTests
     {
-        private AccountEntityBuilder entityBuilder;
-        private AccountModelBuilder modelBuilder;
+        private AccountEntityBuilder accountBuilder;
         private BalanceEntityBuilder balanceBuilder;
         private TransactionEntityBuilder transactionBuilder;
 
@@ -16,10 +13,11 @@ namespace FinancialHub.Core.IntegrationTests.Controllers.Accounts
 
         public override void SetUp()
         {
-            modelBuilder = new AccountModelBuilder();
-            entityBuilder = new AccountEntityBuilder();
+            accountBuilder = new AccountEntityBuilder();
             balanceBuilder = new BalanceEntityBuilder();
             transactionBuilder = new TransactionEntityBuilder();
+            AddCreateAccountBuilder();
+            AddUpdateAccountBuilder();
             base.SetUp();
         }
 
@@ -34,7 +32,7 @@ namespace FinancialHub.Core.IntegrationTests.Controllers.Accounts
 
         protected void Populate(int amount = 10)
         {
-            var account = entityBuilder.Generate();
+            var account = accountBuilder.Generate();
             var data = balanceBuilder.WithAccountId(account.Id).Generate(amount);
             fixture.AddData(account);
             fixture.AddData(data.ToArray());

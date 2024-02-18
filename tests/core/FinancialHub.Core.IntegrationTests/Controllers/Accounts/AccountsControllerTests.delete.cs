@@ -1,4 +1,4 @@
-﻿namespace FinancialHub.Core.IntegrationTests.Controllers.Accounts
+﻿namespace FinancialHub.Core.IntegrationTests.Controllers
 {
     public partial class AccountsControllerTests
     {
@@ -7,7 +7,7 @@
         {
             var id = Guid.NewGuid();
 
-            var data = entityBuilder.WithId(id).Generate();
+            var data = accountBuilder.WithId(id).Generate();
             fixture.AddData(data);
 
             var response = await client.DeleteAsync($"{baseEndpoint}/{id}");
@@ -19,7 +19,7 @@
         {
             var id = Guid.NewGuid();
 
-            var data = entityBuilder.WithId(id).Generate();
+            var data = accountBuilder.WithId(id).Generate();
             fixture.AddData(data);
 
             await client.DeleteAsync($"{baseEndpoint}/{id}");
@@ -32,7 +32,7 @@
         {
             var id = Guid.NewGuid();
 
-            var data = entityBuilder.WithId(id).Generate();
+            var data = accountBuilder.WithId(id).Generate();
             fixture.AddData(data);
             fixture.AddData(balanceBuilder.WithAccountId(id).Generate());
 
@@ -47,7 +47,7 @@
         {
             var id = Guid.NewGuid();
 
-            var data = entityBuilder.WithId(id).Generate();
+            var data = accountBuilder.WithId(id).Generate();
             fixture.AddData(data);
 
             var balance = balanceBuilder.WithAccountId(id).Generate();
