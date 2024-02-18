@@ -9,9 +9,9 @@ namespace FinancialHub.Core.IntegrationTests.Extensions
         {
             try
             {
-                var stream = await response.Content.ReadAsStreamAsync();
+                var json = await response.Content.ReadAsStringAsync();
 
-                return await JsonSerializer.DeserializeAsync<T>(stream,
+                return JsonSerializer.Deserialize<T>(json,
                     new JsonSerializerOptions()
                     {
                         PropertyNameCaseInsensitive = true
