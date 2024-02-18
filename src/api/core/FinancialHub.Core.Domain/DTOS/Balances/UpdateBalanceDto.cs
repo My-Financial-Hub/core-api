@@ -4,8 +4,8 @@
     {
         public string Name { get; set; }
         public string Currency { get; set; }
-        public Guid AccountId { get; private set; }
-        public bool IsActive { get; private set; }
+        public Guid AccountId { get; set; }
+        public bool IsActive { get; set; }
 
         public UpdateBalanceDto()
         {

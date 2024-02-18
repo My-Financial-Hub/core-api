@@ -89,9 +89,9 @@ namespace FinancialHub.Core.Application.Services
                 return validationResult.Error;
             }
 
-            var accounts = await this.balancesProvider.GetAllByAccountAsync(accountId);
+            var balances = await this.balancesProvider.GetAllByAccountAsync(accountId);
 
-            return this.mapper.Map<ICollection<BalanceDto>>(accounts).ToArray();
+            return this.mapper.Map<ICollection<BalanceDto>>(balances).ToArray();
         }
 
         public async Task<ServiceResult<BalanceDto>> UpdateAsync(Guid id, UpdateBalanceDto balance)
