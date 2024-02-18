@@ -12,7 +12,7 @@ namespace FinancialHub.Core.IntegrationTests.Controllers
         }
 
         [Test]
-        public async Task Post_ValidAccount_ReturnCreatedAccount()
+        public async Task Post_ValidAccount_ReturnsCreatedAccount()
         {
             var data = createAccountDtoBuilder.Generate();
 
@@ -28,7 +28,27 @@ namespace FinancialHub.Core.IntegrationTests.Controllers
         }
 
         [Test]
-        public async Task Post_ValidAccount_CreateAccount()
+        public async Task Post_ValidAccount_ReturnsCreatedAccountId()
+        {
+            var data = createAccountDtoBuilder.Generate();
+
+            var response = await client.PostAsync(baseEndpoint, data);
+            Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
+
+            var result = await response.ReadContentAsync<SaveResponse<AccountDto>>();
+            var account = fixture
+                .GetData<AccountEntity>()
+                .First(
+                    acc =>
+                        acc.Name == data.Name &&
+                        acc.Description == data.Description &&
+                        acc.IsActive == data.IsActive
+                );
+            Assert.AreEqual(account.Id, result?.Data?.Id);
+        }
+
+        [Test]
+        public async Task Post_ValidAccount_CreatesAccount()
         {
             var body = createAccountDtoBuilder.Generate();
 
@@ -46,7 +66,7 @@ namespace FinancialHub.Core.IntegrationTests.Controllers
         }
 
         [Test]
-        public async Task Post_ValidAccount_CreateDefaultBalance()
+        public async Task Post_ValidAccount_CreatesDefaultBalance()
         {
             var body = createAccountDtoBuilder.Generate();
 
