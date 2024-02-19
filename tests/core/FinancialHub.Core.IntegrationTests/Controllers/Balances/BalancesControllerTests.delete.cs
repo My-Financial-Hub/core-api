@@ -7,7 +7,7 @@
         {
             var id = Guid.NewGuid();
 
-            var data = entityBuilder.WithId(id).Generate();
+            var data = balanceBuilder.WithId(id).Generate();
             fixture.AddData(data);
 
             var response = await client.DeleteAsync($"{baseEndpoint}/{id}");
@@ -19,7 +19,7 @@
         {
             var id = Guid.NewGuid();
 
-            var data = entityBuilder.WithId(id).Generate();
+            var data = balanceBuilder.WithId(id).Generate();
             fixture.AddData(data);
 
             await client.DeleteAsync($"{baseEndpoint}/{id}");
@@ -34,7 +34,7 @@
             var account = accountBuilder.WithId(Guid.NewGuid()).Generate();
             fixture.AddData(account);
 
-            var balance = entityBuilder.WithAccountId(account.Id).Generate();
+            var balance = balanceBuilder.WithAccountId(account.Id).Generate();
             fixture.AddData(balance);
 
             var transaction = transactionBuilder.WithBalanceId(balance.Id).Generate();
@@ -52,13 +52,13 @@
             var account = accountBuilder.WithId(Guid.NewGuid()).Generate();
             fixture.AddData(account);
 
-            var balance = entityBuilder.WithAccountId(account.Id).Generate();
+            var balance = balanceBuilder.WithAccountId(account.Id).Generate();
             fixture.AddData(balance);
 
             var transaction = transactionBuilder.WithBalanceId(balance.Id).Generate();
             fixture.AddData(transaction);
 
-            var balance2 = entityBuilder.WithAccountId(account.Id).Generate();
+            var balance2 = balanceBuilder.WithAccountId(account.Id).Generate();
             fixture.AddData(balance2);
 
             var transaction2 = transactionBuilder

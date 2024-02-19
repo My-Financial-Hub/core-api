@@ -1,7 +1,29 @@
-﻿namespace FinancialHub.Core.IntegrationTests.Controllers.Balances
+﻿using FinancialHub.Core.Domain.DTOS.Balances;
+using FinancialHub.Core.Domain.Tests.Builders.DTOS.Balances;
+
+namespace FinancialHub.Core.IntegrationTests.Controllers.Balances
 {
     public partial class BalancesControllerTests
     {
+        private UpdateBalanceDtoBuilder updateBalanceDtoBuilder;
+        protected void AddUpdateBalanceBuilder()
+        {
+            updateBalanceDtoBuilder = new UpdateBalanceDtoBuilder();
+        }
+
+        protected BalanceEntity GetBalance(UpdateBalanceDto balance)
+        {
+            return fixture
+                .GetData<BalanceEntity>()
+                .First(
+                    bal =>
+                        bal.Name == balance.Name &&
+                        bal.Currency == balance.Currency &&
+                        bal.AccountId == balance.AccountId &&
+                        bal.IsActive == balance.IsActive
+                );
+        }
+
         [Test]
         public async Task Put_ExistingBalance_ReturnsUpdatedBalance()
         {
@@ -9,23 +31,51 @@
             fixture.AddData(account);
 
             var id = Guid.NewGuid();
-            var entity = entityBuilder
+            var entity = balanceBuilder
                 .WithAccountId(account.Id)
                 .WithId(id)
                 .Generate();
             fixture.AddData(entity);
 
-            var data = modelBuilder
+            var body = updateBalanceDtoBuilder
+                .WithAccountId(account.Id)
+                .Generate();
+
+            var response = await client.PutAsync($"{baseEndpoint}/{id}", body);
+            Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
+
+            var result = await response.ReadContentAsync<SaveResponse<BalanceDto>>();
+            var resultData = result?.Data;
+            Assert.IsNotNull(resultData);
+            Assert.AreEqual(body.Name, resultData?.Name);
+            Assert.AreEqual(body.Currency, resultData?.Currency);
+            Assert.AreEqual(body.IsActive, resultData?.IsActive);
+        }
+
+        [Test]
+        public async Task Put_ExistingBalance_DoesNotUpdateBalanceAmount()
+        {
+            var account = accountBuilder.Generate();
+            fixture.AddData(account);
+
+            var id = Guid.NewGuid();
+            var entity = balanceBuilder
                 .WithAccountId(account.Id)
                 .WithId(id)
                 .Generate();
+            fixture.AddData(entity);
 
-            var response = await client.PutAsync($"{baseEndpoint}/{id}", data);
+            var body = updateBalanceDtoBuilder
+                .WithAccountId(account.Id)
+                .Generate();
+
+            var response = await client.PutAsync($"{baseEndpoint}/{id}", body);
             Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
 
-            var result = await response.ReadContentAsync<SaveResponse<BalanceModel>>();
-            Assert.IsNotNull(result?.Data);
-            BalanceModelAssert.Equal(data, result!.Data);
+            var result = await response.ReadContentAsync<SaveResponse<BalanceDto>>();
+            var resultData = result?.Data;
+            Assert.IsNotNull(resultData);
+            Assert.AreEqual(entity.Amount, resultData?.Amount);
         }
 
         [Test]
@@ -35,20 +85,19 @@
             fixture.AddData(account);
 
             var id = Guid.NewGuid();
-            var entity = entityBuilder
+            var entity = balanceBuilder
                 .WithAccountId(account.Id)
                 .WithId(id)
                 .Generate();
             fixture.AddData(entity);
 
-            var data = modelBuilder
+            var data = updateBalanceDtoBuilder
                 .WithAccountId(account.Id)
-                .WithId(id)
                 .Generate();
 
             await client.PutAsync($"{baseEndpoint}/{id}", data);
 
-            AssertExists(data);
+            this.GetBalance(data);
         }
 
         [Test]
@@ -58,22 +107,21 @@
             fixture.AddData(account);
 
             var id = Guid.NewGuid();
-            var entity = entityBuilder
+            var entity = balanceBuilder
                 .WithAccountId(account.Id)
                 .WithAmount(0)
                 .WithId(id)
                 .Generate();
             fixture.AddData(entity);
 
-            var data = modelBuilder
+            var data = updateBalanceDtoBuilder
                 .WithAccountId(account.Id)
-                .WithId(id)
                 .Generate();
 
             var response = await client.PutAsync($"{baseEndpoint}/{id}", data);
             Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
 
-            var result = await response.ReadContentAsync<SaveResponse<BalanceModel>>();
+            var result = await response.ReadContentAsync<SaveResponse<BalanceDto>>();
             Assert.Zero(result!.Data.Amount);
         }
 
@@ -83,15 +131,14 @@
             var account = accountBuilder.Generate();
             fixture.AddData(account);
 
-            var entity = entityBuilder
+            var entity = balanceBuilder
                 .WithAccountId(account.Id)
                 .Generate();
             fixture.AddData(entity);
 
             var id = Guid.NewGuid();
-            var data = modelBuilder
+            var data = updateBalanceDtoBuilder
                 .WithAccountId(account.Id)
-                .WithId(id)
                 .Generate();
 
             var response = await client.PutAsync($"{baseEndpoint}/{id}", data);

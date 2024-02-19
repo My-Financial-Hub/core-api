@@ -9,12 +9,13 @@ namespace FinancialHub.Core.IntegrationTests.Extensions
         {
             try
             {
-                var json = await response.Content.ReadAsStringAsync();
+                var stream = await response.Content.ReadAsStreamAsync();
 
-                return JsonSerializer.Deserialize<T>(json,
+                return JsonSerializer.Deserialize<T>(stream,
                     new JsonSerializerOptions()
                     {
-                        PropertyNameCaseInsensitive = true
+                        PropertyNameCaseInsensitive = true,
+                        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
                     }
                 );
             }

@@ -7,8 +7,8 @@ namespace FinancialHub.Core.Application.Mappers
     {
         public BalanceMapper()
         {
-            CreateMap<CreateBalanceDto, AccountModel>();
-            CreateMap<UpdateBalanceDto, AccountModel>();
+            CreateMap<CreateBalanceDto, BalanceModel>();
+            CreateMap<UpdateBalanceDto, BalanceModel>();
 
             CreateMap<AccountModel, BalanceAccountDto>();
             CreateMap<BalanceModel, BalanceDto>();

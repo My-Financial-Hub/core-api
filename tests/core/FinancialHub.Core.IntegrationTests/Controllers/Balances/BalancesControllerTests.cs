@@ -2,8 +2,7 @@
 {
     public partial class BalancesControllerTests : BaseControllerTests
     {
-        private BalanceEntityBuilder entityBuilder;
-        private BalanceModelBuilder modelBuilder;
+        private BalanceEntityBuilder balanceBuilder;
         private AccountEntityBuilder accountBuilder;
         private TransactionEntityBuilder transactionBuilder;
 
@@ -13,10 +12,11 @@
 
         public override void SetUp()
         {
-            entityBuilder = new BalanceEntityBuilder();
-            modelBuilder = new BalanceModelBuilder();
+            balanceBuilder = new BalanceEntityBuilder();
             accountBuilder = new AccountEntityBuilder();
             transactionBuilder = new TransactionEntityBuilder();
+            AddCreateBalanceBuilder();
+            AddUpdateBalanceBuilder();
             base.SetUp();
         }
 
