@@ -2,20 +2,8 @@
 {
     public class CreateCategoryDto
     {
-        public string Name { get; private set; }
-        public string Description { get; private set; }
-        public bool IsActive { get; private set; }
-
-        public CreateCategoryDto()
-        {
-            
-        }
-
-        public CreateCategoryDto(string name, string description, bool isActive)
-        {
-            Name = name;
-            Description = description;
-            IsActive = isActive;
-        }
+        public string Name { get; init; }
+        public string Description { get; init; }
+        public bool IsActive { get; init; }
     }
 }

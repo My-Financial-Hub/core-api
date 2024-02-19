@@ -7,7 +7,7 @@
         {
             var id = Guid.NewGuid();
 
-            var data = dataBuilder.WithId(id).Generate();
+            var data = categoryBuilder.WithId(id).Generate();
             fixture.AddData(data);
 
             var response = await client.DeleteAsync($"{baseEndpoint}/{id}");
@@ -19,7 +19,7 @@
         {
             var id = Guid.NewGuid();
 
-            var data = dataBuilder.WithId(id).Generate();
+            var data = categoryBuilder.WithId(id).Generate();
             fixture.AddData(data);
 
             await client.DeleteAsync($"{baseEndpoint}/{id}");
@@ -33,7 +33,7 @@
         {
             var id = Guid.NewGuid();
 
-            var data = dataBuilder.WithId(id).Generate();
+            var data = categoryBuilder.WithId(id).Generate();
             fixture.AddData(data);
 
             var transactionsData = transactionBuilder

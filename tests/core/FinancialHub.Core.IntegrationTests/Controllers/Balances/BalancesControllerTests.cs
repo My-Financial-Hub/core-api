@@ -19,11 +19,5 @@
             AddUpdateBalanceBuilder();
             base.SetUp();
         }
-
-        protected void AssertExists(BalanceModel expected)
-        {
-            var data = fixture.GetData<BalanceEntity>();
-            BalanceModelAssert.Equal(expected, data.First());
-        }
     }
 }
