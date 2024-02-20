@@ -2,13 +2,9 @@
 {
     public class TransactionBalanceDto
     {
-        public Guid Id { get; private set; }
-        public string Name { get; private set; }
-        public string Currency { get; private set; }
-        public TransactionAccountDto Account { get; private set; }
-        public TransactionBalanceDto()
-        {
-            
-        }
+        public Guid Id { get; init; }
+        public string Name { get; init; }
+        public string Currency { get; init; }
+        public TransactionAccountDto Account { get; init; }
     }
 }

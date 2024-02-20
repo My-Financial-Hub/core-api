@@ -4,37 +4,19 @@ namespace FinancialHub.Core.Domain.DTOS.Transactions
 {
     public class CreateTransactionDto
     {
-        public string Description { get; private set; }
-        public decimal Amount { get; private set; }
+        public string Description { get; init; }
+        public decimal Amount { get; init; }
 
-        public DateTimeOffset TargetDate { get; private set; }
-        public DateTimeOffset FinishDate { get; private set; }
+        public DateTimeOffset TargetDate { get; init; }
+        public DateTimeOffset FinishDate { get; init; }
 
-        public Guid BalanceId { get; private set; }
+        public Guid BalanceId { get; init; }
 
-        public Guid CategoryId { get; private set; }
+        public Guid CategoryId { get; init; }
 
-        public bool IsActive { get; private set; }
+        public bool IsActive { get; init; }
 
-        public TransactionStatus Status { get; private set; }
-        public TransactionType Type { get; private set; }
-
-        public CreateTransactionDto()
-        {
-            
-        }
-
-        public CreateTransactionDto(string description, decimal amount, DateTimeOffset targetDate, DateTimeOffset finishDate, Guid balanceId, Guid categoryId, bool isActive, TransactionStatus status, TransactionType type)
-        {
-            Description = description;
-            Amount = amount;
-            TargetDate = targetDate;
-            FinishDate = finishDate;
-            BalanceId = balanceId;
-            CategoryId = categoryId;
-            IsActive = isActive;
-            Status = status;
-            Type = type;
-        }
+        public TransactionStatus Status { get; init; }
+        public TransactionType Type { get; init; }
     }
 }

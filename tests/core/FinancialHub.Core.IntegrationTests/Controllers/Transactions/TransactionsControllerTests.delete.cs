@@ -17,7 +17,7 @@ namespace FinancialHub.Core.IntegrationTests.Controllers.Transactions
         [Test]
         public async Task Delete_PaidTransaction_RemovesTransactionFromDatabase()
         {
-            var body = modelBuilder
+            var body = transactionBuilder
                 .WithStatus(TransactionStatus.Committed)
                 .WithActiveStatus(true)
                 .Generate();
@@ -33,13 +33,12 @@ namespace FinancialHub.Core.IntegrationTests.Controllers.Transactions
         [Test]
         public async Task Delete_EarnPaidTransaction_DecreasesBalanceFromDatabase()
         {
-            var body = modelBuilder
+            var body = transactionBuilder
                 .WithStatus(TransactionStatus.Committed)
                 .WithType(TransactionType.Earn)
                 .WithActiveStatus(true)
                 .Generate();
-
-            body.Id = InsertTransaction(body);
+            fixture.AddData(body);
             var oldBalanceAmount = fixture.GetData<BalanceEntity>().FirstOrDefault(x => x.Id == body.BalanceId)!.Amount;
 
             await client.DeleteAsync($"{baseEndpoint}/{body.Id}");
@@ -51,7 +50,7 @@ namespace FinancialHub.Core.IntegrationTests.Controllers.Transactions
         [Test]
         public async Task Delete_ExpensePaidTransaction_DecreasesBalanceFromDatabase()
         {
-            var body = modelBuilder
+            var body = transactionBuilder
                 .WithStatus(TransactionStatus.Committed)
                 .WithType(TransactionType.Expense)
                 .WithActiveStatus(true)
@@ -71,7 +70,7 @@ namespace FinancialHub.Core.IntegrationTests.Controllers.Transactions
         [TestCase(TransactionStatus.Committed, false)]
         public async Task Delete_NotPaidTransaction_RemovesTransactionFromDatabase(TransactionStatus status, bool isActive)
         {
-            var body = modelBuilder
+            var body = transactionBuilder
                 .WithStatus(status)
                 .WithActiveStatus(isActive)
                 .Generate();
