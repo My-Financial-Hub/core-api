@@ -25,7 +25,9 @@ namespace FinancialHub.Core.Application.Tests.Services
                 .ReturnsAsync(model)
                 .Verifiable();
 
-            var updateBalance = this.updateBalanceDtoBuilder.Generate();
+            var updateBalance = this.updateBalanceDtoBuilder
+                .WithAccountId(model.AccountId)
+                .Generate();
             await this.service.UpdateAsync(model.Id.GetValueOrDefault(), updateBalance);
 
             this.accountsProvider.Verify(x => x.GetByIdAsync(model.AccountId), Times.Once);
@@ -45,7 +47,9 @@ namespace FinancialHub.Core.Application.Tests.Services
                 .Setup(x => x.NotFoundMessage(It.IsAny<string>(), It.IsAny<Guid>()))
                 .Returns(expectedErrorMessage);
 
-            var updateBalance = this.updateBalanceDtoBuilder.Generate();
+            var updateBalance = this.updateBalanceDtoBuilder
+                .WithAccountId(model.AccountId)
+                .Generate();
             var result = await this.service.UpdateAsync(id, updateBalance);
 
             Assert.IsTrue(result.HasError);
@@ -73,7 +77,9 @@ namespace FinancialHub.Core.Application.Tests.Services
                 .ReturnsAsync(model.Account)
                 .Verifiable();
 
-            var updateBalance = this.updateBalanceDtoBuilder.Generate();
+            var updateBalance = this.updateBalanceDtoBuilder
+                .WithAccountId(model.AccountId)
+                .Generate();
             await this.service.UpdateAsync(id, updateBalance);
 
             this.provider.Verify(x => x.UpdateAsync(id, It.IsAny<BalanceModel>()), Times.Once);
@@ -100,7 +106,9 @@ namespace FinancialHub.Core.Application.Tests.Services
                 .ReturnsAsync(model.Account)
                 .Verifiable();
 
-            var updateBalance = this.updateBalanceDtoBuilder.Generate();
+            var updateBalance = this.updateBalanceDtoBuilder
+                .WithAccountId(model.AccountId)
+                .Generate();
             var result = await this.service.UpdateAsync(id, updateBalance);
 
             Assert.IsInstanceOf<ServiceResult<BalanceDto>>(result);
@@ -124,8 +132,10 @@ namespace FinancialHub.Core.Application.Tests.Services
             this.errorMessageProvider
                 .Setup(x => x.NotFoundMessage(It.IsAny<string>(), It.IsAny<Guid>()))
                 .Returns(expectedErrorMessage);
-            
-            var updateBalance = this.updateBalanceDtoBuilder.Generate();
+
+            var updateBalance = this.updateBalanceDtoBuilder
+                .WithAccountId(model.AccountId)
+                .Generate();
             var result = await this.service.UpdateAsync(id, updateBalance);
 
             Assert.IsInstanceOf<ServiceResult<BalanceDto>>(result);
@@ -155,7 +165,9 @@ namespace FinancialHub.Core.Application.Tests.Services
                 .Setup(x => x.NotFoundMessage(It.IsAny<string>(), It.IsAny<Guid>()))
                 .Returns(expectedErrorMessage);
 
-            var updateBalance = this.updateBalanceDtoBuilder.Generate();
+            var updateBalance = this.updateBalanceDtoBuilder
+                .WithAccountId(model.AccountId)
+                .Generate();
             var result = await this.service.UpdateAsync(model.Id.GetValueOrDefault(), updateBalance);
 
             Assert.IsInstanceOf<ServiceResult<BalanceDto>>(result);

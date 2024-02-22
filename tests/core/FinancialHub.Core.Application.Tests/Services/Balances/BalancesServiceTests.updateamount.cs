@@ -1,6 +1,4 @@
-﻿using FinancialHub.Core.Domain.DTOS.Balances;
-
-namespace FinancialHub.Core.Application.Tests.Services
+﻿namespace FinancialHub.Core.Application.Tests.Services
 {
     public partial class BalancesServiceTests
     {
@@ -45,7 +43,7 @@ namespace FinancialHub.Core.Application.Tests.Services
 
             var result = await this.service.UpdateAmountAsync(id, amount);
 
-            Assert.IsInstanceOf<ServiceResult<BalanceDto>>(result);
+            Assert.IsInstanceOf<ServiceResult<BalanceModel>>(result);
             Assert.IsNotNull(result.Data);
         }
 
@@ -70,7 +68,7 @@ namespace FinancialHub.Core.Application.Tests.Services
 
             var result = await this.service.UpdateAmountAsync(id, amount);
 
-            Assert.IsInstanceOf<ServiceResult<BalanceDto>>(result);
+            Assert.IsInstanceOf<ServiceResult<BalanceModel>>(result);
             Assert.IsTrue(result.HasError);
             Assert.AreEqual(expectedErrorMessage, result.Error!.Message);
 

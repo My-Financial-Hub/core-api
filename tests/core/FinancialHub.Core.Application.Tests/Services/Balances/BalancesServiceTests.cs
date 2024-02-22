@@ -48,6 +48,7 @@ namespace FinancialHub.Core.Application.Tests.Services
 
             this.balanceModelBuilder = new BalanceModelBuilder();
             this.AddCreateBalanceBuilder();
+            this.AddUpdateBalanceBuilder();
         }
     }
 }
