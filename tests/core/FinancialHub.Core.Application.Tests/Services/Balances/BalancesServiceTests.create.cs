@@ -1,11 +1,20 @@
-﻿namespace FinancialHub.Core.Application.Tests.Services
+﻿using FinancialHub.Core.Domain.DTOS.Balances;
+using FinancialHub.Core.Domain.Tests.Builders.DTOS.Balances;
+
+namespace FinancialHub.Core.Application.Tests.Services
 {
     public partial class BalancesServiceTests
     {
+        private CreateBalanceDtoBuilder createBalanceDtoBuilder;
+        protected void AddCreateBalanceBuilder()
+        {
+            createBalanceDtoBuilder = new CreateBalanceDtoBuilder();
+        }
+
         [Test]
         public async Task CreateAsync_ValidatesIfAccountExists()
         {
-            var model = this.balanceModelBuilder.Generate();
+            var model = this.createBalanceDtoBuilder.Generate();
 
             await this.service.CreateAsync(model);
 
@@ -27,7 +36,8 @@
                 .ReturnsAsync(model.Account)
                 .Verifiable();
 
-            await this.service.CreateAsync(model);
+            var createBalance = this.createBalanceDtoBuilder.Generate();
+            await this.service.CreateAsync(createBalance);
 
             this.provider.Verify(x => x.CreateAsync(It.IsAny<BalanceModel>()), Times.Once);
         }
@@ -47,10 +57,11 @@
                 .ReturnsAsync(model.Account)
                 .Verifiable();
 
-            var result = await this.service.CreateAsync(model);
+            var createBalance = this.createBalanceDtoBuilder.Generate();
+            var result = await this.service.CreateAsync(createBalance);
 
             Assert.IsNotNull(result.Data);
-            Assert.IsInstanceOf<ServiceResult<BalanceModel>>(result);
+            Assert.IsInstanceOf<ServiceResult<BalanceDto>>(result);
         }
 
         [Test]
@@ -67,7 +78,8 @@
                 .Setup(x => x.NotFoundMessage(It.IsAny<string>(), It.IsAny<Guid>()))
                 .Returns(expectedErrorMessage);
 
-            var result = await this.service.CreateAsync(model);
+            var createBalance = this.createBalanceDtoBuilder.Generate();
+            var result = await this.service.CreateAsync(createBalance);
 
             Assert.IsTrue(result.HasError);
             Assert.AreEqual(expectedErrorMessage, result.Error!.Message);

@@ -11,18 +11,6 @@ namespace FinancialHub.Core.Application.Services
         private readonly IErrorMessageProvider errorMessageProvider;
         private readonly IMapper mapper;
 
-        [Obsolete("Use the mapper constructor")]
-        public BalancesService(
-            IBalancesProvider balancesProvider,
-            IAccountsProvider accountsProvider,
-            IErrorMessageProvider errorMessageProvider
-        )
-        {
-            this.balancesProvider = balancesProvider;
-            this.accountsProvider = accountsProvider;
-            this.errorMessageProvider = errorMessageProvider;
-        }
-
         public BalancesService(
             IBalancesProvider balancesProvider,
             IAccountsProvider accountsProvider,

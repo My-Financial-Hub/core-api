@@ -39,6 +39,7 @@ namespace FinancialHub.Core.Application.Tests.Services
 
             this.accountModelBuilder = new AccountModelBuilder();
             this.AddCreateAccountBuilder();
+            this.AddUpdateAccountBuilder();
         }
     }
 }

@@ -1,7 +1,16 @@
-﻿namespace FinancialHub.Core.Application.Tests.Services
+﻿using FinancialHub.Core.Domain.DTOS.Balances;
+using FinancialHub.Core.Domain.Tests.Builders.DTOS.Balances;
+
+namespace FinancialHub.Core.Application.Tests.Services
 {
     public partial class BalancesServiceTests
     {
+        private UpdateBalanceDtoBuilder updateBalanceDtoBuilder;
+        protected void AddUpdateBalanceBuilder()
+        {
+            updateBalanceDtoBuilder = new UpdateBalanceDtoBuilder();
+        }
+        
         [Test]
         public async Task UpdateAsync_ValidatesIfAccountExists()
         {
@@ -16,7 +25,8 @@
                 .ReturnsAsync(model)
                 .Verifiable();
 
-            await this.service.UpdateAsync(model.Id.GetValueOrDefault(), model);
+            var updateBalance = this.updateBalanceDtoBuilder.Generate();
+            await this.service.UpdateAsync(model.Id.GetValueOrDefault(), updateBalance);
 
             this.accountsProvider.Verify(x => x.GetByIdAsync(model.AccountId), Times.Once);
         }
@@ -35,7 +45,8 @@
                 .Setup(x => x.NotFoundMessage(It.IsAny<string>(), It.IsAny<Guid>()))
                 .Returns(expectedErrorMessage);
 
-            var result = await this.service.UpdateAsync(id, model);
+            var updateBalance = this.updateBalanceDtoBuilder.Generate();
+            var result = await this.service.UpdateAsync(id, updateBalance);
 
             Assert.IsTrue(result.HasError);
             Assert.AreEqual(expectedErrorMessage, result.Error!.Message);
@@ -62,7 +73,8 @@
                 .ReturnsAsync(model.Account)
                 .Verifiable();
 
-            await this.service.UpdateAsync(id, model);
+            var updateBalance = this.updateBalanceDtoBuilder.Generate();
+            await this.service.UpdateAsync(id, updateBalance);
 
             this.provider.Verify(x => x.UpdateAsync(id, It.IsAny<BalanceModel>()), Times.Once);
         }
@@ -88,9 +100,10 @@
                 .ReturnsAsync(model.Account)
                 .Verifiable();
 
-            var result = await this.service.UpdateAsync(id, model);
+            var updateBalance = this.updateBalanceDtoBuilder.Generate();
+            var result = await this.service.UpdateAsync(id, updateBalance);
 
-            Assert.IsInstanceOf<ServiceResult<BalanceModel>>(result);
+            Assert.IsInstanceOf<ServiceResult<BalanceDto>>(result);
             Assert.IsNotNull(result.Data);
         }
 
@@ -111,9 +124,11 @@
             this.errorMessageProvider
                 .Setup(x => x.NotFoundMessage(It.IsAny<string>(), It.IsAny<Guid>()))
                 .Returns(expectedErrorMessage);
-            var result = await this.service.UpdateAsync(id, model);
+            
+            var updateBalance = this.updateBalanceDtoBuilder.Generate();
+            var result = await this.service.UpdateAsync(id, updateBalance);
 
-            Assert.IsInstanceOf<ServiceResult<BalanceModel>>(result);
+            Assert.IsInstanceOf<ServiceResult<BalanceDto>>(result);
             Assert.IsTrue(result.HasError);
             Assert.AreEqual(expectedErrorMessage, result.Error!.Message);
 
@@ -140,9 +155,10 @@
                 .Setup(x => x.NotFoundMessage(It.IsAny<string>(), It.IsAny<Guid>()))
                 .Returns(expectedErrorMessage);
 
-            var result = await this.service.UpdateAsync(model.Id.GetValueOrDefault(), model);
+            var updateBalance = this.updateBalanceDtoBuilder.Generate();
+            var result = await this.service.UpdateAsync(model.Id.GetValueOrDefault(), updateBalance);
 
-            Assert.IsInstanceOf<ServiceResult<BalanceModel>>(result);
+            Assert.IsInstanceOf<ServiceResult<BalanceDto>>(result);
             Assert.IsTrue(result.HasError);
             Assert.AreEqual(expectedErrorMessage, result.Error!.Message);
         }
