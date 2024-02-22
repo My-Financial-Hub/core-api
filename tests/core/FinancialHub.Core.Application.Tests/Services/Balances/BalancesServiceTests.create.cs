@@ -36,7 +36,9 @@ namespace FinancialHub.Core.Application.Tests.Services
                 .ReturnsAsync(model.Account)
                 .Verifiable();
 
-            var createBalance = this.createBalanceDtoBuilder.Generate();
+            var createBalance = this.createBalanceDtoBuilder
+                .WithAccountId(model.AccountId)
+                .Generate();
             await this.service.CreateAsync(createBalance);
 
             this.provider.Verify(x => x.CreateAsync(It.IsAny<BalanceModel>()), Times.Once);
@@ -57,7 +59,9 @@ namespace FinancialHub.Core.Application.Tests.Services
                 .ReturnsAsync(model.Account)
                 .Verifiable();
 
-            var createBalance = this.createBalanceDtoBuilder.Generate();
+            var createBalance = this.createBalanceDtoBuilder
+                .WithAccountId(model.AccountId)
+                .Generate();
             var result = await this.service.CreateAsync(createBalance);
 
             Assert.IsNotNull(result.Data);
@@ -78,7 +82,9 @@ namespace FinancialHub.Core.Application.Tests.Services
                 .Setup(x => x.NotFoundMessage(It.IsAny<string>(), It.IsAny<Guid>()))
                 .Returns(expectedErrorMessage);
 
-            var createBalance = this.createBalanceDtoBuilder.Generate();
+            var createBalance = this.createBalanceDtoBuilder
+                .WithAccountId(model.AccountId)
+                .Generate();
             var result = await this.service.CreateAsync(createBalance);
 
             Assert.IsTrue(result.HasError);

@@ -13,20 +13,6 @@ namespace FinancialHub.Core.Application.Services
         private readonly IMapper mapper;
         private readonly IErrorMessageProvider errorMessageProvider;
 
-        [Obsolete("Use the constructor with Mapper")]
-        public TransactionsService(
-            ITransactionsProvider transactionsProvider,
-            IBalancesProvider balancesProvider, 
-            ICategoriesProvider categoriesProvider,
-            IErrorMessageProvider errorMessageProvider
-        )
-        {
-            this.transactionsProvider = transactionsProvider;
-            this.balancesProvider = balancesProvider;
-            this.categoriesProvider = categoriesProvider;
-            this.errorMessageProvider = errorMessageProvider;
-        }
-
         public TransactionsService(
             ITransactionsProvider transactionsProvider,
             IBalancesProvider balancesProvider,
