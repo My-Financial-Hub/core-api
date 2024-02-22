@@ -30,7 +30,6 @@ namespace FinancialHub.Core.Application.Tests.Services
             ).CreateMapper();
         }
 
-
         [SetUp]
         public void Setup()
         {

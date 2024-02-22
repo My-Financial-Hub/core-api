@@ -10,13 +10,6 @@ namespace FinancialHub.Core.Application.Services
         private readonly IErrorMessageProvider errorMessageProvider;
         private readonly IMapper mapper;
 
-        [Obsolete("Use the constructor with mapper")]
-        public CategoriesService(ICategoriesProvider provider, IErrorMessageProvider errorMessageProvider)
-        {
-            this.provider = provider;
-            this.errorMessageProvider = errorMessageProvider;
-        }
-
         public CategoriesService(ICategoriesProvider provider, IErrorMessageProvider errorMessageProvider, IMapper mapper)
         {
             this.provider = provider;
