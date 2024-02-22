@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using FinancialHub.Core.Domain.DTOS.Accounts;
+using System.Linq;
 
 namespace FinancialHub.Core.Application.Tests.Services
 {
@@ -17,7 +18,7 @@ namespace FinancialHub.Core.Application.Tests.Services
 
             var result = await this.service.GetAllByUserAsync(string.Empty);
 
-            Assert.IsInstanceOf<ServiceResult<ICollection<AccountModel>>>(result);
+            Assert.IsInstanceOf<ServiceResult<ICollection<AccountDto>>>(result);
             Assert.IsFalse(result.HasError);
             Assert.AreEqual(entitiesMock.Count, result.Data!.Count);
 

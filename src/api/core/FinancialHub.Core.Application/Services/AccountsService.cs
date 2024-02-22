@@ -10,24 +10,11 @@ namespace FinancialHub.Core.Application.Services
         private readonly IMapper mapper;
         private readonly IErrorMessageProvider errorMessageProvider;
 
-        [Obsolete("Remove it later")]
-        public AccountsService(IAccountsProvider provider, IErrorMessageProvider errorMessageProvider)
-        {
-            this.provider = provider;
-            this.errorMessageProvider = errorMessageProvider;
-        }
-
         public AccountsService(IAccountsProvider provider, IMapper mapper,IErrorMessageProvider errorMessageProvider)
         {
             this.provider = provider;
             this.mapper = mapper;
             this.errorMessageProvider = errorMessageProvider;
-        }
-
-        [Obsolete("Will be removed when IAccountService.CreateAsync got removed")]
-        public async Task<ServiceResult<AccountModel>> CreateAsync(AccountModel account)
-        {
-            return await this.provider.CreateAsync(account);
         }
 
         public async Task<ServiceResult<AccountDto>> CreateAsync(CreateAccountDto accountDto)
