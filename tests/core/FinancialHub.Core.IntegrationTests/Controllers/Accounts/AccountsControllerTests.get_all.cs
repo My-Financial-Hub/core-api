@@ -24,7 +24,7 @@ namespace FinancialHub.Core.IntegrationTests.Controllers
             Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
 
             var result = await response.ReadContentAsync<ListResponse<AccountDto>>();
-            Assert.IsEmpty(result?.Data);
+            Assert.IsEmpty(result!.Data);
         }
     }
 }

@@ -85,19 +85,23 @@ namespace FinancialHub.Core.IntegrationTests.Controllers.Balances
             fixture.AddData(account);
 
             var id = Guid.NewGuid();
-            var entity = balanceBuilder
+            var balance = balanceBuilder
                 .WithAccountId(account.Id)
                 .WithId(id)
                 .Generate();
-            fixture.AddData(entity);
+            fixture.AddData(balance);
 
-            var data = updateBalanceDtoBuilder
+            var newBalance = updateBalanceDtoBuilder
                 .WithAccountId(account.Id)
                 .Generate();
 
-            await client.PutAsync($"{baseEndpoint}/{id}", data);
+            await client.PutAsync($"{baseEndpoint}/{id}", newBalance);
 
-            this.GetBalance(data);
+            var result = this.GetBalance(newBalance);
+            Assert.AreEqual(id, result?.Id);
+            Assert.AreEqual(newBalance.Name, result?.Name);
+            Assert.AreEqual(newBalance.Currency, result?.Currency);
+            Assert.AreEqual(newBalance.IsActive, result?.IsActive);
         }
 
         [Test]

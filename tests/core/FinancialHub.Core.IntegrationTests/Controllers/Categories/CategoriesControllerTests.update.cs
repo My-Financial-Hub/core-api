@@ -35,8 +35,8 @@ namespace FinancialHub.Core.IntegrationTests.Controllers.Categories
             Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
 
             var result = await response.ReadContentAsync<SaveResponse<CategoryDto>>();
-            var resultData = result?.Data;
-            Assert.IsNotNull(resultData);
+            Assert.IsNotNull(result?.Data);
+            var resultData = result!.Data;
             Assert.AreEqual(body.Name, resultData.Name);
             Assert.AreEqual(body.Description, resultData.Description);
             Assert.AreEqual(body.IsActive, resultData.IsActive);
