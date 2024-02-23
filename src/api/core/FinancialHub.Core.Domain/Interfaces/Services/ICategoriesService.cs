@@ -5,7 +5,7 @@ namespace FinancialHub.Core.Domain.Interfaces.Services
 {
     public interface ICategoriesService 
     {
-        Task<ServiceResult<ICollection<CategoryDto>>> GetAllByUserAsync(string userId);
+        Task<ServiceResult<ICollection<CategoryDto>>> GetAllAsync();
 
         Task<ServiceResult<CategoryDto>> CreateAsync(CreateCategoryDto category);
 

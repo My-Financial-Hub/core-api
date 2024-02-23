@@ -14,7 +14,7 @@ namespace FinancialHub.Core.WebApi.Tests.Controllers
             var filter = new TransactionFilter();
 
             this.mockService
-                .Setup(x => x.GetAllByUserAsync(It.IsAny<string>(),filter))
+                .Setup(x => x.GetAllAsync(filter))
                 .ReturnsAsync(mockResult)
                 .Verifiable();
 
@@ -27,7 +27,7 @@ namespace FinancialHub.Core.WebApi.Tests.Controllers
             var listResponse = result.Value as ListResponse<TransactionDto>;
             Assert.AreEqual(mockResult.Data, listResponse?.Data);
 
-            this.mockService.Verify(x => x.GetAllByUserAsync(It.IsAny<string>(),filter), Times.Once);
+            this.mockService.Verify(x => x.GetAllAsync(filter), Times.Once);
         }
     }
 }
