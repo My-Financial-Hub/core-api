@@ -1,27 +1,28 @@
-﻿using FinancialHub.Core.Domain.Enums;
-using FinancialHub.Core.Application.Validators;
+﻿using FinancialHub.Core.Application.Validators.Transactions;
+using FinancialHub.Core.Domain.Enums;
 using FinancialHub.Core.Domain.Interfaces.Resources;
+using FinancialHub.Core.Domain.Tests.Builders.DTOS.Transactions;
 using FinancialHub.Core.Resources.Providers;
 using System.Globalization;
 
-namespace FinancialHub.Core.Application.Tests.Validators
+namespace FinancialHub.Core.Application.Tests.Validators.Transactions
 {
-    public class TransactionValidatorTests
+    public class UpdateTransactionValidatorTests
     {
-        private TransactionModelBuilder builder;
-        private readonly TransactionValidator validator;
+        private UpdateTransactionDtoBuilder builder;
+        private readonly UpdateTransactionValidator validator;
         private readonly IValidationErrorMessageProvider errorMessageProvider;
 
-        public TransactionValidatorTests()
+        public UpdateTransactionValidatorTests()
         {
             this.errorMessageProvider = new ValidationErrorMessageProvider(CultureInfo.InvariantCulture);
-            this.validator = new TransactionValidator(this.errorMessageProvider);
+            this.validator = new UpdateTransactionValidator(this.errorMessageProvider);
         }
 
         [SetUp]
         public void SetUp()
         {
-            this.builder = new TransactionModelBuilder();
+            this.builder = new UpdateTransactionDtoBuilder();
         }
 
         [Test]
