@@ -1,26 +1,27 @@
-﻿using FinancialHub.Core.Application.Validators;
+﻿using FinancialHub.Core.Application.Validators.Accounts;
 using FinancialHub.Core.Domain.Interfaces.Resources;
+using FinancialHub.Core.Domain.Tests.Builders.DTOS.Accounts;
 using FinancialHub.Core.Resources.Providers;
 using System.Globalization;
 
-namespace FinancialHub.Core.Application.Tests.Validators
+namespace FinancialHub.Core.Application.Tests.Validators.Accounts
 {
-    public class AccountValidatorTests
+    public class CreateAccountValidatorTests
     {
-        private AccountModelBuilder builder;
-        private readonly AccountValidator validator;
+        private CreateAccountDtoBuilder builder;
+        private readonly CreateAccountValidator validator;
         private readonly IValidationErrorMessageProvider errorMessageProvider;
 
-        public AccountValidatorTests()
+        public CreateAccountValidatorTests()
         {
             this.errorMessageProvider = new ValidationErrorMessageProvider(CultureInfo.InvariantCulture);
-            this.validator = new AccountValidator(this.errorMessageProvider);
+            this.validator = new CreateAccountValidator(this.errorMessageProvider);
         }
 
         [SetUp]
         public void SetUp()
         {
-            this.builder = new AccountModelBuilder();
+            this.builder = new CreateAccountDtoBuilder();
         }
 
         [Test]
@@ -44,13 +45,13 @@ namespace FinancialHub.Core.Application.Tests.Validators
 
             Assert.IsFalse(result.IsValid);
             Assert.IsNotEmpty(result.Errors);
-            Assert.AreEqual("Name is required",result.Errors[0].ErrorMessage);
+            Assert.AreEqual("Name is required", result.Errors[0].ErrorMessage);
         }
 
         [Test]
         public void Account_BigName_ReturnsMaxLengthError()
         {
-            var invalidName = new string('a',201);
+            var invalidName = new string('a', 201);
             var account = builder.WithName(invalidName).Generate();
 
             var result = validator.Validate(account);
