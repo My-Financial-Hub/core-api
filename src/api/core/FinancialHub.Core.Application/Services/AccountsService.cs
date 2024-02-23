@@ -51,23 +51,6 @@ namespace FinancialHub.Core.Application.Services
             return this.mapper.Map<AccountDto>(existingAccount);
         }
 
-        public async Task<ServiceResult<AccountModel>> UpdateAsync(Guid id, AccountModel account)
-        {
-            var existingAccountResult = await this.GetByIdAsync(id);
-            if (existingAccountResult.HasError)
-                return existingAccountResult.Error;
-
-            var updatedAccount = await this.provider.UpdateAsync(id, account);
-            if (updatedAccount == null)
-            {
-                return new InvalidDataError(
-                    this.errorMessageProvider.UpdateFailedMessage("Account", id)
-                );
-            }
-
-            return updatedAccount;
-        }
-
         public async Task<ServiceResult<AccountDto>> UpdateAsync(Guid id, UpdateAccountDto account)
         {
             var existingAccountResult = await this.GetByIdAsync(id);
