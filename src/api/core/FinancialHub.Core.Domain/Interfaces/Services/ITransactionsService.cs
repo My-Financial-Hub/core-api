@@ -6,7 +6,7 @@ namespace FinancialHub.Core.Domain.Interfaces.Services
 {
     public interface ITransactionsService
     {
-        Task<ServiceResult<ICollection<TransactionDto>>> GetAllByUserAsync(string userId, TransactionFilter filter);
+        Task<ServiceResult<ICollection<TransactionDto>>> GetAllAsync(TransactionFilter filter);
 
         Task<ServiceResult<TransactionDto>> GetByIdAsync(Guid id);
 

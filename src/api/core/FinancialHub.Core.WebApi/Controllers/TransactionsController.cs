@@ -22,7 +22,7 @@ namespace FinancialHub.Core.WebApi.Controllers
         [ProducesResponseType(typeof(ListResponse<TransactionDto>), 200)]
         public async Task<IActionResult> GetMyTransactions([FromQuery] TransactionFilter filter)
         {
-            var response = await service.GetAllByUserAsync("mock", filter);
+            var response = await service.GetAllAsync(filter);
             return Ok(new ListResponse<TransactionDto>(response.Data));
         }
 

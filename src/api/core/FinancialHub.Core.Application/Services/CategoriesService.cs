@@ -31,7 +31,7 @@ namespace FinancialHub.Core.Application.Services
             return await this.provider.DeleteAsync(id);
         }
 
-        public async Task<ServiceResult<ICollection<CategoryDto>>> GetAllByUserAsync(string userId)
+        public async Task<ServiceResult<ICollection<CategoryDto>>> GetAllAsync()
         {
             var categories = await this.provider.GetAllAsync();
 

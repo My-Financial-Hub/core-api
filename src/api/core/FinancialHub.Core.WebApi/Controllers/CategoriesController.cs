@@ -15,19 +15,19 @@ namespace FinancialHub.Core.WebApi.Controllers
         }
 
         /// <summary>
-        /// Get all categorys of the system (will be changed to only one user)
+        /// Get all categorys of the system
         /// </summary>
         [HttpGet]
         [ProducesResponseType(typeof(ListResponse<CategoryDto>), 200)]
         public async Task<IActionResult> GetMyCategories()
         {
-            var result = await service.GetAllByUserAsync("mock");
+            var result = await service.GetAllAsync();
 
             return Ok(new ListResponse<CategoryDto>(result.Data));
         }
 
         /// <summary>
-        /// Creates an category on database (will be changed to only one user)
+        /// Creates an category on database
         /// </summary>
         /// <param name="category">Account to be created</param>
         [HttpPost]

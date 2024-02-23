@@ -13,7 +13,7 @@ namespace FinancialHub.Core.WebApi.Tests.Controllers
             );
 
             this.mockService
-                .Setup(x => x.GetAllByUserAsync(It.IsAny<string>()))
+                .Setup(x => x.GetAllAsync())
                 .ReturnsAsync(mockResult)
                 .Verifiable();
 
@@ -26,7 +26,7 @@ namespace FinancialHub.Core.WebApi.Tests.Controllers
             var listResponse = result.Value as ListResponse<AccountDto>;
             Assert.AreEqual(mockResult.Data, listResponse?.Data);
 
-            this.mockService.Verify(x => x.GetAllByUserAsync(It.IsAny<string>()), Times.Once);
+            this.mockService.Verify(x => x.GetAllAsync(),Times.Once);
         }
     }
 }

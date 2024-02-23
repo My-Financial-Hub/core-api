@@ -41,19 +41,19 @@ namespace FinancialHub.Core.WebApi.Controllers
         }
 
         /// <summary>
-        /// Get all accounts of the system (will be changed to only one user)
+        /// Get all accounts of the system 
         /// </summary>
         [HttpGet]
         [ProducesResponseType(typeof(ListResponse<AccountDto>), 200)]
         public async Task<IActionResult> GetMyAccounts()
         {
-            var result = await service.GetAllByUserAsync("mock");
+            var result = await service.GetAllAsync();
 
             return Ok(new ListResponse<AccountDto>(result.Data));
         }
 
         /// <summary>
-        /// Creates an account on database (will be changed to only one user)
+        /// Creates an account on database 
         /// </summary>
         /// <param name="account">Account to be created</param>
         [HttpPost]

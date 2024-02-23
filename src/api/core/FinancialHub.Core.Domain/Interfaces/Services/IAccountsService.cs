@@ -1,12 +1,11 @@
 ﻿using FinancialHub.Common.Results;
 using FinancialHub.Core.Domain.DTOS.Accounts;
-using FinancialHub.Core.Domain.Models;
 
 namespace FinancialHub.Core.Domain.Interfaces.Services
 {
     public interface IAccountsService 
     {
-        Task<ServiceResult<ICollection<AccountDto>>> GetAllByUserAsync(string userId);
+        Task<ServiceResult<ICollection<AccountDto>>> GetAllAsync();
 
         Task<ServiceResult<AccountDto>> GetByIdAsync(Guid id);
 

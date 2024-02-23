@@ -16,7 +16,7 @@ namespace FinancialHub.Core.Application.Tests.Services
                 .ReturnsAsync(entitiesMock.ToArray())
                 .Verifiable();
 
-            var result = await this.service.GetAllByUserAsync(string.Empty);
+            var result = await this.service.GetAllAsync();
 
             Assert.IsInstanceOf<ServiceResult<ICollection<AccountDto>>>(result);
             Assert.IsFalse(result.HasError);
