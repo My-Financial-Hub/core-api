@@ -11,21 +11,16 @@ global using NUnit.Framework;
 // Domain Asserts namespaces
 global using FinancialHub.Core.Domain.Tests.Assertions.Models;
 
-// Common Models namespaces
-global using FinancialHub.Common.Models;
+// Common namespaces
 global using FinancialHub.Common.Entities;
-
-// Domain Models namespaces
-global using FinancialHub.Core.Domain.Models;
-global using FinancialHub.Core.Domain.Entities;
 
 // Common Responses namespaces
 global using FinancialHub.Common.Responses.Success;
 global using FinancialHub.Common.Responses.Errors;
 
-// Common Builders namespaces
-global using FinancialHub.Common.Tests.Builders.Models;
-global using FinancialHub.Common.Tests.Builders.Entities;
+// Domain namespaces
+global using FinancialHub.Core.Domain.Models;
+global using FinancialHub.Core.Domain.Entities;
 
 // Domain Builders namespaces
 global using FinancialHub.Core.Domain.Tests.Builders.Models;

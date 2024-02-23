@@ -1,9 +1,16 @@
-﻿using Moq;
+﻿using FinancialHub.Core.Domain.DTOS.Categories;
+using FinancialHub.Core.Domain.Tests.Builders.DTOS.Categories;
 
 namespace FinancialHub.Core.Application.Tests.Services
 {
     public partial class CategoriesServiceTests
     {
+        private UpdateCategoryDtoBuilder updateCategoryDtoBuilder;
+        protected void AddUpdateCategoryBuilder()
+        {
+            updateCategoryDtoBuilder = new UpdateCategoryDtoBuilder();
+        }
+
         [Test]
         public async Task UpdateAsync_ValidCategoryModel_ReturnsCategoryModel()
         {
@@ -26,10 +33,11 @@ namespace FinancialHub.Core.Application.Tests.Services
                 .ReturnsAsync(updatedModel)
                 .Verifiable();
 
-            var result = await this.service.UpdateAsync(id, model);
+            var updateCategory = updateCategoryDtoBuilder.Generate();
+            var result = await this.service.UpdateAsync(id, updateCategory);
 
             Assert.IsNotNull(result);
-            Assert.IsInstanceOf<ServiceResult<CategoryModel>>(result);
+            Assert.IsInstanceOf<ServiceResult<CategoryDto>>(result);
 
             this.provider.Verify(x => x.GetByIdAsync(id), Times.Once);
             this.provider.Verify(x => x.UpdateAsync(id, It.IsAny<CategoryModel>()), Times.Once);
@@ -48,9 +56,10 @@ namespace FinancialHub.Core.Application.Tests.Services
                 .ReturnsAsync(default(CategoryModel))
                 .Verifiable();
 
-            var result = await this.service.UpdateAsync(id, model);
+            var updateCategory = updateCategoryDtoBuilder.Generate();
+            var result = await this.service.UpdateAsync(id, updateCategory);
 
-            Assert.IsInstanceOf<ServiceResult<CategoryModel>>(result);
+            Assert.IsInstanceOf<ServiceResult<CategoryDto>>(result);
             Assert.IsTrue(result.HasError);
 
             this.provider.Verify(x => x.GetByIdAsync(id), Times.Once);

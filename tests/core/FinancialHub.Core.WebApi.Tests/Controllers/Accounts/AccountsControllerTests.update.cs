@@ -1,4 +1,6 @@
-﻿namespace FinancialHub.Core.WebApi.Tests.Controllers
+﻿using FinancialHub.Core.Domain.DTOS.Accounts;
+
+namespace FinancialHub.Core.WebApi.Tests.Controllers
 {
     public partial class AccountsControllerTests
     {
@@ -6,9 +8,12 @@
         [TestCase(Description = "Update account existing Returns Ok", Category = "Update")]
         public async Task UpdateAccount_Valid_ReturnsOk()
         {
-            var body = this.accountModelBuilder.Generate();
-            var guid = body.Id.GetValueOrDefault();
-            var mockResult = new ServiceResult<AccountModel>(body);
+            var body = this.updateAccountDtoBuilder.Generate();
+            var resultDto = this.accountDtoBuilder
+                .FromUpdateDto(body)
+                .Generate();
+            var guid = Guid.NewGuid();
+            var mockResult = new ServiceResult<AccountDto>(resultDto);
 
             this.mockService
                 .Setup(x => x.UpdateAsync(guid, body))
@@ -20,9 +25,9 @@
             var result = response as ObjectResult;
 
             Assert.AreEqual(200, result?.StatusCode);
-            Assert.IsInstanceOf<SaveResponse<AccountModel>>(result?.Value);
+            Assert.IsInstanceOf<SaveResponse<AccountDto>>(result?.Value);
 
-            var listResponse = result?.Value as SaveResponse<AccountModel>;
+            var listResponse = result?.Value as SaveResponse<AccountDto>;
             Assert.AreEqual(mockResult.Data, listResponse?.Data);
 
             this.mockService.Verify(x => x.UpdateAsync(guid, body), Times.Once);
@@ -33,10 +38,13 @@
         public async Task UpdateAccount_Invalid_ReturnsBadRequest()
         {
             var errorMessage = $"Invalid thing : {Guid.NewGuid()}";
-            var body = this.accountModelBuilder.Generate();
-            var guid = body.Id.GetValueOrDefault();
+            var body = this.updateAccountDtoBuilder.Generate();
+            var resultDto = this.accountDtoBuilder
+                .FromUpdateDto(body)
+                .Generate();
+            var guid = Guid.NewGuid();
 
-            var mockResult = new ServiceResult<AccountModel>(body, new InvalidDataError(errorMessage));
+            var mockResult = new ServiceResult<AccountDto>(resultDto, new InvalidDataError(errorMessage));
 
             this.mockService
                 .Setup(x => x.UpdateAsync(guid,body))

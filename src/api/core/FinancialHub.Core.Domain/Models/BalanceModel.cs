@@ -1,7 +1,4 @@
-﻿using FinancialHub.Common.Models;
-using System;
-
-namespace FinancialHub.Core.Domain.Models
+﻿namespace FinancialHub.Core.Domain.Models
 {
     public class BalanceModel : BaseModel
     {

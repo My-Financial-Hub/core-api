@@ -1,4 +1,6 @@
-﻿namespace FinancialHub.Core.WebApi.Tests.Controllers
+﻿using FinancialHub.Core.Domain.DTOS.Accounts;
+
+namespace FinancialHub.Core.WebApi.Tests.Controllers
 {
     public partial class AccountsControllerTests
     {
@@ -6,8 +8,11 @@
         [TestCase(Description = "Create account returns ok", Category = "Create")]
         public async Task CreateAccount_ServiceSuccess_ReturnsOk()
         {
-            var body = this.accountModelBuilder.Generate();
-            var mockResult = new ServiceResult<AccountModel>(body);
+            var body = this.createAccountDtoBuilder.Generate();
+            var dtoResult = this.accountDtoBuilder
+                .FromCreateDto(body)
+                .Generate();
+            var mockResult = new ServiceResult<AccountDto>(dtoResult);
 
             this.mockService
                 .Setup(x => x.CreateAsync(body))
@@ -19,9 +24,9 @@
             var result = response as ObjectResult;
 
             Assert.AreEqual(200, result?.StatusCode);
-            Assert.IsInstanceOf<SaveResponse<AccountModel>>(result?.Value);
+            Assert.IsInstanceOf<SaveResponse<AccountDto>>(result?.Value);
 
-            var listResponse = result?.Value as SaveResponse<AccountModel>;
+            var listResponse = result?.Value as SaveResponse<AccountDto>;
             Assert.AreEqual(mockResult.Data, listResponse?.Data);
 
             this.mockService.Verify(x => x.CreateAsync(body), Times.Once);
@@ -32,9 +37,12 @@
         public async Task CreateAccount_ServiceError_ReturnsBadRequest()
         {
             var errorMessage = $"Invalid thing : {Guid.NewGuid()}";
-            var body = this.accountModelBuilder.Generate();
+            var body = this.createAccountDtoBuilder.Generate();
+            var dtoResult = this.accountDtoBuilder
+                .FromCreateDto(body)
+                .Generate();
 
-            var mockResult = new ServiceResult<AccountModel>(body, new InvalidDataError(errorMessage));
+            var mockResult = new ServiceResult<AccountDto>(dtoResult, new InvalidDataError(errorMessage));
 
             this.mockService
                 .Setup(x => x.CreateAsync(body))

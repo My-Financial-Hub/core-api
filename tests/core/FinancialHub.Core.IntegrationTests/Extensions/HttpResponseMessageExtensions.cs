@@ -11,10 +11,11 @@ namespace FinancialHub.Core.IntegrationTests.Extensions
             {
                 var stream = await response.Content.ReadAsStreamAsync();
 
-                return await JsonSerializer.DeserializeAsync<T>(stream,
+                return JsonSerializer.Deserialize<T>(stream,
                     new JsonSerializerOptions()
                     {
-                        PropertyNameCaseInsensitive = true
+                        PropertyNameCaseInsensitive = true,
+                        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
                     }
                 );
             }

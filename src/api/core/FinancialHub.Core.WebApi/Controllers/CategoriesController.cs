@@ -1,4 +1,6 @@
-﻿namespace FinancialHub.Core.WebApi.Controllers
+﻿using FinancialHub.Core.Domain.DTOS.Categories;
+
+namespace FinancialHub.Core.WebApi.Controllers
 {
     [ApiController]
     [Route("[controller]")]
@@ -16,12 +18,12 @@
         /// Get all categorys of the system (will be changed to only one user)
         /// </summary>
         [HttpGet]
-        [ProducesResponseType(typeof(ListResponse<CategoryModel>), 200)]
+        [ProducesResponseType(typeof(ListResponse<CategoryDto>), 200)]
         public async Task<IActionResult> GetMyCategories()
         {
             var result = await service.GetAllByUserAsync("mock");
 
-            return Ok(new ListResponse<CategoryModel>(result.Data));
+            return Ok(new ListResponse<CategoryDto>(result.Data));
         }
 
         /// <summary>
@@ -29,9 +31,9 @@
         /// </summary>
         /// <param name="category">Account to be created</param>
         [HttpPost]
-        [ProducesResponseType(typeof(SaveResponse<CategoryModel>), 200)]
+        [ProducesResponseType(typeof(SaveResponse<CategoryDto>), 200)]
         [ProducesResponseType(typeof(ValidationErrorResponse), 400)]
-        public async Task<IActionResult> CreateCategory([FromBody] CategoryModel category)
+        public async Task<IActionResult> CreateCategory([FromBody] CreateCategoryDto category)
         {
             var result = await service.CreateAsync(category);
 
@@ -43,7 +45,7 @@
                  );
             }
 
-            return Ok(new SaveResponse<CategoryModel>(result.Data));
+            return Ok(new SaveResponse<CategoryDto>(result.Data));
         }
 
         /// <summary>
@@ -52,9 +54,9 @@
         /// <param name="id">id of the category</param>
         /// <param name="category">category changes</param>
         [HttpPut("{id}")]
-        [ProducesResponseType(typeof(SaveResponse<CategoryModel>), 200)]
+        [ProducesResponseType(typeof(SaveResponse<CategoryDto>), 200)]
         [ProducesResponseType(typeof(ValidationErrorResponse), 400)]
-        public async Task<IActionResult> UpdateCategory([FromRoute] Guid id, [FromBody] CategoryModel category)
+        public async Task<IActionResult> UpdateCategory([FromRoute] Guid id, [FromBody] UpdateCategoryDto category)
         {
             var result = await service.UpdateAsync(id, category);
 
@@ -66,7 +68,7 @@
                  );
             }
 
-            return Ok(new SaveResponse<CategoryModel>(result.Data));
+            return Ok(new SaveResponse<CategoryDto>(result.Data));
         }
 
         /// <summary>
