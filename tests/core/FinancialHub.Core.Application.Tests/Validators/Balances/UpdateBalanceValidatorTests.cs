@@ -1,26 +1,27 @@
-﻿using FinancialHub.Core.Application.Validators;
+﻿using FinancialHub.Core.Application.Validators.Balances;
 using FinancialHub.Core.Domain.Interfaces.Resources;
+using FinancialHub.Core.Domain.Tests.Builders.DTOS.Balances;
 using FinancialHub.Core.Resources.Providers;
 using System.Globalization;
 
-namespace FinancialHub.Core.Application.Tests.Validators
+namespace FinancialHub.Core.Application.Tests.Validators.Balances
 {
-    public class BalanceValidatorTests
+    public class UpdateBalanceValidatorTests
     {
-        private BalanceModelBuilder builder;
-        private readonly BalanceValidator validator;
+        private UpdateBalanceDtoBuilder builder;
+        private readonly UpdateBalanceValidator validator;
         private readonly IValidationErrorMessageProvider errorMessageProvider;
 
-        public BalanceValidatorTests()
+        public UpdateBalanceValidatorTests()
         {
             this.errorMessageProvider = new ValidationErrorMessageProvider(CultureInfo.InvariantCulture);
-            this.validator = new BalanceValidator(this.errorMessageProvider);
+            this.validator = new UpdateBalanceValidator(this.errorMessageProvider);
         }
 
         [SetUp]
         public void SetUp()
         {
-            this.builder = new BalanceModelBuilder();
+            this.builder = new UpdateBalanceDtoBuilder();
         }
 
         [Test]
