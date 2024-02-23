@@ -1,7 +1,16 @@
-﻿namespace FinancialHub.Core.Application.Tests.Services
+﻿using FinancialHub.Core.Domain.DTOS.Transactions;
+using FinancialHub.Core.Domain.Tests.Builders.DTOS.Transactions;
+
+namespace FinancialHub.Core.Application.Tests.Services
 {
     public partial class TransactionsServiceTests
     {
+        private UpdateTransactionDtoBuilder updateTransactionDtoBuilder;
+        protected void AddUpdateTransactionBuilder()
+        {
+            updateTransactionDtoBuilder = new UpdateTransactionDtoBuilder();
+        }
+
         [Test]
         public async Task UpdateAsync_ValidTransaction_UpdatesTransaction()
         {
@@ -25,7 +34,12 @@
                 .Returns<Guid, TransactionModel>(async (_, x) => await Task.FromResult(x))
                 .Verifiable();
 
-            await this.service.UpdateAsync(model.Id.GetValueOrDefault(), model);
+            var updateTransaction = updateTransactionDtoBuilder
+                .WithBalanceId(model.BalanceId)
+                .WithCategoryId(model.CategoryId)
+                .Generate();
+            await this.service.UpdateAsync(model.Id.GetValueOrDefault(), updateTransaction);
+            
             this.provider.Verify(x => x.UpdateAsync(id, It.IsAny<TransactionModel>()), Times.Once);
         }
 
@@ -51,10 +65,14 @@
                 .Returns<Guid, TransactionModel>(async (_, x) => await Task.FromResult(x))
                 .Verifiable();
 
-            var result = await this.service.UpdateAsync(model.Id.GetValueOrDefault(), model);
+            var updateTransaction = updateTransactionDtoBuilder
+                .WithBalanceId(model.BalanceId)
+                .WithCategoryId(model.CategoryId)
+                .Generate();
+            var result = await this.service.UpdateAsync(model.Id.GetValueOrDefault(), updateTransaction);
 
             Assert.IsNotNull(result);
-            Assert.IsInstanceOf<ServiceResult<TransactionModel>>(result);
+            Assert.IsInstanceOf<ServiceResult<TransactionDto>>(result);
         }
 
         [Test]
@@ -73,9 +91,13 @@
                 .Returns<Guid,TransactionModel>(async (_, x) => await Task.FromResult(x))
                 .Verifiable();
 
-            var result = await this.service.UpdateAsync(model.Id.GetValueOrDefault(), model);
+            var updateTransaction = updateTransactionDtoBuilder
+                .WithBalanceId(model.BalanceId)
+                .WithCategoryId(model.CategoryId)
+                .Generate();
+            var result = await this.service.UpdateAsync(model.Id.GetValueOrDefault(), updateTransaction);
 
-            Assert.IsInstanceOf<ServiceResult<TransactionModel>>(result);
+            Assert.IsInstanceOf<ServiceResult<TransactionDto>>(result);
             Assert.IsTrue(result.HasError);
         }
 
@@ -96,7 +118,11 @@
                 .Setup(x => x.NotFoundMessage(It.IsAny<string>(), It.IsAny<Guid>()))
                 .Returns(expectedErrorMessage);
 
-            var result = await this.service.UpdateAsync(model.Id.GetValueOrDefault(), model);
+            var updateTransaction = updateTransactionDtoBuilder
+                .WithBalanceId(model.BalanceId)
+                .WithCategoryId(model.CategoryId)
+                .Generate();
+            var result = await this.service.UpdateAsync(model.Id.GetValueOrDefault(), updateTransaction);
 
             Assert.IsTrue(result.HasError);
             Assert.AreEqual(expectedErrorMessage, result.Error!.Message);
@@ -118,7 +144,11 @@
                 .Setup(x => x.NotFoundMessage(It.IsAny<string>(), It.IsAny<Guid>()))
                 .Returns(expectedErrorMessage);
 
-            var result = await this.service.UpdateAsync(model.Id.GetValueOrDefault(), model);
+            var updateTransaction = updateTransactionDtoBuilder
+                .WithBalanceId(model.BalanceId)
+                .WithCategoryId(model.CategoryId)
+                .Generate();
+            var result = await this.service.UpdateAsync(model.Id.GetValueOrDefault(), updateTransaction);
 
             Assert.IsTrue(result.HasError);
             Assert.AreEqual(expectedErrorMessage, result.Error!.Message);

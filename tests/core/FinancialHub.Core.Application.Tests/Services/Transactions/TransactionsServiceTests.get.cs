@@ -1,4 +1,5 @@
-﻿using FinancialHub.Core.Domain.Filters;
+﻿using FinancialHub.Core.Domain.DTOS.Transactions;
+using FinancialHub.Core.Domain.Filters;
 
 namespace FinancialHub.Core.Application.Tests.Services
 {
@@ -17,7 +18,7 @@ namespace FinancialHub.Core.Application.Tests.Services
 
             var result = await this.service.GetAllByUserAsync(string.Empty, filter);
 
-            Assert.IsInstanceOf<ServiceResult<ICollection<TransactionModel>>>(result);
+            Assert.IsInstanceOf<ServiceResult<ICollection<TransactionDto>>>(result);
             Assert.IsFalse(result.HasError);
             Assert.AreEqual(entitiesMock.Count, result.Data!.Count);
         }
@@ -37,7 +38,7 @@ namespace FinancialHub.Core.Application.Tests.Services
             var result = await this.service.GetByIdAsync(id);
 
             Assert.IsFalse(result.HasError);
-            Assert.IsInstanceOf<ServiceResult<TransactionModel>>(result);
+            Assert.IsInstanceOf<ServiceResult<TransactionDto>>(result);
             Assert.AreEqual(transaction.Id, result.Data!.Id);
         }
 

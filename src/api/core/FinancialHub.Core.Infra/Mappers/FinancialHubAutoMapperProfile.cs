@@ -10,8 +10,8 @@ namespace FinancialHub.Core.Infra.Mappers
             //Entities
             CreateMap<AccountEntity,AccountModel>().ReverseMap();
             CreateMap<CategoryEntity,CategoryModel>().ReverseMap();
-            CreateMap<TransactionEntity, TransactionModel>().ReverseMap();
-            CreateMap<BalanceEntity, BalanceModel>().ReverseMap();
+            CreateMap<TransactionEntity,TransactionModel>().ReverseMap();
+            CreateMap<BalanceEntity,BalanceModel>().ReverseMap();
 
             //Queries
             CreateMap<TransactionFilter, TransactionQuery>();

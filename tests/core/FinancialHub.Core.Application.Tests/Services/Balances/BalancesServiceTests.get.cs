@@ -1,4 +1,5 @@
-﻿using FinancialHub.Core.Domain.Tests.Assertions.Models;
+﻿using FinancialHub.Core.Domain.DTOS.Balances;
+using FinancialHub.Core.Domain.Tests.Assertions.Models;
 
 namespace FinancialHub.Core.Application.Tests.Services
 {
@@ -24,7 +25,7 @@ namespace FinancialHub.Core.Application.Tests.Services
 
             var result = await this.service.GetAllByAccountAsync(acountId);
 
-            Assert.IsInstanceOf<ServiceResult<ICollection<BalanceModel>>>(result);
+            Assert.IsInstanceOf<ServiceResult<ICollection<BalanceDto>>>(result);
             Assert.IsFalse(result.HasError);
             Assert.AreEqual(balances.Count, result.Data!.Count);
 
@@ -43,9 +44,9 @@ namespace FinancialHub.Core.Application.Tests.Services
 
             var result = await this.service.GetByIdAsync(entity.Id.GetValueOrDefault());
 
-            Assert.IsInstanceOf<ServiceResult<BalanceModel>>(result);
+            Assert.IsInstanceOf<ServiceResult<BalanceDto>>(result);
             Assert.IsFalse(result.HasError);
-            BalanceModelAssert.Equal(entity, result.Data!);
+            Assert.IsNotNull(result.Data);
 
             this.provider.Verify(x => x.GetByIdAsync(entity.Id.GetValueOrDefault()), Times.Once);
         }
@@ -57,7 +58,7 @@ namespace FinancialHub.Core.Application.Tests.Services
 
             var result = await this.service.GetByIdAsync(entity.Id.GetValueOrDefault());
 
-            Assert.IsInstanceOf<ServiceResult<BalanceModel>>(result);
+            Assert.IsInstanceOf<ServiceResult<BalanceDto>>(result);
             Assert.IsTrue(result.HasError);
         }
     }

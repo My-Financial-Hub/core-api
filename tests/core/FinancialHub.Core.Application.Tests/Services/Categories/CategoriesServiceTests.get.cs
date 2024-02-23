@@ -1,4 +1,6 @@
-﻿namespace FinancialHub.Core.Application.Tests.Services
+﻿using FinancialHub.Core.Domain.DTOS.Categories;
+
+namespace FinancialHub.Core.Application.Tests.Services
 {
     public partial class CategoriesServiceTests
     {
@@ -14,7 +16,7 @@
 
             var result = await this.service.GetAllByUserAsync(string.Empty);
 
-            Assert.IsInstanceOf<ServiceResult<ICollection<CategoryModel>>>(result);
+            Assert.IsInstanceOf<ServiceResult<ICollection<CategoryDto>>>(result);
             Assert.IsFalse(result.HasError);
             Assert.AreEqual(categoriesMock.Count, result.Data!.Count);
 

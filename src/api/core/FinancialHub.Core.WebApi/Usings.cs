@@ -5,9 +5,6 @@ global using System.Threading.Tasks;
 // Asp.Net namespaces
 global using Microsoft.AspNetCore.Mvc;
 
-// Domain Models namespaces 
-global using FinancialHub.Core.Domain.Models;
-
 // Domain Interfaces namespaces 
 global using FinancialHub.Core.Domain.Interfaces.Services;
 

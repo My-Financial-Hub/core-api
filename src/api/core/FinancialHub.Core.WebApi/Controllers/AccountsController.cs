@@ -1,4 +1,7 @@
-﻿namespace FinancialHub.Core.WebApi.Controllers
+﻿using FinancialHub.Core.Domain.DTOS.Accounts;
+using FinancialHub.Core.Domain.DTOS.Balances;
+
+namespace FinancialHub.Core.WebApi.Controllers
 {
     [ApiController]
     [Route("[controller]")]
@@ -20,24 +23,33 @@
         /// </summary>
         /// <param name="accountId">id of the account</param>
         [HttpGet("{accountId}/balances")]
-        [ProducesResponseType(typeof(ListResponse<BalanceModel>), 200)]
+        [ProducesResponseType(typeof(ListResponse<BalanceDto>), 200)]
+        [ProducesResponseType(typeof(NotFoundErrorResponse), 404)]
         public async Task<IActionResult> GetAccountBalances([FromRoute] Guid accountId)
         {
             var result = await this.balanceService.GetAllByAccountAsync(accountId);
 
-            return Ok(new ListResponse<BalanceModel>(result.Data));
+            if (result.HasError)
+            {
+                return StatusCode(
+                    result.Error.Code,
+                    new NotFoundErrorResponse(result.Error.Message)
+                 );
+            }
+
+            return Ok(new ListResponse<BalanceDto>(result.Data));
         }
 
         /// <summary>
         /// Get all accounts of the system (will be changed to only one user)
         /// </summary>
         [HttpGet]
-        [ProducesResponseType(typeof(ListResponse<AccountModel>), 200)]
+        [ProducesResponseType(typeof(ListResponse<AccountDto>), 200)]
         public async Task<IActionResult> GetMyAccounts()
         {
             var result = await service.GetAllByUserAsync("mock");
 
-            return Ok(new ListResponse<AccountModel>(result.Data));
+            return Ok(new ListResponse<AccountDto>(result.Data));
         }
 
         /// <summary>
@@ -45,9 +57,9 @@
         /// </summary>
         /// <param name="account">Account to be created</param>
         [HttpPost]
-        [ProducesResponseType(typeof(SaveResponse<AccountModel>), 200)]
+        [ProducesResponseType(typeof(SaveResponse<AccountDto>), 200)]
         [ProducesResponseType(typeof(ValidationErrorResponse), 400)]
-        public async Task<IActionResult> CreateAccount([FromBody] AccountModel account)
+        public async Task<IActionResult> CreateAccount([FromBody] CreateAccountDto account)
         {
             var result = await this.service.CreateAsync(account);
 
@@ -59,7 +71,7 @@
                  );
             }
 
-            return Ok(new SaveResponse<AccountModel>(result.Data));
+            return Ok(new SaveResponse<AccountDto>(result.Data));
         }
 
         /// <summary>
@@ -68,10 +80,10 @@
         /// <param name="id">id of the account</param>
         /// <param name="account">account changes</param>
         [HttpPut("{id}")]
-        [ProducesResponseType(typeof(SaveResponse<AccountModel>), 200)]
+        [ProducesResponseType(typeof(SaveResponse<AccountDto>), 200)]
         [ProducesResponseType(typeof(NotFoundErrorResponse), 404)]
         [ProducesResponseType(typeof(ValidationErrorResponse), 400)]
-        public async Task<IActionResult> UpdateAccount([FromRoute] Guid id, [FromBody] AccountModel account)
+        public async Task<IActionResult> UpdateAccount([FromRoute] Guid id, [FromBody] UpdateAccountDto account)
         {
             var response = await service.UpdateAsync(id, account);
 
@@ -83,7 +95,7 @@
                  );
             }
 
-            return Ok(new SaveResponse<AccountModel>(response.Data));
+            return Ok(new SaveResponse<AccountDto>(response.Data));
         }
 
         /// <summary>

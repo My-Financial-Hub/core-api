@@ -1,7 +1,16 @@
-﻿namespace FinancialHub.Core.Application.Tests.Services
+﻿using FinancialHub.Core.Domain.DTOS.Transactions;
+using FinancialHub.Core.Domain.Tests.Builders.DTOS.Transactions;
+
+namespace FinancialHub.Core.Application.Tests.Services
 {
     public partial class TransactionsServiceTests
     {
+        private CreateTransactionDtoBuilder createTransactionDtoBuilder;
+        protected void AddCreateTransactionBuilder()
+        {
+            createTransactionDtoBuilder = new CreateTransactionDtoBuilder();
+        }
+
         [Test]
         public async Task CreateAsync_ValidTransaction_CreatesTransaction()
         {
@@ -20,7 +29,11 @@
                 .Returns<TransactionModel>(async (x) => await Task.FromResult(x))
                 .Verifiable();
 
-            await this.service.CreateAsync(model);
+            var createTransaction = createTransactionDtoBuilder
+                .WithBalanceId(model.BalanceId)
+                .WithCategoryId(model.CategoryId)
+                .Generate();
+            await this.service.CreateAsync(createTransaction);
 
             this.provider.Verify(x => x.CreateAsync(It.IsAny<TransactionModel>()), Times.Once);
         }
@@ -42,11 +55,15 @@
                 .Setup(x => x.CreateAsync(It.IsAny<TransactionModel>()))
                 .Returns<TransactionModel>(async (x) => await Task.FromResult(x))
                 .Verifiable();
-
-            var result = await this.service.CreateAsync(model);
+            
+            var createTransaction = createTransactionDtoBuilder
+                .WithBalanceId(model.BalanceId)
+                .WithCategoryId(model.CategoryId)
+                .Generate();
+            var result = await this.service.CreateAsync(createTransaction);
 
             Assert.IsNotNull(result.Data);
-            Assert.IsInstanceOf<ServiceResult<TransactionModel>>(result);
+            Assert.IsInstanceOf<ServiceResult<TransactionDto>>(result);
         }
 
         [Test]
@@ -62,7 +79,11 @@
                 .Setup(x => x.NotFoundMessage(It.IsAny<string>(), It.IsAny<Guid>()))
                 .Returns(expectedErrorMessage);
 
-            var result = await this.service.CreateAsync(model);
+            var createTransaction = createTransactionDtoBuilder
+                .WithBalanceId(model.BalanceId)
+                .WithCategoryId(model.CategoryId)
+                .Generate();
+            var result = await this.service.CreateAsync(createTransaction);
 
             Assert.IsTrue(result.HasError);
             Assert.AreEqual(expectedErrorMessage, result.Error!.Message);
@@ -80,7 +101,11 @@
                 .Setup(x => x.NotFoundMessage(It.IsAny<string>(), It.IsAny<Guid>()))
                 .Returns(expectedErrorMessage);
 
-            var result = await this.service.CreateAsync(model);
+            var createTransaction = createTransactionDtoBuilder
+                .WithBalanceId(model.BalanceId)
+                .WithCategoryId(model.CategoryId)
+                .Generate();
+            var result = await this.service.CreateAsync(createTransaction);
 
             Assert.IsTrue(result.HasError);
             Assert.AreEqual(expectedErrorMessage, result.Error!.Message);

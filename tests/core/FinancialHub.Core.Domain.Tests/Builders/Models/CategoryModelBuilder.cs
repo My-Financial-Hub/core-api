@@ -6,7 +6,7 @@
         {
             this.RuleFor(x => x.Name, fake => fake.Finance.Random.Word());
             this.RuleFor(x => x.Description, fake => fake.Lorem.Sentences(5));
-            this.RuleFor(x => x.IsActive, fake => fake.System.Random.Bool());;
+            this.RuleFor(x => x.IsActive, fake => fake.System.Random.Bool());
         }
 
         public CategoryModelBuilder WithName(string name)

@@ -10,7 +10,6 @@ global using FinancialHub.Core.Domain.Models;
 global using FinancialHub.Core.Domain.Entities;
 
 // Domain inerfaces namespaces
-global using FinancialHub.Core.Domain.Interfaces.Mappers;
 global using FinancialHub.Core.Domain.Interfaces.Providers;
 global using FinancialHub.Core.Domain.Interfaces.Repositories;
 
