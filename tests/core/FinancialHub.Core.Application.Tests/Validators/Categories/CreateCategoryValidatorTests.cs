@@ -1,26 +1,27 @@
-﻿using FinancialHub.Core.Application.Validators;
+﻿using FinancialHub.Core.Application.Validators.Categories;
 using FinancialHub.Core.Domain.Interfaces.Resources;
+using FinancialHub.Core.Domain.Tests.Builders.DTOS.Categories;
 using FinancialHub.Core.Resources.Providers;
 using System.Globalization;
 
-namespace FinancialHub.Core.Application.Tests.Validators
+namespace FinancialHub.Core.Application.Tests.Validators.Categories
 {
-    public class CategoryValidatorTests
+    public class CreateCategoryValidatorTests
     {
-        private CategoryModelBuilder builder;
+        private CreateCategoryDtoBuilder builder;
         private readonly IValidationErrorMessageProvider errorMessageProvider;
-        private readonly CategoryValidator validator;
+        private readonly CreateCategoryValidator validator;
 
-        public CategoryValidatorTests()
+        public CreateCategoryValidatorTests()
         {
             this.errorMessageProvider = new ValidationErrorMessageProvider(CultureInfo.InvariantCulture);
-            this.validator = new CategoryValidator(this.errorMessageProvider);
+            this.validator = new CreateCategoryValidator(this.errorMessageProvider);
         }
 
         [SetUp]
         public void SetUp()
         {
-            this.builder = new CategoryModelBuilder();
+            this.builder = new CreateCategoryDtoBuilder();
         }
 
         [Test]
