@@ -69,8 +69,8 @@ jobs:
       - name: Begin Coverage Report
         run: 
           dotnet tool run dotnet-sonarscanner begin 
-          /k:"Chingling152_my-financial-hub" 
-          /o:"chingling-152" 
+          /k:"My-Financial-Hub_core-api" 
+          /o:"my-financial-hub" 
           /d:sonar.token="${{ secrets.SONAR_TOKEN }}" 
           /d:sonar.host.url="https://sonarcloud.io" 
           /d:sonar.coverage.exclusions="**/Migrations/." 
