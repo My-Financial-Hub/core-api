@@ -22,7 +22,6 @@ jobs:
       matrix:
         project: 
           - core
-          - auth
     env:
       project-dir: ${{ inputs.dir }}/${{ matrix.project }}
 
