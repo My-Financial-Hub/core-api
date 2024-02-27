@@ -1,16 +1,24 @@
-﻿namespace FinancialHub.Core.Infra.Providers
+﻿using Microsoft.Extensions.Logging;
+
+namespace FinancialHub.Core.Infra.Providers
 {
     public class AccountsProvider : IAccountsProvider
     {
         private readonly IMapper mapper;
         private readonly IAccountsRepository repository;
         private readonly IBalancesRepository balanceRepository;
+        private readonly ILogger logger;
 
-        public AccountsProvider(IMapper mapper, IAccountsRepository repository, IBalancesRepository balanceRepository)
+        public AccountsProvider(
+            IMapper mapper, 
+            IAccountsRepository repository, IBalancesRepository balanceRepository, 
+            ILogger logger
+        )
         {
             this.mapper = mapper;
             this.repository = repository;
             this.balanceRepository = balanceRepository;
+            this.logger = logger;
         }
 
         public async Task<AccountModel> CreateAsync(AccountModel account)

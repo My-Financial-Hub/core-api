@@ -1,5 +1,6 @@
 ﻿using FinancialHub.Core.Domain.DTOS.Accounts;
 using FinancialHub.Core.Domain.DTOS.Balances;
+using Microsoft.Extensions.Logging;
 
 namespace FinancialHub.Core.WebApi.Controllers
 {
@@ -11,11 +12,13 @@ namespace FinancialHub.Core.WebApi.Controllers
     {
         private readonly IAccountsService service;
         private readonly IBalancesService balanceService;
+        private readonly ILogger logger;
 
-        public AccountsController(IAccountsService service, IBalancesService balanceService) 
+        public AccountsController(IAccountsService service, IBalancesService balanceService, ILogger logger) 
         {
             this.service = service;
             this.balanceService = balanceService;
+            this.logger = logger;
         }
 
         /// <summary>
@@ -31,6 +34,10 @@ namespace FinancialHub.Core.WebApi.Controllers
 
             if (result.HasError)
             {
+                this.logger.LogError(
+                    "Error adding balance to account {accountId} : {Message}",
+                    accountId, result.Error.Message
+                );
                 return StatusCode(
                     result.Error.Code,
                     new NotFoundErrorResponse(result.Error.Message)
@@ -65,6 +72,10 @@ namespace FinancialHub.Core.WebApi.Controllers
 
             if (result.HasError)
             {
+                this.logger.LogError(
+                    "Error creating account : {Message}",
+                    result.Error.Message
+                );
                 return ErrorResponse(result.Error);
             }
 
@@ -82,10 +93,14 @@ namespace FinancialHub.Core.WebApi.Controllers
         [ProducesResponseType(typeof(ValidationsErrorResponse), 400)]
         public async Task<IActionResult> UpdateAccount([FromRoute] Guid id, [FromBody] UpdateAccountDto account)
         {
-            var response = await service.UpdateAsync(id, account);
+            var result = await service.UpdateAsync(id, account);
 
-            if (response.HasError)
+            if (result.HasError)
             {
+                this.logger.LogError(
+                    "Error updating account {id} : {Message}",
+                    id, result.Error.Message
+                );
                 return ErrorResponse(response.Error);
             }
 

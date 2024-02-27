@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using FinancialHub.Core.Domain.DTOS.Accounts;
+using FinancialHub.Core.Domain.Interfaces.Resources;
+using Microsoft.Extensions.Logging;
 using FinancialHub.Core.Domain.Interfaces.Validators;
 
 namespace FinancialHub.Core.Application.Services
@@ -9,15 +11,17 @@ namespace FinancialHub.Core.Application.Services
         private readonly IAccountsProvider provider;
         private readonly IAccountsValidator accountValidator;
         private readonly IMapper mapper;
+        private readonly ILogger logger;
 
         public AccountsService(
             IAccountsProvider provider, IAccountsValidator accountValidator,
-            IMapper mapper
+            IMapper mapper, ILogger logger
         )
         {
             this.provider = provider;
             this.accountValidator = accountValidator;
             this.mapper = mapper;
+            this.logger = logger;
         }
 
         public async Task<ServiceResult<AccountDto>> CreateAsync(CreateAccountDto accountDto)
