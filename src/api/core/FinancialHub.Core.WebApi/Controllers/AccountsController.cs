@@ -12,9 +12,9 @@ namespace FinancialHub.Core.WebApi.Controllers
     {
         private readonly IAccountsService service;
         private readonly IBalancesService balanceService;
-        private readonly ILogger logger;
+        private readonly ILogger<AccountsController> logger;
 
-        public AccountsController(IAccountsService service, IBalancesService balanceService, ILogger logger) 
+        public AccountsController(IAccountsService service, IBalancesService balanceService, ILogger<AccountsController> logger) 
         {
             this.service = service;
             this.balanceService = balanceService;
@@ -34,8 +34,8 @@ namespace FinancialHub.Core.WebApi.Controllers
 
             if (result.HasError)
             {
-                this.logger.LogError(
-                    "Error adding balance to account {accountId} : {Message}",
+                this.logger.LogWarning(
+                    "Error getting balances from account {accountId} : {Message}",
                     accountId, result.Error.Message
                 );
                 return StatusCode(
@@ -72,7 +72,7 @@ namespace FinancialHub.Core.WebApi.Controllers
 
             if (result.HasError)
             {
-                this.logger.LogError(
+                this.logger.LogWarning(
                     "Error creating account : {Message}",
                     result.Error.Message
                 );
@@ -97,7 +97,7 @@ namespace FinancialHub.Core.WebApi.Controllers
 
             if (result.HasError)
             {
-                this.logger.LogError(
+                this.logger.LogWarning(
                     "Error updating account {id} : {Message}",
                     id, result.Error.Message
                 );

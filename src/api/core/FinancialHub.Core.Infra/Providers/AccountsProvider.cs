@@ -7,12 +7,12 @@ namespace FinancialHub.Core.Infra.Providers
         private readonly IMapper mapper;
         private readonly IAccountsRepository repository;
         private readonly IBalancesRepository balanceRepository;
-        private readonly ILogger logger;
+        private readonly ILogger<AccountsProvider> logger;
 
         public AccountsProvider(
             IMapper mapper, 
             IAccountsRepository repository, IBalancesRepository balanceRepository, 
-            ILogger logger
+            ILogger<AccountsProvider> logger
         )
         {
             this.mapper = mapper;
@@ -24,6 +24,8 @@ namespace FinancialHub.Core.Infra.Providers
         public async Task<AccountModel> CreateAsync(AccountModel account)
         {
             var accountEntity = mapper.Map<AccountEntity>(account);
+
+            logger.LogInformation("Creating account \"{Name}\"", account.Name);
             var createdAccount = await this.repository.CreateAsync(accountEntity);
 
             var balance = new BalanceModel()
@@ -33,9 +35,13 @@ namespace FinancialHub.Core.Infra.Providers
                 IsActive = createdAccount.IsActive
             };
             var balanceEntity = mapper.Map<BalanceEntity>(balance);
+
+            logger.LogInformation("Creating balance \"{Name}\" inside account \"{Name}\"", balance.Name, account.Name);
             await this.balanceRepository.CreateAsync(balanceEntity);
+            logger.LogInformation("Balance \"{Name}\" created inside account \"{Name}\"", account.Name, account.Name);
 
             await this.repository.CommitAsync();
+            logger.LogInformation("Account \"{Name}\" created", account.Name);
 
             return mapper.Map<AccountModel>(createdAccount);
         }

@@ -35,7 +35,7 @@ namespace FinancialHub.Core.Application.Services
             }
 
             var account = this.mapper.Map<AccountModel>(accountDto);
-            this.logger.LogInformation("Attempt to creat account {result}", account);
+            this.logger.LogInformation("Attempt to create account {result}", account);
 
             var accountModel = await this.provider.CreateAsync(account);
 
