@@ -11,10 +11,12 @@ namespace FinancialHub.Core.Application.Services
         private readonly IAccountsProvider provider;
         private readonly IAccountsValidator accountValidator;
         private readonly IMapper mapper;
-        private readonly ILogger logger;
+        private readonly IErrorMessageProvider errorMessageProvider;
+        private readonly ILogger<AccountsService> logger;
 
         public AccountsService(
-            IAccountsProvider provider, IAccountsValidator accountValidator,
+            IAccountsProvider provider, 
+            IMapper mapper,IErrorMessageProvider errorMessageProvider,
             IMapper mapper, ILogger logger
         )
         {
@@ -33,10 +35,14 @@ namespace FinancialHub.Core.Application.Services
             }
 
             var account = this.mapper.Map<AccountModel>(accountDto);
+            this.logger.LogInformation("Attempt to creat account {result}", account);
 
-            var result = await this.provider.CreateAsync(account);
+            var accountModel = await this.provider.CreateAsync(account);
 
-            return this.mapper.Map<AccountDto>(result);
+            var result = this.mapper.Map<AccountDto>(accountModel);
+
+            this.logger.LogInformation("Account {result} Sucessfully created", result);
+            return result;
         }
 
         public async Task<ServiceResult<int>> DeleteAsync(Guid id)
