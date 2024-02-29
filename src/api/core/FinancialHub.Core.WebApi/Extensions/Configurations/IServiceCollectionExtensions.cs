@@ -1,6 +1,4 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using FluentValidation;
-using FluentValidation.AspNetCore;
 using Microsoft.OpenApi.Models;
 
 namespace FinancialHub.Core.WebApi.Extensions.Configurations
