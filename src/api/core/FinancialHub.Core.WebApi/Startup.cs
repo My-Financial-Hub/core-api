@@ -23,6 +23,13 @@ namespace FinancialHub.Core.WebApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddApiConfigurations();
+            services.AddApiDocs();
+            services.AddApiLogging();
+
+            services.AddHttpLogging(logging =>
+            {
+                logging.LoggingFields = Microsoft.AspNetCore.HttpLogging.HttpLoggingFields.All;
+            });
 
             services.AddCoreResources();
             services.AddCoreServices();

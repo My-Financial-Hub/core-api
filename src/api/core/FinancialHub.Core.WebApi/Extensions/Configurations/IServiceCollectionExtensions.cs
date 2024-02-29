@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
+using FinancialHub.Core.Infra.Logs.Extensions.Configurations;
 
 namespace FinancialHub.Core.WebApi.Extensions.Configurations
 {
@@ -15,11 +16,28 @@ namespace FinancialHub.Core.WebApi.Extensions.Configurations
                 config.ReportApiVersions = true;
             });
 
+            return services;
+        }
+
+        public static IServiceCollection AddApiDocs(this IServiceCollection services)
+        {
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Financial Hub WebApi", Version = "v1" });
             });
 
+            return services;
+        }
+
+        public static IServiceCollection AddApiLogging(this IServiceCollection services)
+        {
+            services
+                .AddCoreLogging();
+            services
+                .AddHttpLogging(logging =>
+                {
+                    logging.LoggingFields = Microsoft.AspNetCore.HttpLogging.HttpLoggingFields.All;
+                });
             return services;
         }
     }
