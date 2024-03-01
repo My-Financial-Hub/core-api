@@ -12,6 +12,35 @@ namespace FinancialHub.Core.IntegrationTests.Controllers
         }
 
         [Test]
+        public async Task Post_InvalidAccount_Returns400BadRequest()
+        {
+            var data = createAccountDtoBuilder
+                .WithName(string.Empty)
+                .WithDescription(new string('o', 501))
+                .Generate();
+
+            var response = await client.PostAsync(baseEndpoint, data);
+            Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
+        }
+
+        [Test]
+        public async Task Post_InvalidAccount_ReturnsAccountValidationError()
+        {
+            var data = createAccountDtoBuilder
+                .WithName(string.Empty)
+                .WithDescription(new string('o', 501))
+                .Generate();
+
+            var response = await client.PostAsync(baseEndpoint, data);
+            var validationResponse = await response.ReadContentAsync<ValidationErrorResponse>();
+
+            Assert.IsNotEmpty(validationResponse!.Errors);
+            Assert.True(validationResponse.Errors.Any(x => x.Field == "Name"));
+            Assert.True(validationResponse.Errors.Any(x => x.Field == "Description"));
+            Assert.Equals(2, validationResponse.Errors.Count);
+        }
+
+        [Test]
         public async Task Post_ValidAccount_ReturnsCreatedAccount()
         {
             var data = createAccountDtoBuilder.Generate();
