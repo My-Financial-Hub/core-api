@@ -24,6 +24,7 @@ namespace FinancialHub.Core.WebApi
         {
             services.AddApiConfigurations();
 
+            services.AddValidators();
             services.AddCoreResources();
             services.AddCoreServices();
             services.AddCoreInfra();
