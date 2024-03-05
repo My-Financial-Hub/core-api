@@ -7,7 +7,7 @@ namespace FinancialHub.Core.WebApi.Controllers
     [Route("[controller]")]
     [Produces("application/json")]
     [ProducesErrorResponseType(typeof(Exception))]
-    public class AccountsController : Controller
+    public class AccountsController : BaseController
     {
         private readonly IAccountsService service;
         private readonly IBalancesService balanceService;
@@ -58,17 +58,14 @@ namespace FinancialHub.Core.WebApi.Controllers
         /// <param name="account">Account to be created</param>
         [HttpPost]
         [ProducesResponseType(typeof(SaveResponse<AccountDto>), 200)]
-        [ProducesResponseType(typeof(ValidationErrorResponse), 400)]
+        [ProducesResponseType(typeof(ValidationsErrorResponse), 400)]
         public async Task<IActionResult> CreateAccount([FromBody] CreateAccountDto account)
         {
             var result = await this.service.CreateAsync(account);
 
             if (result.HasError)
             {
-                return StatusCode(
-                    result.Error.Code, 
-                    new ValidationErrorResponse(result.Error.Message)
-                 );
+                return ErrorResponse(result.Error);
             }
 
             return Ok(new SaveResponse<AccountDto>(result.Data));

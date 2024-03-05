@@ -2,12 +2,24 @@
 {
     public class ValidationsErrorResponse : BaseErrorResponse
     {
-        public Dictionary<string, string[]>? Errors { get; set; }
+        public FieldValidationErrorResponse[] Errors { get; protected set; }
 
-        public ValidationsErrorResponse(string message, Dictionary<string, string[]>? errors = null) 
+        public ValidationsErrorResponse(string message, FieldValidationErrorResponse[] errors) 
             : base(400, message)
         { 
             this.Errors = errors;
+        }
+
+        public class FieldValidationErrorResponse
+        {
+            public string Field { get; }
+            public string[] Messages { get; }
+
+            public FieldValidationErrorResponse(string field, string[] messages)
+            {
+                this.Field = field;
+                this.Messages = messages;
+            }
         }
     }
 }
