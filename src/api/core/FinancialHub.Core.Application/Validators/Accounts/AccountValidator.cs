@@ -1,4 +1,5 @@
-﻿using FinancialHub.Core.Domain.DTOS.Accounts;
+﻿using FinancialHub.Core.Application.Extensions;
+using FinancialHub.Core.Domain.DTOS.Accounts;
 using FinancialHub.Core.Domain.Interfaces.Validators;
 using FluentValidation;
 using static FinancialHub.Common.Results.Errors.ValidationError;
@@ -27,22 +28,26 @@ namespace FinancialHub.Core.Application.Validators.Accounts
             {
                 return ServiceResult.Success;
             }
-
-            var errors = result.Errors
-                .GroupBy(x => x.PropertyName)
-                .Select(x => 
-                    new FieldValidationError(
-                        field: x.Key,
-                        messages: x.Select(y => y.ErrorMessage).ToArray()
-                    )
-                 ).ToArray();
             
-            return new ValidationError("Account validation error", errors);
+            return new ValidationError(
+                message: "Create Account validation error", 
+                errors: result.Errors.ToFieldValidationError()
+            );
         }
 
         public async Task<ServiceResult> ValidateAsync(UpdateAccountDto updateAccountDto)
         {
-            throw new NotImplementedException();
+            var result = await this.updateAccountDto.ValidateAsync(updateAccountDto);
+
+            if (result.IsValid)
+            {
+                return ServiceResult.Success;
+            }
+
+            return new ValidationError(
+                message: "Update Account validation error",
+                errors: result.Errors.ToFieldValidationError()
+            );
         }
     }
 }
