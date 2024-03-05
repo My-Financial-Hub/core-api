@@ -10,6 +10,7 @@ using FinancialHub.Core.Application.Validators.Accounts;
 using FinancialHub.Core.Application.Validators.Balances;
 using FinancialHub.Core.Application.Validators.Categories;
 using FinancialHub.Core.Application.Validators.Transactions;
+using FinancialHub.Core.Domain.Interfaces.Validators;
 
 namespace FinancialHub.Core.Application.Extensions.Configurations
 {
@@ -56,6 +57,7 @@ namespace FinancialHub.Core.Application.Extensions.Configurations
 
             services.AddAutoMapper(typeof(AccountMapper));
 
+            services.AddScoped<IAccountValidator, AccountValidator>();
             services.AddScoped<IValidator<CreateAccountDto>, CreateAccountValidator>();
             services.AddScoped<IValidator<UpdateAccountDto>, UpdateAccountValidator>();
 

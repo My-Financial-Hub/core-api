@@ -1,24 +1,36 @@
 ﻿using AutoMapper;
 using FinancialHub.Core.Domain.DTOS.Accounts;
 using FinancialHub.Core.Domain.Interfaces.Resources;
+using FinancialHub.Core.Domain.Interfaces.Validators;
 
 namespace FinancialHub.Core.Application.Services
 {
     public class AccountsService : IAccountsService
     {
         private readonly IAccountsProvider provider;
+        private readonly IAccountValidator accountValidator;
         private readonly IMapper mapper;
         private readonly IErrorMessageProvider errorMessageProvider;
 
-        public AccountsService(IAccountsProvider provider, IMapper mapper,IErrorMessageProvider errorMessageProvider)
+        public AccountsService(
+            IAccountsProvider provider, IAccountValidator accountValidator,
+            IMapper mapper, IErrorMessageProvider errorMessageProvider
+        )
         {
             this.provider = provider;
+            this.accountValidator = accountValidator;
             this.mapper = mapper;
             this.errorMessageProvider = errorMessageProvider;
         }
 
         public async Task<ServiceResult<AccountDto>> CreateAsync(CreateAccountDto accountDto)
         {
+            var validationResult = await this.accountValidator.ValidateAsync(accountDto);
+            if(validationResult.HasError)
+            {
+                return validationResult.Error;
+            }
+
             var account = this.mapper.Map<AccountModel>(accountDto);
 
             var result = await this.provider.CreateAsync(account);
