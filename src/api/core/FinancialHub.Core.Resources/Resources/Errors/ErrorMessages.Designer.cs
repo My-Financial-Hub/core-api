@@ -61,6 +61,15 @@ namespace FinancialHub.Core.Resources.Resources.Errors {
         }
         
         /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a {0} validation error.
+        /// </summary>
+        internal static string InvalidData {
+            get {
+                return ResourceManager.GetString("InvalidData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a Not found {0} with id {1}.
         /// </summary>
         internal static string NotFound {

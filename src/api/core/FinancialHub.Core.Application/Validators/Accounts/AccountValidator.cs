@@ -1,8 +1,8 @@
 ﻿using FinancialHub.Core.Application.Extensions;
 using FinancialHub.Core.Domain.DTOS.Accounts;
+using FinancialHub.Core.Domain.Interfaces.Resources;
 using FinancialHub.Core.Domain.Interfaces.Validators;
 using FluentValidation;
-using static FinancialHub.Common.Results.Errors.ValidationError;
 
 namespace FinancialHub.Core.Application.Validators.Accounts
 {
@@ -10,14 +10,16 @@ namespace FinancialHub.Core.Application.Validators.Accounts
     {
         private readonly IValidator<CreateAccountDto> createValidator;
         private readonly IValidator<UpdateAccountDto> updateAccountDto;
+        private readonly IErrorMessageProvider errorMessageProvider;
 
         public AccountValidator(
-            IValidator<CreateAccountDto> createValidator,
-            IValidator<UpdateAccountDto> updateAccountDto
+            IValidator<CreateAccountDto> createValidator,IValidator<UpdateAccountDto> updateAccountDto,
+            IErrorMessageProvider errorMessageProvider
         )
         {
             this.createValidator = createValidator;
             this.updateAccountDto = updateAccountDto;
+            this.errorMessageProvider = errorMessageProvider;
         }
 
         public async Task<ServiceResult> ValidateAsync(CreateAccountDto createAccountDto)
@@ -30,7 +32,7 @@ namespace FinancialHub.Core.Application.Validators.Accounts
             }
             
             return new ValidationError(
-                message: "Create Account validation error", 
+                message: errorMessageProvider.ValidationMessage("Account"), 
                 errors: result.Errors.ToFieldValidationError()
             );
         }
@@ -45,7 +47,7 @@ namespace FinancialHub.Core.Application.Validators.Accounts
             }
 
             return new ValidationError(
-                message: "Update Account validation error",
+                message: errorMessageProvider.ValidationMessage("Account"),
                 errors: result.Errors.ToFieldValidationError()
             );
         }
