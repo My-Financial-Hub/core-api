@@ -32,12 +32,10 @@ namespace FinancialHub.Core.IntegrationTests.Controllers
                 .Generate();
 
             var response = await client.PostAsync(baseEndpoint, data);
-            var validationResponse = await response.ReadContentAsync<ValidationErrorResponse>();
+            var validationResponse = await response.ReadContentAsync<ValidationsErrorResponse>();
 
-            Assert.IsNotEmpty(validationResponse!.Errors);
-            Assert.True(validationResponse.Errors.Any(x => x.Field == "Name"));
-            Assert.True(validationResponse.Errors.Any(x => x.Field == "Description"));
-            Assert.Equals(2, validationResponse.Errors.Count);
+            Assert.IsNotNull(validationResponse);
+            Assert.AreEqual(2, validationResponse!.Errors.Length);
         }
 
         [Test]
