@@ -65,11 +65,18 @@ namespace FinancialHub.Core.Application.Services
 
         public async Task<ServiceResult<AccountDto>> UpdateAsync(Guid id, UpdateAccountDto account)
         {
+            var validationResult = await this.accountValidator.ValidateAsync(account);
+            if (validationResult.HasError)
+            {
+                return validationResult.Error;
+            }
+
             var existingAccountResult = await this.GetByIdAsync(id);
             if (existingAccountResult.HasError)
             {
                 return existingAccountResult.Error;
             }
+            
             var accountModel = this.mapper.Map<AccountModel>(account);
 
             var updatedAccount = await this.provider.UpdateAsync(id, accountModel);

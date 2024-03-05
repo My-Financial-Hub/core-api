@@ -79,7 +79,7 @@ namespace FinancialHub.Core.WebApi.Controllers
         [HttpPut("{id}")]
         [ProducesResponseType(typeof(SaveResponse<AccountDto>), 200)]
         [ProducesResponseType(typeof(NotFoundErrorResponse), 404)]
-        [ProducesResponseType(typeof(ValidationErrorResponse), 400)]
+        [ProducesResponseType(typeof(ValidationsErrorResponse), 400)]
         public async Task<IActionResult> UpdateAccount([FromRoute] Guid id, [FromBody] UpdateAccountDto account)
         {
             var response = await service.UpdateAsync(id, account);

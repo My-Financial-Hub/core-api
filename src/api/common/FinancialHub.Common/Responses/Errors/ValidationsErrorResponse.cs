@@ -1,25 +1,18 @@
-﻿using static FinancialHub.Common.Results.Errors.ValidationError;
-
-namespace FinancialHub.Common.Responses.Errors
+﻿namespace FinancialHub.Common.Responses.Errors
 {
     public class ValidationsErrorResponse : BaseErrorResponse
     {
         public FieldValidationErrorResponse[] Errors { get; protected set; }
 
-        public ValidationsErrorResponse(string message, FieldValidationError[] errors) : base(400, message)
+        public ValidationsErrorResponse(string message, FieldValidationErrorResponse[] errors) : base(400, message)
         {
-            this.Errors = errors.Select(
-                e => new FieldValidationErrorResponse(
-                    e.Field, 
-                    e.Messages
-                )
-            ).ToArray();
+            this.Errors = errors;
         }
 
         public class FieldValidationErrorResponse
         {
-            public string Field { get; }
-            public string[] Messages { get; }
+            public string Field { get; protected set; }
+            public string[] Messages { get; protected set; }
 
             public FieldValidationErrorResponse(string field, string[] messages)
             {
