@@ -6,15 +6,15 @@ using FluentValidation;
 
 namespace FinancialHub.Core.Application.Validators.Balances
 {
-    public class BalanceValidator : IBalancesValidator
+    public class BalancesValidator : IBalancesValidator
     {
         private readonly IBalancesProvider balancesProvider;
-        private readonly IAccountValidator accountValidator;
+        private readonly IAccountsValidator accountValidator;
         private readonly IValidator<CreateBalanceDto> createBalanceDto;
         private readonly IValidator<UpdateBalanceDto> updateBalanceDto;
         private readonly IErrorMessageProvider errorMessageProvider;
 
-        public BalanceValidator(
+        public BalancesValidator(
             IBalancesProvider balancesProvider,
             IValidator<CreateBalanceDto> createBalanceDto, IValidator<UpdateBalanceDto> updateBalanceDto,
             IErrorMessageProvider errorMessageProvider

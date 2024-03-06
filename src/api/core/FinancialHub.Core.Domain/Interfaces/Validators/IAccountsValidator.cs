@@ -3,7 +3,7 @@ using FinancialHub.Core.Domain.DTOS.Accounts;
 
 namespace FinancialHub.Core.Domain.Interfaces.Validators
 {
-    public interface IAccountValidator
+    public interface IAccountsValidator
     {
         Task<ServiceResult> ExistsAsync(Guid id);
         Task<ServiceResult> ValidateAsync(CreateAccountDto createAccountDto);

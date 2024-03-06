@@ -9,13 +9,13 @@ namespace FinancialHub.Core.Application.Services
     {
         private readonly IBalancesProvider balancesProvider;
         private readonly IBalancesValidator balancesValidator;
-        private readonly IAccountValidator accountsValidator;
+        private readonly IAccountsValidator accountsValidator;
         private readonly IErrorMessageProvider errorMessageProvider;
         private readonly IMapper mapper;
 
         public BalancesService(
             IBalancesProvider balancesProvider,
-            IBalancesValidator balancesValidator, IAccountValidator accountsValidator,
+            IBalancesValidator balancesValidator, IAccountsValidator accountsValidator,
             IErrorMessageProvider errorMessageProvider,
             IMapper mapper
             )

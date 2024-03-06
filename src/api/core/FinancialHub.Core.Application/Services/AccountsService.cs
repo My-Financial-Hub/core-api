@@ -8,12 +8,12 @@ namespace FinancialHub.Core.Application.Services
     public class AccountsService : IAccountsService
     {
         private readonly IAccountsProvider provider;
-        private readonly IAccountValidator accountValidator;
+        private readonly IAccountsValidator accountValidator;
         private readonly IMapper mapper;
         private readonly IErrorMessageProvider errorMessageProvider;
 
         public AccountsService(
-            IAccountsProvider provider, IAccountValidator accountValidator,
+            IAccountsProvider provider, IAccountsValidator accountValidator,
             IMapper mapper, IErrorMessageProvider errorMessageProvider
         )
         {
