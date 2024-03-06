@@ -15,12 +15,14 @@ namespace FinancialHub.Core.Application.Validators.Balances
         private readonly IErrorMessageProvider errorMessageProvider;
 
         public BalancesValidator(
-            IBalancesProvider balancesProvider,
+            IBalancesProvider balancesProvider, 
+            IAccountsValidator accountValidator,
             IValidator<CreateBalanceDto> createBalanceDto, IValidator<UpdateBalanceDto> updateBalanceDto,
             IErrorMessageProvider errorMessageProvider
         )
         {
             this.balancesProvider = balancesProvider;
+            this.accountValidator = accountValidator;
             this.createBalanceDto = createBalanceDto;
             this.updateBalanceDto = updateBalanceDto;
             this.errorMessageProvider = errorMessageProvider;
