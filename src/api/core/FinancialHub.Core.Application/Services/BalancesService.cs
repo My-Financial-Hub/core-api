@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using FinancialHub.Core.Domain.DTOS.Balances;
-using FinancialHub.Core.Domain.Interfaces.Resources;
 using FinancialHub.Core.Domain.Interfaces.Validators;
 
 namespace FinancialHub.Core.Application.Services
@@ -10,20 +9,17 @@ namespace FinancialHub.Core.Application.Services
         private readonly IBalancesProvider balancesProvider;
         private readonly IBalancesValidator balancesValidator;
         private readonly IAccountsValidator accountsValidator;
-        private readonly IErrorMessageProvider errorMessageProvider;
         private readonly IMapper mapper;
 
         public BalancesService(
             IBalancesProvider balancesProvider,
             IBalancesValidator balancesValidator, IAccountsValidator accountsValidator,
-            IErrorMessageProvider errorMessageProvider,
             IMapper mapper
-            )
+        )
         {
             this.balancesProvider = balancesProvider;
             this.balancesValidator = balancesValidator;
             this.accountsValidator = accountsValidator;
-            this.errorMessageProvider = errorMessageProvider;
             this.mapper = mapper;
         }
 
@@ -47,13 +43,13 @@ namespace FinancialHub.Core.Application.Services
 
         public async Task<ServiceResult<BalanceDto>> GetByIdAsync(Guid id)
         {
-            var balance = await this.balancesProvider.GetByIdAsync(id);
-            if (balance == null)
+            var validationResult = await this.balancesValidator.ExistsAsync(id);
+            if (validationResult.HasError)
             {
-                return new NotFoundError(
-                    this.errorMessageProvider.NotFoundMessage("Balance", id)
-                );
+                return validationResult.Error;
             }
+
+            var balance = await this.balancesProvider.GetByIdAsync(id);
 
             return this.mapper.Map<BalanceDto>(balance);
         }
