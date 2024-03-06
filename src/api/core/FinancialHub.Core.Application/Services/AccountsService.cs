@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using FinancialHub.Core.Domain.DTOS.Accounts;
-using FinancialHub.Core.Domain.Interfaces.Resources;
 using FinancialHub.Core.Domain.Interfaces.Validators;
 
 namespace FinancialHub.Core.Application.Services

@@ -13,11 +13,6 @@ namespace FinancialHub.Core.Application.Validators.Balances
         private readonly IValidator<CreateBalanceDto> createBalanceDtoValidator;
         private readonly IValidator<UpdateBalanceDto> updateBalanceDtoValidator;
 
-        public BalancesValidator(IValidator<UpdateBalanceDto> updateBalanceDtoValidator)
-        {
-            this.updateBalanceDtoValidator = updateBalanceDtoValidator;
-        }
-
         private readonly IErrorMessageProvider errorMessageProvider;
 
         public BalancesValidator(

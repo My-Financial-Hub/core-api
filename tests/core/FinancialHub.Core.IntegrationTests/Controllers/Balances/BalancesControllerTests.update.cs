@@ -48,7 +48,7 @@ namespace FinancialHub.Core.IntegrationTests.Controllers.Balances
         }
 
         [Test]
-        public async Task Put_InvalidAccount_ReturnsAccountValidationError()
+        public async Task Put_InvalidBalance_ReturnsBalanceValidationError()
         {
             var account = accountBuilder.Generate();
             fixture.AddData(account);
