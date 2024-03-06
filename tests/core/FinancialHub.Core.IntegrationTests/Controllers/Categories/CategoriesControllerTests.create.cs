@@ -1,4 +1,5 @@
 ﻿using FinancialHub.Core.Domain.DTOS.Categories;
+using FinancialHub.Core.Domain.Tests.Builders.DTOS.Accounts;
 using FinancialHub.Core.Domain.Tests.Builders.DTOS.Categories;
 
 namespace FinancialHub.Core.IntegrationTests.Controllers.Categories
@@ -21,6 +22,33 @@ namespace FinancialHub.Core.IntegrationTests.Controllers.Categories
                         bal.Description == balance.Description &&
                         bal.IsActive    == balance.IsActive
                 );
+        }
+
+        [Test]
+        public async Task Post_InvalidCategory_Returns400BadRequest()
+        {
+            var data = createCategoryDtoBuilder
+                .WithName(string.Empty)
+                .WithDescription(new string('o', 501))
+                .Generate();
+
+            var response = await client.PostAsync(baseEndpoint, data);
+            Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
+        }
+
+        [Test]
+        public async Task Post_InvalidCategory_ReturnsCategoryValidationError()
+        {
+            var data = createCategoryDtoBuilder
+                .WithName(string.Empty)
+                .WithDescription(new string('o', 501))
+                .Generate();
+
+            var response = await client.PostAsync(baseEndpoint, data);
+            var validationResponse = await response.ReadContentAsync<ValidationsErrorResponse>();
+
+            Assert.IsNotNull(validationResponse);
+            Assert.AreEqual(2, validationResponse!.Errors.Length);
         }
 
         [Test]

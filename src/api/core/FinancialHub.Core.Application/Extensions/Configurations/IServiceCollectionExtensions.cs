@@ -14,7 +14,7 @@ using FinancialHub.Core.Domain.Interfaces.Validators;
 
 namespace FinancialHub.Core.Application.Extensions.Configurations
 {
-    public static class IServiceCollectionExtensions
+    public static partial class IServiceCollectionExtensions
     {
         public static IServiceCollection AddCoreServices(this IServiceCollection services)
         {
@@ -71,7 +71,8 @@ namespace FinancialHub.Core.Application.Extensions.Configurations
             services.AddScoped<ICategoriesService, CategoriesService>();
 
             services.AddAutoMapper(typeof(CategoryMapper));
-
+            
+            services.AddScoped<ICategoriesValidator, CategoriesValidator>();
             services.AddScoped<IValidator<CreateCategoryDto>, CreateCategoryValidator>();
             services.AddScoped<IValidator<UpdateCategoryDto>, UpdateCategoryValidator>();
 
