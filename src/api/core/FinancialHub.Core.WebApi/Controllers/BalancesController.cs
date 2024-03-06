@@ -27,7 +27,7 @@ namespace FinancialHub.Core.WebApi.Controllers
                 return ErrorResponse(result.Error);
             }
 
-            return Ok(new SaveResponse<BalanceDto>(result.Data));
+            return SaveResponse(result.Data);
         }
 
         [HttpPut("{id}")]
@@ -43,7 +43,7 @@ namespace FinancialHub.Core.WebApi.Controllers
                 return ErrorResponse(result.Error);
             }
 
-            return Ok(new SaveResponse<BalanceDto>(result.Data));
+            return SaveResponse(result.Data);
         }
 
         [HttpDelete("{id}")]

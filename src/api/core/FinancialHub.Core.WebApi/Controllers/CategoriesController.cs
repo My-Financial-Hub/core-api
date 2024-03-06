@@ -42,7 +42,7 @@ namespace FinancialHub.Core.WebApi.Controllers
                 return ErrorResponse(result.Error);
             }
 
-            return Ok(new SaveResponse<CategoryDto>(result.Data));
+            return SaveResponse(result.Data);
         }
 
         /// <summary>
@@ -62,7 +62,7 @@ namespace FinancialHub.Core.WebApi.Controllers
                 return ErrorResponse(result.Error);
             }
 
-            return Ok(new SaveResponse<CategoryDto>(result.Data));
+            return SaveResponse(result.Data);
         }
 
         /// <summary>

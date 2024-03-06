@@ -37,5 +37,12 @@ namespace FinancialHub.Core.WebApi.Controllers
                     ),
             };
         }
+
+        protected IActionResult SaveResponse<T>(T data)
+        {
+            return Ok(
+                new SaveResponse<T>(data)
+            );
+        }
     }
 }
