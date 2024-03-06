@@ -9,18 +9,20 @@ namespace FinancialHub.Core.Application.Services
     {
         private readonly IBalancesProvider balancesProvider;
         private readonly IBalancesValidator balancesValidator;
+        private readonly IAccountValidator accountsValidator;
         private readonly IErrorMessageProvider errorMessageProvider;
         private readonly IMapper mapper;
 
         public BalancesService(
             IBalancesProvider balancesProvider,
-            IBalancesValidator balancesValidator,
+            IBalancesValidator balancesValidator, IAccountValidator accountsValidator,
             IErrorMessageProvider errorMessageProvider,
             IMapper mapper
             )
         {
             this.balancesProvider = balancesProvider;
             this.balancesValidator = balancesValidator;
+            this.accountsValidator = accountsValidator;
             this.errorMessageProvider = errorMessageProvider;
             this.mapper = mapper;
         }
@@ -58,7 +60,7 @@ namespace FinancialHub.Core.Application.Services
 
         public async Task<ServiceResult<ICollection<BalanceDto>>> GetAllByAccountAsync(Guid accountId)
         {
-            var validationResult = await this.balancesValidator.AccountExistsAsync(accountId);
+            var validationResult = await this.accountsValidator.ExistsAsync(accountId);
             if (validationResult.HasError)
             {
                 return validationResult.Error;
@@ -92,10 +94,10 @@ namespace FinancialHub.Core.Application.Services
 
         public async Task<ServiceResult<BalanceModel>> UpdateAmountAsync(Guid id, decimal newAmount)
         {
-            var balanceResult = await this.GetByIdAsync(id);
-            if (balanceResult.HasError)
+            var oldBalance = await this.balancesValidator.ExistsAsync(id);
+            if (oldBalance.HasError)
             {
-                return balanceResult.Error;
+                return oldBalance.Error;
             }
 
             return await balancesProvider.UpdateAmountAsync(id, newAmount);

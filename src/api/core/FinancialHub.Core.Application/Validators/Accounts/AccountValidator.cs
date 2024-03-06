@@ -8,18 +8,34 @@ namespace FinancialHub.Core.Application.Validators.Accounts
 {
     public class AccountValidator : IAccountValidator
     {
+        private readonly IAccountsProvider accountsProvider;
         private readonly IValidator<CreateAccountDto> createValidator;
         private readonly IValidator<UpdateAccountDto> updateAccountDto;
         private readonly IErrorMessageProvider errorMessageProvider;
 
         public AccountValidator(
+            IAccountsProvider accountsProvider, 
             IValidator<CreateAccountDto> createValidator,IValidator<UpdateAccountDto> updateAccountDto,
             IErrorMessageProvider errorMessageProvider
         )
         {
+            this.accountsProvider = accountsProvider;
             this.createValidator = createValidator;
             this.updateAccountDto = updateAccountDto;
             this.errorMessageProvider = errorMessageProvider;
+        }
+
+        public async Task<ServiceResult> ExistsAsync(Guid id)
+        {
+            var result = await this.accountsProvider.GetByIdAsync(id);
+            if (result != null)
+            {
+                return ServiceResult.Success;
+            }
+
+            return new NotFoundError(
+                this.errorMessageProvider.NotFoundMessage("Account", id)
+            );
         }
 
         public async Task<ServiceResult> ValidateAsync(CreateAccountDto createAccountDto)

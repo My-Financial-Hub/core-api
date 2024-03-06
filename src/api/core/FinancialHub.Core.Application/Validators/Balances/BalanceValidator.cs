@@ -8,36 +8,22 @@ namespace FinancialHub.Core.Application.Validators.Balances
 {
     public class BalanceValidator : IBalancesValidator
     {
-        private readonly IAccountsProvider accountsProvider;
         private readonly IBalancesProvider balancesProvider;
+        private readonly IAccountValidator accountValidator;
         private readonly IValidator<CreateBalanceDto> createBalanceDto;
         private readonly IValidator<UpdateBalanceDto> updateBalanceDto;
         private readonly IErrorMessageProvider errorMessageProvider;
 
         public BalanceValidator(
-            IAccountsProvider accountsProvider, IBalancesProvider balancesProvider,
+            IBalancesProvider balancesProvider,
             IValidator<CreateBalanceDto> createBalanceDto, IValidator<UpdateBalanceDto> updateBalanceDto,
             IErrorMessageProvider errorMessageProvider
         )
         {
             this.balancesProvider = balancesProvider;
-            this.accountsProvider = accountsProvider;
             this.createBalanceDto = createBalanceDto;
             this.updateBalanceDto = updateBalanceDto;
             this.errorMessageProvider = errorMessageProvider;
-        }
-
-        public async Task<ServiceResult> AccountExistsAsync(Guid accountId)
-        {
-            var result = await this.accountsProvider.GetByIdAsync(accountId);
-            if(result != null)
-            {
-                return ServiceResult.Success;
-            }
-
-            return new NotFoundError(
-                this.errorMessageProvider.NotFoundMessage("Account", accountId)
-            );
         }
 
         public async Task<ServiceResult> ExistsAsync(Guid id)
@@ -55,7 +41,7 @@ namespace FinancialHub.Core.Application.Validators.Balances
 
         public async Task<ServiceResult> ValidateAsync(CreateBalanceDto createBalanceDto)
         {
-            var accountExists = await this.AccountExistsAsync(createBalanceDto.AccountId);
+            var accountExists = await this.accountValidator.ExistsAsync(createBalanceDto.AccountId);
             if (accountExists.HasError)
             {
                 return accountExists.Error;
@@ -75,7 +61,7 @@ namespace FinancialHub.Core.Application.Validators.Balances
 
         public async Task<ServiceResult> ValidateAsync(UpdateBalanceDto updateBalanceDto)
         {
-            var accountExists = await this.AccountExistsAsync(updateBalanceDto.AccountId);
+            var accountExists = await this.accountValidator.ExistsAsync(updateBalanceDto.AccountId);
             if (accountExists.HasError) 
             {
                 return accountExists.Error;

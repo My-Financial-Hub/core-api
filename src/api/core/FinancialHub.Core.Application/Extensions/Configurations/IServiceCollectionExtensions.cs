@@ -33,6 +33,8 @@ namespace FinancialHub.Core.Application.Extensions.Configurations
 
             services.AddAutoMapper(typeof(BalanceMapper));
 
+            services.AddScoped<IBalancesValidator, BalanceValidator>();
+
             services.AddScoped<IValidator<CreateBalanceDto>, CreateBalanceValidator>();
             services.AddScoped<IValidator<UpdateBalanceDto>, UpdateBalanceValidator>();
 

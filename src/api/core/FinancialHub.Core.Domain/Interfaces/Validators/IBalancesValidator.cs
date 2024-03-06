@@ -6,7 +6,6 @@ namespace FinancialHub.Core.Domain.Interfaces.Validators
     public interface IBalancesValidator
     {
         Task<ServiceResult> ExistsAsync(Guid id);
-        Task<ServiceResult> AccountExistsAsync(Guid accountId);
         Task<ServiceResult> ValidateAsync(CreateBalanceDto createBalanceDto);
         Task<ServiceResult> ValidateAsync(UpdateBalanceDto updateBalanceDto);
     }
