@@ -1,4 +1,5 @@
 ﻿using FinancialHub.Core.Domain.DTOS.Transactions;
+using FinancialHub.Core.Domain.Enums;
 using FinancialHub.Core.Domain.Tests.Builders.DTOS.Transactions;
 
 namespace FinancialHub.Core.IntegrationTests.Controllers.Transactions
@@ -11,7 +12,7 @@ namespace FinancialHub.Core.IntegrationTests.Controllers.Transactions
             updateTransactionDtoBuilder = new UpdateTransactionDtoBuilder();
         }
 
-        protected TransactionEntity GetBalance(UpdateTransactionDto transaction)
+        protected TransactionEntity GetTransaction(UpdateTransactionDto transaction)
         {
             return fixture
                 .GetData<TransactionEntity>()
@@ -27,7 +28,48 @@ namespace FinancialHub.Core.IntegrationTests.Controllers.Transactions
                         tra.IsActive == transaction.IsActive
                 );
         }
-        
+
+        [Test]
+        [Ignore("endpoint disabled")]
+        public async Task Put_InvalidTransaction_Returns400BadRequest()
+        {
+            var data = InsertTransaction(true);
+
+            var body = updateTransactionDtoBuilder
+                .WithAmount(-1)
+                .WithDescription(new string('o', 501))
+                .WithCategoryId(data.Category.Id)
+                .WithBalanceId(data.Balance.Id)
+                .WithType((TransactionType)999)
+                .WithStatus((TransactionStatus)999)
+                .Generate();
+
+            var response = await client.PostAsync($"{baseEndpoint}/{data.Id}", body);
+            Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
+        }
+
+        [Test]
+        [Ignore("endpoint disabled")]
+        public async Task Put_InvalidTransaction_ReturnsTransactionValidationError()
+        {
+            var data = InsertTransaction(true);
+
+            var body = updateTransactionDtoBuilder
+                .WithAmount(-1)
+                .WithDescription(new string('o', 501))
+                .WithCategoryId(data.Category.Id)
+                .WithBalanceId(data.Balance.Id)
+                .WithType((TransactionType)999)
+                .WithStatus((TransactionStatus)999)
+                .Generate();
+
+            var response = await client.PostAsync($"{baseEndpoint}/{data.Id}", body);
+            var validationResponse = await response.ReadContentAsync<ValidationsErrorResponse>();
+
+            Assert.IsNotNull(validationResponse);
+            Assert.AreEqual(4, validationResponse!.Errors.Length);
+        }
+
         [Test]
         [Ignore("endpoint disabled")]
         public async Task Put_ExistingTransaction_ReturnUpdatedTransaction()
@@ -69,7 +111,7 @@ namespace FinancialHub.Core.IntegrationTests.Controllers.Transactions
                 .Generate();
             await client.PutAsync($"{baseEndpoint}/{data.Id}", body);
 
-            var balance = GetBalance(body);
+            var balance = GetTransaction(body);
             Assert.IsNotNull(balance);
         }
 

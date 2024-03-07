@@ -47,6 +47,7 @@ namespace FinancialHub.Core.Application.Extensions.Configurations
 
             services.AddAutoMapper(typeof(TransactionMapper));
 
+            services.AddScoped<ITransactionsValidator, TransactionsValidator>();
             services.AddScoped<IValidator<CreateTransactionDto>, CreateTransactionValidator>();
             services.AddScoped<IValidator<UpdateTransactionDto>, UpdateTransactionValidator>();
 
