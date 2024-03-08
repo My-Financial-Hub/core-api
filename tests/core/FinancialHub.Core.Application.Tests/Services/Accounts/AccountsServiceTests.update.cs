@@ -12,56 +12,68 @@ namespace FinancialHub.Core.Application.Tests.Services
         }
 
         [Test]
-        [TestCase(Description = "Update valid account", Category = "Update")]
         public async Task UpdateAsync_ValidAccountModel_ReturnsAccountModel()
         {
             var model = accountModelBuilder.Generate();
             var id = model.Id.GetValueOrDefault();
-            this.provider
-                .Setup(x => x.GetByIdAsync(id))
-                .ReturnsAsync(model)
-                .Verifiable();
+            var updateAccountDto = this.updateAccountDtoBuilder.Generate();
 
+            this.validator
+                .Setup(x => x.ValidateAsync(updateAccountDto))
+                .ReturnsAsync(ServiceResult.Success);
+            this.validator
+                .Setup(x => x.ExistsAsync(id))
+                .ReturnsAsync(ServiceResult.Success);
             this.provider
                 .Setup(x => x.UpdateAsync(id, It.IsAny<AccountModel>()))
                 .Returns<Guid, AccountModel>(async (_, x) => await Task.FromResult(x))
                 .Verifiable();
 
-            var updateAccountDto = this.updateAccountDtoBuilder.Generate();
             var result = await this.service.UpdateAsync(id, updateAccountDto);
 
             Assert.IsNotNull(result);
             Assert.IsInstanceOf<ServiceResult<AccountDto>>(result);
-
-            this.provider.Verify(x => x.GetByIdAsync(id), Times.Once);
-            this.provider.Verify(x => x.UpdateAsync(id, It.IsAny<AccountModel>()), Times.Once);
         }
 
         [Test]
-        [TestCase(Description = "Update non existing account", Category = "Update")]
-        public async Task UpdateAsync_NonExistingAccountId_ReturnsResultError()
+        public async Task UpdateAsync_InvalidAccountModel_ReturnsValidationError()
         {
+            var expectedMessage = "Account validation error";
             var model = accountModelBuilder.Generate();
             var id = model.Id.GetValueOrDefault();
-
-            this.provider
-                .Setup(x => x.GetByIdAsync(id))
-                .ReturnsAsync(default(AccountModel))
-                .Verifiable();
-
-            this.provider
-                .Setup(x => x.UpdateAsync(id, It.IsAny<AccountModel>()))
-                .Returns<Guid ,AccountModel>(async (_, x) => await Task.FromResult(x))
-                .Verifiable();
-
             var updateAccountDto = this.updateAccountDtoBuilder.Generate();
+
+            this.validator
+                .Setup(x => x.ValidateAsync(updateAccountDto))
+                .ReturnsAsync(new ValidationError(expectedMessage, Array.Empty<ValidationError.FieldValidationError>()));
+
             var result = await this.service.UpdateAsync(id, updateAccountDto);
 
+            Assert.IsNotNull(result);
             Assert.IsInstanceOf<ServiceResult<AccountDto>>(result);
-            Assert.IsTrue(result.HasError);
+        }
 
-            this.provider.Verify(x => x.GetByIdAsync(id), Times.Once);
-            this.provider.Verify(x => x.UpdateAsync(id, It.IsAny<AccountModel>()), Times.Never);
+        [Test]
+        public async Task UpdateAsync_NonExistingAccountId_ReturnsNotFoundError()
+        {
+            var expectedMessage = "Account Not found error";
+
+            var model = accountModelBuilder.Generate();
+            var id = model.Id.GetValueOrDefault();
+            var updateAccountDto = this.updateAccountDtoBuilder.Generate();
+
+            this.validator
+                .Setup(x => x.ValidateAsync(updateAccountDto))
+                .ReturnsAsync(ServiceResult.Success);
+            this.validator
+                .Setup(x => x.ExistsAsync(id))
+                .ReturnsAsync(new NotFoundError(expectedMessage));
+
+            var result = await this.service.UpdateAsync(id, updateAccountDto);
+
+            Assert.IsTrue(result.HasError);
+            Assert.IsInstanceOf<NotFoundError>(result.Error);
+            Assert.AreEqual(expectedMessage, result.Error!.Message);
         }
     }
 }

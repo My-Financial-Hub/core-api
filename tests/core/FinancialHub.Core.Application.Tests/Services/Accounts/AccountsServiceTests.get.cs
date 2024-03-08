@@ -1,13 +1,11 @@
 ﻿using FinancialHub.Core.Domain.DTOS.Accounts;
-using System.Linq;
 
 namespace FinancialHub.Core.Application.Tests.Services
 {
     public partial class AccountsServiceTests
     {
         [Test]
-        [TestCase(Description = "Get by user sucess return",Category = "Get")]
-        public async Task GetByUsersAsync_ValidUser_ReturnsAccounts()
+        public async Task GetAllAsync_ValidUser_ReturnsAccounts()
         {
             var entitiesMock = this.accountModelBuilder.Generate(10);
 

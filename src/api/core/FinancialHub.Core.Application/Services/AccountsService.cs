@@ -68,10 +68,10 @@ namespace FinancialHub.Core.Application.Services
                 return validationResult.Error;
             }
 
-            var existingAccountResult = await this.GetByIdAsync(id);
-            if (existingAccountResult.HasError)
+            validationResult = await this.accountValidator.ExistsAsync(id);
+            if (validationResult.HasError)
             {
-                return existingAccountResult.Error;
+                return validationResult.Error;
             }
             
             var accountModel = this.mapper.Map<AccountModel>(account);
