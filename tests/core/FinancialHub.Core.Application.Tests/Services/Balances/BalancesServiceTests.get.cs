@@ -14,9 +14,9 @@ namespace FinancialHub.Core.Application.Tests.Services
                 .Generate(random.Next(5, 10));
             var acountId = firstModel.Account.Id.GetValueOrDefault();
 
-            this.accountsProvider
-                .Setup(x => x.GetByIdAsync(acountId))
-                .ReturnsAsync(firstModel.Account)
+            this.accountValidator
+                .Setup(x => x.ExistsAsync(acountId))
+                .ReturnsAsync(ServiceResult.Success)
                 .Verifiable();
             this.provider
                 .Setup(x => x.GetAllByAccountAsync(acountId))

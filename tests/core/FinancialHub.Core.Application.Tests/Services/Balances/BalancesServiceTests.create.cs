@@ -18,7 +18,7 @@ namespace FinancialHub.Core.Application.Tests.Services
 
             await this.service.CreateAsync(model);
 
-            this.accountsProvider.Verify(x => x.GetByIdAsync(model.AccountId), Times.Once);
+            this.accountValidator.Verify(x => x.ExistsAsync(model.AccountId), Times.Once);
         }
 
         [Test]
@@ -29,11 +29,6 @@ namespace FinancialHub.Core.Application.Tests.Services
             this.provider
                 .Setup(x => x.CreateAsync(It.IsAny<BalanceModel>()))
                 .Returns<BalanceModel>(async (x) => await Task.FromResult(x))
-                .Verifiable();
-
-            this.accountsProvider
-                .Setup(x => x.GetByIdAsync(model.AccountId))
-                .ReturnsAsync(model.Account)
                 .Verifiable();
 
             var createBalance = this.createBalanceDtoBuilder
@@ -52,11 +47,6 @@ namespace FinancialHub.Core.Application.Tests.Services
             this.provider
                 .Setup(x => x.CreateAsync(It.IsAny<BalanceModel>()))
                 .Returns<BalanceModel>(async (x) => await Task.FromResult(x))
-                .Verifiable();
-
-            this.accountsProvider
-                .Setup(x => x.GetByIdAsync(model.AccountId))
-                .ReturnsAsync(model.Account)
                 .Verifiable();
 
             var createBalance = this.createBalanceDtoBuilder
@@ -78,9 +68,6 @@ namespace FinancialHub.Core.Application.Tests.Services
                 .Setup(x => x.CreateAsync(It.IsAny<BalanceModel>()))
                 .Returns<BalanceModel>(async (x) => await Task.FromResult(x))
                 .Verifiable();
-            this.errorMessageProvider
-                .Setup(x => x.NotFoundMessage(It.IsAny<string>(), It.IsAny<Guid>()))
-                .Returns(expectedErrorMessage);
 
             var createBalance = this.createBalanceDtoBuilder
                 .WithAccountId(model.AccountId)

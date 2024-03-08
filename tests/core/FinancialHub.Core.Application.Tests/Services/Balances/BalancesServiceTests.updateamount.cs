@@ -35,11 +35,7 @@
 
             this.provider
                 .Setup(x => x.UpdateAmountAsync(id, amount))
-                .ReturnsAsync(model);
-
-            this.accountsProvider
-                .Setup(x => x.GetByIdAsync(model.AccountId))
-                .ReturnsAsync(model.Account);
+                .ReturnsAsync(model); 
 
             var result = await this.service.UpdateAmountAsync(id, amount);
 
@@ -62,9 +58,6 @@
             this.provider
                 .Setup(x => x.UpdateAmountAsync(id, amount))
                 .Verifiable();
-            this.errorMessageProvider
-                .Setup(x => x.NotFoundMessage(It.IsAny<string>(), It.IsAny<Guid>()))
-                .Returns(expectedErrorMessage);
 
             var result = await this.service.UpdateAmountAsync(id, amount);
 

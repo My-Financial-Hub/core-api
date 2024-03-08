@@ -16,14 +16,6 @@ namespace FinancialHub.Core.Application.Tests.Services
         {
             var model = this.transactionModelBuilder.Generate();
 
-            this.categoriesProvider
-                .Setup(x => x.GetByIdAsync(model.CategoryId))
-                .ReturnsAsync(model.Category);
-
-            this.balancesProvider
-                .Setup(x => x.GetByIdAsync(model.BalanceId))
-                .ReturnsAsync(model.Balance);
-
             this.provider
                 .Setup(x => x.CreateAsync(It.IsAny<TransactionModel>()))
                 .Returns<TransactionModel>(async (x) => await Task.FromResult(x))
@@ -42,14 +34,6 @@ namespace FinancialHub.Core.Application.Tests.Services
         public async Task CreateAsync_ValidTransaction_ReturnsCreatedTransaction()
         {
             var model = this.transactionModelBuilder.Generate();
-
-            this.categoriesProvider
-                .Setup(x => x.GetByIdAsync(model.CategoryId))
-                .ReturnsAsync(model.Category);
-
-            this.balancesProvider
-                .Setup(x => x.GetByIdAsync(model.BalanceId))
-                .ReturnsAsync(model.Balance);
 
             this.provider
                 .Setup(x => x.CreateAsync(It.IsAny<TransactionModel>()))
@@ -72,13 +56,6 @@ namespace FinancialHub.Core.Application.Tests.Services
             var model = this.transactionModelBuilder.Generate();
             var expectedErrorMessage = $"Not found Category with id {model.CategoryId}";
 
-            this.balancesProvider
-                .Setup(x => x.GetByIdAsync(model.BalanceId))
-                .ReturnsAsync(model.Balance);
-            this.errorMessageProvider
-                .Setup(x => x.NotFoundMessage(It.IsAny<string>(), It.IsAny<Guid>()))
-                .Returns(expectedErrorMessage);
-
             var createTransaction = createTransactionDtoBuilder
                 .WithBalanceId(model.BalanceId)
                 .WithCategoryId(model.CategoryId)
@@ -94,12 +71,6 @@ namespace FinancialHub.Core.Application.Tests.Services
         {
             var model = this.transactionModelBuilder.Generate();
             var expectedErrorMessage = $"Not found Balance with id {model.BalanceId}";
-            this.categoriesProvider
-                .Setup(x => x.GetByIdAsync(model.CategoryId))
-                .ReturnsAsync(model.Category);
-            this.errorMessageProvider
-                .Setup(x => x.NotFoundMessage(It.IsAny<string>(), It.IsAny<Guid>()))
-                .Returns(expectedErrorMessage);
 
             var createTransaction = createTransactionDtoBuilder
                 .WithBalanceId(model.BalanceId)

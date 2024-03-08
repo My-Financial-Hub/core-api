@@ -15,15 +15,15 @@ namespace FinancialHub.Core.Application.Services
 
         public TransactionsService(
             ITransactionsProvider transactionsProvider,
-            IBalancesValidator balancesValidator,
             ITransactionsValidator transactionsValidator,
+            IBalancesValidator balancesValidator,
             ICategoriesValidator categoriesValidator,
             IMapper mapper
         )
         {
             this.transactionsProvider = transactionsProvider;
-
             this.transactionsValidator = transactionsValidator;
+
             this.categoriesValidator = categoriesValidator;
             this.balancesValidator = balancesValidator;
 

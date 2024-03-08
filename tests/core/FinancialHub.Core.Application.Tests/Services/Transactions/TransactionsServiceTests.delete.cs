@@ -50,9 +50,6 @@
             var expectedErrorMessage = $"Not found Transaction with id {id}";
 
             this.provider.Setup(x => x.GetByIdAsync(id));
-            this.errorMessageProvider
-                .Setup(x => x.NotFoundMessage(It.IsAny<string>(), It.IsAny<Guid>()))
-                .Returns(expectedErrorMessage);
 
             var result = await this.service.DeleteAsync(id);
 

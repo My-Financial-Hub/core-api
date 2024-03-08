@@ -17,14 +17,6 @@ namespace FinancialHub.Core.Application.Tests.Services
             var model = this.transactionModelBuilder.Generate();
             var id = model.Id.GetValueOrDefault();
 
-            this.categoriesProvider
-                .Setup(x => x.GetByIdAsync(model.CategoryId))
-                .ReturnsAsync(model.Category)
-                .Verifiable();
-            this.balancesProvider
-                .Setup(x => x.GetByIdAsync(model.BalanceId))
-                .ReturnsAsync(model.Balance)
-                .Verifiable();
             this.provider
                 .Setup(x => x.GetByIdAsync(id))
                 .ReturnsAsync(model)
@@ -49,12 +41,6 @@ namespace FinancialHub.Core.Application.Tests.Services
             var model = this.transactionModelBuilder.Generate();
             var id = model.Id.GetValueOrDefault();
 
-            this.categoriesProvider.Setup(x => x.GetByIdAsync(model.CategoryId))
-                .ReturnsAsync(model.Category)
-                .Verifiable();
-            this.balancesProvider.Setup(x => x.GetByIdAsync(model.BalanceId))
-                .ReturnsAsync(model.Balance)
-                .Verifiable();
             this.provider
                 .Setup(x => x.GetByIdAsync(id))
                 .ReturnsAsync(model)
@@ -107,16 +93,10 @@ namespace FinancialHub.Core.Application.Tests.Services
             var model = this.transactionModelBuilder.Generate();
             var expectedErrorMessage = $"Not found Category with id {model.CategoryId}";
 
-            this.balancesProvider.Setup(x => x.GetByIdAsync(model.BalanceId))
-                .ReturnsAsync(model.Balance)
-                .Verifiable();
             this.provider
                 .Setup(x => x.GetByIdAsync(model.Id.GetValueOrDefault()))
                 .ReturnsAsync(model)
                 .Verifiable();
-            this.errorMessageProvider
-                .Setup(x => x.NotFoundMessage(It.IsAny<string>(), It.IsAny<Guid>()))
-                .Returns(expectedErrorMessage);
 
             var updateTransaction = updateTransactionDtoBuilder
                 .WithBalanceId(model.BalanceId)
@@ -133,16 +113,10 @@ namespace FinancialHub.Core.Application.Tests.Services
         {
             var model = this.transactionModelBuilder.Generate();
             var expectedErrorMessage = $"Not found Balance with id {model.BalanceId}";
-            this.categoriesProvider.Setup(x => x.GetByIdAsync(model.CategoryId))
-                .ReturnsAsync(model.Category)
-                .Verifiable();
             this.provider
                 .Setup(x => x.GetByIdAsync(model.Id.GetValueOrDefault()))
                 .ReturnsAsync(model)
                 .Verifiable();
-            this.errorMessageProvider
-                .Setup(x => x.NotFoundMessage(It.IsAny<string>(), It.IsAny<Guid>()))
-                .Returns(expectedErrorMessage);
 
             var updateTransaction = updateTransactionDtoBuilder
                 .WithBalanceId(model.BalanceId)
