@@ -29,6 +29,10 @@ namespace FinancialHub.Core.Application.Services
             if (validationResult.HasError)
                 return validationResult.Error;
 
+            validationResult = await this.accountsValidator.ExistsAsync(balance.AccountId);
+            if (validationResult.HasError)
+                return validationResult.Error;
+
             var balanceModel = this.mapper.Map<BalanceModel>(balance);
 
             var createdBalance = await this.balancesProvider.CreateAsync(balanceModel);
