@@ -16,9 +16,6 @@ namespace FinancialHub.Core.Application.Tests.Services
         public async Task UpdateAsync_ValidCategory_ReturnsCategory()
         {
             var id = Guid.NewGuid();
-            var model = this.categoryModelBuilder
-                .WithId(id)
-                .Generate();
 
             var updatedModel = this.categoryModelBuilder
                 .WithId(id)
@@ -45,9 +42,6 @@ namespace FinancialHub.Core.Application.Tests.Services
         public async Task UpdateAsync_ValidCategory_UpdatesCategory()
         {
             var id = Guid.NewGuid();
-            var model = this.categoryModelBuilder
-                .WithId(id)
-                .Generate();
 
             var updatedModel = this.categoryModelBuilder
                 .WithId(id)
@@ -73,9 +67,6 @@ namespace FinancialHub.Core.Application.Tests.Services
         public async Task UpdateAsync_InvalidCategory_ReturnsValidationError()
         {
             var id = Guid.NewGuid();
-            var model = this.categoryModelBuilder
-                .WithId(id)
-                .Generate();
             var expectedMessage = "Validation error";
 
             var updatedModel = this.categoryModelBuilder
@@ -101,9 +92,6 @@ namespace FinancialHub.Core.Application.Tests.Services
         public async Task UpdateAsync_InvalidCategor_DoesNotCreateCategory()
         {
             var id = Guid.NewGuid();
-            var model = this.categoryModelBuilder
-                .WithId(id)
-                .Generate();
 
             var updatedModel = this.categoryModelBuilder
                 .WithId(id)
@@ -127,9 +115,6 @@ namespace FinancialHub.Core.Application.Tests.Services
         {
             var id = Guid.NewGuid();
             var expectedMessage = $"Category with id {id} not found";
-            var model = this.categoryModelBuilder
-                .WithId(id)
-                .Generate();
 
             this.validator
                 .Setup(x => x.ExistsAsync(id))
@@ -148,9 +133,6 @@ namespace FinancialHub.Core.Application.Tests.Services
         public async Task UpdateAsync_NonExistingCategoryId_DoesNotCreateCategory()
         {
             var id = Guid.NewGuid();
-            var model = this.categoryModelBuilder
-                .WithId(id)
-                .Generate();
 
             this.validator
                 .Setup(x => x.ExistsAsync(id))

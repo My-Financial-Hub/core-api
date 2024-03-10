@@ -14,9 +14,8 @@ namespace FinancialHub.Core.Application.Tests.Services
         [Test]
         public async Task UpdateAsync_ValidAccountModel_ReturnsAccountModel()
         {
-            var model = accountModelBuilder.Generate();
-            var id = model.Id.GetValueOrDefault();
             var updateAccountDto = this.updateAccountDtoBuilder.Generate();
+            var id = Guid.NewGuid();
 
             this.validator
                 .Setup(x => x.ValidateAsync(updateAccountDto))
@@ -39,8 +38,7 @@ namespace FinancialHub.Core.Application.Tests.Services
         public async Task UpdateAsync_InvalidAccountModel_ReturnsValidationError()
         {
             var expectedMessage = "Account validation error";
-            var model = accountModelBuilder.Generate();
-            var id = model.Id.GetValueOrDefault();
+            var id = Guid.NewGuid();
             var updateAccountDto = this.updateAccountDtoBuilder.Generate();
 
             this.validator
@@ -58,8 +56,7 @@ namespace FinancialHub.Core.Application.Tests.Services
         {
             var expectedMessage = "Account Not found error";
 
-            var model = accountModelBuilder.Generate();
-            var id = model.Id.GetValueOrDefault();
+            var id = Guid.NewGuid();
             var updateAccountDto = this.updateAccountDtoBuilder.Generate();
 
             this.validator

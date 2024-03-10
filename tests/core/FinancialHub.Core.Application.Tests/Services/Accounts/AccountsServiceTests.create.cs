@@ -14,17 +14,17 @@ namespace FinancialHub.Core.Application.Tests.Services
         [Test]
         public async Task CreateAsync_ValidAccountModel_ReturnsAccountModel()
         {
-            var model = this.createAccountDtoBuilder.Generate();
+            var createAccountDto = this.createAccountDtoBuilder.Generate();
 
             this.validator
-                .Setup(x => x.ValidateAsync(model))
+                .Setup(x => x.ValidateAsync(createAccountDto))
                 .ReturnsAsync(ServiceResult.Success);
             this.provider
                 .Setup(x => x.CreateAsync(It.IsAny<AccountModel>()))
                 .Returns<AccountModel>(async (x) => await Task.FromResult(x))
                 .Verifiable();
 
-            var result = await this.service.CreateAsync(model);
+            var result = await this.service.CreateAsync(createAccountDto);
 
             Assert.IsNotNull(result.Data);
             Assert.IsInstanceOf<ServiceResult<AccountDto>>(result);
@@ -35,14 +35,14 @@ namespace FinancialHub.Core.Application.Tests.Services
         [Test]
         public async Task CreateAsync_InvalidAccountModel_ReturnsValidationError()
         {
-            var model = this.createAccountDtoBuilder.Generate();
+            var createAccountDto = this.createAccountDtoBuilder.Generate();
             var expectedMessage = "Account validation error";
 
             this.validator
-                .Setup(x => x.ValidateAsync(model))
+                .Setup(x => x.ValidateAsync(createAccountDto))
                 .ReturnsAsync(new ValidationError(expectedMessage, Array.Empty<ValidationError.FieldValidationError>()));
 
-            var result = await this.service.CreateAsync(model);
+            var result = await this.service.CreateAsync(createAccountDto);
 
             Assert.IsTrue(result.HasError);
             Assert.IsInstanceOf<ValidationError>(result.Error);
