@@ -1,5 +1,6 @@
 ﻿using FinancialHub.Core.Domain.DTOS.Balances;
 using FinancialHub.Core.Domain.Tests.Builders.DTOS.Balances;
+using static FinancialHub.Common.Results.Errors.ValidationError;
 
 namespace FinancialHub.Core.Application.Tests.Services
 {
@@ -10,102 +11,51 @@ namespace FinancialHub.Core.Application.Tests.Services
         {
             updateBalanceDtoBuilder = new UpdateBalanceDtoBuilder();
         }
-        
+
         [Test]
-        public async Task UpdateAsync_ValidatesIfAccountExists()
+        public async Task UpdateAsync_ValidBalance_UpdatesBalance()
         {
-            var model = this.balanceModelBuilder.Generate();
+            var id = Guid.NewGuid();
+            var updateBalance = this.updateBalanceDtoBuilder.Generate();
 
             this.validator
-                .Setup(x => x.ExistsAsync(model.Id.GetValueOrDefault()))
-                .ReturnsAsync(ServiceResult.Success)
-                .Verifiable();
-            this.accountValidator
-                .Setup(x => x.ExistsAsync(model.AccountId))
-                .ReturnsAsync(ServiceResult.Success)
-                .Verifiable();
-
-            var updateBalance = this.updateBalanceDtoBuilder
-                .WithAccountId(model.AccountId)
-                .Generate();
-            await this.service.UpdateAsync(model.Id.GetValueOrDefault(), updateBalance);
-
-            this.accountValidator.Verify(x => x.ExistsAsync(model.AccountId), Times.Once);
-        }
-
-        [Test]
-        public async Task UpdateAsync_ValidatesIfBalanceExists()
-        {
-            var model = this.balanceModelBuilder.Generate();
-            var id = model.Id.GetValueOrDefault();
-            var expectedErrorMessage = $"Not found Balance with id {id}";
-            this.provider
-                .Setup(x => x.GetByIdAsync(id))
-                .ReturnsAsync(default(BalanceModel))
-                .Verifiable();
-            this.validator
-                .Setup(x => x.ExistsAsync(It.IsAny<Guid>()))
-                .ReturnsAsync(new NotFoundError(expectedErrorMessage));
-
-            var updateBalance = this.updateBalanceDtoBuilder
-                .WithAccountId(model.AccountId)
-                .Generate();
-            var result = await this.service.UpdateAsync(id, updateBalance);
-
-            Assert.IsTrue(result.HasError);
-            Assert.AreEqual(expectedErrorMessage, result.Error!.Message);
-            this.provider.Verify(x => x.GetByIdAsync(id), Times.Once);
-        }
-
-        [Test]
-        public async Task UpdateAsync_UpdatesBalance()
-        {
-            var model = this.balanceModelBuilder.Generate();
-            var id = model.Id.GetValueOrDefault();
-
+                .Setup(x => x.ValidateAsync(updateBalance))
+                .ReturnsAsync(ServiceResult.Success);
             this.validator
                 .Setup(x => x.ExistsAsync(id))
-                .ReturnsAsync(ServiceResult.Success)
-                .Verifiable();
+                .ReturnsAsync(ServiceResult.Success);
             this.accountValidator
-                .Setup(x => x.ExistsAsync(model.AccountId))
-                .ReturnsAsync(ServiceResult.Success)
-                .Verifiable();
+                .Setup(x => x.ExistsAsync(updateBalance.AccountId))
+                .ReturnsAsync(ServiceResult.Success);
             this.provider
                 .Setup(x => x.UpdateAsync(id, It.IsAny<BalanceModel>()))
                 .Returns<Guid, BalanceModel>(async (_, x) => await Task.FromResult(x))
                 .Verifiable();
 
-            var updateBalance = this.updateBalanceDtoBuilder
-                .WithAccountId(model.AccountId)
-                .Generate();
             await this.service.UpdateAsync(id, updateBalance);
 
             this.provider.Verify(x => x.UpdateAsync(id, It.IsAny<BalanceModel>()), Times.Once);
         }
 
         [Test]
-        public async Task UpdateAsync_ValidBalanceModel_ReturnsBalanceModel()
+        public async Task UpdateAsync_ValidBalance_ReturnsBalance()
         {
-            var model = this.balanceModelBuilder.Generate();
-            var id = model.Id.GetValueOrDefault();
+            var id = Guid.NewGuid();
+            var updateBalance = this.updateBalanceDtoBuilder.Generate();
 
             this.validator
+                .Setup(x => x.ValidateAsync(updateBalance))
+                .ReturnsAsync(ServiceResult.Success);
+            this.validator
                 .Setup(x => x.ExistsAsync(id))
-                .ReturnsAsync(ServiceResult.Success)
-                .Verifiable();
+                .ReturnsAsync(ServiceResult.Success);
             this.accountValidator
-                .Setup(x => x.ExistsAsync(model.AccountId))
-                .ReturnsAsync(ServiceResult.Success)
-                .Verifiable();
+                .Setup(x => x.ExistsAsync(updateBalance.AccountId))
+                .ReturnsAsync(ServiceResult.Success);
             this.provider
                 .Setup(x => x.UpdateAsync(id, It.IsAny<BalanceModel>()))
-                .Returns<Guid, BalanceModel>(async (_, x) => await Task.FromResult(x))
-                .Verifiable();
+                .Returns<Guid, BalanceModel>(async (_, x) => await Task.FromResult(x));
 
-            var updateBalance = this.updateBalanceDtoBuilder
-                .WithAccountId(model.AccountId)
-                .Generate();
             var result = await this.service.UpdateAsync(id, updateBalance);
 
             Assert.IsInstanceOf<ServiceResult<BalanceDto>>(result);
@@ -113,60 +63,120 @@ namespace FinancialHub.Core.Application.Tests.Services
         }
 
         [Test]
-        public async Task UpdateAsync_NonExistingBalanceId_ReturnsResultError()
+        public async Task UpdateAsync_NonExistingBalanceId_ReturnsNotFoundError()
         {
-            var model = this.balanceModelBuilder.Generate();
-            var id = model.Id.GetValueOrDefault();
-            var expectedErrorMessage = $"Not found Balance with id {model.Id}";
+            var id = Guid.NewGuid();
+            var expectedErrorMessage = $"Not found Balance with id {id}";
+            var updateBalance = this.updateBalanceDtoBuilder.Generate();
+
+            this.validator
+                .Setup(x => x.ValidateAsync(updateBalance))
+                .ReturnsAsync(ServiceResult.Success);
             this.validator
                 .Setup(x => x.ExistsAsync(It.IsAny<Guid>()))
                 .ReturnsAsync(new NotFoundError(expectedErrorMessage));
-            this.provider
-                .Setup(x => x.UpdateAsync(id, It.IsAny<BalanceModel>()))
-                .Returns<Guid, BalanceModel>(async (_, x) => await Task.FromResult(x))
-                .Verifiable();
 
-            var updateBalance = this.updateBalanceDtoBuilder
-                .WithAccountId(model.AccountId)
-                .Generate();
             var result = await this.service.UpdateAsync(id, updateBalance);
 
-            Assert.IsInstanceOf<ServiceResult<BalanceDto>>(result);
             Assert.IsTrue(result.HasError);
+            Assert.IsInstanceOf<NotFoundError>(result.Error);
             Assert.AreEqual(expectedErrorMessage, result.Error!.Message);
+        }
 
-            this.provider.Verify(x => x.GetByIdAsync(id), Times.Once);
+        [Test]
+        public async Task UpdateAsync_NonExistingBalanceId_DoNotUpdateBalance()
+        {
+            var id = Guid.NewGuid();
+            var updateBalance = this.updateBalanceDtoBuilder.Generate();
+
+            this.validator
+                .Setup(x => x.ValidateAsync(updateBalance))
+                .ReturnsAsync(ServiceResult.Success);
+            this.validator
+                .Setup(x => x.ExistsAsync(It.IsAny<Guid>()))
+                .ReturnsAsync(new NotFoundError($"Not found Balance with id {id}"));
+
+            await this.service.UpdateAsync(id, updateBalance);
+
+            this.provider.Verify(x => x.UpdateAsync(id, It.IsAny<BalanceModel>()), Times.Never);
+        }
+
+        [Test]
+        public async Task UpdateAsync_InvalidBalance_ReturnsNotFoundError()
+        {
+            var id = Guid.NewGuid();
+            var expectedErrorMessage = $"Not found Balance with id {id}";
+            var updateBalance = this.updateBalanceDtoBuilder.Generate();
+
+            this.validator
+                .Setup(x => x.ValidateAsync(updateBalance))
+                .ReturnsAsync(new ValidationError(expectedErrorMessage, Array.Empty<FieldValidationError>()));
+
+            var result = await this.service.UpdateAsync(id, updateBalance);
+
+            Assert.IsTrue(result.HasError);
+            Assert.IsInstanceOf<ValidationError>(result.Error);
+            Assert.AreEqual(expectedErrorMessage, result.Error!.Message);
+        }
+
+        [Test]
+        public async Task UpdateAsync_InvalidBalance_DoNotUpdateBalance()
+        {
+            var id = Guid.NewGuid();
+            var updateBalance = this.updateBalanceDtoBuilder.Generate();
+
+            this.validator
+                .Setup(x => x.ValidateAsync(updateBalance))
+                .ReturnsAsync(new ValidationError("Validation error", Array.Empty<FieldValidationError>()));
+
+            await this.service.UpdateAsync(id, updateBalance);
+
             this.provider.Verify(x => x.UpdateAsync(id, It.IsAny<BalanceModel>()), Times.Never);
         }
 
         [Test]
         public async Task UpdateAsync_NonExistingAccountId_ReturnsResultError()
         {
-            var model = this.balanceModelBuilder.Generate();
-            var id = model.Id.GetValueOrDefault();
-            var expectedErrorMessage = $"Not found Account with id {model.AccountId}";
+            var id = Guid.NewGuid();
+            var expectedErrorMessage = $"Account not found with id {id}";
+            var updateBalance = this.updateBalanceDtoBuilder.Generate();
 
             this.validator
-                .Setup(x => x.ExistsAsync(model.Id.GetValueOrDefault()))
-                .ReturnsAsync(ServiceResult.Success)
-                .Verifiable();
+                .Setup(x => x.ValidateAsync(updateBalance))
+                .ReturnsAsync(ServiceResult.Success);
+            this.validator
+                .Setup(x => x.ExistsAsync(id))
+                .ReturnsAsync(ServiceResult.Success);
             this.accountValidator
-                .Setup(x => x.ExistsAsync(model.AccountId))
-                .ReturnsAsync(new NotFoundError(expectedErrorMessage))
-                .Verifiable();
-            this.provider
-                .Setup(x => x.UpdateAsync(id, It.IsAny<BalanceModel>()))
-                .Returns<Guid, BalanceModel>(async (_, x) => await Task.FromResult(x))
-                .Verifiable();
+                .Setup(x => x.ExistsAsync(updateBalance.AccountId))
+                .ReturnsAsync(new NotFoundError(expectedErrorMessage));
 
-            var updateBalance = this.updateBalanceDtoBuilder
-                .WithAccountId(model.AccountId)
-                .Generate();
-            var result = await this.service.UpdateAsync(model.Id.GetValueOrDefault(), updateBalance);
+            var result = await this.service.UpdateAsync(id, updateBalance);
 
-            Assert.IsInstanceOf<ServiceResult<BalanceDto>>(result);
             Assert.IsTrue(result.HasError);
+            Assert.IsInstanceOf<NotFoundError>(result.Error);
             Assert.AreEqual(expectedErrorMessage, result.Error!.Message);
+        }
+
+        [Test]
+        public async Task UpdateAsync_NonExistingAccountId_DoNotUpdateBalance()
+        {
+            var id = Guid.NewGuid();
+            var updateBalance = this.updateBalanceDtoBuilder.Generate();
+
+            this.validator
+                .Setup(x => x.ValidateAsync(updateBalance))
+                .ReturnsAsync(ServiceResult.Success);
+            this.validator
+                .Setup(x => x.ExistsAsync(id))
+                .ReturnsAsync(ServiceResult.Success);
+            this.accountValidator
+                .Setup(x => x.ExistsAsync(updateBalance.AccountId))
+                .ReturnsAsync(new NotFoundError($"Account not found with id {id}"));
+
+            await this.service.UpdateAsync(id, updateBalance);
+
+            this.provider.Verify(x => x.UpdateAsync(id, It.IsAny<BalanceModel>()), Times.Never);
         }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using FinancialHub.Core.Domain.DTOS.Balances;
-using FinancialHub.Core.Domain.Tests.Assertions.Models;
 
 namespace FinancialHub.Core.Application.Tests.Services
 {
@@ -37,6 +36,9 @@ namespace FinancialHub.Core.Application.Tests.Services
         {
             var entity = this.balanceModelBuilder.Generate();
 
+            this.validator
+                .Setup(x => x.ExistsAsync(entity.Id.GetValueOrDefault()))
+                .ReturnsAsync(ServiceResult.Success);
             this.provider
                 .Setup(x => x.GetByIdAsync(entity.Id.GetValueOrDefault()))
                 .ReturnsAsync(entity)
@@ -55,11 +57,17 @@ namespace FinancialHub.Core.Application.Tests.Services
         public async Task GetByIdAsync_InvalidId_ReturnsNotFoundError()
         {
             var entity = this.balanceModelBuilder.Generate();
+            var expectedErrorMessage = $"Balance not found with id {entity.Id}";
+
+            this.validator
+                .Setup(x => x.ExistsAsync(entity.Id.GetValueOrDefault()))
+                .ReturnsAsync(new NotFoundError(expectedErrorMessage));
 
             var result = await this.service.GetByIdAsync(entity.Id.GetValueOrDefault());
 
-            Assert.IsInstanceOf<ServiceResult<BalanceDto>>(result);
             Assert.IsTrue(result.HasError);
+            Assert.IsInstanceOf<NotFoundError>(result.Error);
+            Assert.AreEqual(expectedErrorMessage, result.Error!.Message);
         }
     }
 }

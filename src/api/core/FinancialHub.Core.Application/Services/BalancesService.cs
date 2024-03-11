@@ -73,17 +73,17 @@ namespace FinancialHub.Core.Application.Services
 
         public async Task<ServiceResult<BalanceDto>> UpdateAsync(Guid id, UpdateBalanceDto balance)
         {
-            var oldBalance = await this.balancesValidator.ExistsAsync(id);
-            if (oldBalance.HasError)
-            {
-                return oldBalance.Error;
-            }
-
             var validationResult = await this.balancesValidator.ValidateAsync(balance);
             if (validationResult.HasError)
-            {
                 return validationResult.Error;
-            }
+
+            validationResult = await this.balancesValidator.ExistsAsync(id);
+            if (validationResult.HasError)
+                return validationResult.Error;
+
+            validationResult = await this.accountsValidator.ExistsAsync(balance.AccountId);
+            if (validationResult.HasError)
+                return validationResult.Error;
 
             var balanceModel = this.mapper.Map<BalanceModel>(balance);
 
