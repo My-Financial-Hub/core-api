@@ -32,16 +32,16 @@ namespace FinancialHub.Core.Application.Services
 
         private async Task<ServiceResult> ValidateTransaction(TransactionModel transaction)
         {
-            var balance = await this.balancesValidator.ExistsAsync(transaction.BalanceId);
-            if (balance.HasError)
+            var validation = await this.balancesValidator.ExistsAsync(transaction.BalanceId);
+            if (validation.HasError)
             {
-                return balance.Error;
+                return validation.Error;
             }
 
-            var category = await this.categoriesValidator.ExistsAsync(transaction.CategoryId);
-            if (category.HasError)
+            validation = await this.categoriesValidator.ExistsAsync(transaction.CategoryId);
+            if (validation.HasError)
             {
-                return category.Error;
+                return validation.Error;
             }
 
             return ServiceResult.Success;
