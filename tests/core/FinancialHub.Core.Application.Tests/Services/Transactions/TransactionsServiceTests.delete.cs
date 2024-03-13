@@ -6,70 +6,58 @@
         public async Task DeleteAsync_ExistingTransaction_RemovesTransactions()
         {
             var expectedResult = random.Next(1, 100);
-            var transaction = this.transactionModelBuilder.Generate();
-            var guid = transaction.Id.GetValueOrDefault();
+            var id = Guid.NewGuid();
 
+            this.validator
+                .Setup(x => x.ExistsAsync(id))
+                .ReturnsAsync(ServiceResult.Success);
             this.provider
-                .Setup(x => x.DeleteAsync(guid))
-                .ReturnsAsync(expectedResult)
-                .Verifiable();
-            this.provider
-                .Setup(x => x.GetByIdAsync(guid))
-                .ReturnsAsync(transaction);
+                .Setup(x => x.DeleteAsync(id))
+                .ReturnsAsync(expectedResult);
 
-            await this.service.DeleteAsync(guid);
+            await this.service.DeleteAsync(id);
 
-            this.provider.Verify(x => x.DeleteAsync(guid), Times.Once);
+            this.provider.Verify(x => x.DeleteAsync(id), Times.Once);
         }
 
         [Test]
-        public async Task DeleteAsync_ExistingTransaction_ReturnsRemovedTransactions()
+        public async Task DeleteAsync_ExistingTransaction_ReturnsRemovedTransactionAmount()
         {
-            var expectedResult = random.Next(1,100);
-            var transaction = this.transactionModelBuilder.Generate();
-            var guid = transaction.Id.GetValueOrDefault();
+            var expectedResult = random.Next(1,100); 
+            var id = Guid.NewGuid();
 
+            this.validator
+                .Setup(x => x.ExistsAsync(id))
+                .ReturnsAsync(ServiceResult.Success);
             this.provider
-                .Setup(x => x.DeleteAsync(guid))
+                .Setup(x => x.DeleteAsync(id))
                 .ReturnsAsync(expectedResult);
-            this.provider
-                .Setup(x => x.GetByIdAsync(guid))
-                .ReturnsAsync(transaction);
 
-            var result = await this.service.DeleteAsync(guid);
+            var result = await this.service.DeleteAsync(id);
 
             Assert.IsInstanceOf<ServiceResult<int>>(result);
             Assert.AreEqual(expectedResult,result.Data);
         }
 
         [Test]
-        public async Task DeleteAsync_NotExistingTransaction_ReturnsNotFoundError()
+        public async Task DeleteAsync_NotExistingTransaction_ReturnsNotReturnError()
         {
-            var transaction = this.transactionModelBuilder.Generate();
-            var id = transaction.Id.GetValueOrDefault();
-            var expectedErrorMessage = $"Not found Transaction with id {id}";
-
-            this.provider.Setup(x => x.GetByIdAsync(id));
+            var id = Guid.NewGuid();
 
             var result = await this.service.DeleteAsync(id);
 
             Assert.Zero(result.Data);
-            Assert.IsTrue(result.HasError);
-            Assert.AreEqual(expectedErrorMessage, result.Error!.Message);
+            Assert.IsFalse(result.HasError);
         }
 
         [Test]
         public async Task DeleteAsync_NotExistingTransaction_DoesNotRemovesTransactions()
         {
-            var transaction = this.transactionModelBuilder.Generate();
-            var guid = transaction.Id.GetValueOrDefault();
+            var id = Guid.NewGuid();
 
-            this.provider
-                .Setup(x => x.GetByIdAsync(guid));
+            await this.service.DeleteAsync(id);
 
-            await this.service.DeleteAsync(guid);
-
-            this.provider.Verify(x => x.GetByIdAsync(guid),Times.Once);
+            this.provider.Verify(x => x.DeleteAsync(id),Times.Once);
         }
     }
 }
