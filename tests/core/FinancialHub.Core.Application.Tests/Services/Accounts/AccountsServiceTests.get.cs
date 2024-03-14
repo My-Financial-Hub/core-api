@@ -59,7 +59,7 @@ namespace FinancialHub.Core.Application.Tests.Services
 
             var result = await this.service.GetByIdAsync(id);
 
-            Assert.IsFalse(result.HasError);
+            Assert.IsTrue(result.HasError);
             Assert.IsInstanceOf<NotFoundError>(result.Error);
             Assert.AreEqual(expectedErrorMessage, result.Error!.Message);
         }
