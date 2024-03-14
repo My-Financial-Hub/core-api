@@ -24,16 +24,5 @@ namespace FinancialHub.Core.WebApi.Extensions.Configurations
 
             return services;
         }
-
-        public static IServiceCollection AddValidators(this IServiceCollection services)
-        {
-            services.AddFluentValidation(x =>
-            {
-                x.AutomaticValidationEnabled = true;
-                x.DisableDataAnnotationsValidation = true;
-            });
-
-            return services;
-        }
     }
 }

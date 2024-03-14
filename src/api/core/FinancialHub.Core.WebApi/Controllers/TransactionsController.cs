@@ -6,7 +6,7 @@ namespace FinancialHub.Core.WebApi.Controllers
     [ApiController]
     [Route("[controller]")]
     [Produces("application/json")]
-    public class TransactionsController : Controller
+    public class TransactionsController : BaseController
     {
         private readonly ITransactionsService service;
 
@@ -32,20 +32,17 @@ namespace FinancialHub.Core.WebApi.Controllers
         /// <param name="category">Transaction to be created</param>
         [HttpPost]
         [ProducesResponseType(typeof(SaveResponse<TransactionDto>), 200)]
-        [ProducesResponseType(typeof(ValidationErrorResponse), 400)]
+        [ProducesResponseType(typeof(ValidationsErrorResponse), 400)]
         public async Task<IActionResult> CreateTransaction([FromBody] CreateTransactionDto transaction)
         {
             var result = await this.service.CreateAsync(transaction);
 
             if (result.HasError)
             {
-                return StatusCode(
-                    result.Error.Code,
-                    new ValidationErrorResponse(result.Error.Message)
-                 );
+                return ErrorResponse(result.Error);
             }
 
-            return Ok(new SaveResponse<TransactionDto>(result.Data));
+            return SaveResponse(result.Data);
         }
 
         /// <summary>
@@ -56,20 +53,17 @@ namespace FinancialHub.Core.WebApi.Controllers
         [Obsolete("Disabled endpoint")]
         [HttpPut("{id}")]
         [ProducesResponseType(typeof(SaveResponse<TransactionDto>), 200)]
-        [ProducesResponseType(typeof(ValidationErrorResponse), 400)]
+        [ProducesResponseType(typeof(ValidationsErrorResponse), 400)]
         public async Task<IActionResult> UpdateTransaction([FromRoute] Guid id, [FromBody] UpdateTransactionDto transaction)
         {
             var result = await this.service.UpdateAsync(id, transaction);
 
             if (result.HasError)
             {
-                return StatusCode(
-                    result.Error.Code,
-                    new ValidationErrorResponse(result.Error.Message)
-                 );
+                return ErrorResponse(result.Error);
             }
 
-            return Ok(new SaveResponse<TransactionDto>(result.Data));
+            return SaveResponse(result.Data);
         }
 
         /// <summary>

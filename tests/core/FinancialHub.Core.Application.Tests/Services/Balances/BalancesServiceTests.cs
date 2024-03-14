@@ -4,6 +4,7 @@ using FinancialHub.Core.Domain.Interfaces.Providers;
 using FinancialHub.Core.Domain.Interfaces.Resources;
 using AutoMapper;
 using FinancialHub.Core.Application.Mappers;
+using FinancialHub.Core.Domain.Interfaces.Validators;
 
 namespace FinancialHub.Core.Application.Tests.Services
 {
@@ -14,9 +15,9 @@ namespace FinancialHub.Core.Application.Tests.Services
 
         private IBalancesService service;
 
-        private Mock<IBalancesProvider> provider;
-        private Mock<IAccountsProvider> accountsProvider;
-        private Mock<IErrorMessageProvider> errorMessageProvider;
+        private Mock<IBalancesProvider> provider; 
+        private Mock<IBalancesValidator> validator;
+        private Mock<IAccountsValidator> accountValidator;
 
         private IMapper mapper;
 
@@ -33,14 +34,14 @@ namespace FinancialHub.Core.Application.Tests.Services
         [SetUp]
         public void Setup()
         {
-            this.provider         = new Mock<IBalancesProvider>();
-            this.accountsProvider = new Mock<IAccountsProvider>();
-            this.errorMessageProvider = new Mock<IErrorMessageProvider>();
+            this.provider           = new Mock<IBalancesProvider>();
+            this.validator          = new Mock<IBalancesValidator>();
+            this.accountValidator   = new Mock<IAccountsValidator>();
             this.MockMapper();
             this.service            = new BalancesService(
-                provider.Object, 
-                accountsProvider.Object,
-                errorMessageProvider.Object,
+                provider.Object,
+                validator.Object,
+                accountValidator.Object,
                 mapper
             );
 

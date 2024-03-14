@@ -2,6 +2,7 @@
 using FinancialHub.Core.Application.Mappers;
 using FinancialHub.Core.Application.Services;
 using FinancialHub.Core.Domain.Interfaces.Resources;
+using FinancialHub.Core.Domain.Interfaces.Validators;
 
 namespace FinancialHub.Core.Application.Tests.Services
 {
@@ -13,7 +14,7 @@ namespace FinancialHub.Core.Application.Tests.Services
         private ICategoriesService service;
 
         private Mock<ICategoriesProvider> provider;
-        private Mock<IErrorMessageProvider> errorMessageProvider;
+        private Mock<ICategoriesValidator> validator;
         private IMapper mapper;
 
         private void MockMapper()
@@ -30,11 +31,11 @@ namespace FinancialHub.Core.Application.Tests.Services
         public void Setup()
         {
             this.provider = new Mock<ICategoriesProvider>();
-            this.errorMessageProvider = new Mock<IErrorMessageProvider>();
+            this.validator = new Mock<ICategoriesValidator>();
             this.MockMapper();
             this.service = new CategoriesService(
-                provider.Object, 
-                errorMessageProvider.Object, 
+                provider.Object,
+                validator.Object, 
                 this.mapper
             );
 

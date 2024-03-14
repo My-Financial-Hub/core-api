@@ -1,46 +1,35 @@
 ﻿using AutoMapper;
 using FinancialHub.Core.Domain.DTOS.Balances;
-using FinancialHub.Core.Domain.Interfaces.Resources;
+using FinancialHub.Core.Domain.Interfaces.Validators;
 
 namespace FinancialHub.Core.Application.Services
 {
     public class BalancesService : IBalancesService
     {
-        private readonly IAccountsProvider accountsProvider;
         private readonly IBalancesProvider balancesProvider;
-        private readonly IErrorMessageProvider errorMessageProvider;
+        private readonly IBalancesValidator balancesValidator;
+        private readonly IAccountsValidator accountsValidator;
         private readonly IMapper mapper;
 
         public BalancesService(
             IBalancesProvider balancesProvider,
-            IAccountsProvider accountsProvider,
-            IErrorMessageProvider errorMessageProvider,
+            IBalancesValidator balancesValidator, IAccountsValidator accountsValidator,
             IMapper mapper
         )
         {
             this.balancesProvider = balancesProvider;
-            this.accountsProvider = accountsProvider;
-            this.errorMessageProvider = errorMessageProvider;
+            this.balancesValidator = balancesValidator;
+            this.accountsValidator = accountsValidator;
             this.mapper = mapper;
-        }
-
-        private async Task<ServiceResult> ValidateAccountAsync(Guid accountId)
-        {
-            var account = await this.accountsProvider.GetByIdAsync(accountId);
-
-            if (account == null)
-            {
-                return new NotFoundError(
-                    this.errorMessageProvider.NotFoundMessage("Account", accountId)
-                );
-            }
-
-            return new ServiceResult();
         }
 
         public async Task<ServiceResult<BalanceDto>> CreateAsync(CreateBalanceDto balance)
         {
-            var validationResult = await this.ValidateAccountAsync(balance.AccountId);
+            var validationResult = await this.balancesValidator.ValidateAsync(balance);
+            if (validationResult.HasError)
+                return validationResult.Error;
+
+            validationResult = await this.accountsValidator.ExistsAsync(balance.AccountId);
             if (validationResult.HasError)
                 return validationResult.Error;
 
@@ -58,20 +47,20 @@ namespace FinancialHub.Core.Application.Services
 
         public async Task<ServiceResult<BalanceDto>> GetByIdAsync(Guid id)
         {
-            var balance = await this.balancesProvider.GetByIdAsync(id);
-            if (balance == null)
+            var validationResult = await this.balancesValidator.ExistsAsync(id);
+            if (validationResult.HasError)
             {
-                return new NotFoundError(
-                    this.errorMessageProvider.NotFoundMessage("Balance", id)
-                );
+                return validationResult.Error;
             }
+
+            var balance = await this.balancesProvider.GetByIdAsync(id);
 
             return this.mapper.Map<BalanceDto>(balance);
         }
 
         public async Task<ServiceResult<ICollection<BalanceDto>>> GetAllByAccountAsync(Guid accountId)
         {
-            var validationResult = await this.ValidateAccountAsync(accountId);
+            var validationResult = await this.accountsValidator.ExistsAsync(accountId);
             if (validationResult.HasError)
             {
                 return validationResult.Error;
@@ -84,17 +73,17 @@ namespace FinancialHub.Core.Application.Services
 
         public async Task<ServiceResult<BalanceDto>> UpdateAsync(Guid id, UpdateBalanceDto balance)
         {
-            var oldBalance = await this.GetByIdAsync(id);
-            if (oldBalance.HasError)
-            {
-                return oldBalance.Error;
-            }
-
-            var validationResult = await this.ValidateAccountAsync(balance.AccountId);
+            var validationResult = await this.balancesValidator.ValidateAsync(balance);
             if (validationResult.HasError)
-            {
                 return validationResult.Error;
-            }
+
+            validationResult = await this.balancesValidator.ExistsAsync(id);
+            if (validationResult.HasError)
+                return validationResult.Error;
+
+            validationResult = await this.accountsValidator.ExistsAsync(balance.AccountId);
+            if (validationResult.HasError)
+                return validationResult.Error;
 
             var balanceModel = this.mapper.Map<BalanceModel>(balance);
 
@@ -105,10 +94,10 @@ namespace FinancialHub.Core.Application.Services
 
         public async Task<ServiceResult<BalanceModel>> UpdateAmountAsync(Guid id, decimal newAmount)
         {
-            var balanceResult = await this.GetByIdAsync(id);
-            if (balanceResult.HasError)
+            var oldBalance = await this.balancesValidator.ExistsAsync(id);
+            if (oldBalance.HasError)
             {
-                return balanceResult.Error;
+                return oldBalance.Error;
             }
 
             return await balancesProvider.UpdateAmountAsync(id, newAmount);

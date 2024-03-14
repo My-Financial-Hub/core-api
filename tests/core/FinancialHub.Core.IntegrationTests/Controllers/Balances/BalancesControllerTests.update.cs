@@ -25,6 +25,55 @@ namespace FinancialHub.Core.IntegrationTests.Controllers.Balances
         }
 
         [Test]
+        public async Task Put_InvalidBalance_Returns400BadRequest()
+        {
+            var account = accountBuilder.Generate();
+            fixture.AddData(account);
+
+            var id = Guid.NewGuid();
+            var entity = balanceBuilder
+                .WithAccountId(account.Id)
+                .WithId(id)
+                .Generate();
+            fixture.AddData(entity);
+
+            var body = updateBalanceDtoBuilder
+                .WithName(string.Empty)
+                .WithCurrency(new string('o', 51))
+                .WithAccountId(account.Id)
+                .Generate();
+
+            var response = await client.PutAsync($"{baseEndpoint}/{id}", body);
+            Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
+        }
+
+        [Test]
+        public async Task Put_InvalidBalance_ReturnsBalanceValidationError()
+        {
+            var account = accountBuilder.Generate();
+            fixture.AddData(account);
+
+            var id = Guid.NewGuid();
+            var entity = balanceBuilder
+                .WithAccountId(account.Id)
+                .WithId(id)
+                .Generate();
+            fixture.AddData(entity);
+
+            var body = updateBalanceDtoBuilder
+                .WithName(string.Empty)
+                .WithCurrency(new string('o', 51))
+                .WithAccountId(account.Id)
+                .Generate();
+
+            var response = await client.PutAsync($"{baseEndpoint}/{id}", body);
+            var validationResponse = await response.ReadContentAsync<ValidationsErrorResponse>();
+
+            Assert.IsNotNull(validationResponse);
+            Assert.AreEqual(2, validationResponse!.Errors.Length);
+        }
+
+        [Test]
         public async Task Put_ExistingBalance_ReturnsUpdatedBalance()
         {
             var account = accountBuilder.Generate();

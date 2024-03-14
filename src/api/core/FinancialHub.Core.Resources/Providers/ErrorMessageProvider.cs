@@ -27,5 +27,12 @@ namespace FinancialHub.Core.Resources.Providers
             var concept = ConceptWords.ResourceManager.GetString(name, this.cultureInfo) ?? name;
             return string.Format(message, concept, id);
         }
+
+        public string ValidationMessage(string name)
+        {
+            var concept = ConceptWords.ResourceManager.GetString(name, this.cultureInfo) ?? name;
+            var message = ErrorMessages.ResourceManager.GetString("InvalidData", this.cultureInfo) ?? string.Empty;
+            return string.Format(message, concept);
+        }
     }
 }

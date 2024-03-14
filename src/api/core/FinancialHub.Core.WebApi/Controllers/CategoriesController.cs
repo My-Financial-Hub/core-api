@@ -5,7 +5,7 @@ namespace FinancialHub.Core.WebApi.Controllers
     [ApiController]
     [Route("[controller]")]
     [Produces("application/json")]
-    public class CategoriesController : Controller
+    public class CategoriesController : BaseController
     {
         private readonly ICategoriesService service;
 
@@ -32,20 +32,17 @@ namespace FinancialHub.Core.WebApi.Controllers
         /// <param name="category">Account to be created</param>
         [HttpPost]
         [ProducesResponseType(typeof(SaveResponse<CategoryDto>), 200)]
-        [ProducesResponseType(typeof(ValidationErrorResponse), 400)]
+        [ProducesResponseType(typeof(ValidationsErrorResponse), 400)]
         public async Task<IActionResult> CreateCategory([FromBody] CreateCategoryDto category)
         {
             var result = await service.CreateAsync(category);
 
             if (result.HasError)
             {
-                return StatusCode(
-                    result.Error.Code,
-                    new ValidationErrorResponse(result.Error.Message)
-                 );
+                return ErrorResponse(result.Error);
             }
 
-            return Ok(new SaveResponse<CategoryDto>(result.Data));
+            return SaveResponse(result.Data);
         }
 
         /// <summary>
@@ -55,20 +52,17 @@ namespace FinancialHub.Core.WebApi.Controllers
         /// <param name="category">category changes</param>
         [HttpPut("{id}")]
         [ProducesResponseType(typeof(SaveResponse<CategoryDto>), 200)]
-        [ProducesResponseType(typeof(ValidationErrorResponse), 400)]
+        [ProducesResponseType(typeof(ValidationsErrorResponse), 400)]
         public async Task<IActionResult> UpdateCategory([FromRoute] Guid id, [FromBody] UpdateCategoryDto category)
         {
             var result = await service.UpdateAsync(id, category);
 
             if (result.HasError)
             {
-                return StatusCode(
-                    result.Error.Code,
-                    new ValidationErrorResponse(result.Error.Message)
-                 );
+                return ErrorResponse(result.Error);
             }
 
-            return Ok(new SaveResponse<CategoryDto>(result.Data));
+            return SaveResponse(result.Data);
         }
 
         /// <summary>

@@ -1,24 +1,35 @@
 ﻿using AutoMapper;
 using FinancialHub.Core.Domain.DTOS.Categories;
 using FinancialHub.Core.Domain.Interfaces.Resources;
+using FinancialHub.Core.Domain.Interfaces.Validators;
 
 namespace FinancialHub.Core.Application.Services
 {
     public class CategoriesService : ICategoriesService
     {
         private readonly ICategoriesProvider provider;
-        private readonly IErrorMessageProvider errorMessageProvider;
+        private readonly ICategoriesValidator validator;
         private readonly IMapper mapper;
 
-        public CategoriesService(ICategoriesProvider provider, IErrorMessageProvider errorMessageProvider, IMapper mapper)
+        public CategoriesService(
+            ICategoriesProvider provider, 
+            ICategoriesValidator validator,
+            IMapper mapper
+        )
         {
             this.provider = provider;
-            this.errorMessageProvider = errorMessageProvider;
+            this.validator = validator;
             this.mapper = mapper;
         }
 
         public async Task<ServiceResult<CategoryDto>> CreateAsync(CreateCategoryDto category)
         {
+            var validation = await this.validator.ValidateAsync(category);
+            if (validation.HasError)
+            {
+                return validation.Error;
+            }
+
             var categoryModel = this.mapper.Map<CategoryModel>(category);
 
             var createdCategory = await this.provider.CreateAsync(categoryModel);
@@ -40,22 +51,20 @@ namespace FinancialHub.Core.Application.Services
 
         public async Task<ServiceResult<CategoryDto>> UpdateAsync(Guid id, UpdateCategoryDto category)
         {
-            var existingCategory = await this.provider.GetByIdAsync(id);
-            if (existingCategory == null)
+            var existingCategory = await this.validator.ExistsAsync(id);
+            if (existingCategory.HasError)
             {
-                return new NotFoundError(
-                    this.errorMessageProvider.NotFoundMessage("Category", id)
-                );
+                return existingCategory.Error;
+            }
+
+            var validation = await this.validator.ValidateAsync(category);
+            if (validation.HasError)
+            {
+                return validation.Error;
             }
 
             var categoryModel = this.mapper.Map<CategoryModel>(category);
             var updatedCategory = await this.provider.UpdateAsync(id, categoryModel);
-            if (updatedCategory == null)
-            {
-                return new InvalidDataError(
-                    this.errorMessageProvider.UpdateFailedMessage("Category", id)
-                );
-            }
 
             return this.mapper.Map<CategoryDto>(updatedCategory);
         }

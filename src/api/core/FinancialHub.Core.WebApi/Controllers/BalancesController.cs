@@ -6,7 +6,7 @@ namespace FinancialHub.Core.WebApi.Controllers
     [Route("[controller]")]
     [Produces("application/json")]
     [ProducesErrorResponseType(typeof(Exception))]
-    public class BalancesController : Controller
+    public class BalancesController : BaseController
     {
         private readonly IBalancesService service;
 
@@ -17,39 +17,33 @@ namespace FinancialHub.Core.WebApi.Controllers
 
         [HttpPost]
         [ProducesResponseType(typeof(SaveResponse<BalanceDto>), 200)]
-        [ProducesResponseType(typeof(ValidationErrorResponse), 400)]
+        [ProducesResponseType(typeof(ValidationsErrorResponse), 400)]
         public async Task<IActionResult> CreateBalance([FromBody] CreateBalanceDto balance)
         {
             var result = await this.service.CreateAsync(balance);
 
             if (result.HasError)
             {
-                return StatusCode(
-                    result.Error.Code,
-                    new ValidationErrorResponse(result.Error.Message)
-                 );
+                return ErrorResponse(result.Error);
             }
 
-            return Ok(new SaveResponse<BalanceDto>(result.Data));
+            return SaveResponse(result.Data);
         }
 
         [HttpPut("{id}")]
         [ProducesResponseType(typeof(SaveResponse<BalanceDto>), 200)]
         [ProducesResponseType(typeof(NotFoundErrorResponse), 404)]
-        [ProducesResponseType(typeof(ValidationErrorResponse), 400)]
+        [ProducesResponseType(typeof(ValidationsErrorResponse), 400)]
         public async Task<IActionResult> UpdateBalance([FromRoute] Guid id, [FromBody] UpdateBalanceDto balance)
         {
-            var response = await this.service.UpdateAsync(id, balance);
+            var result = await this.service.UpdateAsync(id, balance);
 
-            if (response.HasError)
+            if (result.HasError)
             {
-                return StatusCode(
-                    response.Error.Code,
-                    new ValidationErrorResponse(response.Error.Message)
-                 );
+                return ErrorResponse(result.Error);
             }
 
-            return Ok(new SaveResponse<BalanceDto>(response.Data));
+            return SaveResponse(result.Data);
         }
 
         [HttpDelete("{id}")]

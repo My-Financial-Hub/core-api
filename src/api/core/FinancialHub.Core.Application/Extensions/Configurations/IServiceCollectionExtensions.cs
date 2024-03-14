@@ -10,10 +10,11 @@ using FinancialHub.Core.Application.Validators.Accounts;
 using FinancialHub.Core.Application.Validators.Balances;
 using FinancialHub.Core.Application.Validators.Categories;
 using FinancialHub.Core.Application.Validators.Transactions;
+using FinancialHub.Core.Domain.Interfaces.Validators;
 
 namespace FinancialHub.Core.Application.Extensions.Configurations
 {
-    public static class IServiceCollectionExtensions
+    public static partial class IServiceCollectionExtensions
     {
         public static IServiceCollection AddCoreServices(this IServiceCollection services)
         {
@@ -32,6 +33,8 @@ namespace FinancialHub.Core.Application.Extensions.Configurations
 
             services.AddAutoMapper(typeof(BalanceMapper));
 
+            services.AddScoped<IBalancesValidator, BalancesValidator>();
+
             services.AddScoped<IValidator<CreateBalanceDto>, CreateBalanceValidator>();
             services.AddScoped<IValidator<UpdateBalanceDto>, UpdateBalanceValidator>();
 
@@ -44,6 +47,7 @@ namespace FinancialHub.Core.Application.Extensions.Configurations
 
             services.AddAutoMapper(typeof(TransactionMapper));
 
+            services.AddScoped<ITransactionsValidator, TransactionsValidator>();
             services.AddScoped<IValidator<CreateTransactionDto>, CreateTransactionValidator>();
             services.AddScoped<IValidator<UpdateTransactionDto>, UpdateTransactionValidator>();
 
@@ -56,6 +60,7 @@ namespace FinancialHub.Core.Application.Extensions.Configurations
 
             services.AddAutoMapper(typeof(AccountMapper));
 
+            services.AddScoped<IAccountsValidator, AccountsValidator>();
             services.AddScoped<IValidator<CreateAccountDto>, CreateAccountValidator>();
             services.AddScoped<IValidator<UpdateAccountDto>, UpdateAccountValidator>();
 
@@ -67,7 +72,8 @@ namespace FinancialHub.Core.Application.Extensions.Configurations
             services.AddScoped<ICategoriesService, CategoriesService>();
 
             services.AddAutoMapper(typeof(CategoryMapper));
-
+            
+            services.AddScoped<ICategoriesValidator, CategoriesValidator>();
             services.AddScoped<IValidator<CreateCategoryDto>, CreateCategoryValidator>();
             services.AddScoped<IValidator<UpdateCategoryDto>, UpdateCategoryValidator>();
 

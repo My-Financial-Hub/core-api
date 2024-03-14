@@ -10,6 +10,40 @@ namespace FinancialHub.Core.IntegrationTests.Controllers
         {
             updateAccountDtoBuilder = new UpdateAccountDtoBuilder();
         }
+
+        [Test]
+        public async Task Put_InvalidAccount_Returns400BadRequest()
+        {
+            var id = Guid.NewGuid();
+            fixture.AddData(accountBuilder.WithId(id).Generate());
+
+            var body = updateAccountDtoBuilder
+                .WithName(string.Empty)
+                .WithDescription(new string('o', 501))
+                .Generate();
+
+            var response = await client.PutAsync($"{baseEndpoint}/{id}", body);
+            Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
+        }
+
+        [Test]
+        public async Task Put_InvalidAccount_ReturnsAccountValidationError()
+        {
+            var id = Guid.NewGuid();
+            fixture.AddData(accountBuilder.WithId(id).Generate());
+
+            var body = updateAccountDtoBuilder
+                .WithName(string.Empty)
+                .WithDescription(new string('o', 501))
+                .Generate();
+
+            var response = await client.PutAsync($"{baseEndpoint}/{id}", body);
+            var validationResponse = await response.ReadContentAsync<ValidationsErrorResponse>();
+
+            Assert.IsNotNull(validationResponse);
+            Assert.AreEqual(2, validationResponse!.Errors.Length);
+        }
+
         [Test]
         public async Task Put_ExistingAccount_ReturnUpdatedAccount()
         {
