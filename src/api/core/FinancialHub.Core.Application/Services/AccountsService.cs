@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using FinancialHub.Core.Domain.DTOS.Accounts;
-using FinancialHub.Core.Domain.Interfaces.Resources;
 using Microsoft.Extensions.Logging;
 using FinancialHub.Core.Domain.Interfaces.Validators;
 
@@ -14,9 +13,8 @@ namespace FinancialHub.Core.Application.Services
         private readonly ILogger<AccountsService> logger;
 
         public AccountsService(
-            IAccountsProvider provider, 
-            IMapper mapper, IAccountsValidator accountValidator,
-            ILogger<AccountsService> logger
+            IAccountsProvider provider, IAccountsValidator accountValidator,
+            IMapper mapper, ILogger<AccountsService> logger
         )
         {
             this.provider = provider;
@@ -27,59 +25,80 @@ namespace FinancialHub.Core.Application.Services
 
         public async Task<ServiceResult<AccountDto>> CreateAsync(CreateAccountDto accountDto)
         {
+            this.logger.LogInformation("Creating account {name}", accountDto.Name);
+            this.logger.LogTrace("Account data : {accountDto}", accountDto);
+            
             var validationResult = await this.accountValidator.ValidateAsync(accountDto);
             if(validationResult.HasError)
             {
+                this.logger.LogTrace("Validation error : {error}", validationResult.Error);
                 return validationResult.Error;
             }
 
             var account = this.mapper.Map<AccountModel>(accountDto);
-            this.logger.LogInformation("Attempt to create account {result}", account);
 
             var accountModel = await this.provider.CreateAsync(account);
 
             var result = this.mapper.Map<AccountDto>(accountModel);
 
-            this.logger.LogInformation("Account {result} Sucessfully created", result);
+            this.logger.LogTrace("Account creation result : {result}", result);
+            this.logger.LogInformation("Account {name} Sucessfully created", result.Name);
+            
             return result;
         }
 
         public async Task<ServiceResult<int>> DeleteAsync(Guid id)
         {
-            return await this.provider.DeleteAsync(id);
+            this.logger.LogInformation("Removing account {id}", id);
+            var amount = await this.provider.DeleteAsync(id);
+            this.logger.LogInformation("Account {id} {removed}", id, amount > 0 ? "removed" : "not removed");
+            return amount;
         }
 
         public async Task<ServiceResult<ICollection<AccountDto>>> GetAllAsync()
         {
+            this.logger.LogInformation("Getting all accounts");
             var accounts = await this.provider.GetAllAsync();
 
+            this.logger.LogInformation("Returning {count} accounts", accounts.Count > 0? $"{accounts.Count}": "no");
             return this.mapper.Map<ICollection<AccountDto>>(accounts).ToArray();
         }
 
         public async Task<ServiceResult<AccountDto>> GetByIdAsync(Guid id)
         {
-            var accountExists = await this.accountValidator.ExistsAsync(id);
-            if (accountExists.HasError)
+            this.logger.LogInformation("Attemping to get account {id}", id);
+
+            var validationResult = await this.accountValidator.ExistsAsync(id);
+            if (validationResult.HasError)
             {
-                return accountExists.Error;
+                this.logger.LogTrace("Validation error : {error}", validationResult.Error);
+                return validationResult.Error;
             }
 
             var existingAccount = await this.provider.GetByIdAsync(id);
 
-            return this.mapper.Map<AccountDto>(existingAccount);
+            var account = this.mapper.Map<AccountDto>(existingAccount);
+
+            this.logger.LogTrace("Account result {account}", account);
+            this.logger.LogInformation("Account {id} found", id);
+            return account;
         }
 
         public async Task<ServiceResult<AccountDto>> UpdateAsync(Guid id, UpdateAccountDto account)
         {
+            this.logger.LogInformation("Attemping update account {id}", id);
+           
             var validationResult = await this.accountValidator.ValidateAsync(account);
             if (validationResult.HasError)
             {
+                this.logger.LogTrace("Validation error : {error}", validationResult.Error);
                 return validationResult.Error;
             }
 
             validationResult = await this.accountValidator.ExistsAsync(id);
             if (validationResult.HasError)
             {
+                this.logger.LogTrace("Validation error : {error}", validationResult.Error);
                 return validationResult.Error;
             }
             
@@ -87,7 +106,12 @@ namespace FinancialHub.Core.Application.Services
 
             var updatedAccount = await this.provider.UpdateAsync(id, accountModel);
 
-            return this.mapper.Map<AccountDto>(updatedAccount);
+            var result = this.mapper.Map<AccountDto>(updatedAccount);
+
+            this.logger.LogTrace("Account Update result : {result}", result);
+            this.logger.LogInformation("Account {id} Sucessfully Updated", id);
+
+            return result;
         }
     }
 }
