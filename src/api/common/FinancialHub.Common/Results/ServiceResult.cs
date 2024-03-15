@@ -35,6 +35,8 @@ namespace FinancialHub.Common.Results
             this.Error = error;
         }
 
+        public static ServiceResult Success => new();
+
         public static implicit operator ServiceResult(ServiceError? error)
         {
             return new ServiceResult(error: error);

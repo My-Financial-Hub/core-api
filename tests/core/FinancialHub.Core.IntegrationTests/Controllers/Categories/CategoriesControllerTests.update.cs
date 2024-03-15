@@ -24,6 +24,39 @@ namespace FinancialHub.Core.IntegrationTests.Controllers.Categories
         }
 
         [Test]
+        public async Task Put_InvalidCategory_Returns400BadRequest()
+        {
+            var id = Guid.NewGuid();
+            fixture.AddData(categoryBuilder.WithId(id).Generate());
+
+            var data = updateCategoryDtoBuilder
+                .WithName(string.Empty)
+                .WithDescription(new string('o', 501))
+                .Generate();
+
+            var response = await client.PutAsync($"{baseEndpoint}/{id}", data);
+            Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
+        }
+
+        [Test]
+        public async Task Put_InvalidCategory_ReturnsCategoryValidationError()
+        {
+            var id = Guid.NewGuid();
+            fixture.AddData(categoryBuilder.WithId(id).Generate());
+
+            var data = updateCategoryDtoBuilder
+                .WithName(string.Empty)
+                .WithDescription(new string('o', 501))
+                .Generate();
+
+            var response = await client.PutAsync($"{baseEndpoint}/{id}", data);
+            var validationResponse = await response.ReadContentAsync<ValidationsErrorResponse>();
+
+            Assert.IsNotNull(validationResponse);
+            Assert.AreEqual(2, validationResponse!.Errors.Length);
+        }
+
+        [Test]
         public async Task Put_ExistingCategory_ReturnUpdatedCategory()
         {
             var id = Guid.NewGuid();

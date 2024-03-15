@@ -31,6 +31,9 @@ namespace FinancialHub.Core.Application.Tests.Services
                 .WithId(id)
                 .Generate();
 
+            this.validator
+                .Setup(x => x.ExistsAsync(id))
+                .ReturnsAsync(ServiceResult.Success);
             this.provider
                 .Setup(x => x.GetByIdAsync(id))
                 .ReturnsAsync(transaction);
@@ -48,13 +51,14 @@ namespace FinancialHub.Core.Application.Tests.Services
             var id = Guid.NewGuid();
             var expectedErrorMessage = $"Not found Transaction with id {id}";
 
-            this.errorMessageProvider
-                .Setup(x => x.NotFoundMessage(It.IsAny<string>(), It.IsAny<Guid>()))
-                .Returns(expectedErrorMessage);
+            this.validator
+                .Setup(x => x.ExistsAsync(id))
+                .ReturnsAsync(new NotFoundError(expectedErrorMessage));
 
             var result = await this.service.GetByIdAsync(id);
 
             Assert.IsTrue(result.HasError);
+            Assert.IsInstanceOf<NotFoundError>(result.Error);
             Assert.AreEqual(expectedErrorMessage, result.Error!.Message);
         }
     }

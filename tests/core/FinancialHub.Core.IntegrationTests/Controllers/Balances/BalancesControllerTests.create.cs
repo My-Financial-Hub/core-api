@@ -25,6 +25,41 @@ namespace FinancialHub.Core.IntegrationTests.Controllers.Balances
         }
 
         [Test]
+        public async Task Post_InvalidBalance_Returns400BadRequest()
+        {
+            var account = accountBuilder.Generate();
+            fixture.AddData(account);
+
+            var body = createBalanceDtoBuilder
+                .WithName(string.Empty)
+                .WithCurrency(new string('o', 51))
+                .WithAccountId(account.Id)
+                .Generate();
+
+            var response = await client.PostAsync(baseEndpoint, body);
+            Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
+        }
+
+        [Test]
+        public async Task Post_InvalidBalance_ReturnsBalanceValidationError()
+        {
+            var account = accountBuilder.Generate();
+            fixture.AddData(account);
+
+            var body = createBalanceDtoBuilder
+                .WithName(string.Empty)
+                .WithCurrency(new string('o', 51))
+                .WithAccountId(account.Id)
+                .Generate();
+
+            var response = await client.PostAsync(baseEndpoint, body);
+            var validationResponse = await response.ReadContentAsync<ValidationsErrorResponse>();
+
+            Assert.IsNotNull(validationResponse);
+            Assert.AreEqual(2, validationResponse!.Errors.Length);
+        }
+
+        [Test]
         public async Task Post_BalanceWithInvalidAccount_Returns404NotFound()
         {
             var id = Guid.NewGuid();
