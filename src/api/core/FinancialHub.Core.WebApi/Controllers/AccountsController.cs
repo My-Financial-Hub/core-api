@@ -101,10 +101,10 @@ namespace FinancialHub.Core.WebApi.Controllers
                     "Error updating account {id} : {Message}",
                     id, result.Error.Message
                 );
-                return ErrorResponse(response.Error);
+                return ErrorResponse(result.Error);
             }
 
-            return SaveResponse(response.Data);
+            return SaveResponse(result.Data);
         }
 
         /// <summary>

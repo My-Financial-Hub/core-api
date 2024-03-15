@@ -11,13 +11,12 @@ namespace FinancialHub.Core.Application.Services
         private readonly IAccountsProvider provider;
         private readonly IAccountsValidator accountValidator;
         private readonly IMapper mapper;
-        private readonly IErrorMessageProvider errorMessageProvider;
         private readonly ILogger<AccountsService> logger;
 
         public AccountsService(
             IAccountsProvider provider, 
-            IMapper mapper,IErrorMessageProvider errorMessageProvider,
-            IMapper mapper, ILogger logger
+            IMapper mapper, IAccountsValidator accountValidator,
+            ILogger<AccountsService> logger
         )
         {
             this.provider = provider;
