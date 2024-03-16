@@ -31,7 +31,8 @@ namespace FinancialHub.Core.Application.Services
             var validationResult = await this.accountValidator.ValidateAsync(accountDto);
             if(validationResult.HasError)
             {
-                this.logger.LogTrace("Validation error : {error}", validationResult.Error);
+                this.logger.LogTrace("Account creation Validation result : {validationResult}", validationResult);
+                this.logger.LogInformation("Failed creating account {name}", accountDto.Name);
                 return validationResult.Error;
             }
 
@@ -66,12 +67,13 @@ namespace FinancialHub.Core.Application.Services
 
         public async Task<ServiceResult<AccountDto>> GetByIdAsync(Guid id)
         {
-            this.logger.LogInformation("Attemping to get account {id}", id);
+            this.logger.LogInformation("Getting account {id}", id);
 
             var validationResult = await this.accountValidator.ExistsAsync(id);
             if (validationResult.HasError)
             {
-                this.logger.LogTrace("Validation error : {error}", validationResult.Error);
+                this.logger.LogTrace("Account get by id result : {validationResult}", validationResult);
+                this.logger.LogInformation("Failed getting account {id}", id);
                 return validationResult.Error;
             }
 
@@ -86,19 +88,21 @@ namespace FinancialHub.Core.Application.Services
 
         public async Task<ServiceResult<AccountDto>> UpdateAsync(Guid id, UpdateAccountDto account)
         {
-            this.logger.LogInformation("Attemping update account {id}", id);
+            this.logger.LogInformation("Updating account {id}", id);
            
             var validationResult = await this.accountValidator.ValidateAsync(account);
             if (validationResult.HasError)
             {
-                this.logger.LogTrace("Validation error : {error}", validationResult.Error);
+                this.logger.LogTrace("Account update validation result : {validationResult}", validationResult);
+                this.logger.LogInformation("Failed updating account {id}", id);
                 return validationResult.Error;
             }
 
             validationResult = await this.accountValidator.ExistsAsync(id);
             if (validationResult.HasError)
             {
-                this.logger.LogTrace("Validation error : {error}", validationResult.Error);
+                this.logger.LogTrace("Account update validation result : {validationResult}", validationResult);
+                this.logger.LogInformation("Failed updating account {id}", id);
                 return validationResult.Error;
             }
             
@@ -108,7 +112,7 @@ namespace FinancialHub.Core.Application.Services
 
             var result = this.mapper.Map<AccountDto>(updatedAccount);
 
-            this.logger.LogTrace("Account Update result : {result}", result);
+            this.logger.LogTrace("Account update result : {result}", result);
             this.logger.LogInformation("Account {id} Sucessfully Updated", id);
 
             return result;
