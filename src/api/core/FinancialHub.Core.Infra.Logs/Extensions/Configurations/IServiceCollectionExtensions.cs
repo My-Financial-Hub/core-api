@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using FinancialHub.Core.Infra.Logs.Middlewares;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace FinancialHub.Core.Infra.Logs.Extensions.Configurations
 {
@@ -8,6 +10,11 @@ namespace FinancialHub.Core.Infra.Logs.Extensions.Configurations
         {
             services.AddLogging();
             return services;
+        }
+
+        public static IApplicationBuilder UseLogRequest(this IApplicationBuilder builder)
+        {
+            return builder.UseMiddleware<LogMiddleware>();
         }
     }
 }
