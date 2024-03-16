@@ -18,11 +18,24 @@ namespace FinancialHub.Core.Infra.Logs.Middlewares
         {
             var method = context.Request.Method.ToUpper();
             var path = context.Request.Path.Value;
-            this.logger.LogInformation("[{request}] - {url} Started", method, path);
-
-            await next(context);
-
-            this.logger.LogInformation("[{request}] - {url} Finished", method, path);
+            try
+            {
+                this.logger.LogInformation("[{request}] - {path} Started", method, path);
+                await next(context);
+            }
+            catch (Exception exception)
+            {
+                this.logger.LogError(
+                    exception,
+                    "[{request}] - {path} error with message {message}",
+                    method, path, exception.Message
+                );
+                throw;
+            }
+            finally
+            {
+                this.logger.LogInformation("[{request}] - {path} Finished", method, path);
+            }
         }
     }
 }
