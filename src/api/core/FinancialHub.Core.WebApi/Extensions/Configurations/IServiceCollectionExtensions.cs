@@ -31,8 +31,7 @@ namespace FinancialHub.Core.WebApi.Extensions.Configurations
 
         public static IServiceCollection AddApiLogging(this IServiceCollection services)
         {
-            services
-                .AddCoreLogging();
+            services.AddCoreLogging();
             services
                 .AddHttpLogging(logging =>
                 {

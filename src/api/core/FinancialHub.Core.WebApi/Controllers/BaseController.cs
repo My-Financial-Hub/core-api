@@ -1,4 +1,5 @@
 ﻿using FinancialHub.Common.Results.Errors;
+using System.Collections.Generic;
 using System.Linq;
 using static FinancialHub.Common.Responses.Errors.ValidationsErrorResponse;
 
@@ -42,6 +43,13 @@ namespace FinancialHub.Core.WebApi.Controllers
         {
             return Ok(
                 new SaveResponse<T>(data)
+            );
+        }
+
+        protected IActionResult ListResponse<T>(ICollection<T> data)
+        {
+            return Ok(
+                new ListResponse<T>(data)
             );
         }
     }

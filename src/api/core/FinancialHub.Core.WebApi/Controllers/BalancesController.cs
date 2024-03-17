@@ -1,4 +1,5 @@
 ﻿using FinancialHub.Core.Domain.DTOS.Balances;
+using Microsoft.Extensions.Logging;
 
 namespace FinancialHub.Core.WebApi.Controllers
 {
@@ -9,10 +10,12 @@ namespace FinancialHub.Core.WebApi.Controllers
     public class BalancesController : BaseController
     {
         private readonly IBalancesService service;
+        private readonly ILogger<BalancesController> logger;
 
-        public BalancesController(IBalancesService service)
+        public BalancesController(IBalancesService service, ILogger<BalancesController> logger)
         {
             this.service = service;
+            this.logger = logger;
         }
 
         [HttpPost]
@@ -20,13 +23,19 @@ namespace FinancialHub.Core.WebApi.Controllers
         [ProducesResponseType(typeof(ValidationsErrorResponse), 400)]
         public async Task<IActionResult> CreateBalance([FromBody] CreateBalanceDto balance)
         {
+            this.logger.LogInformation("Starting creation of balance");
             var result = await this.service.CreateAsync(balance);
 
             if (result.HasError)
             {
+                this.logger.LogWarning(
+                    "Error creating balance : {Message}",
+                    result.Error.Message
+                );
                 return ErrorResponse(result.Error);
             }
 
+            this.logger.LogInformation("Finished creation of Balance");
             return SaveResponse(result.Data);
         }
 

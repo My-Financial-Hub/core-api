@@ -1,9 +1,7 @@
 ﻿using AutoMapper;
-using FinancialHub.Core.Domain.DTOS.Accounts;
 using FinancialHub.Core.Domain.DTOS.Balances;
 using FinancialHub.Core.Domain.Interfaces.Validators;
 using Microsoft.Extensions.Logging;
-using System.Security.Principal;
 
 namespace FinancialHub.Core.Application.Services
 {
