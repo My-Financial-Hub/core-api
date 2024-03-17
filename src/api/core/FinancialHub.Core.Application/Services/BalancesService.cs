@@ -39,14 +39,6 @@ namespace FinancialHub.Core.Application.Services
                 return validationResult.Error;
             }
 
-            validationResult = await this.accountsValidator.ExistsAsync(balance.AccountId);
-            if (validationResult.HasError)
-            {
-                this.logger.LogTrace("Balance creation Validation result : {validationResult}", validationResult);
-                this.logger.LogInformation("Account {AccountId} not found", balance.AccountId);
-                return validationResult.Error;
-            }
-
             var balanceModel = this.mapper.Map<BalanceModel>(balance);
 
             var createdBalance = await this.balancesProvider.CreateAsync(balanceModel);
@@ -127,14 +119,6 @@ namespace FinancialHub.Core.Application.Services
             {
                 this.logger.LogTrace("Balance update validation result : {validationResult}", validationResult);
                 this.logger.LogInformation("Balance {id} not found", id);
-                return validationResult.Error;
-            }
-
-            validationResult = await this.accountsValidator.ExistsAsync(balance.AccountId);
-            if (validationResult.HasError)
-            {
-                this.logger.LogTrace("Balance update validation result : {validationResult}", validationResult);
-                this.logger.LogInformation("Account {AccountId} not found", balance.AccountId);
                 return validationResult.Error;
             }
 
