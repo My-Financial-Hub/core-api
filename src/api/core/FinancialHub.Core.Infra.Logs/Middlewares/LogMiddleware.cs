@@ -25,16 +25,18 @@ namespace FinancialHub.Core.Infra.Logs.Middlewares
             }
             catch (Exception exception)
             {
+                var status = context.Response.StatusCode;
                 this.logger.LogError(
                     exception,
-                    "[{request}] - {path} error with message {message}",
-                    method, path, exception.Message
+                    "[{request}] - {path} error with message {message} and status {status}",
+                    method, path, exception.Message, status
                 );
                 throw;
             }
             finally
             {
-                this.logger.LogInformation("[{request}] - {path} Finished", method, path);
+                var status = context.Response.StatusCode;
+                this.logger.LogInformation("[{request}] - {path} Finished with status {status}", method, path, status);
             }
         }
     }
