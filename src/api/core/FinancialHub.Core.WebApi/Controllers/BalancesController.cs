@@ -59,7 +59,10 @@ namespace FinancialHub.Core.WebApi.Controllers
         [ProducesResponseType(204)]
         public async Task<IActionResult> DeleteBalance([FromRoute] Guid id)
         {
-            await this.service.DeleteAsync(id);
+            this.logger.LogInformation("Removing balance");
+            await service.DeleteAsync(id);
+            this.logger.LogInformation("Balance removed");
+
             return NoContent();
         }
     }

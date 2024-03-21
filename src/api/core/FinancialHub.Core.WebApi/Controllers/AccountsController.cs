@@ -122,7 +122,7 @@ namespace FinancialHub.Core.WebApi.Controllers
         {
             this.logger.LogInformation("Removing account");
             await service.DeleteAsync(id);
-            this.logger.LogInformation("Account removal finished");
+            this.logger.LogInformation("Account removed");
 
             return NoContent();
         }
