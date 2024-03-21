@@ -36,9 +36,9 @@ namespace FinancialHub.Core.Infra.Providers
             };
             var balanceEntity = mapper.Map<BalanceEntity>(balance);
 
-            logger.LogInformation("Creating balance \"{Name}\" in account \"{Name}\"", balance.Name, account.Name);
+            logger.LogInformation("Creating balance \"{BalanceName}\" in account \"{AccountName}\"", balance.Name, account.Name);
             await this.balanceRepository.CreateAsync(balanceEntity);
-            logger.LogInformation("Balance \"{Name}\" created in account \"{Name}\"", account.Name, account.Name);
+            logger.LogInformation("Balance \"{BalanceName}\" created in account \"{AccountName}\"", account.Name, account.Name);
 
             await this.repository.CommitAsync();
             logger.LogInformation("Account \"{Name}\" created", account.Name);

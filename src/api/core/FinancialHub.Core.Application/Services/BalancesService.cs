@@ -146,7 +146,7 @@ namespace FinancialHub.Core.Application.Services
             var updatedBalance = await balancesProvider.UpdateAmountAsync(id, newAmount);
 
             this.logger.LogTrace("Update Balance amount result : {updatedBalance}", updatedBalance);
-            this.logger.LogInformation("Update Balance amount {id} in account {id}", updatedBalance.Id, updatedBalance.AccountId);
+            this.logger.LogInformation("Update Balance amount {balanceId} in account {accountId}", updatedBalance.Id, updatedBalance.AccountId);
             return updatedBalance;
         }
     }
