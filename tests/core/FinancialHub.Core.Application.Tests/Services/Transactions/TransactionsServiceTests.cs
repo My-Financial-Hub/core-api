@@ -3,6 +3,7 @@ using FinancialHub.Core.Application.Mappers;
 using FinancialHub.Core.Application.Services;
 using FinancialHub.Core.Domain.Interfaces.Resources;
 using FinancialHub.Core.Domain.Interfaces.Validators;
+using Microsoft.Extensions.Logging;
 
 namespace FinancialHub.Core.Application.Tests.Services
 {
@@ -17,6 +18,7 @@ namespace FinancialHub.Core.Application.Tests.Services
         private Mock<ITransactionsValidator> validator;
         private Mock<IBalancesValidator> balancesValidator;
         private Mock<ICategoriesValidator> categoriesValidator;
+        private Mock<ILogger<TransactionsService>> mockLogger;
 
         private IMapper mapper;
 
@@ -36,13 +38,15 @@ namespace FinancialHub.Core.Application.Tests.Services
             this.validator              = new Mock<ITransactionsValidator>();
             this.balancesValidator      = new Mock<IBalancesValidator>();
             this.categoriesValidator    = new Mock<ICategoriesValidator>();
+            this.mockLogger = new Mock<ILogger<TransactionsService>>();
             this.MockMapper();
             this.service = new TransactionsService(
                 provider.Object,
                 validator.Object,
                 balancesValidator.Object,
                 categoriesValidator.Object,
-                mapper
+                mapper,
+                mockLogger.Object
             );
 
             this.random = new Random();
