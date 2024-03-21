@@ -45,7 +45,7 @@ namespace FinancialHub.Core.Application.Services
 
             var result = this.mapper.Map<BalanceDto>(createdBalance);
             this.logger.LogTrace("Balance creation result : {result}", result);
-            this.logger.LogInformation("Balance {name} Sucessfully created in account {id}", result.Name, result.Account.Id);
+            this.logger.LogInformation("Balance {name} Sucessfully created in account {id}", result.Name, result.Account?.Id);
             return result;
         }
 

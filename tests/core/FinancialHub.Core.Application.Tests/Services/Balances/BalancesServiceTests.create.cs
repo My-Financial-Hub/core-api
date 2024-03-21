@@ -92,10 +92,7 @@ namespace FinancialHub.Core.Application.Tests.Services
 
             this.validator
                 .Setup(x => x.ValidateAsync(createBalance))
-                .ReturnsAsync(ServiceResult.Success);
-            this.accountValidator
-                .Setup(x => x.ExistsAsync(createBalance.AccountId))
-                .ReturnsAsync(new NotFoundError(expectedErrorMessage));
+                .ReturnsAsync(new NotFoundError($"Not found Account with id {createBalance.AccountId}"));
 
             var result = await this.service.CreateAsync(createBalance);
 
@@ -111,9 +108,6 @@ namespace FinancialHub.Core.Application.Tests.Services
 
             this.validator
                 .Setup(x => x.ValidateAsync(createBalance))
-                .ReturnsAsync(ServiceResult.Success);
-            this.accountValidator
-                .Setup(x => x.ExistsAsync(createBalance.AccountId))
                 .ReturnsAsync(new NotFoundError($"Not found Account with id {createBalance.AccountId}"));
 
             await this.service.CreateAsync(createBalance);

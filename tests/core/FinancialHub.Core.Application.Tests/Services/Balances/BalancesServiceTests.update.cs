@@ -143,13 +143,10 @@ namespace FinancialHub.Core.Application.Tests.Services
 
             this.validator
                 .Setup(x => x.ValidateAsync(updateBalance))
-                .ReturnsAsync(ServiceResult.Success);
+                .ReturnsAsync(new NotFoundError($"Account not found with id {id}"));
             this.validator
                 .Setup(x => x.ExistsAsync(id))
                 .ReturnsAsync(ServiceResult.Success);
-            this.accountValidator
-                .Setup(x => x.ExistsAsync(updateBalance.AccountId))
-                .ReturnsAsync(new NotFoundError(expectedErrorMessage));
 
             var result = await this.service.UpdateAsync(id, updateBalance);
 
@@ -166,13 +163,10 @@ namespace FinancialHub.Core.Application.Tests.Services
 
             this.validator
                 .Setup(x => x.ValidateAsync(updateBalance))
-                .ReturnsAsync(ServiceResult.Success);
+                .ReturnsAsync(new NotFoundError($"Account not found with id {id}"));
             this.validator
                 .Setup(x => x.ExistsAsync(id))
                 .ReturnsAsync(ServiceResult.Success);
-            this.accountValidator
-                .Setup(x => x.ExistsAsync(updateBalance.AccountId))
-                .ReturnsAsync(new NotFoundError($"Account not found with id {id}"));
 
             await this.service.UpdateAsync(id, updateBalance);
 

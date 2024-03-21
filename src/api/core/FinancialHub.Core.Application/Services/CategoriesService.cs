@@ -87,7 +87,8 @@ namespace FinancialHub.Core.Application.Services
             }
 
             var categoryModel = this.mapper.Map<CategoryModel>(category);
-            var result = this.mapper.Map<CategoryDto>(categoryModel);
+            var updatedBalance = await this.provider.UpdateAsync(id, categoryModel);
+            var result = this.mapper.Map<CategoryDto>(updatedBalance);
 
             this.logger.LogTrace("Category update result : {result}", result);
             this.logger.LogInformation("Category {id} Sucessfully Updated", id);
