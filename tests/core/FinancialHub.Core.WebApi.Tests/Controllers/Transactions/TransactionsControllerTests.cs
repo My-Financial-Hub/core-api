@@ -1,6 +1,7 @@
 ﻿using FinancialHub.Core.WebApi.Controllers;
 using FinancialHub.Core.Domain.Interfaces.Services;
 using FinancialHub.Core.Domain.Tests.Builders.DTOS.Transactions;
+using Microsoft.Extensions.Logging;
 
 namespace FinancialHub.Core.WebApi.Tests.Controllers
 {
@@ -14,6 +15,7 @@ namespace FinancialHub.Core.WebApi.Tests.Controllers
 
         private TransactionsController controller;
         private Mock<ITransactionsService> mockService;
+        private Mock<ILogger<TransactionsController>> mockLogger;
 
         [SetUp]
         public void Setup()
@@ -24,7 +26,8 @@ namespace FinancialHub.Core.WebApi.Tests.Controllers
             this.updateTransactionDtoBuilder = new UpdateTransactionDtoBuilder();
 
             this.mockService = new Mock<ITransactionsService>();
-            this.controller = new TransactionsController(this.mockService.Object);
+            this.mockLogger = new Mock<ILogger<TransactionsController>>();
+            this.controller = new TransactionsController(this.mockService.Object, this.mockLogger.Object);
         }
     }
 }
