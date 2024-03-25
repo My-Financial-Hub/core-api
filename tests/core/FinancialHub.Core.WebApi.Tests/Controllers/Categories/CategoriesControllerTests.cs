@@ -1,6 +1,7 @@
 ﻿using FinancialHub.Core.WebApi.Controllers;
 using FinancialHub.Core.Domain.Interfaces.Services;
 using FinancialHub.Core.Domain.Tests.Builders.DTOS.Categories;
+using Microsoft.Extensions.Logging;
 
 namespace FinancialHub.Core.WebApi.Tests.Controllers
 {
@@ -13,6 +14,7 @@ namespace FinancialHub.Core.WebApi.Tests.Controllers
 
         private CategoriesController controller;
         private Mock<ICategoriesService> mockService;
+        private Mock<ILogger<CategoriesController>> mockLogger;
 
         [SetUp]
         public void Setup()
@@ -24,7 +26,8 @@ namespace FinancialHub.Core.WebApi.Tests.Controllers
             this.updateCategoryDtoBuilder = new UpdateCategoryDtoBuilder();
 
             this.mockService = new Mock<ICategoriesService>();
-            this.controller = new CategoriesController(this.mockService.Object);
+            this.mockLogger = new Mock<ILogger<CategoriesController>>();
+            this.controller = new CategoriesController(this.mockService.Object, this.mockLogger.Object);
         }
     }
 }

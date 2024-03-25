@@ -3,6 +3,7 @@ using FinancialHub.Core.Domain.DTOS.Categories;
 using FinancialHub.Core.Domain.Interfaces.Resources;
 using FinancialHub.Core.Domain.Interfaces.Validators;
 using FluentValidation;
+using Microsoft.Extensions.Logging;
 
 namespace FinancialHub.Core.Application.Validators.Categories
 {
@@ -15,57 +16,71 @@ namespace FinancialHub.Core.Application.Validators.Categories
         private readonly IValidator<UpdateCategoryDto> updateCategoryDtoValidator;
 
         private readonly IErrorMessageProvider errorMessageProvider;
+        private readonly ILogger<CategoriesValidator> logger;
 
         public CategoriesValidator(
             ICategoriesProvider categoriesProvider,
-            IValidator<CreateCategoryDto> createCategoryDtoValidator, IValidator<UpdateCategoryDto> updateCategoryDtoValidator ,
-            IErrorMessageProvider errorMessageProvider
+            IValidator<CreateCategoryDto> createCategoryDtoValidator, IValidator<UpdateCategoryDto> updateCategoryDtoValidator,
+            IErrorMessageProvider errorMessageProvider, ILogger<CategoriesValidator> logger
         )
         {
             this.categoriesProvider = categoriesProvider;
             this.createCategoryDtoValidator = createCategoryDtoValidator;
             this.updateCategoryDtoValidator = updateCategoryDtoValidator;
             this.errorMessageProvider = errorMessageProvider;
+            this.logger = logger;
         }
 
         public async Task<ServiceResult> ExistsAsync(Guid id)
         {
+            this.logger.LogInformation("Validating the existence of category {id}", id);
             var result = await this.categoriesProvider.GetByIdAsync(id);
             if (result != null)
             {
+                this.logger.LogInformation("Category with {id} exists", id);
                 return ServiceResult.Success;
             }
 
-            return new NotFoundError(
-                this.errorMessageProvider.NotFoundMessage(MESSAGE_LABEL, id)
-            );
+            var errorMessage = this.errorMessageProvider.NotFoundMessage(MESSAGE_LABEL, id);
+            this.logger.LogWarning("Validation error : {message}", errorMessage);
+            return new NotFoundError(errorMessage);
         }
 
         public async Task<ServiceResult> ValidateAsync(CreateCategoryDto createCategoryDto)
         {
-            var balanceValid = await this.createCategoryDtoValidator.ValidateAsync(createCategoryDto);
-            if (!balanceValid.IsValid)
+            this.logger.LogInformation("Validating Create Category data");
+            var result = await this.createCategoryDtoValidator.ValidateAsync(createCategoryDto);
+            if (!result.IsValid)
             {
-                return new ValidationError(
-                    message: errorMessageProvider.ValidationMessage(MESSAGE_LABEL),
-                    errors: balanceValid.Errors.ToFieldValidationError()
-                );
+                var errorMessage = errorMessageProvider.ValidationMessage(MESSAGE_LABEL);
+                this.logger.LogWarning("Validation error : {message}", errorMessage);
+
+                var fieldErrors = result.Errors.ToFieldValidationError();
+                this.logger.LogTrace("Validation field errors : {fieldErrors}", fieldErrors);
+
+                return new ValidationError(message: errorMessage, errors: fieldErrors);
             }
 
+            this.logger.LogInformation("Create Category data validated");
             return ServiceResult.Success;
         }
 
         public async Task<ServiceResult> ValidateAsync(UpdateCategoryDto updateCategoryDto)
         {
-            var categoryValid = await this.updateCategoryDtoValidator.ValidateAsync(updateCategoryDto);
-            if (!categoryValid.IsValid)
+            this.logger.LogInformation("Validating Update Category data");
+            var result = await this.updateCategoryDtoValidator.ValidateAsync(updateCategoryDto);
+            if (!result.IsValid)
             {
-                return new ValidationError(
-                    message: errorMessageProvider.ValidationMessage(MESSAGE_LABEL),
-                    errors: categoryValid.Errors.ToFieldValidationError()
-                );
+                var errorMessage = errorMessageProvider.ValidationMessage(MESSAGE_LABEL);
+                this.logger.LogWarning("Validation error : {message}", errorMessage);
+
+                var fieldErrors = result.Errors.ToFieldValidationError();
+                this.logger.LogTrace("Validation field errors : {fieldErrors}", fieldErrors);
+
+                return new ValidationError(message: errorMessage, errors: fieldErrors);
             }
 
+            this.logger.LogInformation("Create Update data validated");
             return ServiceResult.Success;
         }
     }
