@@ -1,5 +1,6 @@
 ﻿using FinancialHub.Core.Domain.DTOS.Accounts;
 using FinancialHub.Core.Domain.DTOS.Balances;
+using Microsoft.Extensions.Logging;
 
 namespace FinancialHub.Core.WebApi.Controllers
 {
@@ -11,11 +12,13 @@ namespace FinancialHub.Core.WebApi.Controllers
     {
         private readonly IAccountsService service;
         private readonly IBalancesService balanceService;
+        private readonly ILogger<AccountsController> logger;
 
-        public AccountsController(IAccountsService service, IBalancesService balanceService) 
+        public AccountsController(IAccountsService service, IBalancesService balanceService, ILogger<AccountsController> logger) 
         {
             this.service = service;
             this.balanceService = balanceService;
+            this.logger = logger;
         }
 
         /// <summary>
@@ -27,17 +30,20 @@ namespace FinancialHub.Core.WebApi.Controllers
         [ProducesResponseType(typeof(NotFoundErrorResponse), 404)]
         public async Task<IActionResult> GetAccountBalances([FromRoute] Guid accountId)
         {
+            this.logger.LogInformation("Getting balances by account");
             var result = await this.balanceService.GetAllByAccountAsync(accountId);
 
             if (result.HasError)
             {
-                return StatusCode(
-                    result.Error.Code,
-                    new NotFoundErrorResponse(result.Error.Message)
-                 );
+                this.logger.LogWarning(
+                    "Error getting balances from account {accountId} : {Message}",
+                    accountId, result.Error.Message
+                );
+                return ErrorResponse(result.Error);
             }
 
-            return Ok(new ListResponse<BalanceDto>(result.Data));
+            this.logger.LogInformation("Succesfully returned all balances by account");
+            return ListResponse(result.Data);
         }
 
         /// <summary>
@@ -47,9 +53,11 @@ namespace FinancialHub.Core.WebApi.Controllers
         [ProducesResponseType(typeof(ListResponse<AccountDto>), 200)]
         public async Task<IActionResult> GetMyAccounts()
         {
+            this.logger.LogInformation("Getting all accounts");
             var result = await service.GetAllAsync();
 
-            return Ok(new ListResponse<AccountDto>(result.Data));
+            this.logger.LogInformation("Succesfully returned all accounts");
+            return ListResponse(result.Data);
         }
 
         /// <summary>
@@ -61,13 +69,19 @@ namespace FinancialHub.Core.WebApi.Controllers
         [ProducesResponseType(typeof(ValidationsErrorResponse), 400)]
         public async Task<IActionResult> CreateAccount([FromBody] CreateAccountDto account)
         {
+            this.logger.LogInformation("Starting creation of account");
             var result = await this.service.CreateAsync(account);
 
             if (result.HasError)
             {
+                this.logger.LogWarning(
+                    "Error creating account : {Message}",
+                    result.Error.Message
+                );
                 return ErrorResponse(result.Error);
             }
 
+            this.logger.LogInformation("Finished creation of account");
             return SaveResponse(result.Data);
         }
 
@@ -82,14 +96,20 @@ namespace FinancialHub.Core.WebApi.Controllers
         [ProducesResponseType(typeof(ValidationsErrorResponse), 400)]
         public async Task<IActionResult> UpdateAccount([FromRoute] Guid id, [FromBody] UpdateAccountDto account)
         {
-            var response = await service.UpdateAsync(id, account);
+            this.logger.LogInformation("Starting update of account");
+            var result = await service.UpdateAsync(id, account);
 
-            if (response.HasError)
+            if (result.HasError)
             {
-                return ErrorResponse(response.Error);
+                this.logger.LogWarning(
+                    "Error updating account {id} : {Message}",
+                    id, result.Error.Message
+                );
+                return ErrorResponse(result.Error);
             }
 
-            return SaveResponse(response.Data);
+            this.logger.LogInformation("Finished update of account");
+            return SaveResponse(result.Data);
         }
 
         /// <summary>
@@ -100,7 +120,10 @@ namespace FinancialHub.Core.WebApi.Controllers
         [ProducesResponseType(204)]
         public async Task<IActionResult> DeleteAccount([FromRoute] Guid id)
         {
+            this.logger.LogInformation("Removing account");
             await service.DeleteAsync(id);
+            this.logger.LogInformation("Account removed");
+
             return NoContent();
         }
     }

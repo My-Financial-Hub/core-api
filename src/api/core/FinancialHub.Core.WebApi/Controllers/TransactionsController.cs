@@ -1,5 +1,7 @@
 ﻿using FinancialHub.Core.Domain.DTOS.Transactions;
 using FinancialHub.Core.Domain.Filters;
+using Microsoft.Extensions.Logging;
+using System.Security.Principal;
 
 namespace FinancialHub.Core.WebApi.Controllers
 {
@@ -9,10 +11,12 @@ namespace FinancialHub.Core.WebApi.Controllers
     public class TransactionsController : BaseController
     {
         private readonly ITransactionsService service;
+        private readonly ILogger<TransactionsController> logger;
 
-        public TransactionsController(ITransactionsService service)
+        public TransactionsController(ITransactionsService service, ILogger<TransactionsController> logger)
         {
             this.service = service;
+            this.logger = logger;
         }
 
         /// <summary>
@@ -20,10 +24,13 @@ namespace FinancialHub.Core.WebApi.Controllers
         /// </summary>
         [HttpGet]
         [ProducesResponseType(typeof(ListResponse<TransactionDto>), 200)]
-        public async Task<IActionResult> GetMyTransactions([FromQuery] TransactionFilter filter)
+        public async Task<IActionResult> GetTransactions([FromQuery] TransactionFilter filter)
         {
-            var response = await service.GetAllAsync(filter);
-            return Ok(new ListResponse<TransactionDto>(response.Data));
+            this.logger.LogInformation("Getting transactions");
+            var result = await service.GetAllAsync(filter);
+
+            this.logger.LogInformation("Succesfully returned found transactions");
+            return ListResponse(result.Data);
         }
 
         /// <summary>
@@ -35,13 +42,19 @@ namespace FinancialHub.Core.WebApi.Controllers
         [ProducesResponseType(typeof(ValidationsErrorResponse), 400)]
         public async Task<IActionResult> CreateTransaction([FromBody] CreateTransactionDto transaction)
         {
+            this.logger.LogInformation("Starting creation of transaction");
             var result = await this.service.CreateAsync(transaction);
 
             if (result.HasError)
             {
+                this.logger.LogWarning(
+                    "Error creating transaction : {Message}",
+                    result.Error.Message
+                );
                 return ErrorResponse(result.Error);
             }
 
+            this.logger.LogInformation("Finished creation of transaction");
             return SaveResponse(result.Data);
         }
 
@@ -74,7 +87,10 @@ namespace FinancialHub.Core.WebApi.Controllers
         [ProducesResponseType(204)]
         public async Task<IActionResult> DeleteTransaction([FromRoute] Guid id)
         {
-            await this.service.DeleteAsync(id);
+            this.logger.LogInformation("Removing transaction");
+            await service.DeleteAsync(id);
+            this.logger.LogInformation("Transaction removed");
+
             return NoContent();
         }
     }

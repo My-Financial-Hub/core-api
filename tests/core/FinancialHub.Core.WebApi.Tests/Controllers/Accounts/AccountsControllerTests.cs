@@ -1,6 +1,7 @@
 ﻿using FinancialHub.Core.WebApi.Controllers;
 using FinancialHub.Core.Domain.Interfaces.Services;
 using FinancialHub.Core.Domain.Tests.Builders.DTOS.Accounts;
+using Microsoft.Extensions.Logging;
 
 namespace FinancialHub.Core.WebApi.Tests.Controllers
 {
@@ -15,6 +16,7 @@ namespace FinancialHub.Core.WebApi.Tests.Controllers
         private AccountsController controller;
         private Mock<IAccountsService> mockService;
         private Mock<IBalancesService> mockBalanceService;
+        private Mock<ILogger<AccountsController>> mockLogger;
 
         [SetUp]
         public void Setup()
@@ -27,7 +29,8 @@ namespace FinancialHub.Core.WebApi.Tests.Controllers
 
             this.mockService = new Mock<IAccountsService>();
             this.mockBalanceService = new Mock<IBalancesService>();
-            this.controller = new AccountsController(this.mockService.Object, this.mockBalanceService.Object);
+            this.mockLogger = new Mock<ILogger<AccountsController>>();
+            this.controller = new AccountsController(this.mockService.Object, this.mockBalanceService.Object, mockLogger.Object);
         }
     }
 }
