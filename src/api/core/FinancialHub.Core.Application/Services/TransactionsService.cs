@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FinancialHub.Common.Extensions;
 using FinancialHub.Core.Domain.DTOS.Categories;
 using FinancialHub.Core.Domain.DTOS.Transactions;
 using FinancialHub.Core.Domain.Filters;
@@ -56,12 +57,12 @@ namespace FinancialHub.Core.Application.Services
         public async Task<ServiceResult<TransactionDto>> CreateAsync(CreateTransactionDto transaction)
         {
             this.logger.LogInformation("Creating transaction {type}", transaction.Type);
-            this.logger.LogTrace("Transaction data : {category}", transaction);
+            this.logger.LogTrace("Transaction data : {category}", transaction.ToJson());
 
             var validationResult = await this.transactionsValidator.ValidateAsync(transaction);
             if (validationResult.HasError)
             {
-                this.logger.LogTrace("Transaction creation Validation result : {validationResult}", validationResult);
+                this.logger.LogTrace("Transaction creation Validation result : {validationResult}", validationResult.ToJson());
                 this.logger.LogInformation("Failed creating transaction {type}", transaction.Type);
                 return validationResult.Error;
             }
@@ -71,7 +72,7 @@ namespace FinancialHub.Core.Application.Services
             validationResult = await this.ValidateTransaction(transactionModel);
             if (validationResult.HasError)
             {
-                this.logger.LogTrace("Transaction creation Validation result : {validationResult}", validationResult);
+                this.logger.LogTrace("Transaction creation Validation result : {validationResult}", validationResult.ToJson());
                 this.logger.LogInformation("Failed creating transaction {type}", transaction.Type);
                 return validationResult.Error;
             }
@@ -80,7 +81,7 @@ namespace FinancialHub.Core.Application.Services
             
             var result = this.mapper.Map<TransactionDto>(createdTransaction);
 
-            this.logger.LogTrace("Transaction creation result : {result}", result);
+            this.logger.LogTrace("Transaction creation result : {result}", result.ToJson());
             this.logger.LogInformation("Transaction {type} Sucessfully created", result.Type);
 
             return result;
@@ -96,7 +97,7 @@ namespace FinancialHub.Core.Application.Services
 
         public async Task<ServiceResult<ICollection<TransactionDto>>> GetAllAsync(TransactionFilter filter)
         {
-            this.logger.LogInformation("Getting transactions with filter : {filter}", filter);
+            this.logger.LogInformation("Getting transactions with filter : {filter}", filter.ToJson());
             var transactions = await this.transactionsProvider.GetAllAsync(filter);
 
             this.logger.LogInformation("Returning {count} transactions", transactions.Count > 0 ? $"{transactions.Count}" : "no");
@@ -108,7 +109,7 @@ namespace FinancialHub.Core.Application.Services
             var validationResult = await this.transactionsValidator.ValidateAsync(transaction);
             if (validationResult.HasError)
             {
-                this.logger.LogTrace("Transaction update validation result : {validationResult}", validationResult);
+                this.logger.LogTrace("Transaction update validation result : {validationResult}", validationResult.ToJson());
                 this.logger.LogInformation("Failed update transaction {id}", id);
                 return validationResult.Error;
             }
@@ -116,7 +117,7 @@ namespace FinancialHub.Core.Application.Services
             validationResult = await this.transactionsValidator.ExistsAsync(id);
             if (validationResult.HasError)
             {
-                this.logger.LogTrace("Transaction update validation result : {validationResult}", validationResult);
+                this.logger.LogTrace("Transaction update validation result : {validationResult}", validationResult.ToJson());
                 this.logger.LogInformation("Failed update transaction {id}", id);
                 return validationResult.Error;
             }
@@ -126,7 +127,7 @@ namespace FinancialHub.Core.Application.Services
             validationResult = await this.ValidateTransaction(transactionModel);
             if (validationResult.HasError)
             {
-                this.logger.LogTrace("Transaction update validation result : {validationResult}", validationResult);
+                this.logger.LogTrace("Transaction update validation result : {validationResult}", validationResult.ToJson());
                 this.logger.LogInformation("Failed update transaction {id}", id);
                 return validationResult.Error;
             }
@@ -135,7 +136,7 @@ namespace FinancialHub.Core.Application.Services
             
             var result = this.mapper.Map<TransactionDto>(updatedTransaction);
 
-            this.logger.LogTrace("Transaction update result : {result}", result);
+            this.logger.LogTrace("Transaction update result : {result}", result.ToJson());
             this.logger.LogInformation("Transaction {id} Sucessfully Updated", id);
 
             return result;
@@ -147,7 +148,7 @@ namespace FinancialHub.Core.Application.Services
             var validationResult = await this.transactionsValidator.ExistsAsync(id);
             if (validationResult.HasError)
             {
-                this.logger.LogTrace("Transaction get by id result : {validationResult}", validationResult);
+                this.logger.LogTrace("Transaction get by id result : {validationResult}", validationResult.ToJson());
                 this.logger.LogInformation("Failed getting transaction {id}", id);
                 return validationResult.Error;
             }
@@ -156,7 +157,7 @@ namespace FinancialHub.Core.Application.Services
             
             var result = this.mapper.Map<TransactionDto>(transaction);
 
-            this.logger.LogTrace("Transaction result {result}", result);
+            this.logger.LogTrace("Transaction result {result}", result.ToJson());
             this.logger.LogInformation("Transaction {id} found", id);
             return result;
         }

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FinancialHub.Common.Extensions;
 using FinancialHub.Core.Domain.DTOS.Categories;
 using FinancialHub.Core.Domain.Interfaces.Validators;
 using Microsoft.Extensions.Logging;
@@ -27,12 +28,12 @@ namespace FinancialHub.Core.Application.Services
         public async Task<ServiceResult<CategoryDto>> CreateAsync(CreateCategoryDto category)
         {
             this.logger.LogInformation("Creating category {name}", category.Name);
-            this.logger.LogTrace("Category data : {category}", category);
+            this.logger.LogTrace("Category data : {category}", category.ToJson());
 
             var validationResult = await this.validator.ValidateAsync(category);
             if (validationResult.HasError)
             {
-                this.logger.LogTrace("Category creation Validation result : {validationResult}", validationResult);
+                this.logger.LogTrace("Category creation Validation result : {validationResult}", validationResult.ToJson());
                 this.logger.LogInformation("Failed creating category {name}", category.Name);
                 return validationResult.Error;
             }
@@ -43,7 +44,7 @@ namespace FinancialHub.Core.Application.Services
 
             var result = this.mapper.Map<CategoryDto>(createdCategory);
 
-            this.logger.LogTrace("Category creation result : {result}", result);
+            this.logger.LogTrace("Category creation result : {result}", result.ToJson());
             this.logger.LogInformation("Category {name} Sucessfully created", result.Name);
 
             return result;
@@ -73,7 +74,7 @@ namespace FinancialHub.Core.Application.Services
             var validationResult = await this.validator.ExistsAsync(id);
             if (validationResult.HasError)
             {
-                this.logger.LogTrace("Category update validation result : {validationResult}", validationResult);
+                this.logger.LogTrace("Category update validation result : {validationResult}", validationResult.ToJson());
                 this.logger.LogInformation("Failed update category {id}", id); 
                 return validationResult.Error;
             }
@@ -81,7 +82,7 @@ namespace FinancialHub.Core.Application.Services
             validationResult = await this.validator.ValidateAsync(category);
             if (validationResult.HasError)
             {
-                this.logger.LogTrace("Category update validation result : {validationResult}", validationResult);
+                this.logger.LogTrace("Category update validation result : {validationResult}", validationResult.ToJson());
                 this.logger.LogInformation("Failed update category {id}", id);
                 return validationResult.Error;
             }
@@ -90,7 +91,7 @@ namespace FinancialHub.Core.Application.Services
             var updatedBalance = await this.provider.UpdateAsync(id, categoryModel);
             var result = this.mapper.Map<CategoryDto>(updatedBalance);
 
-            this.logger.LogTrace("Category update result : {result}", result);
+            this.logger.LogTrace("Category update result : {result}", result.ToJson());
             this.logger.LogInformation("Category {id} Sucessfully Updated", id);
 
             return result;

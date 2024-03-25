@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FinancialHub.Common.Extensions;
 using FinancialHub.Core.Domain.DTOS.Balances;
 using FinancialHub.Core.Domain.Interfaces.Validators;
 using Microsoft.Extensions.Logging;
@@ -29,12 +30,12 @@ namespace FinancialHub.Core.Application.Services
         public async Task<ServiceResult<BalanceDto>> CreateAsync(CreateBalanceDto balance)
         {
             this.logger.LogInformation("Creating balance {name} in account {id}", balance.Name, balance.AccountId);
-            this.logger.LogTrace("Balance data : {balance}", balance);
+            this.logger.LogTrace("Balance data : {balance}", balance.ToJson());
 
             var validationResult = await this.balancesValidator.ValidateAsync(balance);
             if (validationResult.HasError)
             {
-                this.logger.LogTrace("Balance creation Validation result : {validationResult}", validationResult);
+                this.logger.LogTrace("Balance creation Validation result : {validationResult}", validationResult.ToJson());
                 this.logger.LogInformation("Failed creating account {name}", balance.Name);
                 return validationResult.Error;
             }
@@ -44,7 +45,7 @@ namespace FinancialHub.Core.Application.Services
             var createdBalance = await this.balancesProvider.CreateAsync(balanceModel);
 
             var result = this.mapper.Map<BalanceDto>(createdBalance);
-            this.logger.LogTrace("Balance creation result : {result}", result);
+            this.logger.LogTrace("Balance creation result : {result}", result.ToJson());
             this.logger.LogInformation("Balance {name} Sucessfully created in account {id}", result.Name, result.Account?.Id);
             return result;
         }
@@ -83,7 +84,7 @@ namespace FinancialHub.Core.Application.Services
             var validationResult = await this.accountsValidator.ExistsAsync(accountId);
             if (validationResult.HasError)
             {
-                this.logger.LogTrace("Balances get by account result : {validationResult}", validationResult);
+                this.logger.LogTrace("Balances get by account result : {validationResult}", validationResult.ToJson());
                 this.logger.LogInformation("Account {AccountId} not found", accountId);
                 return validationResult.Error;
             }
@@ -92,7 +93,7 @@ namespace FinancialHub.Core.Application.Services
 
             var result = this.mapper.Map<ICollection<BalanceDto>>(balances).ToArray();
 
-            this.logger.LogTrace("Balance result {balances}", balances);
+            this.logger.LogTrace("Balance result : {balances}", balances.ToJson());
             this.logger.LogInformation(
                 "{amount} returned from account {accountId}", 
                 result.Length >0 ? $"{result.Length} balances" : "no balances",
@@ -105,11 +106,11 @@ namespace FinancialHub.Core.Application.Services
         public async Task<ServiceResult<BalanceDto>> UpdateAsync(Guid id, UpdateBalanceDto balance)
         {
             this.logger.LogInformation("Updating balance {name} in account {id}", balance.Name, balance.AccountId);
-            this.logger.LogTrace("Balance data : {balance}", balance);
+            this.logger.LogTrace("Balance data : {balance}", balance.ToJson());
             var validationResult = await this.balancesValidator.ValidateAsync(balance);
             if (validationResult.HasError)
             {
-                this.logger.LogTrace("Balance update validation result : {validationResult}", validationResult);
+                this.logger.LogTrace("Balance update validation result : {validationResult}", validationResult.ToJson());
                 this.logger.LogInformation("Failed updating balance {id}", id);
                 return validationResult.Error;
             }
@@ -117,7 +118,7 @@ namespace FinancialHub.Core.Application.Services
             validationResult = await this.balancesValidator.ExistsAsync(id);
             if (validationResult.HasError)
             {
-                this.logger.LogTrace("Balance update validation result : {validationResult}", validationResult);
+                this.logger.LogTrace("Balance update validation result : {validationResult}", validationResult.ToJson());
                 this.logger.LogInformation("Balance {id} not found", id);
                 return validationResult.Error;
             }
@@ -127,7 +128,7 @@ namespace FinancialHub.Core.Application.Services
             var updatedBalance = await this.balancesProvider.UpdateAsync(id, balanceModel);
 
             var result = this.mapper.Map<BalanceDto>(updatedBalance);
-            this.logger.LogTrace("Balance update result : {result}", result);
+            this.logger.LogTrace("Balance update result : {result}", result.ToJson());
             this.logger.LogInformation("Balance {name} Sucessfully created", result.Name);
             return result;
         }
@@ -138,14 +139,14 @@ namespace FinancialHub.Core.Application.Services
             var validationResult = await this.balancesValidator.ExistsAsync(id);
             if (validationResult.HasError)
             {
-                this.logger.LogTrace("Balance get by id result : {validationResult}", validationResult);
+                this.logger.LogTrace("Balance get by id result : {validationResult}", validationResult.ToJson());
                 this.logger.LogInformation("Failed getting balance {id}", id);
                 return validationResult.Error;
             }
 
             var updatedBalance = await balancesProvider.UpdateAmountAsync(id, newAmount);
 
-            this.logger.LogTrace("Update Balance amount result : {updatedBalance}", updatedBalance);
+            this.logger.LogTrace("Update Balance amount result : {updatedBalance}", updatedBalance.ToJson());
             this.logger.LogInformation("Update Balance amount {balanceId} in account {accountId}", updatedBalance.Id, updatedBalance.AccountId);
             return updatedBalance;
         }

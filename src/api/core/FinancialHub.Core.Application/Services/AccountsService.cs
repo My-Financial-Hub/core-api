@@ -2,6 +2,7 @@
 using FinancialHub.Core.Domain.DTOS.Accounts;
 using Microsoft.Extensions.Logging;
 using FinancialHub.Core.Domain.Interfaces.Validators;
+using FinancialHub.Common.Extensions;
 
 namespace FinancialHub.Core.Application.Services
 {
@@ -26,12 +27,12 @@ namespace FinancialHub.Core.Application.Services
         public async Task<ServiceResult<AccountDto>> CreateAsync(CreateAccountDto accountDto)
         {
             this.logger.LogInformation("Creating account {name}", accountDto.Name);
-            this.logger.LogTrace("Account data : {accountDto}", accountDto);
+            this.logger.LogTrace("Account data : {accountDto}", accountDto.ToJson());
             
             var validationResult = await this.accountValidator.ValidateAsync(accountDto);
             if(validationResult.HasError)
             {
-                this.logger.LogTrace("Account creation Validation result : {validationResult}", validationResult);
+                this.logger.LogTrace("Account creation Validation result : {validationResult}", validationResult.ToJson());
                 this.logger.LogInformation("Failed creating account {name}", accountDto.Name);
                 return validationResult.Error;
             }
@@ -42,7 +43,7 @@ namespace FinancialHub.Core.Application.Services
 
             var result = this.mapper.Map<AccountDto>(accountModel);
 
-            this.logger.LogTrace("Account creation result : {result}", result);
+            this.logger.LogTrace("Account creation result : {result}", result.ToJson());
             this.logger.LogInformation("Account {name} Sucessfully created", result.Name);
             
             return result;
@@ -72,7 +73,7 @@ namespace FinancialHub.Core.Application.Services
             var validationResult = await this.accountValidator.ExistsAsync(id);
             if (validationResult.HasError)
             {
-                this.logger.LogTrace("Account get by id result : {validationResult}", validationResult);
+                this.logger.LogTrace("Account get by id result : {validationResult}", validationResult.ToJson());
                 this.logger.LogInformation("Failed getting account {id}", id);
                 return validationResult.Error;
             }
@@ -81,7 +82,7 @@ namespace FinancialHub.Core.Application.Services
 
             var account = this.mapper.Map<AccountDto>(existingAccount);
 
-            this.logger.LogTrace("Account result {account}", account);
+            this.logger.LogTrace("Account result {account}", account.ToJson());
             this.logger.LogInformation("Account {id} found", id);
             return account;
         }
@@ -93,7 +94,7 @@ namespace FinancialHub.Core.Application.Services
             var validationResult = await this.accountValidator.ValidateAsync(account);
             if (validationResult.HasError)
             {
-                this.logger.LogTrace("Account update validation result : {validationResult}", validationResult);
+                this.logger.LogTrace("Account update validation result : {validationResult}", validationResult.ToJson());
                 this.logger.LogInformation("Failed updating account {id}", id);
                 return validationResult.Error;
             }
@@ -101,7 +102,7 @@ namespace FinancialHub.Core.Application.Services
             validationResult = await this.accountValidator.ExistsAsync(id);
             if (validationResult.HasError)
             {
-                this.logger.LogTrace("Account update validation result : {validationResult}", validationResult);
+                this.logger.LogTrace("Account update validation result : {validationResult}", validationResult.ToJson());
                 this.logger.LogInformation("Failed updating account {id}", id);
                 return validationResult.Error;
             }
@@ -112,7 +113,7 @@ namespace FinancialHub.Core.Application.Services
 
             var result = this.mapper.Map<AccountDto>(updatedAccount);
 
-            this.logger.LogTrace("Account update result : {result}", result);
+            this.logger.LogTrace("Account update result : {result}", result.ToJson());
             this.logger.LogInformation("Account {id} Sucessfully Updated", id);
 
             return result;
