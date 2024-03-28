@@ -1,24 +1,28 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using FinancialHub.Core.Domain.Interfaces.Caching;
+using Microsoft.Extensions.Logging;
 
 namespace FinancialHub.Core.Infra.Providers
 {
     public class AccountsProvider : IAccountsProvider
     {
-        private readonly IMapper mapper;
         private readonly IAccountsRepository repository;
+        private readonly IAccountCache cache;
         private readonly IBalancesRepository balanceRepository;
+        private readonly IMapper mapper;
         private readonly ILogger<AccountsProvider> logger;
 
         public AccountsProvider(
+            IAccountsRepository repository, IAccountCache cache,
+            IBalancesRepository balanceRepository, 
             IMapper mapper, 
-            IAccountsRepository repository, IBalancesRepository balanceRepository, 
             ILogger<AccountsProvider> logger
         )
         {
-            this.mapper = mapper;
             this.repository = repository;
+            this.cache = cache;
             this.balanceRepository = balanceRepository;
             this.logger = logger;
+            this.mapper = mapper;
         }
 
         public async Task<AccountModel> CreateAsync(AccountModel account)
@@ -61,12 +65,20 @@ namespace FinancialHub.Core.Infra.Providers
 
         public async Task<AccountModel?> GetByIdAsync(Guid id)
         {
-            var account = await this.repository.GetByIdAsync(id);
+            var cachedAccount = await this.cache.GetAsync(id);
+            if (cachedAccount != null)
+            { 
+                return cachedAccount;
+            }
+            var accountEntity = await this.repository.GetByIdAsync(id);
 
-            if (account == null)
+            if (accountEntity == null)
                 return null;
 
-            return mapper.Map<AccountModel>(account);
+            var account = mapper.Map<AccountModel>(accountEntity);
+            await this.cache.AddAsync(id, account);
+            
+            return account;
         }
 
         public async Task<AccountModel> UpdateAsync(Guid id, AccountModel account)
