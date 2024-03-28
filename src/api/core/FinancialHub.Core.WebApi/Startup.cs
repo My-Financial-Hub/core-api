@@ -9,6 +9,7 @@ using FinancialHub.Core.Infra.Extensions;
 using FinancialHub.Core.Resources.Extensions;
 using FinancialHub.Core.Infra.Data.Extensions.Configurations;
 using FinancialHub.Core.Infra.Logs.Extensions.Configurations;
+using FinancialHub.Core.Infra.Caching.Extensions.Configurations;
 
 namespace FinancialHub.Core.WebApi
 {
@@ -35,6 +36,7 @@ namespace FinancialHub.Core.WebApi
             services.AddCoreResources();
             services.AddCoreServices();
             services.AddCoreInfra();
+            services.AddCaching(Configuration);
             services.AddRepositories(Configuration);
 
             services.AddMvc().AddNewtonsoftJson();
