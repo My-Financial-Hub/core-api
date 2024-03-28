@@ -6,6 +6,7 @@ namespace FinancialHub.Core.Infra.Caching.Repositories
     public class AccountCache : IAccountCache
     {
         private readonly IDistributedCache cache;
+        private const string PREFIX = "accounts";
 
         public AccountCache(IDistributedCache cache)
         {
@@ -15,7 +16,7 @@ namespace FinancialHub.Core.Infra.Caching.Repositories
         public async Task AddAsync(Guid id, AccountModel account)
         {
             await this.cache.SetAsync(
-                id.ToString(), 
+                $"{PREFIX}:{id}", 
                 account.ToByteArray(),
                 new DistributedCacheEntryOptions()
                 {
@@ -26,7 +27,7 @@ namespace FinancialHub.Core.Infra.Caching.Repositories
 
         public async Task<AccountModel?> GetAsync(Guid id)
         {
-            var result = await this.cache.GetAsync(id.ToString());
+            var result = await this.cache.GetAsync($"{PREFIX}:{id}");
             if(result == null)
             {
                 return null;
@@ -37,7 +38,7 @@ namespace FinancialHub.Core.Infra.Caching.Repositories
 
         public async Task RemoveAsync(Guid id)
         {
-            await this.cache.RemoveAsync(id.ToString());
+            await this.cache.RemoveAsync($"{PREFIX}:{id}");
         }
     }
 }
