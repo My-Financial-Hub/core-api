@@ -2,9 +2,9 @@
 
 namespace FinancialHub.Core.Domain.Interfaces.Caching
 {
-    public interface IAccountCache
+    public interface IAccountsCache
     {
-        Task AddAsync(Guid id, AccountModel account);
+        Task AddAsync(AccountModel account);
         Task<AccountModel?> GetAsync(Guid id);
         Task RemoveAsync(Guid id);
     }

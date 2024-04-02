@@ -4,20 +4,21 @@ using Microsoft.Extensions.Logging;
 
 namespace FinancialHub.Core.Infra.Caching.Repositories
 {
-    public class AccountCache : IAccountCache
+    public class AccountsCache : IAccountsCache
     {
         private readonly IDistributedCache cache;
-        private readonly ILogger<AccountCache> logger;
+        private readonly ILogger<AccountsCache> logger;
         private const string PREFIX = "accounts";
 
-        public AccountCache(IDistributedCache cache, ILogger<AccountCache> logger)
+        public AccountsCache(IDistributedCache cache, ILogger<AccountsCache> logger)
         {
             this.cache = cache;
             this.logger = logger;
         }
 
-        public async Task AddAsync(Guid id, AccountModel account)
+        public async Task AddAsync(AccountModel account)
         {
+            var id = account.Id;
             var key = $"{PREFIX}:{id}";
             this.logger.LogInformation("Adding account {id} to cache", id);
             this.logger.LogTrace("Adding key {key} to cache", key);
