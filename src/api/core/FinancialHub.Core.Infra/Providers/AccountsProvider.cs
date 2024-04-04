@@ -7,22 +7,22 @@ namespace FinancialHub.Core.Infra.Providers
     {
         private readonly IAccountsRepository repository;
         private readonly IAccountsCache cache;
-        private readonly IBalancesRepository balanceRepository;
+        private readonly IBalancesProvider balanceProvider;
         private readonly IMapper mapper;
         private readonly ILogger<AccountsProvider> logger;
 
         public AccountsProvider(
             IAccountsRepository repository, IAccountsCache cache,
-            IBalancesRepository balanceRepository, 
-            IMapper mapper, 
+            IBalancesProvider balanceProvider,
+            IMapper mapper,
             ILogger<AccountsProvider> logger
         )
         {
             this.repository = repository;
             this.cache = cache;
-            this.balanceRepository = balanceRepository;
-            this.logger = logger;
+            this.balanceProvider = balanceProvider;
             this.mapper = mapper;
+            this.logger = logger;
         }
 
         public async Task<AccountModel> CreateAsync(AccountModel account)
@@ -38,17 +38,16 @@ namespace FinancialHub.Core.Infra.Providers
                 AccountId = createdAccount.Id.GetValueOrDefault(),
                 IsActive = createdAccount.IsActive
             };
-            var balanceEntity = mapper.Map<BalanceEntity>(balance);
 
-            this.logger.LogInformation("Creating balance \"{BalanceName}\" in account \"{AccountName}\"", balance.Name, account.Name);
-            await this.balanceRepository.CreateAsync(balanceEntity);
-            this.logger.LogInformation("Balance \"{BalanceName}\" created in account \"{AccountName}\"", account.Name, account.Name);
-
-            await this.repository.CommitAsync();
-            this.logger.LogInformation("Account \"{Name}\" created", account.Name);
+            this.logger.LogInformation("Creating default balance \"{BalanceName}\" to account \"{AccountName}\"", balance.Name, account.Name);
+            await this.balanceProvider.CreateAsync(balance);
+            this.logger.LogInformation("Default Balance \"{BalanceName}\" created in account \"{AccountName}\"", account.Name, account.Name);
 
             var accountModel =  mapper.Map<AccountModel>(createdAccount);
             await this.cache.AddAsync(accountModel);
+
+            await this.repository.CommitAsync();
+            this.logger.LogInformation("Account \"{Name}\" created", account.Name);
 
             return accountModel;
         }
