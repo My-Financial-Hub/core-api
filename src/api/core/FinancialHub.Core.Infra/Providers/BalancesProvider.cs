@@ -1,16 +1,27 @@
 ﻿using FinancialHub.Core.Domain.Enums;
+using FinancialHub.Core.Domain.Interfaces.Caching;
+using Microsoft.Extensions.Logging;
 
 namespace FinancialHub.Core.Infra.Providers
 {
     public class BalancesProvider : IBalancesProvider
     {
-        private readonly IMapper mapper;
+        private readonly IMapper mapper;    
         private readonly IBalancesRepository repository;
+        private readonly IBalancesCache cache;
+        private readonly ILogger<BalancesProvider> logger;
 
-        public BalancesProvider(IMapper mapper,IBalancesRepository repository)
+        public BalancesProvider(
+            IBalancesRepository repository,
+            IBalancesCache cache,
+            IMapper mapper,
+            ILogger<BalancesProvider> logger
+        )
         {
-            this.mapper = mapper;
             this.repository = repository;
+            this.cache = cache;
+            this.mapper = mapper;
+            this.logger = logger;
         }
 
         public async Task<BalanceModel> CreateAsync(BalanceModel balance)
@@ -21,7 +32,10 @@ namespace FinancialHub.Core.Infra.Providers
             entity = await this.repository.CreateAsync(entity);
             await this.repository.CommitAsync();
 
-            return mapper.Map<BalanceModel>(entity);
+            var balanceModel = mapper.Map<BalanceModel>(entity);
+            await this.cache.AddAsync(balanceModel);
+
+            return balanceModel;
         }
 
         public async Task<BalanceModel> DecreaseAmountAsync(Guid balanceId, decimal amount, TransactionType type)
