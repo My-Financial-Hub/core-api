@@ -13,6 +13,7 @@ namespace FinancialHub.Core.Infra.Caching.Extensions.Configurations
                 options.Configuration = configuration.GetConnectionString("cache");
             });
             services.AddScoped<IAccountsCache, AccountsCache>();
+            services.AddScoped<IBalancesCache, BalancesCache>();
             return services;
         }
     }
