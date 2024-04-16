@@ -1,5 +1,4 @@
-﻿using FinancialHub.Core.Domain.Entities;
-using FinancialHub.Core.Domain.Enums;
+﻿using FinancialHub.Core.Domain.Enums;
 using FinancialHub.Core.Domain.Interfaces.Caching;
 using Microsoft.Extensions.Logging;
 
