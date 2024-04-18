@@ -23,6 +23,10 @@ jobs:
         working-directory: ${{ inputs.dir }}
 
     services:
+      redis-cache:
+        image: redis:latest
+        ports: 
+          - "6379:6379"
       sql-database: 
         image: mcr.microsoft.com/mssql/server:2019-latest    
         env: 
