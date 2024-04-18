@@ -13,14 +13,14 @@ namespace FinancialHub.Core.Infra.Providers
         public CategoriesProvider(
             ICategoriesRepository repository,
             ICategoriesCache cache,
-            ILogger<CategoriesProvider> logger,
-            IMapper mapper
+            IMapper mapper,
+            ILogger<CategoriesProvider> logger
         )
         {
             this.repository = repository;
             this.cache = cache;
-            this.logger = logger;
             this.mapper = mapper;
+            this.logger = logger;
         }
 
         public async Task<CategoryModel> CreateAsync(CategoryModel category)

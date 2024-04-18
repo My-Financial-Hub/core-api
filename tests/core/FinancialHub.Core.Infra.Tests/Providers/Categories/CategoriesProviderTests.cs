@@ -1,5 +1,7 @@
-﻿using FinancialHub.Core.Infra.Mappers;
+﻿using FinancialHub.Core.Domain.Interfaces.Caching;
+using FinancialHub.Core.Infra.Mappers;
 using FinancialHub.Core.Infra.Providers;
+using Microsoft.Extensions.Logging;
 
 namespace FinancialHub.Core.Infra.Tests.Providers
 {
@@ -13,6 +15,8 @@ namespace FinancialHub.Core.Infra.Tests.Providers
 
         private IMapper mapper;
         private Mock<ICategoriesRepository> repository;
+        private Mock<ICategoriesCache> cache;
+        private Mock<ILogger<CategoriesProvider>> logger;
 
         private void MockMapper()
         {
@@ -29,7 +33,14 @@ namespace FinancialHub.Core.Infra.Tests.Providers
             this.MockMapper();
 
             this.repository = new Mock<ICategoriesRepository>();
-            this.provider = new CategoriesProvider(this.mapper, this.repository.Object);
+            this.cache      = new Mock<ICategoriesCache>();
+            this.logger     = new Mock<ILogger<CategoriesProvider>>();
+
+            this.provider = new CategoriesProvider(
+                this.repository.Object, this.cache.Object,
+                this.mapper,
+                this.logger.Object
+            );
 
             this.random = new Random();
 
