@@ -15,7 +15,7 @@ namespace FinancialHub.Core.Infra.Tests.Providers
 
         private IMapper mapper;
         private Mock<ITransactionsRepository> repository;
-        private Mock<IBalancesRepository> balanceRepository;
+        private Mock<IBalancesProvider> balancesProvider;
 
         private void MockMapper()
         {
@@ -32,8 +32,8 @@ namespace FinancialHub.Core.Infra.Tests.Providers
             this.MockMapper();
 
             this.repository = new Mock<ITransactionsRepository>();
-            this.balanceRepository = new Mock<IBalancesRepository>();
-            this.provider = new TransactionsProvider(this.mapper, this.repository.Object, this.balanceRepository.Object);
+            this.balancesProvider = new Mock<IBalancesProvider>();
+            this.provider = new TransactionsProvider(this.repository.Object, this.balancesProvider.Object, this.mapper);
 
             this.random = new Random();
 

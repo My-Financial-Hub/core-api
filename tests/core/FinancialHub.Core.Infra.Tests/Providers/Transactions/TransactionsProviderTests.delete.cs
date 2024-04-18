@@ -27,28 +27,38 @@ namespace FinancialHub.Core.Infra.Tests.Providers
         {
             var guid = Guid.NewGuid();
 
-            var transaction = this.transactionBuilder
+            var transactionEntity = this.transactionBuilder
                 .WithStatus(TransactionStatus.Committed)
+                .WithType(TransactionType.Earn)
                 .WithActiveStatus(true)
                 .WithId(guid)
+                .Generate();
+            var balanceAmount = transactionEntity.Balance.Amount;
+            var transaction = this.transactionModelBuilder
+                .WithStatus(transactionEntity.Status)
+                .WithType(transactionEntity.Type)
+                .WithActiveStatus(transactionEntity.IsActive)
+                .WithBalanceId(transactionEntity.BalanceId)
+                .WithAmount(transactionEntity.Amount)
+                .WithId(transactionEntity.Id!.Value)
                 .Generate();
 
             repository
                 .Setup(x => x.GetByIdAsync(guid))
-                .ReturnsAsync(transaction);
+                .ReturnsAsync(transactionEntity);
             repository
                 .Setup(x => x.DeleteAsync(guid))
                 .ReturnsAsync(1);
             repository
                 .Setup(x => x.CommitAsync())
                 .ReturnsAsync(1);
-            balanceRepository
+            balancesProvider
                 .Setup(x => x.GetByIdAsync(transaction.BalanceId))
                 .ReturnsAsync(transaction.Balance);
 
             await this.provider.DeleteAsync(guid);
 
-            balanceRepository.Verify(x => x.ChangeAmountAsync(transaction.BalanceId, It.IsAny<decimal>()), Times.Once());
+            balancesProvider.Verify(x => x.UpdateAmountAsync(transaction.BalanceId, It.IsAny<decimal>()), Times.Once());
         }
 
         [Test]
@@ -56,30 +66,38 @@ namespace FinancialHub.Core.Infra.Tests.Providers
         {
             var guid = Guid.NewGuid();
 
-            var transaction = this.transactionBuilder
+            var transactionEntity = this.transactionBuilder
                 .WithStatus(TransactionStatus.Committed)
                 .WithType(TransactionType.Earn)
                 .WithActiveStatus(true)
                 .WithId(guid)
                 .Generate();
-            var balanceAmount = transaction.Balance.Amount;
+            var balanceAmount = transactionEntity.Balance.Amount;
+            var transaction = this.transactionModelBuilder
+                .WithStatus(transactionEntity.Status)
+                .WithType(transactionEntity.Type)
+                .WithActiveStatus(transactionEntity.IsActive)
+                .WithBalanceId(transactionEntity.BalanceId)
+                .WithAmount(transactionEntity.Amount)
+                .WithId(transactionEntity.Id!.Value)
+                .Generate();
 
             repository
                 .Setup(x => x.GetByIdAsync(guid))
-                .ReturnsAsync(transaction);
+                .ReturnsAsync(transactionEntity);
             repository
                 .Setup(x => x.DeleteAsync(guid))
                 .ReturnsAsync(1);
             repository
                 .Setup(x => x.CommitAsync())
                 .ReturnsAsync(1);
-            balanceRepository
+            balancesProvider
                 .Setup(x => x.GetByIdAsync(transaction.BalanceId))
                 .ReturnsAsync(transaction.Balance);
 
             await this.provider.DeleteAsync(guid);
 
-            balanceRepository.Verify(x => x.ChangeAmountAsync(transaction.BalanceId, balanceAmount - transaction.Amount), Times.Once());
+            balancesProvider.Verify(x => x.UpdateAmountAsync(transaction.BalanceId, balanceAmount - transaction.Amount), Times.Once());
         }
 
         [Test]
@@ -87,30 +105,38 @@ namespace FinancialHub.Core.Infra.Tests.Providers
         {
             var guid = Guid.NewGuid();
 
-            var transaction = this.transactionBuilder
+            var transactionEntity = this.transactionBuilder
                 .WithStatus(TransactionStatus.Committed)
-                .WithType(TransactionType.Expense)
+                .WithType(TransactionType.Earn)
                 .WithActiveStatus(true)
                 .WithId(guid)
                 .Generate();
-            var balanceAmount = transaction.Balance.Amount;
+            var balanceAmount = transactionEntity.Balance.Amount;
+            var transaction = this.transactionModelBuilder
+                .WithStatus(transactionEntity.Status)
+                .WithType(transactionEntity.Type)
+                .WithActiveStatus(transactionEntity.IsActive)
+                .WithBalanceId(transactionEntity.BalanceId)
+                .WithAmount(transactionEntity.Amount)
+                .WithId(transactionEntity.Id!.Value)
+                .Generate();
 
             repository
                 .Setup(x => x.GetByIdAsync(guid))
-                .ReturnsAsync(transaction);
+                .ReturnsAsync(transactionEntity);
             repository
                 .Setup(x => x.DeleteAsync(guid))
                 .ReturnsAsync(1);
             repository
                 .Setup(x => x.CommitAsync())
                 .ReturnsAsync(1);
-            balanceRepository
+            balancesProvider
                 .Setup(x => x.GetByIdAsync(transaction.BalanceId))
                 .ReturnsAsync(transaction.Balance);
 
             await this.provider.DeleteAsync(guid);
 
-            balanceRepository.Verify(x => x.ChangeAmountAsync(transaction.BalanceId, balanceAmount + transaction.Amount), Times.Once());
+            balancesProvider.Verify(x => x.UpdateAmountAsync(transaction.BalanceId, balanceAmount + transaction.Amount), Times.Once());
         }
 
         [TestCase(TransactionStatus.NotCommitted, true)]
@@ -120,28 +146,38 @@ namespace FinancialHub.Core.Infra.Tests.Providers
         {
             var guid = Guid.NewGuid();
 
-            var transaction = this.transactionBuilder
-                .WithStatus(status)
-                .WithActiveStatus(isActive)
+            var transactionEntity = this.transactionBuilder
+                .WithStatus(TransactionStatus.Committed)
+                .WithType(TransactionType.Earn)
+                .WithActiveStatus(true)
                 .WithId(guid)
+                .Generate();
+            var balanceAmount = transactionEntity.Balance.Amount;
+            var transaction = this.transactionModelBuilder
+                .WithStatus(transactionEntity.Status)
+                .WithType(transactionEntity.Type)
+                .WithActiveStatus(transactionEntity.IsActive)
+                .WithBalanceId(transactionEntity.BalanceId)
+                .WithAmount(transactionEntity.Amount)
+                .WithId(transactionEntity.Id!.Value)
                 .Generate();
 
             repository
                 .Setup(x => x.GetByIdAsync(guid))
-                .ReturnsAsync(transaction);
+                .ReturnsAsync(transactionEntity);
             repository
                 .Setup(x => x.DeleteAsync(guid))
                 .ReturnsAsync(1);
             repository
                 .Setup(x => x.CommitAsync())
                 .ReturnsAsync(1);
-            balanceRepository
+            balancesProvider
                 .Setup(x => x.GetByIdAsync(transaction.BalanceId))
                 .ReturnsAsync(transaction.Balance);
 
             await this.provider.DeleteAsync(guid);
 
-            balanceRepository.Verify(x => x.ChangeAmountAsync(It.IsAny<Guid>(), It.IsAny<decimal>()), Times.Never());
+            balancesProvider.Verify(x => x.UpdateAmountAsync(It.IsAny<Guid>(), It.IsAny<decimal>()), Times.Never());
         }
     }
 }
