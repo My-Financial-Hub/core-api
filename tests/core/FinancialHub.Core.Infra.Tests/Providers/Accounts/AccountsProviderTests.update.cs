@@ -43,5 +43,17 @@
             await provider.UpdateAsync(id, account);
             repository.Verify(x => x.UpdateAsync(It.Is<AccountEntity>(x => x.Id == id)), Times.Once);
         }
+
+        [Test]
+        public async Task UpdateAsync_RemovesAccountsFromCache()
+        {
+            var id = Guid.NewGuid();
+            var account = this.accountModelBuilder
+                .WithId(id)
+                .Generate();
+
+            await provider.UpdateAsync(id, account);
+            cache.Verify(x => x.RemoveAsync(id), Times.Once);
+        }
     }
 }
