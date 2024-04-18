@@ -6,7 +6,7 @@ namespace FinancialHub.Core.Domain.Interfaces.Caching
     {
         Task AddAsync(BalanceModel balance);
         Task AddAsync(IEnumerable<BalanceModel> balances);
-        Task<IEnumerable<BalanceModel>> GetByAccountAsync(Guid accountId);
+        Task<ICollection<BalanceModel>> GetByAccountAsync(Guid accountId);
         Task<BalanceModel?> GetAsync(Guid id);
         Task RemoveAsync(Guid id);
     }

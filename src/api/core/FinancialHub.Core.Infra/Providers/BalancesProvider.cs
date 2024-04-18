@@ -68,8 +68,8 @@ namespace FinancialHub.Core.Infra.Providers
         public async Task<ICollection<BalanceModel>> GetAllByAccountAsync(Guid accountId)
         {
             var balances = await this.cache.GetByAccountAsync(accountId);
-            if(balances == null)
-                return Array.Empty<BalanceModel>();
+            if(balances != null)
+                return balances;
            
             var entities = await this.repository.GetAsync(x => x.AccountId == accountId);
 

@@ -95,7 +95,7 @@ namespace FinancialHub.Core.Infra.Caching.Repositories
             }
         }
 
-        public async Task<IEnumerable<BalanceModel>?> GetByAccountAsync(Guid accountId)
+        public async Task<ICollection<BalanceModel>?> GetByAccountAsync(Guid accountId)
         {
             var prefix = $"{ACCOUNT_PREFIX}:{accountId}:balances";
             var result = await this.cache.GetAsync(prefix);
@@ -106,7 +106,7 @@ namespace FinancialHub.Core.Infra.Caching.Repositories
             }
 
             this.logger.LogInformation("Balances from account {id} found in cache", accountId);
-            return result.FromByteArray<BalanceModel[]>() ?? null;
+            return result.FromByteArray<BalanceModel[]>() ?? Array.Empty<BalanceModel>();
         }
 
         public async Task RemoveAsync(Guid id)
