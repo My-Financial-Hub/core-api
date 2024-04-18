@@ -43,7 +43,11 @@ namespace FinancialHub.Core.Infra.Tests.Providers
         [Test]
         public async Task CreateAsync_EarnPaidTransaction_IncreasesAmount()
         {
-            var transaction = this.transactionModelBuilder.Generate();
+            var transaction = this.transactionModelBuilder
+                .WithType(TransactionType.Earn)
+                .WithStatus(TransactionStatus.Committed)
+                .WithActiveStatus(true)
+                .Generate();
             var balanceAmount = transaction.Balance.Amount;
 
             balancesProvider
@@ -57,7 +61,11 @@ namespace FinancialHub.Core.Infra.Tests.Providers
         [Test]
         public async Task CreateAsync_ExpensesPaidTransaction_DecreasesAmount()
         {
-            var transaction = this.transactionModelBuilder.Generate();
+            var transaction = this.transactionModelBuilder
+                .WithType(TransactionType.Expense)
+                .WithStatus(TransactionStatus.Committed)
+                .WithActiveStatus(true)
+                .Generate();
             var balanceAmount = transaction.Balance.Amount;
 
             balancesProvider
@@ -66,7 +74,7 @@ namespace FinancialHub.Core.Infra.Tests.Providers
 
             await this.provider.CreateAsync(transaction);
 
-            balancesProvider.Verify(x => x.UpdateAmountAsync(transaction.BalanceId, balanceAmount + transaction.Amount), Times.Once());
+            balancesProvider.Verify(x => x.UpdateAmountAsync(transaction.BalanceId, balanceAmount - transaction.Amount), Times.Once());
         }
 
         [TestCase(TransactionStatus.NotCommitted, true)]
@@ -74,7 +82,10 @@ namespace FinancialHub.Core.Infra.Tests.Providers
         [TestCase(TransactionStatus.Committed, false)]
         public async Task CreateAsync_NotPaidTransaction_DoesNotUpdateAmount(TransactionStatus status, bool isActive)
         {
-            var transaction = this.transactionModelBuilder.Generate();
+            var transaction = this.transactionModelBuilder
+                .WithStatus(status)
+                .WithActiveStatus(isActive)
+                .Generate();
 
             balancesProvider
                 .Setup(x => x.GetByIdAsync(transaction.BalanceId))

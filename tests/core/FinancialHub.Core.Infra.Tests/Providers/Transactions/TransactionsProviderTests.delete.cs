@@ -27,20 +27,20 @@ namespace FinancialHub.Core.Infra.Tests.Providers
         {
             var guid = Guid.NewGuid();
 
-            var transactionEntity = this.transactionBuilder
+            var transaction = this.transactionModelBuilder
                 .WithStatus(TransactionStatus.Committed)
                 .WithType(TransactionType.Earn)
                 .WithActiveStatus(true)
                 .WithId(guid)
                 .Generate();
-            var balanceAmount = transactionEntity.Balance.Amount;
-            var transaction = this.transactionModelBuilder
-                .WithStatus(transactionEntity.Status)
-                .WithType(transactionEntity.Type)
-                .WithActiveStatus(transactionEntity.IsActive)
-                .WithBalanceId(transactionEntity.BalanceId)
-                .WithAmount(transactionEntity.Amount)
-                .WithId(transactionEntity.Id!.Value)
+            var balanceAmount = transaction.Balance.Amount;
+            var transactionEntity = this.transactionBuilder
+                .WithStatus(transaction.Status)
+                .WithType(transaction.Type)
+                .WithActiveStatus(transaction.IsActive)
+                .WithBalanceId(transaction.BalanceId)
+                .WithAmount(transaction.Amount)
+                .WithId(transaction.Id!.Value)
                 .Generate();
 
             repository
@@ -66,20 +66,20 @@ namespace FinancialHub.Core.Infra.Tests.Providers
         {
             var guid = Guid.NewGuid();
 
-            var transactionEntity = this.transactionBuilder
+            var transaction = this.transactionModelBuilder
                 .WithStatus(TransactionStatus.Committed)
                 .WithType(TransactionType.Earn)
                 .WithActiveStatus(true)
                 .WithId(guid)
                 .Generate();
-            var balanceAmount = transactionEntity.Balance.Amount;
-            var transaction = this.transactionModelBuilder
-                .WithStatus(transactionEntity.Status)
-                .WithType(transactionEntity.Type)
-                .WithActiveStatus(transactionEntity.IsActive)
-                .WithBalanceId(transactionEntity.BalanceId)
-                .WithAmount(transactionEntity.Amount)
-                .WithId(transactionEntity.Id!.Value)
+            var balanceAmount = transaction.Balance.Amount;
+            var transactionEntity = this.transactionBuilder
+                .WithStatus(transaction.Status)
+                .WithType(transaction.Type)
+                .WithActiveStatus(transaction.IsActive)
+                .WithBalanceId(transaction.BalanceId)
+                .WithAmount(transaction.Amount)
+                .WithId(transaction.Id!.Value)
                 .Generate();
 
             repository
@@ -105,20 +105,20 @@ namespace FinancialHub.Core.Infra.Tests.Providers
         {
             var guid = Guid.NewGuid();
 
-            var transactionEntity = this.transactionBuilder
+            var transaction = this.transactionModelBuilder
                 .WithStatus(TransactionStatus.Committed)
-                .WithType(TransactionType.Earn)
+                .WithType(TransactionType.Expense)
                 .WithActiveStatus(true)
                 .WithId(guid)
                 .Generate();
-            var balanceAmount = transactionEntity.Balance.Amount;
-            var transaction = this.transactionModelBuilder
-                .WithStatus(transactionEntity.Status)
-                .WithType(transactionEntity.Type)
-                .WithActiveStatus(transactionEntity.IsActive)
-                .WithBalanceId(transactionEntity.BalanceId)
-                .WithAmount(transactionEntity.Amount)
-                .WithId(transactionEntity.Id!.Value)
+            var balanceAmount = transaction.Balance.Amount;
+            var transactionEntity = this.transactionBuilder
+                .WithStatus(transaction.Status)
+                .WithType(transaction.Type)
+                .WithActiveStatus(transaction.IsActive)
+                .WithBalanceId(transaction.BalanceId)
+                .WithAmount(transaction.Amount)
+                .WithId(transaction.Id!.Value)
                 .Generate();
 
             repository
@@ -146,20 +146,19 @@ namespace FinancialHub.Core.Infra.Tests.Providers
         {
             var guid = Guid.NewGuid();
 
-            var transactionEntity = this.transactionBuilder
-                .WithStatus(TransactionStatus.Committed)
-                .WithType(TransactionType.Earn)
-                .WithActiveStatus(true)
+            var transaction = this.transactionModelBuilder
+                .WithStatus(status)
+                .WithActiveStatus(isActive)
                 .WithId(guid)
                 .Generate();
-            var balanceAmount = transactionEntity.Balance.Amount;
-            var transaction = this.transactionModelBuilder
-                .WithStatus(transactionEntity.Status)
-                .WithType(transactionEntity.Type)
-                .WithActiveStatus(transactionEntity.IsActive)
-                .WithBalanceId(transactionEntity.BalanceId)
-                .WithAmount(transactionEntity.Amount)
-                .WithId(transactionEntity.Id!.Value)
+            var balanceAmount = transaction.Balance.Amount;
+            var transactionEntity = this.transactionBuilder
+                .WithStatus(transaction.Status)
+                .WithType(transaction.Type)
+                .WithActiveStatus(transaction.IsActive)
+                .WithBalanceId(transaction.BalanceId)
+                .WithAmount(transaction.Amount)
+                .WithId(transaction.Id!.Value)
                 .Generate();
 
             repository
