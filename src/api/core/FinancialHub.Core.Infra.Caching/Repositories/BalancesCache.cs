@@ -106,7 +106,7 @@ namespace FinancialHub.Core.Infra.Caching.Repositories
             }
 
             this.logger.LogInformation("Balances from account {id} found in cache", accountId);
-            return result.FromByteArray<BalanceModel[]>() ?? Array.Empty<BalanceModel>();
+            return result.FromByteArray<BalanceModel[]>() ?? null;
         }
 
         public async Task RemoveAsync(Guid id)
