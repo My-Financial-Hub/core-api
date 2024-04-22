@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\tests\common\FinancialHub.Common.Tests\FinancialHub.Common.Tests.csproj" />
+    <ProjectReference Include="..\..\..\..\tests\core\FinancialHub.Core.Domain.Tests\FinancialHub.Core.Domain.Tests.csproj" />
     <ProjectReference Include="..\FinancialHub.Core.Domain\FinancialHub.Core.Domain.csproj" />
     <ProjectReference Include="..\FinancialHub.Core.Infra.Caching\FinancialHub.Core.Infra.Caching.csproj" />
   </ItemGroup>

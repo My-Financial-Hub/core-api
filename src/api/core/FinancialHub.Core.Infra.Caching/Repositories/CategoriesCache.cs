@@ -1,7 +1,6 @@
 ﻿using FinancialHub.Core.Infra.Caching.Extensions;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
-using System.Security.Principal;
 
 namespace FinancialHub.Core.Infra.Caching.Repositories
 {
@@ -43,7 +42,7 @@ namespace FinancialHub.Core.Infra.Caching.Repositories
             this.logger.LogTrace("Getting key {key} from cache", key);
 
             var result = await this.cache.GetAsync(key);
-            if (result == null)
+            if (result == null || result.Length == 0)
             {
                 this.logger.LogInformation("Category {id} not found in cache", id);
                 return null;
