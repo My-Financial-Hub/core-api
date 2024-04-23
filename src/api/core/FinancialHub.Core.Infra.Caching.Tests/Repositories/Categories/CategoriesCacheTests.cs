@@ -7,8 +7,8 @@ namespace FinancialHub.Core.Infra.Caching.Tests.Repositories
     public partial class CategoriesCacheTests
     {
         private ICategoriesCache cache;
-        private IMock<IDistributedCache> distributedCache;
-        private IMock<ILogger<CategoriesCache>> logger;
+        private Mock<IDistributedCache> distributedCache;
+        private Mock<ILogger<CategoriesCache>> logger;
 
         private CategoryModelBuilder builder;
 
