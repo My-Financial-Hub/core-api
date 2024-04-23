@@ -1,4 +1,5 @@
 ﻿using FinancialHub.Core.Domain.Tests.Assertions.Models;
+using FinancialHub.Core.Infra.Caching.Extensions;
 
 namespace FinancialHub.Core.Infra.Caching.Tests.Repositories
 {
@@ -9,6 +10,9 @@ namespace FinancialHub.Core.Infra.Caching.Tests.Repositories
         {
             var guid = Guid.NewGuid();
             var expectedResult = this.builder.Generate();
+            distributedCache
+                .Setup(x => x.GetAsync($"categories:{guid}",It.IsAny<CancellationToken>()))
+                .ReturnsAsync(expectedResult.ToByteArray());
 
             var category = await this.cache.GetAsync(guid);
 

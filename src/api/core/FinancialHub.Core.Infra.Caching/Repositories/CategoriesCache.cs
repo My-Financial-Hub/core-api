@@ -24,7 +24,7 @@ namespace FinancialHub.Core.Infra.Caching.Repositories
             this.logger.LogTrace("Adding key {key} to cache", key);
 
             await this.cache.SetAsync(
-            key,
+                key,
                 category.ToByteArray(),
                 new DistributedCacheEntryOptions()
                 {
