@@ -42,7 +42,7 @@ namespace FinancialHub.Core.Infra.Caching.Repositories
             this.logger.LogTrace("Getting key {key} from cache", key);
            
             var result = await this.cache.GetAsync(key);
-            if(result == null)
+            if(result == null || result.Length == 0)
             {
                 this.logger.LogInformation("Account {id} not found in cache", id);
                 return null;
