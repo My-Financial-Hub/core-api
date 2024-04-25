@@ -1,5 +1,4 @@
 ﻿using FinancialHub.Core.Domain.Interfaces.Caching;
-using FinancialHub.Core.Domain.Tests.Builders.Models;
 using Microsoft.Extensions.Logging;
 
 namespace FinancialHub.Core.Infra.Caching.Tests.Repositories

@@ -1,5 +1,4 @@
-﻿using FinancialHub.Core.Domain.Tests.Assertions.Models;
-using FinancialHub.Core.Infra.Caching.Extensions;
+﻿using FinancialHub.Core.Infra.Caching.Extensions;
 
 namespace FinancialHub.Core.Infra.Caching.Tests.Repositories
 {
