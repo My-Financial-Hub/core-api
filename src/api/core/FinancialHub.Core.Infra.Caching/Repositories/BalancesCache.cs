@@ -129,7 +129,7 @@ namespace FinancialHub.Core.Infra.Caching.Repositories
             var key = $"{BALANCE_PREFIX}:{id}";
             this.logger.LogTrace("Getting key {key} from cache", key);
             var result = await this.cache.GetAsync(key);
-            if (result == null)
+            if (result == null || result.Length == 0)
             {
                 this.logger.LogInformation("Balance {id} not found in cache", id);
                 return null;
