@@ -44,10 +44,9 @@ namespace FinancialHub.Core.Infra.Caching.Repositories
             var accountId = balance.AccountId;
 
             var balanceArray = await this.GetByAccountAsync(accountId);
-            if(balanceArray == null)
-                return;
 
-            var balanceList = balanceArray.Where(x => x.Id != id).ToList();
+            var balanceList = balanceArray?.Where(x => x.Id != id)?.ToList()
+                ?? new List<BalanceModel>();
             balanceList.Add(balance);
 
             this.logger.LogInformation("Adding balance {id} to account {id} cache", id, accountId);
@@ -56,7 +55,7 @@ namespace FinancialHub.Core.Infra.Caching.Repositories
             this.logger.LogTrace("Adding key {key} to cache", key);
             await this.cache.SetAsync(
                 key,
-                balance.ToByteArray(),
+                balanceList.ToByteArray(),
                 new DistributedCacheEntryOptions()
                 {
                     AbsoluteExpirationRelativeToNow = TimeSpan.FromMilliseconds(1000 * 60)
@@ -99,7 +98,7 @@ namespace FinancialHub.Core.Infra.Caching.Repositories
         {
             var prefix = $"{ACCOUNT_PREFIX}:{accountId}:balances";
             var result = await this.cache.GetAsync(prefix);
-            if (result == null)
+            if (result == null || result.Length == 0)
             {
                 this.logger.LogInformation("Balances in account {id} not found in cache", accountId);
                 return null;
@@ -115,8 +114,9 @@ namespace FinancialHub.Core.Infra.Caching.Repositories
             if(balance == null)
                 return;
 
-            var accountKey = $"{ACCOUNT_PREFIX}:{balance.AccountId}:balances";
-            await this.cache.RemoveAsync(accountKey);
+            var balanceArray = await this.GetByAccountAsync(balance.AccountId);
+            var balanceList = balanceArray?.Where(x => x.Id != id)?.ToList() ?? new List<BalanceModel>();
+            await this.AddAsync(balanceList);
 
             var balanceKey = $"{BALANCE_PREFIX}:{id}";
             await this.cache.RemoveAsync(balanceKey);
