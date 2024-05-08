@@ -4,13 +4,13 @@ using System.IO;
 
 namespace FinancialHub.Core.Domain.Tests.Setup
 {
-    public abstract class FinancialHubFixture
+    public abstract class FinancialHubSetup
     {
         protected readonly IConfiguration configuration;
         protected readonly IServiceCollection services;
         protected IServiceProvider serviceProvider;
 
-        protected FinancialHubFixture()
+        protected FinancialHubSetup()
         {
             configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
