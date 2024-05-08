@@ -1,25 +1,16 @@
 ﻿using System.Collections;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Configuration;
 using FinancialHub.Core.Infra.Extensions;
 using FinancialHub.Core.Infra.Data.Extensions.Configurations;
 using FinancialHub.Core.Infra.Caching.Extensions.Configurations;
+using FinancialHub.Core.Domain.Tests.Setup;
 
 namespace FinancialHub.Core.Infra.IntegrationTests.Setup
 {
-    public class FinancialHubInfraFixture : IEnumerable, IDisposable
+    public class FinancialHubInfraFixture : FinancialHubFixture, IEnumerable, IDisposable
     {
-        private readonly IConfiguration configuration;
-        private readonly IServiceCollection services;
-        private readonly IServiceProvider serviceProvider;
-
-        public FinancialHubInfraFixture()
+        public FinancialHubInfraFixture() : base()
         {
-            configuration = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json")
-                .Build();
-            services = new ServiceCollection();
             services
                 .AddCoreInfra()
                 .AddCaching(configuration)
@@ -27,11 +18,6 @@ namespace FinancialHub.Core.Infra.IntegrationTests.Setup
                 .AddLogging();
 
             serviceProvider = services.BuildServiceProvider();
-        }
-
-        public T GetService<T>()
-        {
-            return serviceProvider.GetServices<T>().First();
         }
 
         public void Dispose()
