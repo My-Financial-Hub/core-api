@@ -10,9 +10,6 @@ namespace FinancialHub.Core.Domain.Tests.Setup
         protected readonly IServiceCollection services;
         protected IServiceProvider serviceProvider;
 
-        public IServiceCollection Services => this.services;
-        public IConfiguration Configuration => this.configuration;
-
         protected FinancialHubFixture()
         {
             configuration = new ConfigurationBuilder()
@@ -23,9 +20,9 @@ namespace FinancialHub.Core.Domain.Tests.Setup
             services = new ServiceCollection();
         }
 
-        public T? GetService<T>()
+        public T GetService<T>() where T: notnull
         {
-            return this.serviceProvider.GetService<T>();
+            return this.serviceProvider.GetRequiredService<T>();
         }
     }
 }
