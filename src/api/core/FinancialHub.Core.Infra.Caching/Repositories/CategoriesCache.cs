@@ -4,7 +4,7 @@ using Microsoft.Extensions.Logging;
 
 namespace FinancialHub.Core.Infra.Caching.Repositories
 {
-    public class CategoriesCache : ICategoriesCache
+    internal class CategoriesCache : ICategoriesCache
     {
         private readonly IDistributedCache cache;
         private readonly ILogger<CategoriesCache> logger;
