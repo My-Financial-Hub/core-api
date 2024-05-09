@@ -1,5 +1,4 @@
-﻿using FinancialHub.Core.Domain.Tests.Setup;
-using FinancialHub.Core.Infra.Extensions;
+﻿using FinancialHub.Core.Infra.Extensions;
 using FinancialHub.Core.Infra.Data.Extensions.Configurations;
 using FinancialHub.Core.Infra.Caching.Extensions.Configurations;
 using Microsoft.Extensions.DependencyInjection;

@@ -1,9 +1,4 @@
-﻿using Microsoft.Extensions.Caching.Distributed;
-using FinancialHub.Core.Infra.IntegrationTests.Setup;
-using FinancialHub.Core.Domain.Interfaces.Providers;
-using FinancialHub.Core.Infra.Data.Contexts;
-using FinancialHub.Core.Domain.Tests.Setup;
-using FinancialHub.Core.Domain.Tests.Builders.Models;
+﻿using FinancialHub.Core.Domain.Interfaces.Providers;
 
 namespace FinancialHub.Core.Infra.IntegrationTests.Providers.Accounts
 {
@@ -13,17 +8,20 @@ namespace FinancialHub.Core.Infra.IntegrationTests.Providers.Accounts
         private readonly IAccountsProvider provider;
 
         private readonly AccountModelBuilder builder;
+        private readonly AccountEntityBuilder entitybuilder;
 
         private readonly FinancialHubContext database;
         private readonly IDistributedCache cache;
 
         public AccountsProviderTests(FinancialHubInfraSetup setup, FinancialHubBuilderSetup builderSetup)
         {
-            this.provider = setup.GetService<IAccountsProvider>();
+            this.provider       = setup.GetService<IAccountsProvider>();
 
-            this.cache = setup.GetService<IDistributedCache>();
-            this.database = setup.GetService<FinancialHubContext>();
-            this.builder = builderSetup.GetService<AccountModelBuilder>();
+            this.cache          = setup.GetService<IDistributedCache>();
+            this.database       = setup.GetService<FinancialHubContext>();
+
+            this.builder        = builderSetup.GetService<AccountModelBuilder>();
+            this.entitybuilder  = builderSetup.GetService<AccountEntityBuilder>();
         }
 
         [SetUp]

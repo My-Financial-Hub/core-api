@@ -1,5 +1,4 @@
-﻿using FinancialHub.Core.Domain.Tests.Setup;
-using System.Collections;
+﻿using System.Collections;
 
 namespace FinancialHub.Core.Infra.IntegrationTests.Setup
 {
