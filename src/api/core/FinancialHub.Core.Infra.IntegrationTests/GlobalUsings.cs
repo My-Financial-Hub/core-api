@@ -9,3 +9,5 @@ global using FinancialHub.Core.Domain.Tests.Builders.Entities;
 global using FinancialHub.Core.Infra.IntegrationTests.Setup;
 
 global using FinancialHub.Core.Infra.Data.Contexts;
+
+[assembly: Category("Integration")]
