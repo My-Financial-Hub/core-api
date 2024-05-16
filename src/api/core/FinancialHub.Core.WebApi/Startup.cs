@@ -9,6 +9,7 @@ using FinancialHub.Core.Infra.Extensions;
 using FinancialHub.Core.Resources.Extensions;
 using FinancialHub.Core.Infra.Data.Extensions.Configurations;
 using FinancialHub.Core.Infra.Logs.Extensions.Configurations;
+using FinancialHub.Core.WebApi.Middlewares;
 
 namespace FinancialHub.Core.WebApi
 {
@@ -50,7 +51,7 @@ namespace FinancialHub.Core.WebApi
             }
 
             app.UseRouting();
-            app.UseLogRequest();
+            app.UseMiddleware<ExceptionMiddleware>();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
