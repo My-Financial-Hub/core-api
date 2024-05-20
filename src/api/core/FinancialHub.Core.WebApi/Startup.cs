@@ -24,21 +24,19 @@ namespace FinancialHub.Core.WebApi
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddApiConfigurations();
-            services.AddApiDocs();
-            services.AddApiLogging();
+            services
+                .AddApiConfigurations()
+                .AddApiDocs()
+                .AddApiLogging();
 
-            services.AddHttpLogging(logging =>
-            {
-                logging.LoggingFields = Microsoft.AspNetCore.HttpLogging.HttpLoggingFields.All;
-            });
+            services.AddCoreResources()
+                .AddCoreServices()
+                .AddCoreInfra()
+                .AddRepositories(Configuration);
 
-            services.AddCoreResources();
-            services.AddCoreServices();
-            services.AddCoreInfra();
-            services.AddRepositories(Configuration);
-
-            services.AddMvc().AddNewtonsoftJson();
+            services
+                .AddMvc()
+                .AddNewtonsoftJson();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
