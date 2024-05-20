@@ -1,14 +1,14 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 
-namespace FinancialHub.Core.Infra.Logs.Middlewares
+namespace FinancialHub.Core.WebApi.Middlewares
 {
-    public class LogMiddleware
+    public class ExceptionMiddleware
     {
         private readonly RequestDelegate next;
-        private readonly ILogger<LogMiddleware> logger;
+        private readonly ILogger<ExceptionMiddleware> logger;
 
-        public LogMiddleware(RequestDelegate next, ILogger<LogMiddleware> logger)
+        public ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddleware> logger)
         {
             this.next = next;
             this.logger = logger;
@@ -25,13 +25,23 @@ namespace FinancialHub.Core.Infra.Logs.Middlewares
             }
             catch (Exception exception)
             {
-                var status = context.Response.StatusCode;
                 this.logger.LogError(
                     exception,
-                    "[{request}] - {path} error with message {message} and status {status}",
-                    method, path, exception.Message, status
+                    "[{request}] - {path} error with message {message}",
+                    method, path, exception.Message
                 );
-                throw;
+                context.Response.StatusCode = 500;
+                await context.Response.WriteAsJsonAsync(
+                    new
+                    {
+                        HasError = true,
+                        Error = new
+                        {
+                            Code = 500,
+                            exception.Message,
+                        }
+                    }
+                );
             }
             finally
             {
