@@ -4,7 +4,7 @@ using FluentValidation;
 
 namespace FinancialHub.Core.Application.Validators.Accounts
 {
-    public class UpdateAccountValidator : AbstractValidator<UpdateAccountDto>
+    internal class UpdateAccountValidator : AbstractValidator<UpdateAccountDto>
     {
         public UpdateAccountValidator(IValidationErrorMessageProvider errorMessageProvider)
         {

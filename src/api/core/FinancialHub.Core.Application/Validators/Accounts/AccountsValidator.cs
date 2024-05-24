@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 
 namespace FinancialHub.Core.Application.Validators.Accounts
 {
-    public class AccountsValidator : IAccountsValidator
+    internal class AccountsValidator : IAccountsValidator
     {
         private readonly IAccountsProvider accountsProvider;
         private readonly IValidator<CreateAccountDto> createValidator;
