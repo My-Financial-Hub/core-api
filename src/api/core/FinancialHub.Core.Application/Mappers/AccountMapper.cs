@@ -3,7 +3,7 @@ using FinancialHub.Core.Domain.DTOS.Accounts;
 
 namespace FinancialHub.Core.Application.Mappers
 {
-    public class AccountMapper : Profile
+    internal class AccountMapper : Profile
     {
         public AccountMapper()
         {
