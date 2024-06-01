@@ -1,4 +1,4 @@
-﻿namespace FinancialHub.Core.Infra.IntegrationTests.Providers.Accounts
+﻿namespace FinancialHub.Core.Infra.IntegrationTests.Providers
 {
     public partial class AccountsProviderTests
     {

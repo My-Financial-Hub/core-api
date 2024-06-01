@@ -1,6 +1,6 @@
 ﻿using FinancialHub.Core.Domain.Interfaces.Providers;
 
-namespace FinancialHub.Core.Infra.IntegrationTests.Providers.Accounts
+namespace FinancialHub.Core.Infra.IntegrationTests.Providers
 {
     [TestFixtureSource(typeof(FinancialHubInfraFixture))]
     public partial class AccountsProviderTests
