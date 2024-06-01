@@ -41,4 +41,8 @@
     <ProjectReference Include="..\FinancialHub.Core.Infra\FinancialHub.Core.Infra.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Providers\Balances\" />
+  </ItemGroup>
+
 </Project>

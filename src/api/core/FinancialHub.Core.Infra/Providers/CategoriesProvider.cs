@@ -1,5 +1,4 @@
-﻿using FinancialHub.Core.Domain.Interfaces.Caching;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 
 namespace FinancialHub.Core.Infra.Providers
 {
@@ -7,18 +6,15 @@ namespace FinancialHub.Core.Infra.Providers
     {
         private readonly IMapper mapper;
         private readonly ICategoriesRepository repository;
-        private readonly ICategoriesCache cache;
         private readonly ILogger<CategoriesProvider> logger;
 
         public CategoriesProvider(
             ICategoriesRepository repository,
-            ICategoriesCache cache,
             IMapper mapper,
             ILogger<CategoriesProvider> logger
         )
         {
             this.repository = repository;
-            this.cache = cache;
             this.mapper = mapper;
             this.logger = logger;
         }

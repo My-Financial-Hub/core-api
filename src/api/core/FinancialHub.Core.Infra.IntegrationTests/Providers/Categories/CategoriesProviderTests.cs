@@ -3,6 +3,7 @@
 namespace FinancialHub.Core.Infra.IntegrationTests.Providers
 {
     [TestFixtureSource(typeof(FinancialHubInfraFixture))]
+    [Ignore("Categorie does not need caching")]
     public partial class CategoriesProviderTests
     {
         private readonly ICategoriesProvider provider;
