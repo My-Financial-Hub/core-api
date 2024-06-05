@@ -24,5 +24,8 @@ namespace FinancialHub.Core.Domain.Tests.Setup
         {
             return this.serviceProvider.GetRequiredService<T>();
         }
+
+        public abstract void TearUp();
+        public abstract void TearDown();
     }
 }

@@ -17,5 +17,15 @@ namespace FinancialHub.Core.Infra.IntegrationTests.Setup
 
             serviceProvider = services.BuildServiceProvider();
         }
+
+        public override void TearDown()
+        {
+            this.GetService<FinancialHubContext>().Database.EnsureCreated();
+        }
+
+        public override void TearUp()
+        {
+            this.GetService<FinancialHubContext>().Database.EnsureDeleted();
+        }
     }
 }
