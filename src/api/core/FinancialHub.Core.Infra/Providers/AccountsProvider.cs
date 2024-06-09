@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 
 namespace FinancialHub.Core.Infra.Providers
 {
-    public class AccountsProvider : IAccountsProvider
+    internal class AccountsProvider : IAccountsProvider
     {
         private readonly IAccountsRepository repository;
         private readonly IAccountsCache cache;

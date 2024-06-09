@@ -4,7 +4,7 @@ using Microsoft.Extensions.Logging;
 
 namespace FinancialHub.Core.Infra.Providers
 {
-    public class BalancesProvider : IBalancesProvider
+    internal class BalancesProvider : IBalancesProvider
     {
         private readonly IMapper mapper;    
         private readonly IBalancesRepository repository;

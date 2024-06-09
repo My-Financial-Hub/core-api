@@ -4,7 +4,7 @@ using FinancialHub.Core.Domain.Queries;
 
 namespace FinancialHub.Core.Infra.Providers
 {
-    public class TransactionsProvider : ITransactionsProvider
+    internal class TransactionsProvider : ITransactionsProvider
     {
         private readonly IMapper mapper;
         private readonly ITransactionsRepository repository;

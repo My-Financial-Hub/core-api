@@ -2,7 +2,7 @@
 
 namespace FinancialHub.Core.Infra.Providers
 {
-    public class CategoriesProvider : ICategoriesProvider
+    internal class CategoriesProvider : ICategoriesProvider
     {
         private readonly IMapper mapper;
         private readonly ICategoriesRepository repository;
