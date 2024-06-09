@@ -27,7 +27,7 @@
         }
 
         [Test]
-        public async Task CreateAsync_NoBalanceInCache_AddsBalanceToId()
+        public async Task CreateAsync_AddsToCache()
         {
             var account = this.entitybuilder.Generate().Account;
             await this.accountsRepository.CreateAsync(account);
@@ -47,7 +47,7 @@
         }
 
         [Test]
-        public async Task CreateAsync_ExistingAccountInCache_UpdatesBalancelist()
+        public async Task CreateAsync_UpdatesBalanceCacheList()
         {
             var account = this.entitybuilder.Generate().Account;
             await this.accountsRepository.CreateAsync(account);
