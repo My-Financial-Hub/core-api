@@ -16,7 +16,6 @@ namespace FinancialHub.Core.Application.Tests.Services
 
         private Mock<ICategoriesProvider> provider;
         private Mock<ICategoriesValidator> validator;
-        private Mock<ILogger<CategoriesService>> mockLogger;
         private IMapper mapper;
 
         private void MockMapper()
@@ -34,13 +33,12 @@ namespace FinancialHub.Core.Application.Tests.Services
         {
             this.provider = new Mock<ICategoriesProvider>();
             this.validator = new Mock<ICategoriesValidator>();
-            this.mockLogger = new Mock<ILogger<CategoriesService>>();
             this.MockMapper();
             this.service = new CategoriesService(
                 this.provider.Object,
                 this.validator.Object, 
-                this.mapper,
-                this.mockLogger.Object
+                this.mapper, 
+                new NullLoggerFactory().CreateLogger<CategoriesService>()
             );
 
             this.random = new Random();

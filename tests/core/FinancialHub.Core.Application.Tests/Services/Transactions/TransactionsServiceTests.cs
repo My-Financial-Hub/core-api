@@ -18,16 +18,15 @@ namespace FinancialHub.Core.Application.Tests.Services
         private Mock<ITransactionsValidator> validator;
         private Mock<IBalancesValidator> balancesValidator;
         private Mock<ICategoriesValidator> categoriesValidator;
-        private Mock<ILogger<TransactionsService>> mockLogger;
 
         private IMapper mapper;
 
         private void MockMapper()
         {
             mapper = new MapperConfiguration(mc =>
-            {
-                mc.AddProfile(new TransactionMapper());
-            }
+                {
+                    mc.AddProfile(new TransactionMapper());
+                }
             ).CreateMapper();
         }
 
@@ -38,7 +37,6 @@ namespace FinancialHub.Core.Application.Tests.Services
             this.validator              = new Mock<ITransactionsValidator>();
             this.balancesValidator      = new Mock<IBalancesValidator>();
             this.categoriesValidator    = new Mock<ICategoriesValidator>();
-            this.mockLogger = new Mock<ILogger<TransactionsService>>();
             this.MockMapper();
             this.service = new TransactionsService(
                 provider.Object,
@@ -46,7 +44,7 @@ namespace FinancialHub.Core.Application.Tests.Services
                 balancesValidator.Object,
                 categoriesValidator.Object,
                 mapper,
-                mockLogger.Object
+                new NullLoggerFactory().CreateLogger<TransactionsService>()
             );
 
             this.random = new Random();

@@ -16,7 +16,6 @@ namespace FinancialHub.Core.Application.Tests.Services
 
         private Mock<IAccountsProvider> provider;
         private Mock<IAccountsValidator> validator;
-        private Mock<ILogger<AccountsService>> mockLogger;
 
         private IMapper mapper;
 
@@ -36,13 +35,12 @@ namespace FinancialHub.Core.Application.Tests.Services
             this.provider = new Mock<IAccountsProvider>();
             this.MockMapper();
             this.validator = new Mock<IAccountsValidator>();
-            this.mockLogger = new Mock<ILogger<AccountsService>>();
 
             this.service = new AccountsService(
                 provider.Object,
                 validator.Object,
                 mapper,
-                mockLogger.Object
+                new NullLoggerFactory().CreateLogger<AccountsService>()
             );
 
             this.random = new Random();
