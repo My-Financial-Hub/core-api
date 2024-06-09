@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 
 namespace FinancialHub.Core.Application.Validators.Transactions
 {
-    public class TransactionsValidator : ITransactionsValidator
+    internal class TransactionsValidator : ITransactionsValidator
     {
         private const string MESSAGE_LABEL = "Transaction";
 

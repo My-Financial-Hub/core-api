@@ -4,7 +4,7 @@ using FluentValidation;
 
 namespace FinancialHub.Core.Application.Validators.Categories
 {
-    public class CreateCategoryValidator : AbstractValidator<CreateCategoryDto>
+    internal class CreateCategoryValidator : AbstractValidator<CreateCategoryDto>
     {
         public CreateCategoryValidator(IValidationErrorMessageProvider errorMessageProvider)
         {

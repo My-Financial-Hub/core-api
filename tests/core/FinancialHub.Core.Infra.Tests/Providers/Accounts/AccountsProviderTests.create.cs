@@ -31,6 +31,20 @@
         }
 
         [Test]
+        public async Task CreateAsync_CallsAccountsCache()
+        {
+            var account = accountModelBuilder.Generate();
+
+            repository
+                .Setup(x => x.CreateAsync(It.IsAny<AccountEntity>()))
+                .Returns<AccountEntity>(async x => await Task.FromResult(x));
+
+            await this.provider.CreateAsync(account);
+
+            cache.Verify(x => x.AddAsync(It.IsAny<AccountModel>()), Times.Once);
+        }
+
+        [Test]
         public async Task CreateAsync_CallsCreateBalancesRepository()
         {
             var account = accountModelBuilder.Generate();
@@ -41,7 +55,7 @@
 
             await this.provider.CreateAsync(account);
 
-            balancesRepository.Verify(x => x.CreateAsync(It.IsAny<BalanceEntity>()), Times.Once);
+            balancesProvider.Verify(x => x.CreateAsync(It.IsAny<BalanceModel>()), Times.Once);
         }
 
         [Test]
@@ -54,7 +68,7 @@
 
             await this.provider.CreateAsync(account);
 
-            balancesRepository.Verify(x => x.CreateAsync(It.IsAny<BalanceEntity>()), Times.Once);
+            balancesProvider.Verify(x => x.CreateAsync(It.IsAny<BalanceModel>()), Times.Once);
         }
     }
 }

@@ -1,14 +1,22 @@
-﻿namespace FinancialHub.Core.Infra.Providers
+﻿using Microsoft.Extensions.Logging;
+
+namespace FinancialHub.Core.Infra.Providers
 {
-    public class CategoriesProvider : ICategoriesProvider
+    internal class CategoriesProvider : ICategoriesProvider
     {
         private readonly IMapper mapper;
         private readonly ICategoriesRepository repository;
+        private readonly ILogger<CategoriesProvider> logger;
 
-        public CategoriesProvider(IMapper mapper, ICategoriesRepository repository)
+        public CategoriesProvider(
+            ICategoriesRepository repository,
+            IMapper mapper,
+            ILogger<CategoriesProvider> logger
+        )
         {
-            this.mapper = mapper;
             this.repository = repository;
+            this.mapper = mapper;
+            this.logger = logger;
         }
 
         public async Task<CategoryModel> CreateAsync(CategoryModel category)

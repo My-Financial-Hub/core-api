@@ -6,6 +6,8 @@ global using System.Collections.Generic;
 // 3rd party test namespaces
 global using NUnit.Framework;
 global using Moq;
+global using Microsoft.Extensions.Logging;
+global using Microsoft.Extensions.Logging.Abstractions;
 
 // Domain builder tests namespaces
 global using FinancialHub.Core.Domain.Tests.Builders.Models;

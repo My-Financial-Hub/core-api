@@ -1,6 +1,6 @@
-﻿using FinancialHub.Core.Infra.Mappers;
+﻿using FinancialHub.Core.Domain.Interfaces.Caching;
+using FinancialHub.Core.Infra.Mappers;
 using FinancialHub.Core.Infra.Providers;
-using Microsoft.Extensions.Logging;
 
 namespace FinancialHub.Core.Infra.Tests.Providers
 {
@@ -14,8 +14,8 @@ namespace FinancialHub.Core.Infra.Tests.Providers
 
         private IMapper mapper;
         private Mock<IAccountsRepository> repository;
-        private Mock<IBalancesRepository> balancesRepository;
-        private Mock<ILogger<AccountsProvider>> mockLogger;
+        private Mock<IAccountsCache> cache;
+        private Mock<IBalancesProvider> balancesProvider;
 
         private void MockMapper()
         {
@@ -32,11 +32,14 @@ namespace FinancialHub.Core.Infra.Tests.Providers
         {
             this.MockMapper();
 
-            this.repository = new Mock<IAccountsRepository>();
-            this.balancesRepository = new Mock<IBalancesRepository>();
-            this.mockLogger = new Mock<ILogger<AccountsProvider>>();
+            this.repository         = new Mock<IAccountsRepository>();
+            this.balancesProvider   = new Mock<IBalancesProvider>();
+            this.cache              = new Mock<IAccountsCache>();
             this.provider = new AccountsProvider(
-                this.mapper, this.repository.Object, this.balancesRepository.Object, this.mockLogger.Object
+                this.repository.Object, this.cache.Object,
+                this.balancesProvider.Object,
+                this.mapper,
+                new NullLoggerFactory().CreateLogger<AccountsProvider>()
             );
 
             this.random = new Random();

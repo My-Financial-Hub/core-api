@@ -3,7 +3,7 @@ using FinancialHub.Core.Domain.Queries;
 
 namespace FinancialHub.Core.Infra.Mappers
 {
-    public class FinancialHubAutoMapperProfile : Profile
+    internal class FinancialHubAutoMapperProfile : Profile
     {
         public FinancialHubAutoMapperProfile()
         {

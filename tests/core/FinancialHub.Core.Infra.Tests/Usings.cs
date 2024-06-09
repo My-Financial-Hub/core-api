@@ -1,5 +1,7 @@
 // 3rd party namespaces
 global using AutoMapper;
+global using Microsoft.Extensions.Logging;
+global using Microsoft.Extensions.Logging.Abstractions;
 
 // 3rd party test namespaces
 global using NUnit.Framework;

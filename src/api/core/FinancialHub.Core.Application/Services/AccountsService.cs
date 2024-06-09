@@ -6,7 +6,7 @@ using FinancialHub.Common.Extensions;
 
 namespace FinancialHub.Core.Application.Services
 {
-    public class AccountsService : IAccountsService
+    internal class AccountsService : IAccountsService
     {
         private readonly IAccountsProvider provider;
         private readonly IAccountsValidator accountValidator;

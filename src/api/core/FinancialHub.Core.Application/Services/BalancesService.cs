@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 
 namespace FinancialHub.Core.Application.Services
 {
-    public class BalancesService : IBalancesService
+    internal class BalancesService : IBalancesService
     {
         private readonly IBalancesProvider balancesProvider;
         private readonly IBalancesValidator balancesValidator;

@@ -29,7 +29,12 @@ namespace FinancialHub.Core.Infra.Tests.Providers
             this.MockMapper();
 
             this.repository = new Mock<ICategoriesRepository>();
-            this.provider = new CategoriesProvider(this.mapper, this.repository.Object);
+
+            this.provider = new CategoriesProvider(
+                this.repository.Object,
+                this.mapper,
+                new NullLoggerFactory().CreateLogger<CategoriesProvider>()
+            );
 
             this.random = new Random();
 

@@ -4,24 +4,28 @@ using FinancialHub.Core.Domain.Queries;
 
 namespace FinancialHub.Core.Infra.Providers
 {
-    public class TransactionsProvider : ITransactionsProvider
+    internal class TransactionsProvider : ITransactionsProvider
     {
         private readonly IMapper mapper;
         private readonly ITransactionsRepository repository;
-        private readonly IBalancesRepository balanceRepository;
+        private readonly IBalancesProvider balancesProvider;
 
-        public TransactionsProvider(IMapper mapper, ITransactionsRepository repository, IBalancesRepository balanceRepository)
+        public TransactionsProvider(
+            ITransactionsRepository repository, 
+            IBalancesProvider balancesProvider,
+            IMapper mapper
+        )
         {
             this.mapper = mapper;
             this.repository = repository;
-            this.balanceRepository = balanceRepository;
+            this.balancesProvider = balancesProvider;
         }
 
         public async Task<TransactionModel> CreateAsync(TransactionModel transaction)
         {
             if (transaction.IsPaid)
             {
-                var balance = await this.balanceRepository.GetByIdAsync(transaction.BalanceId);
+                var balance = await this.balancesProvider.GetByIdAsync(transaction.BalanceId);
 
                 decimal newAmount = balance!.Amount;
 
@@ -34,7 +38,7 @@ namespace FinancialHub.Core.Infra.Providers
                     newAmount -= transaction.Amount;
                 }
 
-                await this.balanceRepository.ChangeAmountAsync(transaction.BalanceId, newAmount);
+                await this.balancesProvider.UpdateAmountAsync(transaction.BalanceId, newAmount);
             }
 
             var entity = mapper.Map<TransactionEntity>(transaction);
@@ -53,7 +57,7 @@ namespace FinancialHub.Core.Infra.Providers
             {
                 transaction.Balance = null;
                 var balanceId = transaction.BalanceId;
-                var balance = await this.balanceRepository.GetByIdAsync(balanceId);
+                var balance = await this.balancesProvider.GetByIdAsync(balanceId);
 
                 decimal newAmount = balance!.Amount;
 
@@ -62,7 +66,7 @@ namespace FinancialHub.Core.Infra.Providers
                 else
                     newAmount += transaction.Amount;
 
-                await this.balanceRepository.ChangeAmountAsync(balanceId, newAmount);
+                await this.balancesProvider.UpdateAmountAsync(balanceId, newAmount);
             }
 
             await this.repository.DeleteAsync(id);

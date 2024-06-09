@@ -3,27 +3,12 @@
     public partial class AccountsProviderTests
     {
         [Test]
-        public async Task GetAllAsync_ReturnsAccountList()
-        {
-            var accountEntities = accountEntityBuilder.Generate(random.Next(0, 10));
-            var expectedAccounts = mapper.Map<IEnumerable<AccountModel>>(accountEntities);
-
-            repository
-                .Setup(x => x.GetAllAsync())
-                .ReturnsAsync(accountEntities);
-
-            var accounts = await provider.GetAllAsync();
-
-            AccountModelAssert.Equal(expectedAccounts.ToArray(), accounts.ToArray());
-        }
-
-        [Test]
         public async Task GetByIdAsync_ExistingAccount_ReturnsAccount()
         {
             var id = Guid.NewGuid();
             var accountEntity = accountEntityBuilder
                 .WithId(id)
-                .Generate();
+                    .Generate();
             var expectedAccount = mapper.Map<AccountModel>(accountEntity);
 
             repository
@@ -43,6 +28,23 @@
             var result = await provider.GetByIdAsync(id);
 
             Assert.That(result, Is.Null);
+        }
+
+        [Test]
+        public async Task GetByIdAsync_CachedAccount_ReturnsAccountFromCache()
+        {
+            var id = Guid.NewGuid();
+            var account = accountModelBuilder
+                .WithId(id)
+                .Generate();
+
+            cache
+                .Setup(x => x.GetAsync(id))
+                .ReturnsAsync(account);
+
+            var result = await provider.GetByIdAsync(id);
+
+            AccountModelAssert.Equal(account, result);
         }
     }
 }

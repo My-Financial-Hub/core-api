@@ -19,5 +19,23 @@
 
             Assert.That(result, Is.EqualTo(deletedLines));
         }
+
+        [Test]
+        public async Task DeleteAsync_RemovesFromCache()
+        {
+            var deletedLines = 1;
+            var guid = Guid.NewGuid();
+
+            repository
+                .Setup(x => x.DeleteAsync(guid))
+                .ReturnsAsync(deletedLines);
+            repository
+                .Setup(x => x.CommitAsync())
+                .ReturnsAsync(deletedLines);
+
+            var result = await this.provider.DeleteAsync(guid);
+
+            cache.Verify(x => x.RemoveAsync(guid), Times.Once);
+        }
     }
 }

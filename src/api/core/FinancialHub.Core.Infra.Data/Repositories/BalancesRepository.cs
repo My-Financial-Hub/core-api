@@ -3,7 +3,7 @@ using FinancialHub.Core.Infra.Data.Contexts;
 
 namespace FinancialHub.Core.Infra.Data.Repositories
 {
-    public class BalancesRepository : BaseRepository<BalanceEntity>, IBalancesRepository
+    internal class BalancesRepository : BaseRepository<BalanceEntity>, IBalancesRepository
     {
         public BalancesRepository(FinancialHubContext context) : base(context)
         {
