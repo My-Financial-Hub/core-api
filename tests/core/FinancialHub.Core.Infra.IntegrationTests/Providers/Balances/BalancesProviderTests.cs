@@ -15,31 +15,19 @@ namespace FinancialHub.Core.Infra.IntegrationTests.Providers
         private readonly IBalancesCache cache;
         private readonly IBalancesRepository database;
 
-        private readonly FinancialHubInfraSetup setup;
+        private readonly IAccountsRepository accountsRepository;
 
         public BalancesProviderTests(FinancialHubInfraSetup setup, FinancialHubBuilderSetup builderSetup)
         {
-            this.setup = setup;
-
             this.provider = setup.GetService<IBalancesProvider>();
 
             this.cache      = setup.GetService<IBalancesCache>();
-            this.database  = setup.GetService<IBalancesRepository>();
+            this.database   = setup.GetService<IBalancesRepository>();
+
+            this.accountsRepository = setup.GetService<IAccountsRepository>();
 
             this.builder = builderSetup.GetService<BalanceModelBuilder>();
             this.entitybuilder = builderSetup.GetService<BalanceEntityBuilder>();
-        }
-
-        [SetUp]
-        public virtual void SetUp()
-        {
-            this.setup.TearUp();
-        }
-
-        [TearDown]
-        public virtual void TearDown()
-        {
-            this.setup.TearDown();
         }
     }
 }

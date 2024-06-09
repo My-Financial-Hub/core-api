@@ -5,16 +5,17 @@
         [Test]
         public async Task CreateAsync_AddsToDatabase()
         {
-            var balanceCount = database.Balances.Count();
+            var balanceCount = (await database.GetAllAsync()).Count;
             var balance = this.builder.Generate();
 
             await this.provider.CreateAsync(balance);
 
-            Assert.Multiple(() =>
+            Assert.Multiple(async () =>
             {
-                Assert.That(database.Balances.Count(), Is.EqualTo(balanceCount + 1));
+                var balances = await database.GetAllAsync();
+                Assert.That(balances, Has.Count.EqualTo(balanceCount + 1));
                 Assert.That(
-                    database.Balances.FirstOrDefault(x =>
+                    balances.FirstOrDefault(x =>
                         x.Name == balance.Name &&
                         x.AccountId == balance.AccountId &&
                         x.Currency == balance.Currency &&
@@ -26,55 +27,50 @@
         }
 
         [Test]
-        public async Task CreateAsync_NoAccountInCache_AddsBalanceToId()
+        public async Task CreateAsync_NoBalanceInCache_AddsBalanceToId()
         {
             var account = this.entitybuilder.Generate().Account;
-            await this.database.AddAsync(account);
-            await this.database.SaveChangesAsync();
+            await this.accountsRepository.CreateAsync(account);
+            await this.accountsRepository.CommitAsync();
+
+            var balance = this.builder
+                .WithAccountId(account.Id)
+                .Generate();
+
+            var createdBalance = await this.provider.CreateAsync(balance);
+
+            Assert.Multiple(async () =>
+            {
+                var cacheBalance = await this.cache.GetAsync(createdBalance.Id.GetValueOrDefault());
+                BalanceModelAssert.Equal(balance, cacheBalance);
+            });
+        }
+
+        [Test]
+        public async Task CreateAsync_ExistingAccountInCache_UpdatesBalancelist()
+        {
+            var account = this.entitybuilder.Generate().Account;
+            await this.accountsRepository.CreateAsync(account);
+            await this.accountsRepository.CommitAsync();
+
+            var balanceCount = new Random().Next(3,10);
+            var balances = this.builder
+                .WithAccountId(account.Id)
+                .Generate(balanceCount);
+            await this.cache.AddAsync(balances);
 
             var balance = this.builder
                 .WithAccountId(account.Id)
                 .Generate();
 
             await this.provider.CreateAsync(balance);
-           
-            Assert.Fail();
-        }
 
-        [Test]
-        public async Task CreateAsync_ExistingAccountInCache_UpdatesBalances()
-        {
-            var account = this.entitybuilder.Generate().Account;
-            await this.database.AddAsync(account);
-            await this.database.SaveChangesAsync();
-
-            var balance = this.builder
-                .WithAccountId(account.Id)
-                .Generate();
-
-            await this.provider.CreateAsync(balance);
-
-            Assert.Fail();
-        }
-
-        [Test]
-        public async Task CreateAsync_NoAccount_DoNotAddBalanceToId()
-        {
-            var balance = this.builder.Generate();
-
-            await this.provider.CreateAsync(balance);
-        
-            Assert.Fail();
-        }
-
-        [Test]
-        public async Task CreateAsync_NoAccount_DoNotUpdateBalances()
-        {
-            var balance = this.builder.Generate();
-
-            await this.provider.CreateAsync(balance);
-        
-            Assert.Fail();
+            Assert.Multiple(async () =>
+            {
+                var cacheBalances = await this.cache.GetByAccountAsync(account.Id.GetValueOrDefault());
+                Assert.That(cacheBalances, Has.Count.EqualTo(balanceCount + 1));
+                BalanceModelAssert.Equal(balances.Append(balance).ToArray(), cacheBalances.ToArray());
+            });
         }
     }
 }

@@ -13,5 +13,16 @@ namespace FinancialHub.Core.Domain.Tests.Setup
 
             this.serviceProvider = this.services.BuildServiceProvider();
         }
+        //TODO: fix this inherit structure
+
+        public override void TearDown()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void TearUp()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -1,7 +1,8 @@
 ﻿using System.Collections;
 
-namespace FinancialHub.Core.Infra.IntegrationTests.Setup
+namespace FinancialHub.Core.Infra.IntegrationTests
 {
+    [SetUpFixture]
     public class FinancialHubInfraFixture : IEnumerable, IDisposable
     {
         private readonly FinancialHubInfraSetup setup;
@@ -11,6 +12,18 @@ namespace FinancialHub.Core.Infra.IntegrationTests.Setup
         {
             setup = new FinancialHubInfraSetup();
             builderSetup = new FinancialHubBuilderSetup();
+        }
+
+        [OneTimeSetUp]
+        public void OnTimeSetUp()
+        {
+            this.setup.TearUp();
+        }
+
+        [OneTimeTearDown]
+        public void OneTimeTearDown() 
+        { 
+            this.setup.TearDown();
         }
 
         public void Dispose()

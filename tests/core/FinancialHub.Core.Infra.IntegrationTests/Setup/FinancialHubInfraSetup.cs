@@ -20,12 +20,12 @@ namespace FinancialHub.Core.Infra.IntegrationTests.Setup
 
         public override void TearDown()
         {
-            this.GetService<FinancialHubContext>().Database.EnsureCreated();
+            this.GetService<FinancialHubContext>().Database.EnsureDeleted();
         }
 
         public override void TearUp()
         {
-            this.GetService<FinancialHubContext>().Database.EnsureDeleted();
+            this.GetService<FinancialHubContext>().Database.EnsureCreated();
         }
     }
 }

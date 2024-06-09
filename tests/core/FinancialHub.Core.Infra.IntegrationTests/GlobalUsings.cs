@@ -3,8 +3,11 @@ global using Microsoft.Extensions.Caching.Distributed;
 global using NUnit.Framework;
 
 global using FinancialHub.Core.Domain.Tests.Setup;
+
 global using FinancialHub.Core.Domain.Tests.Builders.Models;
 global using FinancialHub.Core.Domain.Tests.Builders.Entities;
+
+global using FinancialHub.Core.Domain.Tests.Assertions.Models;
 
 global using FinancialHub.Core.Infra.IntegrationTests.Setup;
 
