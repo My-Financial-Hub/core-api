@@ -1,6 +1,8 @@
-﻿using FinancialHub.Core.Infra.Caching.Extensions;
+﻿using FinancialHub.Core.Infra.Caching.Configurations;
+using FinancialHub.Core.Infra.Caching.Extensions;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace FinancialHub.Core.Infra.Caching.Repositories
 {
@@ -11,9 +13,12 @@ namespace FinancialHub.Core.Infra.Caching.Repositories
         private const string ACCOUNT_PREFIX = "accounts";
         private const string BALANCE_PREFIX = "balances";
 
-        public BalancesCache(IDistributedCache cache, ILogger<BalancesCache> logger)
+        private readonly CacheConfiguration config;
+
+        public BalancesCache(IDistributedCache cache, IOptions<CacheConfiguration> options, ILogger<BalancesCache> logger)
         {
             this.cache = cache;
+            this.config = options.Value;
             this.logger = logger;
         }
 
@@ -30,7 +35,7 @@ namespace FinancialHub.Core.Infra.Caching.Repositories
                 balance.ToByteArray(),
                 new DistributedCacheEntryOptions()
                 {
-                    AbsoluteExpirationRelativeToNow = TimeSpan.FromMilliseconds(1000 * 60)
+                    AbsoluteExpirationRelativeToNow = TimeSpan.FromMilliseconds(config.ExpirationTime)
                 }
             );
             this.logger.LogTrace("Key {key} added to cache", key);
@@ -58,7 +63,7 @@ namespace FinancialHub.Core.Infra.Caching.Repositories
                 balanceList.ToByteArray(),
                 new DistributedCacheEntryOptions()
                 {
-                    AbsoluteExpirationRelativeToNow = TimeSpan.FromMilliseconds(1000 * 60)
+                    AbsoluteExpirationRelativeToNow = TimeSpan.FromMilliseconds(config.ExpirationTime)
                 }
             );
             this.logger.LogTrace("Key {key} added to cache", key);
@@ -88,7 +93,7 @@ namespace FinancialHub.Core.Infra.Caching.Repositories
                     balances.ToByteArray(),
                     new DistributedCacheEntryOptions()
                     {
-                        AbsoluteExpirationRelativeToNow = TimeSpan.FromMilliseconds(1000 * 60)
+                        AbsoluteExpirationRelativeToNow = TimeSpan.FromMilliseconds(config.ExpirationTime)
                     }
                 );
             }

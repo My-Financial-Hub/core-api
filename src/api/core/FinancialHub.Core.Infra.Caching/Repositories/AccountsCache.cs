@@ -1,6 +1,8 @@
-﻿using FinancialHub.Core.Infra.Caching.Extensions;
+﻿using FinancialHub.Core.Infra.Caching.Configurations;
+using FinancialHub.Core.Infra.Caching.Extensions;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace FinancialHub.Core.Infra.Caching.Repositories
 {
@@ -10,9 +12,12 @@ namespace FinancialHub.Core.Infra.Caching.Repositories
         private readonly ILogger<AccountsCache> logger;
         private const string PREFIX = "accounts";
 
-        public AccountsCache(IDistributedCache cache, ILogger<AccountsCache> logger)
+        private readonly CacheConfiguration config;
+
+        public AccountsCache(IDistributedCache cache, IOptions<CacheConfiguration> options, ILogger<AccountsCache> logger)
         {
             this.cache = cache;
+            this.config = options.Value;
             this.logger = logger;
         }
 
@@ -28,7 +33,7 @@ namespace FinancialHub.Core.Infra.Caching.Repositories
                 account.ToByteArray(),
                 new DistributedCacheEntryOptions()
                 {
-                    AbsoluteExpirationRelativeToNow = TimeSpan.FromMilliseconds(1000 * 60)
+                    AbsoluteExpirationRelativeToNow = TimeSpan.FromMilliseconds(config.ExpirationTime)
                 }
             );
            
