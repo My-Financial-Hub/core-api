@@ -1,5 +1,4 @@
-﻿using FinancialHub.Common.Results.Errors;
-using FinancialHub.Core.Application.Extensions;
+﻿using FinancialHub.Core.Application.Extensions;
 using FinancialHub.Core.Domain.DTOS.Balances;
 using FinancialHub.Core.Domain.Interfaces.Resources;
 using FinancialHub.Core.Domain.Interfaces.Validators;
@@ -8,7 +7,7 @@ using Microsoft.Extensions.Logging;
 
 namespace FinancialHub.Core.Application.Validators.Balances
 {
-    public class BalancesValidator : IBalancesValidator
+    internal class BalancesValidator : IBalancesValidator
     {
         private readonly IBalancesProvider balancesProvider;
         private readonly IAccountsValidator accountValidator;

@@ -3,7 +3,7 @@
 namespace FinancialHub.Core.Application.Services
 {
     [Obsolete("This Service will be removed and the logic will be moved to Balance and Transaction models")]
-    public class TransactionBalanceService : ITransactionBalanceService
+    internal class TransactionBalanceService : ITransactionBalanceService
     {
         private readonly ITransactionsService transactionsService;
         private readonly IBalancesService balancesService;

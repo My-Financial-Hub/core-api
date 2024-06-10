@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 
 namespace FinancialHub.Core.Application.Validators.Categories
 {
-    public class CategoriesValidator : ICategoriesValidator
+    internal class CategoriesValidator : ICategoriesValidator
     {
         private const string MESSAGE_LABEL = "Category";
 

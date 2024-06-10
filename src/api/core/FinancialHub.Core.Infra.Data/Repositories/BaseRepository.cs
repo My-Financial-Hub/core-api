@@ -5,7 +5,7 @@ using FinancialHub.Common.Interfaces.Repositories;
 
 namespace FinancialHub.Core.Infra.Data.Repositories
 {
-    public class BaseRepository<T> : IBaseRepository<T> where T : BaseEntity
+    internal class BaseRepository<T> : IBaseRepository<T> where T : BaseEntity
     {
         protected readonly FinancialHubContext context;
         public BaseRepository(FinancialHubContext context)

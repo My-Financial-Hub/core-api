@@ -50,5 +50,26 @@
 
             Assert.That(result, Is.Null);
         }
+
+        [Test]
+        public async Task GetAllByAccountAsync_CachedBalance_ReturnsBalanceList()
+        {
+            var id = Guid.NewGuid();
+            var accountEntity = accountEntityBuilder
+                .WithId(id)
+                .Generate();
+            var balanceEntities = balanceEntityBuilder
+                .WithAccount(accountEntity)
+                .Generate(random.Next(0, 10));
+            var expectedBalances = mapper.Map<ICollection<BalanceModel>>(balanceEntities);
+
+            cache
+                .Setup(x => x.GetByAccountAsync(id))
+                .ReturnsAsync(expectedBalances);
+
+            var accounts = await provider.GetAllByAccountAsync(id);
+
+            BalanceModelAssert.Equal(expectedBalances.ToArray(), accounts.ToArray());
+        }
     }
 }

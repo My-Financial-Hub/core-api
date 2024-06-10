@@ -9,7 +9,7 @@ using System.Security.Principal;
 
 namespace FinancialHub.Core.Application.Services
 {
-    public class TransactionsService : ITransactionsService
+    internal class TransactionsService : ITransactionsService
     {
         private readonly ITransactionsProvider transactionsProvider;
         private readonly ITransactionsValidator transactionsValidator;

@@ -4,7 +4,7 @@ using FluentValidation;
 
 namespace FinancialHub.Core.Application.Validators.Categories
 {
-    public class UpdateCategoryValidator : AbstractValidator<UpdateCategoryDto>
+    internal class UpdateCategoryValidator : AbstractValidator<UpdateCategoryDto>
     {
         public UpdateCategoryValidator(IValidationErrorMessageProvider errorMessageProvider)
         {

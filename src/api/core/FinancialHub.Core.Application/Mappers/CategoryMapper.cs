@@ -3,7 +3,7 @@ using FinancialHub.Core.Domain.DTOS.Categories;
 
 namespace FinancialHub.Core.Application.Mappers
 {
-    public class CategoryMapper : Profile
+    internal class CategoryMapper : Profile
     {
         public CategoryMapper()
         {

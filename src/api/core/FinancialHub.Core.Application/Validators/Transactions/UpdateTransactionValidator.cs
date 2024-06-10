@@ -4,7 +4,7 @@ using FluentValidation;
 
 namespace FinancialHub.Core.Application.Validators.Transactions
 {
-    public class UpdateTransactionValidator : AbstractValidator<UpdateTransactionDto>
+    internal class UpdateTransactionValidator : AbstractValidator<UpdateTransactionDto>
     {
         public UpdateTransactionValidator(IValidationErrorMessageProvider errorMessageProvider)
         {

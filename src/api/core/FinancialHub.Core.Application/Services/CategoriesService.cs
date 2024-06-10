@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 
 namespace FinancialHub.Core.Application.Services
 {
-    public class CategoriesService : ICategoriesService
+    internal class CategoriesService : ICategoriesService
     {
         private readonly ICategoriesProvider provider;
         private readonly ICategoriesValidator validator;

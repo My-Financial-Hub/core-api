@@ -17,4 +17,9 @@
     <ProjectReference Include="..\FinancialHub.Core.Domain\FinancialHub.Core.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+	<AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+		<_Parameter1>FinancialHub.Core.Application.Tests</_Parameter1>
+	</AssemblyAttribute>
+  </ItemGroup>
 </Project>

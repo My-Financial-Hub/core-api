@@ -1,9 +1,8 @@
 ﻿using FinancialHub.Core.Infra.Data.Contexts;
-using System.Xml.Linq;
 
 namespace FinancialHub.Core.Infra.Data.Repositories
 {
-    public class TransactionsRepository : BaseRepository<TransactionEntity>, ITransactionsRepository
+    internal class TransactionsRepository : BaseRepository<TransactionEntity>, ITransactionsRepository
     {
         public TransactionsRepository(FinancialHubContext context) : base(context)
         {

@@ -3,7 +3,7 @@ using FinancialHub.Core.Domain.DTOS.Transactions;
 
 namespace FinancialHub.Core.Application.Mappers
 {
-    public class TransactionMapper : Profile
+    internal class TransactionMapper : Profile
     {
         public TransactionMapper()
         {
