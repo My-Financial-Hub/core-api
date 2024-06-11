@@ -1,9 +1,8 @@
 ﻿using FinancialHub.Core.Domain.DTOS.Transactions;
 using FinancialHub.Core.Domain.Enums;
-using FinancialHub.Core.Domain.Tests.Builders.DTOS.Balances;
 using FinancialHub.Core.Domain.Tests.Builders.DTOS.Transactions;
 
-namespace FinancialHub.Core.IntegrationTests.Controllers.Transactions
+namespace FinancialHub.Core.IntegrationTests.Controllers
 {
     public partial class TransactionsControllerTests
     {

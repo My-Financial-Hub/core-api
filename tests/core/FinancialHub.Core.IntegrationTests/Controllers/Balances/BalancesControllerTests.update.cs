@@ -1,7 +1,7 @@
 ﻿using FinancialHub.Core.Domain.DTOS.Balances;
 using FinancialHub.Core.Domain.Tests.Builders.DTOS.Balances;
 
-namespace FinancialHub.Core.IntegrationTests.Controllers.Balances
+namespace FinancialHub.Core.IntegrationTests.Controllers
 {
     public partial class BalancesControllerTests
     {

@@ -1,4 +1,4 @@
-﻿namespace FinancialHub.Core.IntegrationTests.Controllers.Balances
+﻿namespace FinancialHub.Core.IntegrationTests.Controllers
 {
     public partial class BalancesControllerTests
     {

@@ -1,6 +1,6 @@
 ﻿using FinancialHub.Core.Domain.DTOS.Categories;
 
-namespace FinancialHub.Core.IntegrationTests.Controllers.Categories
+namespace FinancialHub.Core.IntegrationTests.Controllers
 {
     public partial class CategoriesControllerTests
     {

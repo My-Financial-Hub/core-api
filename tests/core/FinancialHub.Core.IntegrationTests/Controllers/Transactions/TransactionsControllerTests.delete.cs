@@ -1,6 +1,6 @@
 ﻿using FinancialHub.Core.Domain.Enums;
 
-namespace FinancialHub.Core.IntegrationTests.Controllers.Transactions
+namespace FinancialHub.Core.IntegrationTests.Controllers
 {
     public partial class TransactionsControllerTests
     {
