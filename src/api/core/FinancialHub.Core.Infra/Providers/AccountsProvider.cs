@@ -32,13 +32,11 @@ namespace FinancialHub.Core.Infra.Providers
             this.logger.LogInformation("Creating account \"{Name}\"", account.Name);
             var createdAccount = await this.repository.CreateAsync(accountEntity);
 
-            var balance = new BalanceModel()
-            {
-                Name = $"{createdAccount!.Name} Default Balance",
-                AccountId = createdAccount.Id.GetValueOrDefault(),
-                IsActive = createdAccount.IsActive
-            };
-
+            var balance = BalanceModel.CreateDefault(
+                createdAccount.Id.GetValueOrDefault(), 
+                createdAccount.Name, 
+                createdAccount.IsActive
+            );
             this.logger.LogInformation("Creating default balance \"{BalanceName}\" to account \"{AccountName}\"", balance.Name, account.Name);
             await this.balanceProvider.CreateAsync(balance);
             this.logger.LogInformation("Default Balance \"{BalanceName}\" created in account \"{AccountName}\"", account.Name, account.Name);
