@@ -15,10 +15,5 @@ namespace FinancialHub.Core.Domain.Balances.Services
             this.mapper = mapper;
             this.logger = logger;
         }
-
-        public async Task<ServiceResult<Balance>> CreateAsync(CreateBalanceDto createBalance)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
