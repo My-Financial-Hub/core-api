@@ -5,57 +5,48 @@ namespace FinancialHub.Core.Infra.Providers
 {
     internal class AccountsProvider : IAccountsProvider
     {
-        private readonly IAccountsRepository repository;
+        private readonly IAccountsRepository accountsRepository;
+        private readonly IBalancesRepository balancesRepository;
         private readonly IAccountsCache cache;
-        private readonly IBalancesProvider balanceProvider;
         private readonly IMapper mapper;
         private readonly ILogger<AccountsProvider> logger;
 
         public AccountsProvider(
-            IAccountsRepository repository, IAccountsCache cache,
-            IBalancesProvider balanceProvider,
+            IAccountsRepository accountsRepository, IBalancesRepository balancesRepository,
+            IAccountsCache cache,
             IMapper mapper,
             ILogger<AccountsProvider> logger
         )
         {
-            this.repository = repository;
+            this.accountsRepository = accountsRepository;
+            this.balancesRepository = balancesRepository;
             this.cache = cache;
-            this.balanceProvider = balanceProvider;
             this.mapper = mapper;
             this.logger = logger;
         }
 
         public async Task<AccountModel> CreateAsync(AccountModel account)
         {
-            var accountEntity = mapper.Map<AccountEntity>(account);
+            var balance = BalanceModel.CreateDefault(account);
 
             this.logger.LogInformation("Creating account \"{Name}\"", account.Name);
-            var createdAccount = await this.repository.CreateAsync(accountEntity);
+            var createdAccount = await this.accountsRepository.CreateAsync(this.mapper.Map<AccountEntity>(account));
 
-            var balance = BalanceModel.CreateDefault(
-                createdAccount.Id.GetValueOrDefault(), 
-                createdAccount.Name, 
-                createdAccount.IsActive
-            );
             this.logger.LogInformation("Creating default balance \"{BalanceName}\" to account \"{AccountName}\"", balance.Name, account.Name);
-            await this.balanceProvider.CreateAsync(balance);
-            this.logger.LogInformation("Default Balance \"{BalanceName}\" created in account \"{AccountName}\"", account.Name, account.Name);
+            await this.balancesRepository.CreateAsync(this.mapper.Map<BalanceEntity>(balance));
 
-            var accountModel =  mapper.Map<AccountModel>(createdAccount);
-            await this.cache.AddAsync(accountModel);
-
-            await this.repository.CommitAsync();
+            await this.accountsRepository.CommitAsync();
             this.logger.LogInformation("Account \"{Name}\" created", account.Name);
 
-            return accountModel;
+            return this.mapper.Map<AccountModel>(createdAccount);
         }
 
         public async Task<int> DeleteAsync(Guid id)
         {
             this.logger.LogInformation("Removing account {id}", id);
-            await repository.DeleteAsync(id);
+            await accountsRepository.DeleteAsync(id);
 
-            var removedLines = await this.repository.CommitAsync();
+            var removedLines = await this.accountsRepository.CommitAsync();
 
             await cache.RemoveAsync(id);
 
@@ -65,7 +56,7 @@ namespace FinancialHub.Core.Infra.Providers
 
         public async Task<ICollection<AccountModel>> GetAllAsync()
         {
-            var accounts = await this.repository.GetAllAsync();
+            var accounts = await this.accountsRepository.GetAllAsync();
 
             return mapper.Map<ICollection<AccountModel>>(accounts);
         }
@@ -78,7 +69,7 @@ namespace FinancialHub.Core.Infra.Providers
                 return cachedAccount;
             }
 
-            var accountEntity = await this.repository.GetByIdAsync(id);
+            var accountEntity = await this.accountsRepository.GetByIdAsync(id);
             if (accountEntity == null)
             {
                 return null;
@@ -95,8 +86,8 @@ namespace FinancialHub.Core.Infra.Providers
             var accountEntity = mapper.Map<AccountEntity>(account);
             accountEntity.Id = id;
 
-            var updatedAccount = await this.repository.UpdateAsync(accountEntity);
-            await this.repository.CommitAsync();
+            var updatedAccount = await this.accountsRepository.UpdateAsync(accountEntity);
+            await this.accountsRepository.CommitAsync();
             await cache.RemoveAsync(id);
 
             return mapper.Map<AccountModel>(updatedAccount);
