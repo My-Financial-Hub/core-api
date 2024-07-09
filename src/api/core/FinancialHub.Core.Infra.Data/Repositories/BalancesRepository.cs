@@ -23,12 +23,6 @@ namespace FinancialHub.Core.Infra.Data.Repositories
             return result.Entity;
         }
 
-        public async override Task<BalanceEntity> CreateAsync(BalanceEntity obj)
-        {
-            obj.Amount = 0;
-            return await base.CreateAsync(obj);
-        }
-
         public async Task<BalanceEntity> ChangeAmountAsync(Guid balanceId, decimal value, TransactionType transactionType, bool removed = false)
         {
             var balance = await this.GetByIdAsync(balanceId);

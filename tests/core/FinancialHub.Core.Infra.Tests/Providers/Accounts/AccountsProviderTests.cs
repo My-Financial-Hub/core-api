@@ -15,7 +15,7 @@ namespace FinancialHub.Core.Infra.Tests.Providers
         private IMapper mapper;
         private Mock<IAccountsRepository> repository;
         private Mock<IAccountsCache> cache;
-        private Mock<IBalancesProvider> balancesProvider;
+        private Mock<IBalancesRepository> balancesRepository;
 
         private void MockMapper()
         {
@@ -32,12 +32,12 @@ namespace FinancialHub.Core.Infra.Tests.Providers
         {
             this.MockMapper();
 
-            this.repository         = new Mock<IAccountsRepository>();
-            this.balancesProvider   = new Mock<IBalancesProvider>();
-            this.cache              = new Mock<IAccountsCache>();
+            this.repository             = new Mock<IAccountsRepository>();
+            this.balancesRepository     = new Mock<IBalancesRepository>();
+            this.cache                  = new Mock<IAccountsCache>();
             this.provider = new AccountsProvider(
-                this.repository.Object, this.cache.Object,
-                this.balancesProvider.Object,
+                this.repository.Object, this.balancesRepository.Object,
+                this.cache.Object,
                 this.mapper,
                 new NullLoggerFactory().CreateLogger<AccountsProvider>()
             );

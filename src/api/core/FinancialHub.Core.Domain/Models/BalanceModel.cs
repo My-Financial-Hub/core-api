@@ -76,7 +76,8 @@ namespace FinancialHub.Core.Domain.Models
             var existingTransaction = this.Transactions.FirstOrDefault(x => x.Id == transaction.Id) ??
                 throw new Exception("No existing transaction to update");
 
-            //TODO: add add update logic
+            this.RemoveTransaction(existingTransaction);
+            this.AddTransaction(transaction);
         }
 
         public void RemoveTransaction(TransactionModel transaction)

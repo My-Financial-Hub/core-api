@@ -55,7 +55,7 @@
 
             await this.provider.CreateAsync(account);
 
-            balancesProvider.Verify(x => x.CreateAsync(It.IsAny<BalanceModel>()), Times.Once);
+            balancesRepository.Verify(x => x.CreateAsync(It.IsAny<BalanceEntity>()), Times.Once);
         }
 
         [Test]
@@ -68,7 +68,7 @@
 
             await this.provider.CreateAsync(account);
 
-            balancesProvider.Verify(x => x.CreateAsync(It.IsAny<BalanceModel>()), Times.Once);
+            balancesRepository.Verify(x => x.CreateAsync(It.IsAny<BalanceEntity>()), Times.Once);
         }
     }
 }
