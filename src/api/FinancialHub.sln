@@ -48,6 +48,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinancialHub.Core.Infra", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinancialHub.Core.Infra.Tests", "..\..\tests\core\FinancialHub.Core.Infra.Tests\FinancialHub.Core.Infra.Tests.csproj", "{5D9FE20B-524A-48D8-ACE1-7C114D9E01A4}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Accounts", "Accounts", "{900E0B8C-C6B2-4512-A9F4-048359ABA321}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinancialHub.Accounts.Domain", "FinancialHub.Core.Domain.Balances\FinancialHub.Accounts.Domain.csproj", "{2A0F23E5-D5F0-4E50-8F5C-8257F16A75B1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -106,6 +110,10 @@ Global
 		{5D9FE20B-524A-48D8-ACE1-7C114D9E01A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5D9FE20B-524A-48D8-ACE1-7C114D9E01A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5D9FE20B-524A-48D8-ACE1-7C114D9E01A4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2A0F23E5-D5F0-4E50-8F5C-8257F16A75B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A0F23E5-D5F0-4E50-8F5C-8257F16A75B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A0F23E5-D5F0-4E50-8F5C-8257F16A75B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A0F23E5-D5F0-4E50-8F5C-8257F16A75B1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -129,6 +137,7 @@ Global
 		{AC293685-7094-4325-8D5B-4ED252C62942} = {BEE32E30-21CF-489B-B208-3D053E4966A8}
 		{945AF69F-6D9F-4ECF-9AA1-6D96A4C94372} = {15C0C14F-DA06-46BB-A8B0-4BA5D6372777}
 		{5D9FE20B-524A-48D8-ACE1-7C114D9E01A4} = {15C0C14F-DA06-46BB-A8B0-4BA5D6372777}
+		{2A0F23E5-D5F0-4E50-8F5C-8257F16A75B1} = {900E0B8C-C6B2-4512-A9F4-048359ABA321}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9A4C4A77-82DC-47E2-AA98-E741B329A3E8}
