@@ -1,6 +1,7 @@
 ﻿using FinancialHub.Core.Domain.Interfaces.Caching;
 using FinancialHub.Core.Infra.Caching.Configurations;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Options;
 
 namespace FinancialHub.Core.Infra.Caching.Tests.Repositories
@@ -9,7 +10,6 @@ namespace FinancialHub.Core.Infra.Caching.Tests.Repositories
     {
         private IBalancesCache cache;
         private Mock<IDistributedCache> distributedCache;
-        private Mock<ILogger<BalancesCache>> logger;
 
         private BalanceModelBuilder builder;
 
@@ -19,14 +19,11 @@ namespace FinancialHub.Core.Infra.Caching.Tests.Repositories
             this.builder            = new BalanceModelBuilder();
 
             this.distributedCache   = new Mock<IDistributedCache>();
-            this.logger             = new Mock<ILogger<BalancesCache>>();
 
-            var config              = new Mock<IOptions<CacheConfiguration>>();
-            config.SetupGet(x => x.Value).Returns(new CacheConfiguration() { ExpirationTime = 600 });
             this.cache = new BalancesCache(
                 distributedCache.Object,
-                config.Object,
-                logger.Object
+                Options.Create(new CacheConfiguration() { ExpirationTime = 600 }),
+                new NullLoggerFactory().CreateLogger<BalancesCache>()
             );
         }
     }
